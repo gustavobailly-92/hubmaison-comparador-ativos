@@ -7,6 +7,7 @@ Todas as funções são tolerantes: uma fonte que falhar vira aviso, nunca derru
 """
 from __future__ import annotations
 
+import base64
 import csv
 import http.cookiejar
 import io
@@ -136,7 +137,8 @@ STOOQ = {"^BVSP": "^bvp", "^GSPC": "^spx", "^NDX": "^ndx", "URTH": "urth.us", "G
          "BRL=X": "usdbrl", "QQQ": "qqq.us", "SPY": "spy.us"}
 FRED = {"^GSPC": "SP500", "^NDX": "NASDAQ100", "^DJI": "DJIA"}
 SGS_INDICE = {"^BVSP": 7}  # Ibovespa, fechamento diário em pontos
-NASDAQ_ETF = {"URTH": "etf", "GLD": "etf", "AIQ": "etf", "QQQ": "etf", "SPY": "etf"}
+NASDAQ = {"URTH": ("URTH", "etf"), "GLD": ("GLD", "etf"), "AIQ": ("AIQ", "etf"), "QQQ": ("QQQ", "etf"), "SPY": ("SPY", "etf"),
+          "^NDX": ("NDX", "index"), "^GSPC": ("SPY", "etf")}  # a API da Nasdaq não tem o SPX; o ETF SPY acompanha o índice de preço
 _MIN_PONTOS = 100
 
 
@@ -217,7 +219,8 @@ def yahoo(symbol: str, anos: int = 25) -> dict[str, float]:
                 erros.append(f"{modo}/{host}: {_erro(e)}")
                 if isinstance(e, urllib.error.HTTPError) and e.code in (401, 403, 429):
                     _YAHOO["crumb"] = None
-                    time.sleep(4)
+                    if e.code == 429:
+                        raise RuntimeError("; ".join(erros)[:400])  # bloqueio por IP: não insiste
     raise RuntimeError("; ".join(erros)[:400])
 
 
@@ -246,7 +249,7 @@ def fred(symbol: str) -> dict[str, float]:
     sid = FRED.get(symbol)
     if not sid:
         raise RuntimeError("sem série no FRED")
-    raw = http_get(f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}", tentativas=2, timeout=60, headers={"Accept": "text/csv,*/*"}).decode("utf-8", errors="replace")
+    raw = http_get(f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}", tentativas=1, timeout=150, headers={"Accept": "text/csv,*/*"}).decode("utf-8", errors="replace")
     out = {}
     for row in csv.DictReader(io.StringIO(raw)):
         try:
@@ -281,11 +284,11 @@ def sgs_indice(symbol: str) -> dict[str, float]:
 
 
 def nasdaq_api(symbol: str) -> dict[str, float]:
-    cls = NASDAQ_ETF.get(symbol)
-    if not cls:
-        raise RuntimeError("sem classe na API da Nasdaq")
+    sym, cls = NASDAQ.get(symbol, (None, None))
+    if not sym:
+        raise RuntimeError("sem símbolo na API da Nasdaq")
     hoje = date.today()
-    url = (f"https://api.nasdaq.com/api/quote/{urllib.parse.quote(symbol)}/historical?assetclass={cls}"
+    url = (f"https://api.nasdaq.com/api/quote/{urllib.parse.quote(sym)}/historical?assetclass={cls}"
            f"&fromdate={(hoje - timedelta(days=365 * 25)).isoformat()}&todate={hoje.isoformat()}&limit=10000")
     raw = http_get(url, tentativas=2, timeout=90, headers={"Accept": "application/json, text/plain, */*", "Origin": "https://www.nasdaq.com", "Referer": "https://www.nasdaq.com/"})
     j = json.loads(raw.decode("utf-8", errors="replace"))
@@ -302,12 +305,44 @@ def nasdaq_api(symbol: str) -> dict[str, float]:
     return out
 
 
+def b3_ibov(symbol: str) -> dict[str, float]:
+    """Fechamentos diários do Ibovespa direto da B3 (estatísticas históricas), um pedido por ano."""
+    if symbol != "^BVSP":
+        raise RuntimeError("só Ibovespa")
+    out = {}
+    ano_atual = date.today().year
+    erro = None
+    for ano in range(ano_atual - 24, ano_atual + 1):
+        payload = base64.b64encode(json.dumps({"index": "IBOV", "language": "pt-br", "year": str(ano)}, separators=(",", ":")).encode()).decode()
+        try:
+            raw = http_get(f"https://sistemaswebb3-listados.b3.com.br/indexStatisticsProxy/IndexCall/GetPortfolioDay/{payload}",
+                           tentativas=2, timeout=60, headers={"Accept": "application/json, text/plain, */*", "Referer": "https://www.b3.com.br/"})
+            j = json.loads(raw.decode("utf-8", errors="replace"))
+        except Exception as e:  # noqa: BLE001
+            erro = _erro(e)
+            continue
+        for row in (j.get("results") or []):
+            d = row.get("day")
+            for m in range(1, 13):
+                v = row.get(f"rateValue{m}")
+                if not v:
+                    continue
+                try:
+                    out[f"{ano:04d}-{m:02d}-{int(d):02d}"] = float(str(v).replace(".", "").replace(",", "."))
+                except Exception:  # noqa: BLE001
+                    continue
+    if len(out) < _MIN_PONTOS:
+        raise RuntimeError(f"b3: só {len(out)} pontos ({erro})")
+    return out
+
+
 FONTES_POR_SIMBOLO = {
-    "^BVSP": ((yahoo, "Yahoo"), (stooq, "Stooq"), (sgs_indice, "BCB SGS 7")),
-    "^GSPC": ((yahoo, "Yahoo"), (stooq, "Stooq"), (fred, "FRED")),
-    "^NDX": ((yahoo, "Yahoo"), (stooq, "Stooq"), (fred, "FRED")),
+    "^BVSP": ((b3_ibov, "B3"), (yahoo, "Yahoo"), (stooq, "Stooq"), (sgs_indice, "BCB SGS 7")),
+    "^GSPC": ((fred, "FRED"), (yahoo, "Yahoo"), (stooq, "Stooq"), (nasdaq_api, "Nasdaq (ETF SPY)")),
+    "^NDX": ((nasdaq_api, "Nasdaq"), (fred, "FRED"), (yahoo, "Yahoo"), (stooq, "Stooq")),
 }
-FONTES_PADRAO = ((yahoo, "Yahoo"), (stooq, "Stooq"), (nasdaq_api, "Nasdaq"))
+FONTES_PADRAO = ((nasdaq_api, "Nasdaq"), (yahoo, "Yahoo"), (stooq, "Stooq"))
+_MAX_ATRASO_DIAS = 15
 
 
 FONTE_USADA: dict[str, str] = {}
@@ -317,6 +352,8 @@ def serie_mercado(symbol: str, avisos: list[str]) -> dict[str, float] | None:
     for fn, nome in FONTES_POR_SIMBOLO.get(symbol, FONTES_PADRAO):
         try:
             s = fn(symbol)
+            if (date.today() - date.fromisoformat(max(s))).days > _MAX_ATRASO_DIAS:
+                raise RuntimeError(f"série desatualizada (último dado em {max(s)})")
             log(f"  {symbol}: {len(s)} pontos via {nome} ({min(s)} a {max(s)})")
             FONTE_USADA[symbol] = nome
             return s
@@ -419,7 +456,10 @@ def construir_benchmarks(datas: list[date], hoje: date, offline: str | None, avi
         if not s:
             continue
         q = alinhar(s, datas)
-        fonte = {"Yahoo": "Yahoo Finance", "Stooq": "Stooq", "FRED": "FRED (Fed de St. Louis)", "BCB SGS 7": "BCB SGS 7", "Nasdaq": "Nasdaq"}.get(FONTE_USADA.get(sym, ""), "Yahoo Finance")
+        usada = FONTE_USADA.get(sym, "")
+        fonte = {"Yahoo": "Yahoo Finance", "Stooq": "Stooq", "FRED": "FRED (Fed de St. Louis)", "BCB SGS 7": "BCB SGS 7", "Nasdaq": "Nasdaq", "B3": "B3", "Nasdaq (ETF SPY)": "Nasdaq (ETF SPY)"}.get(usada, usada or "Yahoo Finance")
+        if usada == "Nasdaq (ETF SPY)":
+            desc = "Pelo ETF SPY (preço, sem dividendos), em dólar" if moeda == "USD" else "ETF SPY convertido pelo dólar PTAX"
         if moeda == "BRL*":
             if ptax_al is None:
                 continue
@@ -432,6 +472,8 @@ def construir_benchmarks(datas: list[date], hoje: date, offline: str | None, avi
         s = mercado.get(sym)
         if not s:
             continue
+        if FONTE_USADA.get(sym) == "Nasdaq (ETF SPY)":
+            nome = "S&P 500 (ETF SPY)"
         ks = sorted(s)
         # a cada dia (mantém tudo; ~20 anos = 5.000 pontos)
         hist[sym] = {"nome": nome, "datas": ks, "precos": [float(f"{s[k]:.6g}") for k in ks]}
