@@ -60,9 +60,12 @@ jobs:
           mv status/log.tail.txt status/log.txt 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # parte do último commit da branch (pode ter havido push durante a execução)
+          mkdir -p /tmp/st && cp status/* /tmp/st/
+          git fetch origin main && git reset --hard origin/main && mkdir -p status && cp /tmp/st/* status/
           git add status
           git commit -m "status: execução ${{ github.run_id }}" || echo "nada a registrar"
-          git push || echo "não foi possível registrar o status"
+          git push origin HEAD:main || echo "não foi possível registrar o status"
 
       - name: Resumo da execução
         run: |
