@@ -632,10 +632,12 @@ const inp = $('q'), res = $('results');
 let selIdx = -1;
 function parseRF(t) {
   const s = norm(t).replace(',', '.');
+  if (/tesouro|fundo|\bfi[cmaf]?\b|\d{4}/.test(s)) return null; // nomes de fundos, títulos e anos não são renda fixa sintética
   let m;
-  if ((m = s.match(/(\d+(?:\.\d+)?)\s*%?\s*(?:do\s*)?cdi/)) || (m = s.match(/cdi\s*(\d+(?:\.\d+)?)/))) return { tipo: 'pcdi', taxa: +m[1] };
-  if ((m = s.match(/pre(?:fixado)?\s*(\d+(?:\.\d+)?)/)) || (m = s.match(/(\d+(?:\.\d+)?)\s*%?\s*(?:a\.?a\.?\s*)?pre(?:fixado)?/))) return { tipo: 'pre', taxa: +m[1] };
-  if ((m = s.match(/ipca\s*\+?\s*(\d+(?:\.\d+)?)/)) || (m = s.match(/(\d+(?:\.\d+)?)\s*%?\s*ipca/))) return { tipo: 'ipca', taxa: +m[1] };
+  const ok = (tipo, taxa) => (tipo === 'pcdi' ? taxa >= 50 && taxa <= 300 : tipo === 'pre' ? taxa > 0 && taxa <= 40 : taxa >= 0 && taxa <= 30) ? { tipo, taxa } : null;
+  if ((m = s.match(/(\d+(?:\.\d+)?)\s*%?\s*(?:do\s*)?cdi/)) || (m = s.match(/cdi\s*(\d+(?:\.\d+)?)/))) return ok('pcdi', +m[1]);
+  if ((m = s.match(/pre(?:fixado)?\s*(\d+(?:\.\d+)?)/)) || (m = s.match(/(\d+(?:\.\d+)?)\s*%?\s*(?:a\.?a\.?\s*)?pre(?:fixado)?/))) return ok('pre', +m[1]);
+  if ((m = s.match(/ipca\s*\+?\s*(\d+(?:\.\d+)?)/)) || (m = s.match(/(\d+(?:\.\d+)?)\s*%?\s*ipca/))) return ok('ipca', +m[1]);
   if (/^(cdb|lci|lca|renda fixa|rf)\b/.test(s)) return { tipo: 'pcdi', taxa: null };
   return null;
 }
