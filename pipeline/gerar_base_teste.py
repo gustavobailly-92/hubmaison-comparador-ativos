@@ -37,6 +37,22 @@ FUNDOS = [
     ("13131313000112", "SPX NIMITZ FEEDER FIC FIM", "Fundo Multimercado", "N", "EM FUNCIONAMENTO NORMAL", 0.13, 0.10, 30000, 9e9, None),
     ("14141414000113", "SO NO REGISTRO DE CLASSES FIF RF", "", "N", "EM FUNCIONAMENTO NORMAL", 0.11, 0.004, 2000, 300e6, None),
 ]
+# fundos reais da lista XP (CNPJ e nome verdadeiros, séries sintéticas) para testar o ranking por tipo
+import csv as _csv
+_xp = os.path.join(os.path.dirname(os.path.abspath(__file__)), "xp_fundos.csv")
+if os.path.exists(_xp):
+    _por_tipo = {}
+    for r in _csv.DictReader(open(_xp, encoding="utf-8")):
+        if r["status"].upper() not in ("ABERTO",) or not r["classe_xp"] or r["origem"] != "fundos":
+            continue
+        _por_tipo.setdefault(r["classe_xp"], []).append(r)
+    _k = 0
+    for cls, rs in sorted(_por_tipo.items())[:14]:
+        for r in rs[:3]:
+            _k += 1
+            vol = 0.004 if "DI" in cls or "Crédito" in cls else 0.12 if "Macro" in cls or "Multi" in cls else 0.22
+            mu = 0.12 + 0.02 * ((_k * 7) % 5) - 0.04
+            FUNDOS.append((r["cnpj"], r["nome"].upper(), "Fundo " + r["cvm"], "N", "EM FUNCIONAMENTO NORMAL", mu, vol, 1500 + 700 * _k, (50 + 40 * _k) * 1e6, None))
 
 # CDI diário: ~13,15% a.a. até 2023, caindo para ~10,5%, subindo de novo em 2025 (só para variar)
 cdi = []

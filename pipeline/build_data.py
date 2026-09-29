@@ -31,6 +31,9 @@ from datetime import date, datetime, timedelta
 import numpy as np
 import pandas as pd
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import fontes_extras as fx  # noqa: E402
+
 CVM_INF = "https://dados.cvm.gov.br/dados/FI/DOC/INF_DIARIO/DADOS/"
 CVM_CAD = "https://dados.cvm.gov.br/dados/FI/CAD/DADOS/cad_fi.csv"
 CVM_REG = "https://dados.cvm.gov.br/dados/FI/CAD/DADOS/registro_fundo_classe.zip"
@@ -488,11 +491,15 @@ def main() -> int:
     ap.add_argument("--offline", default=None, help="pasta com arquivos locais em vez de baixar")
     ap.add_argument("--min-cotistas", type=int, default=MIN_COTISTAS)
     ap.add_argument("--hoje", default=None, help="AAAA-MM-DD (testes)")
+    ap.add_argument("--xp", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "xp_fundos.csv"),
+                    help="lista de fundos da plataforma XP (extraída do Guia de Fundos)")
+    ap.add_argument("--sem-extras", action="store_true", help="pula benchmarks e Tesouro (testes rápidos)")
     args = ap.parse_args()
 
     hoje = date.fromisoformat(args.hoje) if args.hoje else date.today()
     os.makedirs(args.out, exist_ok=True)
-    os.makedirs(os.path.join(args.out, "fundos"), exist_ok=True)
+    for sub in ("fundos", "bench", "tesouro", "hist"):
+        os.makedirs(os.path.join(args.out, sub), exist_ok=True)
     os.makedirs(args.cache, exist_ok=True)
     avisos: list[str] = []
     t_ini = time.time()
@@ -572,7 +579,9 @@ def main() -> int:
     CTv = CT.values
     cnpjs = list(Q.index)
     index_rows = []
-    n_ok = n_parado = n_poucos = n_hist = 0
+    n_ok = n_parado = n_poucos = n_hist = n_xp = 0
+    xp_lista = fx.carregar_xp(args.xp)
+    log(f"  lista XP: {len(xp_lista):,} CNPJs")
     for r, cnpj in enumerate(cnpjs):
         q = Qv[r].astype(float)
         validos = ~np.isnan(q)
@@ -610,8 +619,10 @@ def main() -> int:
         # cotas diárias a partir do primeiro dado, com 7 algarismos significativos
         qs = [None if np.isnan(v) else float(f"{v:.7g}") for v in q[first_i:]]
         j12 = m["janelas"].get("12") or {}
+        xp = xp_lista.get(cnpj)
         doc = {
             "cnpj": cnpj,
+            "xp": xp,
             "cnpj_fmt": f"{cnpj[:2]}.{cnpj[2:5]}.{cnpj[5:8]}/{cnpj[8:12]}-{cnpj[12:]}",
             "nome": nome,
             "classe": info.get("classe", ""),
@@ -641,15 +652,84 @@ def main() -> int:
             cnpj, nome, info.get("classe", ""), titulo(info.get("gestor", "")),
             doc["pl"], doc["cotistas"],
             j12.get("ret"), j12.get("pcdi"), j12.get("sharpe"), j12.get("vol"),
+            (xp or {}).get("tipo"), (xp or {}).get("classe"), (xp or {}).get("risco"),
+            1 if (xp or {}).get("top") else 0, (xp or {}).get("estrelas"),
         ])
+        if xp:
+            n_xp += 1
         n_ok += 1
         if n_ok % 2000 == 0:
             log(f"  {n_ok:,} fundos gravados")
 
+    # ------------------------------------------------------------------ benchmarks, históricos e Tesouro Direto
+    def doc_serie(q: np.ndarray, extra: dict) -> dict | None:
+        validos = ~np.isnan(q)
+        if validos.sum() < 30:
+            return None
+        idx_v = np.where(validos)[0]
+        ate_ref = idx_v[idx_v <= ref_i]
+        if len(ate_ref) == 0:
+            return None
+        asof_i = int(ate_ref[-1])
+        m = metricas_fundo(q, datas, cdi_idx, asof_i, fim_mes_i, meses_lbl, mes_fechado)
+        first_i = m["first_i"]
+        d = dict(extra)
+        d.update({"ate": datas[asof_i].isoformat(), "d0": first_i,
+                  "q": [None if np.isnan(v) else float(f"{v:.7g}") for v in q[first_i:]],
+                  "janelas": m["janelas"], "extras": m["extras"], "mensal": m["mensal"]})
+        return d
+
+    bench_meta, tesouro_meta, hist_meta = [], [], []
+    if not args.sem_extras:
+        log("4b/5 benchmarks")
+        try:
+            bench, hist = fx.construir_benchmarks(datas, hoje, args.offline, avisos)
+        except Exception as e:  # noqa: BLE001
+            avisos.append(f"benchmarks falharam: {e}")
+            bench, hist = [], {}
+        for b in bench:
+            d = doc_serie(b["q"], {k: v for k, v in b.items() if k != "q"})
+            if not d:
+                avisos.append(f"benchmark {b['nome']} sem dados suficientes")
+                continue
+            with open(os.path.join(args.out, "bench", f"{b['id']}.json"), "w", encoding="utf-8") as fh:
+                json.dump(d, fh, ensure_ascii=False, separators=(",", ":"))
+            j12 = d["janelas"].get("12") or {}
+            bench_meta.append({"id": b["id"], "nome": b["nome"], "moeda": b["moeda"], "fonte": b["fonte"], "desc": b["desc"],
+                               "ret12": j12.get("ret"), "ate": d["ate"]})
+        for sym, h in hist.items():
+            sid = fx.slug(sym)
+            with open(os.path.join(args.out, "hist", f"{sid}.json"), "w", encoding="utf-8") as fh:
+                json.dump({"simbolo": sym, **h}, fh, ensure_ascii=False, separators=(",", ":"))
+            hist_meta.append({"id": sid, "simbolo": sym, "nome": h["nome"], "desde": h["datas"][0], "ate": h["datas"][-1], "n": len(h["datas"])})
+        log(f"  {len(bench_meta)} benchmarks, {len(hist_meta)} históricos")
+
+        log("4c/5 Tesouro Direto")
+        try:
+            titulos = fx.carregar_tesouro(datas, hoje, args.offline, args.cache, avisos)
+        except Exception as e:  # noqa: BLE001
+            avisos.append(f"Tesouro Direto falhou: {e}")
+            titulos = []
+        for t in titulos:
+            txs = t.pop("taxa_serie")
+            d = doc_serie(t["q"], {k: v for k, v in t.items() if k != "q"})
+            if not d:
+                continue
+            # série semanal da taxa
+            d["taxaw"] = [None if np.isnan(txs[i]) else round(float(txs[i]), 4) for i in semanas_i]
+            with open(os.path.join(args.out, "tesouro", f"{t['id']}.json"), "w", encoding="utf-8") as fh:
+                json.dump(d, fh, ensure_ascii=False, separators=(",", ":"))
+            j12 = d["janelas"].get("12") or {}
+            tesouro_meta.append({"id": t["id"], "nome": t["nome"], "tipo": t["tipo"], "indexador": t["indexador"], "venc": t["venc"],
+                                 "taxa": t["taxa"], "duration": None if t["duration"] is None else round(t["duration"], 2),
+                                 "cupom": t["cupom"], "ret12": j12.get("ret"), "vol12": j12.get("vol"), "ate": d["ate"]})
+        tesouro_meta.sort(key=lambda x: (x["tipo"], x["venc"]))
+
     log("5/5 índice e metadados")
     index_rows.sort(key=lambda x: -(x[4] or 0))
     with open(os.path.join(args.out, "index.json"), "w", encoding="utf-8") as fh:
-        json.dump({"colunas": ["cnpj", "nome", "classe", "gestor", "pl", "cotistas", "ret12", "pcdi12", "sharpe12", "vol12"],
+        json.dump({"colunas": ["cnpj", "nome", "classe", "gestor", "pl", "cotistas", "ret12", "pcdi12", "sharpe12", "vol12",
+                               "xp_tipo", "xp_classe", "xp_risco", "xp_top", "xp_estrelas"],
                    "fundos": index_rows}, fh, ensure_ascii=False, separators=(",", ":"))
     meta = {
         "referencia": ref.isoformat(),
@@ -661,19 +741,30 @@ def main() -> int:
         "cdi": [float(f"{v:.9g}") for v in cdi_idx],
         "cdi_taxa": [float(f"{v:.6g}") for v in taxas],
         "n_fundos": n_ok,
+        "n_xp": n_xp,
+        "benchmarks": bench_meta,
+        "tesouro": tesouro_meta,
+        "historicos": hist_meta,
+        "xp_tipos": [t for t, _ in fx.TIPO_XP],
         "janelas": list(JANELAS),
         "min_cotistas": args.min_cotistas,
         "fontes": {
             "cvm_informe_diario": CVM_INF,
             "cvm_cadastro": CVM_CAD,
             "bcb_cdi": "https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados",
+            "bcb_ipca": "https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados",
+            "bcb_poupanca": "https://api.bcb.gov.br/dados/serie/bcdata.sgs.195/dados",
+            "bcb_ptax": "https://api.bcb.gov.br/dados/serie/bcdata.sgs.1/dados",
+            "tesouro_direto": fx.TESOURO_CSV,
+            "indices": "Yahoo Finance (reserva: Stooq)",
         },
     }
     with open(os.path.join(args.out, "meta.json"), "w", encoding="utf-8") as fh:
         json.dump(meta, fh, ensure_ascii=False, separators=(",", ":"))
     status = {
         "referencia": ref.isoformat(), "gerado": meta["gerado"], "fundos_publicados": n_ok,
-        "fundos_na_matriz": len(cnpjs), "descartados_parados": n_parado,
+        "fundos_na_matriz": len(cnpjs), "fundos_xp": n_xp, "benchmarks": [b["id"] for b in bench_meta],
+        "tesouro_titulos": len(tesouro_meta), "historicos": [h["simbolo"] for h in hist_meta], "descartados_parados": n_parado,
         "descartados_poucos_cotistas": n_poucos, "descartados_historico_curto": n_hist,
         "dias_calendario": len(datas), "meses_processados": meses, "avisos": avisos,
         "duracao_s": round(time.time() - t_ini),
