@@ -1,0 +1,689 @@
+#!/usr/bin/env python3
+"""
+Comparador de Fundos · Maison Hub
+Pipeline de dados: dados abertos da CVM (informe diário + cadastro) e CDI do Banco Central (SGS 12).
+
+Saída (pasta --out, padrão dist/data):
+  meta.json          calendário de dias úteis, índice do CDI, semanas, data de referência
+  index.json         índice de busca (um registro compacto por fundo)
+  fundos/<cnpj>.json série de cotas, patrimônio e cotistas + métricas por janela
+  status.json        contagens e avisos da execução
+
+Uso:
+  python build_data.py                      # baixa tudo da CVM/BCB e gera dist/data
+  python build_data.py --meses 50           # quantos meses de informe diário processar
+  python build_data.py --offline caminho/   # usa arquivos locais (testes): cad_fi.csv, cdi.json, inf_diario_fi_AAAAMM.zip
+"""
+from __future__ import annotations
+
+import argparse
+import io
+import json
+import math
+import os
+import re
+import sys
+import time
+import zipfile
+import unicodedata
+from datetime import date, datetime, timedelta
+
+import numpy as np
+import pandas as pd
+
+CVM_INF = "https://dados.cvm.gov.br/dados/FI/DOC/INF_DIARIO/DADOS/"
+CVM_CAD = "https://dados.cvm.gov.br/dados/FI/CAD/DADOS/cad_fi.csv"
+CVM_REG = "https://dados.cvm.gov.br/dados/FI/CAD/DADOS/registro_fundo_classe.zip"
+BCB_CDI = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados"
+
+JANELAS = (12, 24, 36, 48)          # meses
+MIN_COTISTAS = 10                   # fundos com menos cotistas ficam fora da busca
+DIAS_TOLERANCIA = 7                 # dias úteis sem informe até considerar o fundo "parado"
+
+# --------------------------------------------------------------------------- utilidades
+
+def log(msg: str) -> None:
+    print(f"[{datetime.now().strftime('%H:%M:%S')}] {msg}", flush=True)
+
+
+def norm_col(c: str) -> str:
+    c = unicodedata.normalize("NFKD", str(c)).encode("ascii", "ignore").decode()
+    return re.sub(r"[^a-z0-9]", "", c.lower())
+
+
+def find_col(cols, *candidatos) -> str | None:
+    """Encontra a coluna pelo nome normalizado (aceita variantes antigas e da RCVM 175)."""
+    normed = {norm_col(c): c for c in cols}
+    for cand in candidatos:
+        k = norm_col(cand)
+        if k in normed:
+            return normed[k]
+    return None
+
+
+def cnpj_digits(v) -> str:
+    return re.sub(r"\D", "", str(v))
+
+
+def encoding_de(raw: bytes) -> str:
+    """Os arquivos da CVM são ISO-8859-1; se um dia virarem UTF-8, o decode estrito detecta."""
+    try:
+        raw.decode("utf-8")
+        return "utf-8-sig"
+    except UnicodeDecodeError:
+        return "latin-1"
+
+
+def http_get(url: str, tentativas: int = 4, timeout: int = 180) -> bytes:
+    import urllib.request
+    ultimo = None
+    for i in range(tentativas):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "MaisonHub-Comparador/1.0"})
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return r.read()
+        except Exception as e:  # noqa: BLE001
+            ultimo = e
+            espera = 5 * (i + 1)
+            log(f"  falha ao baixar {url} ({e}); nova tentativa em {espera}s")
+            time.sleep(espera)
+    raise RuntimeError(f"não consegui baixar {url}: {ultimo}")
+
+
+SIGLAS = {
+    "FI", "FIC", "FICFI", "FIM", "FIA", "FIRF", "FIF", "FII", "FIDC", "FIP", "FMP", "FGTS", "ETF",
+    "CDI", "IPCA", "IBOV", "IBOVESPA", "IMA", "IMA-B", "IRF-M", "SELIC", "LP", "CP", "RF", "MM",
+    "XP", "BTG", "BB", "CEF", "S/A", "S.A.", "SA", "LTDA", "DTVM", "CCTVM", "CTVM", "CVM", "ANBIMA",
+    "ESG", "IE", "BDR", "FOF", "USD", "BRL", "EUA", "II", "III", "IV", "VI", "VII", "VIII", "IX",
+    "XI", "XII", "PGBL", "VGBL", "PREV", "RPPS", "EFPC", "RV", "CRI", "CRA", "LCI", "LCA", "DI",
+    "NTN", "NTN-B", "LFT", "LTN", "TR", "IGP-M", "IGPM", "INPC", "JGP", "SPX", "ARX", "AZ", "SFI",
+    "FIE", "FIQ", "FIRF", "FIDS", "ICVM", "RCVM", "IBX", "IDIV", "SMLL", "S&P", "MSCI", "IPO", "ETFS",
+}
+# palavras curtas que não são siglas (ficam em minúsculas ou com inicial maiúscula)
+CURTAS = {
+    "DE", "DA", "DO", "DAS", "DOS", "E", "EM", "A", "O", "AS", "OS", "COM", "PARA", "POR", "NO", "NA",
+    "NOS", "NAS", "UM", "UMA", "AO", "AOS", "SO", "OU", "SE", "ATE", "SUL", "RIO", "SAO", "MAR", "SER",
+    "LUZ", "BEM", "MAIS", "OURO", "OF", "AND", "THE", "FOR", "ONE", "TWO", "NEW", "TOP", "CAP", "PRO",
+    "MAX", "PLUS", "SIM", "NAO", "VIA", "SOL", "PAZ", "REI", "LUA", "EGO", "ART", "ERA", "FIX", "KEY",
+    "EQ", "AI", "GO", "MY", "BOX", "HUB", "LAB", "NET", "ONE", "SKY", "ZEN", "ACE", "BIG", "LOW", "CO",
+}
+MINUSCULAS = {"de", "da", "do", "das", "dos", "e", "em", "a", "o", "com", "para", "por", "no", "na", "nos", "nas", "of", "and", "the"}
+
+
+def titulo(nome: str) -> str:
+    """Deixa o nome legal legível: caixa alta vira Título, siglas ficam em caixa alta."""
+    out = []
+    for i, tok in enumerate(re.split(r"\s+", str(nome).strip())):
+        if not tok:
+            continue
+        up = tok.upper()
+        base = re.sub(r"[^A-Z0-9/.&\-]", "", up)
+        if tok.lower() in MINUSCULAS and i > 0:
+            out.append(tok.lower())
+        elif base in SIGLAS:
+            out.append(up)
+        elif len(base) <= 3 and base.isalpha() and base not in CURTAS:
+            out.append(up)
+        elif re.match(r"^[A-Z]{1,4}[0-9]+[A-Z]*$|^[0-9]+[A-Z]{1,3}$", base):
+            out.append(up)
+        else:
+            out.append(tok[:1].upper() + tok[1:].lower())
+    return " ".join(out)
+
+
+def r6(x):
+    return None if x is None or (isinstance(x, float) and not math.isfinite(x)) else round(float(x), 6)
+
+
+def rn(x, n):
+    return None if x is None or (isinstance(x, float) and not math.isfinite(x)) else round(float(x), n)
+
+
+# --------------------------------------------------------------------------- cadastro
+
+def carregar_cadastro(offline: str | None, cache: str) -> dict:
+    """Retorna dict cnpj(dígitos) -> dados cadastrais, juntando cad_fi.csv e registro_fundo_classe.zip."""
+    if offline:
+        raw = open(os.path.join(offline, "cad_fi.csv"), "rb").read()
+    else:
+        raw = http_get(CVM_CAD)
+        open(os.path.join(cache, "cad_fi.csv"), "wb").write(raw)
+    df = pd.read_csv(io.BytesIO(raw), sep=";", encoding=encoding_de(raw[:2_000_000]), dtype=str, low_memory=False)
+    cols = df.columns
+    c_cnpj = find_col(cols, "CNPJ_FUNDO_CLASSE", "CNPJ_FUNDO", "CNPJ_Classe", "CNPJ_Fundo")
+    c_nome = find_col(cols, "DENOM_SOCIAL", "Denominacao_Social")
+    c_sit = find_col(cols, "SIT", "Situacao")
+    c_classe = find_col(cols, "CLASSE", "Classificacao")
+    c_excl = find_col(cols, "FUNDO_EXCLUSIVO", "Exclusivo")
+    c_cotas = find_col(cols, "FUNDO_COTAS", "Fundo_Cotas")
+    c_gestor = find_col(cols, "GESTOR", "Gestor")
+    c_admin = find_col(cols, "ADMIN", "Administrador")
+    c_anbima = find_col(cols, "CLASSE_ANBIMA", "Classificacao_Anbima")
+    c_txadm = find_col(cols, "TAXA_ADM", "Taxa_Administracao")
+    c_txperf = find_col(cols, "TAXA_PERFM", "Taxa_Performance")
+    c_publico = find_col(cols, "PUBLICO_ALVO", "Publico_Alvo")
+    c_ini = find_col(cols, "DT_INI_ATIV", "Data_Inicio_Atividade", "DT_INI_CLASSE")
+    c_condom = find_col(cols, "CONDOM", "Forma_Condominio")
+    c_tp = find_col(cols, "TP_FUNDO_CLASSE", "TP_FUNDO", "Tipo_Fundo", "Tipo_Classe")
+    if not c_cnpj or not c_nome:
+        raise RuntimeError(f"cad_fi.csv sem colunas esperadas: {list(cols)[:12]}")
+    log(f"cadastro: {len(df)} linhas; colunas cnpj={c_cnpj} nome={c_nome} sit={c_sit} classe={c_classe}")
+
+    reg: dict[str, dict] = {}
+
+    def get(row, c):
+        v = row.get(c) if c else None
+        if v is None or (isinstance(v, float) and math.isnan(v)):
+            return ""
+        return str(v).strip()
+
+    for row in df.to_dict("records"):
+        cnpj = cnpj_digits(row[c_cnpj])
+        if len(cnpj) != 14:
+            continue
+        sit = get(row, c_sit).upper()
+        item = {
+            "nome": get(row, c_nome),
+            "sit": sit,
+            "classe": get(row, c_classe),
+            "exclusivo": get(row, c_excl).upper(),
+            "cotas": get(row, c_cotas).upper(),
+            "gestor": get(row, c_gestor),
+            "adm": get(row, c_admin),
+            "anbima": get(row, c_anbima),
+            "taxa_adm": get(row, c_txadm),
+            "taxa_perf": get(row, c_txperf),
+            "publico": get(row, c_publico),
+            "inicio": get(row, c_ini)[:10],
+            "condom": get(row, c_condom),
+            "tipo": get(row, c_tp),
+        }
+        atual = reg.get(cnpj)
+        # Se o CNPJ aparece mais de uma vez, prefira o registro em funcionamento normal
+        if atual is None or ("FUNCIONAMENTO NORMAL" in sit and "FUNCIONAMENTO NORMAL" not in atual["sit"]):
+            reg[cnpj] = item
+
+    # Complemento: registro de classes (RCVM 175) para CNPJs que não estão no cad_fi
+    try:
+        if offline:
+            p = os.path.join(offline, "registro_fundo_classe.zip")
+            rawz = open(p, "rb").read() if os.path.exists(p) else None
+        else:
+            rawz = http_get(CVM_REG)
+        if rawz:
+            z = zipfile.ZipFile(io.BytesIO(rawz))
+            novos = 0
+            for name in z.namelist():
+                if "classe" not in name.lower() or "subclasse" in name.lower() or not name.lower().endswith(".csv"):
+                    continue
+                rawc = z.read(name)
+                dfc = pd.read_csv(io.BytesIO(rawc), sep=";", encoding=encoding_de(rawc[:2_000_000]), dtype=str, low_memory=False)
+                cc = dfc.columns
+                k_cnpj = find_col(cc, "CNPJ_Classe", "CNPJ_FUNDO_CLASSE", "CNPJ_Fundo")
+                k_nome = find_col(cc, "Denominacao_Social", "DENOM_SOCIAL")
+                k_sit = find_col(cc, "Situacao", "SIT")
+                k_classe = find_col(cc, "Classificacao", "CLASSE")
+                k_excl = find_col(cc, "Exclusivo", "FUNDO_EXCLUSIVO")
+                k_anb = find_col(cc, "Classificacao_Anbima", "CLASSE_ANBIMA")
+                k_pub = find_col(cc, "Publico_Alvo", "PUBLICO_ALVO")
+                k_ini = find_col(cc, "Data_Inicio", "Data_Inicio_Atividade", "DT_INI_ATIV")
+                if not k_cnpj or not k_nome:
+                    continue
+                for row in dfc.to_dict("records"):
+                    cnpj = cnpj_digits(row[k_cnpj])
+                    if len(cnpj) != 14 or cnpj in reg:
+                        continue
+                    reg[cnpj] = {
+                        "nome": get(row, k_nome), "sit": get(row, k_sit).upper(), "classe": get(row, k_classe),
+                        "exclusivo": get(row, k_excl).upper(), "cotas": "", "gestor": "", "adm": "",
+                        "anbima": get(row, k_anb), "taxa_adm": "", "taxa_perf": "", "publico": get(row, k_pub),
+                        "inicio": get(row, k_ini)[:10], "condom": "", "tipo": "CLASSE",
+                    }
+                    novos += 1
+            log(f"registro de classes: {novos} CNPJs complementados")
+    except Exception as e:  # noqa: BLE001
+        log(f"aviso: registro_fundo_classe ignorado ({e})")
+
+    log(f"cadastro consolidado: {len(reg)} CNPJs")
+    return reg
+
+
+# --------------------------------------------------------------------------- CDI
+
+def carregar_cdi(inicio: date, fim: date, offline: str | None) -> dict[str, float]:
+    """Retorna dict 'AAAA-MM-DD' -> taxa diária em fração (ex.: 0.00041)."""
+    if offline:
+        dados = json.load(open(os.path.join(offline, "cdi.json"), encoding="utf-8"))
+    else:
+        url = (f"{BCB_CDI}?formato=json&dataInicial={inicio.strftime('%d/%m/%Y')}"
+               f"&dataFinal={fim.strftime('%d/%m/%Y')}")
+        dados = json.loads(http_get(url).decode("utf-8"))
+    out = {}
+    for d in dados:
+        try:
+            dt = datetime.strptime(d["data"], "%d/%m/%Y").date().isoformat()
+            out[dt] = float(str(d["valor"]).replace(",", ".")) / 100.0
+        except Exception:  # noqa: BLE001
+            continue
+    log(f"CDI: {len(out)} dias ({min(out) if out else '-'} a {max(out) if out else '-'})")
+    return out
+
+
+# --------------------------------------------------------------------------- informes diários
+
+def meses_alvo(n_meses: int, hoje: date) -> list[str]:
+    ms = []
+    y, m = hoje.year, hoje.month
+    for _ in range(n_meses):
+        ms.append(f"{y}{m:02d}")
+        m -= 1
+        if m == 0:
+            m, y = 12, y - 1
+    return sorted(ms)
+
+
+def ler_informe(raw: bytes, cnpjs_ok: set[str]) -> pd.DataFrame | None:
+    z = zipfile.ZipFile(io.BytesIO(raw))
+    nomes = [n for n in z.namelist() if n.lower().endswith(".csv")]
+    if not nomes:
+        return None
+    frames = []
+    for n in nomes:
+        with z.open(n) as fh:
+            header = fh.readline().decode("latin-1").strip().split(";")
+        c_cnpj = find_col(header, "CNPJ_FUNDO_CLASSE", "CNPJ_FUNDO")
+        c_dt = find_col(header, "DT_COMPTC")
+        c_q = find_col(header, "VL_QUOTA")
+        c_pl = find_col(header, "VL_PATRIM_LIQ")
+        c_cot = find_col(header, "NR_COTST")
+        c_sub = find_col(header, "ID_SUBCLASSE")
+        if not (c_cnpj and c_dt and c_q):
+            log(f"  aviso: {n} sem colunas esperadas: {header}")
+            continue
+        usecols = [c for c in (c_cnpj, c_dt, c_q, c_pl, c_cot, c_sub) if c]
+        df = pd.read_csv(z.open(n), sep=";", encoding="latin-1", usecols=usecols,
+                         dtype={c_cnpj: str, c_dt: str, c_sub: str} if c_sub else {c_cnpj: str, c_dt: str},
+                         low_memory=False)
+        df = df.rename(columns={c_cnpj: "cnpj", c_dt: "dt", c_q: "q", c_pl: "pl", c_cot: "cot"})
+        if c_sub:
+            df = df.rename(columns={c_sub: "sub"})
+            df["sub"] = df["sub"].fillna("").astype(str).str.strip()
+        else:
+            df["sub"] = ""
+        if "pl" not in df:
+            df["pl"] = np.nan
+        if "cot" not in df:
+            df["cot"] = np.nan
+        df["cnpj"] = df["cnpj"].astype(str).str.replace(r"\D", "", regex=True)
+        df = df[df["cnpj"].isin(cnpjs_ok)]
+        df["q"] = pd.to_numeric(df["q"], errors="coerce")
+        df["pl"] = pd.to_numeric(df["pl"], errors="coerce")
+        df["cot"] = pd.to_numeric(df["cot"], errors="coerce")
+        df = df[df["q"].notna() & (df["q"] > 0)]
+        # Uma linha por fundo e dia: sem subclasse tem prioridade; senão a primeira subclasse
+        df["_s"] = (df["sub"] != "").astype(int)
+        df = df.sort_values(["cnpj", "dt", "_s", "sub"]).drop_duplicates(["cnpj", "dt"], keep="first")
+        frames.append(df[["cnpj", "dt", "q", "pl", "cot"]])
+    if not frames:
+        return None
+    return pd.concat(frames, ignore_index=True)
+
+
+def baixar_informes(meses: list[str], offline: str | None, cache: str, cnpjs_ok: set[str]):
+    quotas, pls, cots = [], [], []
+    recentes = set(meses[-2:])  # os dois últimos meses são sempre baixados de novo
+    for ym in meses:
+        fname = f"inf_diario_fi_{ym}.zip"
+        if offline:
+            p = os.path.join(offline, fname)
+            if not os.path.exists(p):
+                log(f"  {fname}: não existe no modo offline, pulando")
+                continue
+            raw = open(p, "rb").read()
+        else:
+            p = os.path.join(cache, fname)
+            if os.path.exists(p) and ym not in recentes:
+                raw = open(p, "rb").read()
+            else:
+                try:
+                    raw = http_get(CVM_INF + fname)
+                except Exception as e:  # noqa: BLE001
+                    if ym == meses[-1]:
+                        log(f"  {fname} ainda não publicado ({e}); seguindo sem ele")
+                        continue
+                    raise
+                open(p, "wb").write(raw)
+        t0 = time.time()
+        df = ler_informe(raw, cnpjs_ok)
+        if df is None or df.empty:
+            log(f"  {fname}: vazio")
+            continue
+        quotas.append(df.pivot(index="cnpj", columns="dt", values="q"))
+        pls.append(df.pivot(index="cnpj", columns="dt", values="pl").astype("float32"))
+        cots.append(df.pivot(index="cnpj", columns="dt", values="cot").astype("float32"))
+        log(f"  {fname}: {len(df):,} linhas, {df['cnpj'].nunique():,} fundos ({time.time()-t0:.1f}s)")
+        del df
+    if not quotas:
+        raise RuntimeError("nenhum informe diário processado")
+    Q = pd.concat(quotas, axis=1).sort_index(axis=1)
+    PL = pd.concat(pls, axis=1).sort_index(axis=1).reindex(index=Q.index, columns=Q.columns)
+    CT = pd.concat(cots, axis=1).sort_index(axis=1).reindex(index=Q.index, columns=Q.columns)
+    # Se um mesmo dia apareceu em dois arquivos (não deveria), fica a última coluna
+    Q = Q.loc[:, ~Q.columns.duplicated(keep="last")]
+    PL = PL.loc[:, ~PL.columns.duplicated(keep="last")]
+    CT = CT.loc[:, ~CT.columns.duplicated(keep="last")]
+    return Q, PL, CT
+
+
+# --------------------------------------------------------------------------- métricas
+
+def ffill_1d(a: np.ndarray) -> np.ndarray:
+    mask = np.isnan(a)
+    idx = np.where(~mask, np.arange(len(a)), 0)
+    np.maximum.accumulate(idx, out=idx)
+    out = a[idx]
+    out[mask & (idx == 0) & np.isnan(a[0])] = np.nan
+    return out
+
+
+def idx_ate(datas: list[date], alvo: date) -> int:
+    """Último índice do calendário com data <= alvo (ou -1)."""
+    import bisect
+    return bisect.bisect_right(datas, alvo) - 1
+
+
+def metricas_fundo(q: np.ndarray, datas: list[date], cdi_idx: np.ndarray, asof_i: int,
+                   fim_mes_i: list[int], meses_lbl: list[str], mes_fechado: list[bool]) -> dict:
+    """q: cotas alinhadas ao calendário (NaN onde não há informe); asof_i: índice da última cota."""
+    validos = ~np.isnan(q)
+    first_i = int(np.argmax(validos))
+    qff = ffill_1d(q)
+    asof = datas[asof_i]
+    q1 = qff[asof_i]
+    out = {}
+
+    # retornos mensais (fundo e CDI) para consistência e tabela mensal; o mês corrente entra como parcial
+    mensal = []  # (rótulo, ret fundo, ret cdi, índice do fim, parcial?)
+    for k in range(1, len(fim_mes_i)):
+        i0, i1 = fim_mes_i[k - 1], fim_mes_i[k]
+        if i1 > asof_i:
+            break
+        if i0 < first_i or np.isnan(qff[i0]) or np.isnan(qff[i1]):
+            continue
+        parcial = (i1 == asof_i) and not mes_fechado[k]
+        rf = qff[i1] / qff[i0] - 1
+        rc = cdi_idx[i1] / cdi_idx[i0] - 1
+        mensal.append((meses_lbl[k], rf, rc, i1, parcial))
+    # asof no meio de um mês que ainda não é o último do calendário (fundo atrasado): mês parcial próprio
+    ultimo_fm = [i for i in fim_mes_i if i <= asof_i]
+    if ultimo_fm and ultimo_fm[-1] < asof_i and ultimo_fm[-1] >= first_i:
+        i0 = ultimo_fm[-1]
+        mensal.append((asof.strftime("%Y-%m"), qff[asof_i] / qff[i0] - 1, cdi_idx[asof_i] / cdi_idx[i0] - 1, asof_i, True))
+
+    janelas = {}
+    for W in JANELAS:
+        anchor = (pd.Timestamp(asof) - pd.DateOffset(months=W)).date()
+        a_i = idx_ate(datas, anchor)
+        if a_i < 0 or datas[first_i] > anchor or np.isnan(qff[a_i]):
+            janelas[str(W)] = None
+            continue
+        q0 = qff[a_i]
+        ret = q1 / q0 - 1
+        cdi_ret = cdi_idx[asof_i] / cdi_idx[a_i] - 1
+        seg = q[a_i:asof_i + 1]
+        v = seg[~np.isnan(seg)]
+        rr = v[1:] / v[:-1] - 1 if len(v) > 2 else np.array([])
+        anos = W / 12.0
+        if len(rr) >= 10:
+            vol = float(np.std(rr, ddof=1) * math.sqrt(len(rr) / anos))
+        else:
+            vol = float("nan")
+        ann = (1 + ret) ** (1 / anos) - 1
+        ann_cdi = (1 + cdi_ret) ** (1 / anos) - 1
+        sharpe = (ann - ann_cdi) / vol if vol and vol > 1e-9 else float("nan")
+        segff = qff[a_i:asof_i + 1]
+        cm = np.maximum.accumulate(np.where(np.isnan(segff), -np.inf, segff))
+        dd = segff / cm - 1
+        mdd = float(np.nanmin(dd)) if len(dd) else float("nan")
+        dd_atual = float(dd[-1]) if len(dd) else float("nan")
+        # consistência: só meses fechados dentro da janela (fim de mês > âncora)
+        ms = [m for m in mensal if m[3] > a_i and m[3] <= asof_i and not m[4]]
+        n_m = len(ms)
+        acima = sum(1 for m in ms if m[1] > m[2])
+        positivos = sum(1 for m in ms if m[1] > 0)
+        janelas[str(W)] = {
+            "ret": r6(ret), "cdi": r6(cdi_ret),
+            "pcdi": rn(ret / cdi_ret * 100, 1) if cdi_ret > 0 else None,
+            "vol": rn(vol, 4), "sharpe": rn(sharpe, 2), "mdd": rn(mdd, 4), "dd": rn(dd_atual, 4),
+            "cons": rn(acima / n_m, 3) if n_m else None,
+            "pos": rn(positivos / n_m, 3) if n_m else None,
+            "meses": n_m,
+            "melhor": r6(max(m[1] for m in ms)) if ms else None,
+            "pior": r6(min(m[1] for m in ms)) if ms else None,
+        }
+    # no mês e no ano
+    extras = {}
+    ano_ini = date(asof.year - 1, 12, 31)
+    i_ano = idx_ate(datas, ano_ini)
+    if i_ano >= first_i and i_ano >= 0 and not np.isnan(qff[i_ano]):
+        extras["ano"] = {"ret": r6(q1 / qff[i_ano] - 1), "cdi": r6(cdi_idx[asof_i] / cdi_idx[i_ano] - 1)}
+    mes_ini = (asof.replace(day=1) - timedelta(days=1))
+    i_mes = idx_ate(datas, mes_ini)
+    if i_mes >= first_i and i_mes >= 0 and not np.isnan(qff[i_mes]):
+        extras["mes"] = {"ret": r6(q1 / qff[i_mes] - 1), "cdi": r6(cdi_idx[asof_i] / cdi_idx[i_mes] - 1)}
+    out["janelas"] = janelas
+    out["extras"] = extras
+    out["mensal"] = [[m[0], r6(m[1]), r6(m[2])] + ([1] if m[4] else []) for m in mensal]
+    out["first_i"] = first_i
+    return out
+
+
+# --------------------------------------------------------------------------- principal
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--out", default="dist/data")
+    ap.add_argument("--cache", default="cache")
+    ap.add_argument("--meses", type=int, default=51, help="meses de informe diário (48 + folga)")
+    ap.add_argument("--offline", default=None, help="pasta com arquivos locais em vez de baixar")
+    ap.add_argument("--min-cotistas", type=int, default=MIN_COTISTAS)
+    ap.add_argument("--hoje", default=None, help="AAAA-MM-DD (testes)")
+    args = ap.parse_args()
+
+    hoje = date.fromisoformat(args.hoje) if args.hoje else date.today()
+    os.makedirs(args.out, exist_ok=True)
+    os.makedirs(os.path.join(args.out, "fundos"), exist_ok=True)
+    os.makedirs(args.cache, exist_ok=True)
+    avisos: list[str] = []
+    t_ini = time.time()
+
+    log("1/5 cadastro de fundos")
+    reg = carregar_cadastro(args.offline, args.cache)
+
+    # universo cadastral: em funcionamento (quando a situação é conhecida) e não exclusivo
+    def elegivel(r):
+        if r["exclusivo"].startswith("S"):
+            return False
+        sit = r["sit"]
+        if sit and "FUNCIONAMENTO NORMAL" not in sit:
+            return False
+        return True
+
+    cnpjs_ok = {c for c, r in reg.items() if elegivel(r)}
+    log(f"universo cadastral elegível: {len(cnpjs_ok):,} de {len(reg):,}")
+
+    log("2/5 informes diários")
+    meses = meses_alvo(args.meses, hoje)
+    Q, PL, CT = baixar_informes(meses, args.offline, args.cache, cnpjs_ok)
+    datas_str = list(Q.columns)
+    datas = [date.fromisoformat(d[:10]) for d in datas_str]
+    log(f"matriz: {Q.shape[0]:,} fundos x {Q.shape[1]:,} dias ({datas_str[0]} a {datas_str[-1]})")
+
+    log("3/5 CDI")
+    cdi = carregar_cdi(datas[0] - timedelta(days=10), hoje, args.offline)
+    taxas = np.array([cdi.get(d.isoformat(), np.nan) for d in datas])
+    faltando = int(np.isnan(taxas).sum())
+    if faltando:
+        avisos.append(f"CDI sem valor em {faltando} dias do calendário (tratados como 0)")
+    taxas = np.nan_to_num(taxas, nan=0.0)
+    cdi_idx = np.cumprod(1 + taxas)
+
+    # data de referência global: último dia em que pelo menos 60% dos fundos "ativos" informaram
+    contagem = Q.notna().sum(axis=0).values
+    pico = contagem[-40:].max() if len(contagem) >= 40 else contagem.max()
+    ref_i = len(datas) - 1
+    while ref_i > 0 and contagem[ref_i] < 0.6 * pico:
+        ref_i -= 1
+    ref = datas[ref_i]
+    log(f"data de referência: {ref} ({contagem[ref_i]:,} informes; pico recente {pico:,})")
+
+    # fins de mês (último dia útil do calendário em cada mês)
+    fim_mes_i, meses_lbl = [], []
+    for i, d in enumerate(datas):
+        lbl = d.strftime("%Y-%m")
+        if not meses_lbl or meses_lbl[-1] != lbl:
+            fim_mes_i.append(i)
+            meses_lbl.append(lbl)
+        else:
+            fim_mes_i[-1] = i
+    # um mês só é "fechado" se o último dia do calendário nele for o último dia útil do mês
+    # (o último mês do calendário costuma estar em andamento)
+    mes_fechado = []
+    for i in fim_mes_i:
+        if i < len(datas) - 1:
+            mes_fechado.append(True)  # existe dia seguinte no calendário (já em outro mês)
+        else:
+            ultimo_util = (pd.Timestamp(datas[i]) + pd.offsets.BMonthEnd(0)).date()
+            mes_fechado.append(datas[i] >= ultimo_util)
+
+    # semanas (último índice de cada semana ISO) para as séries de patrimônio e cotistas
+    semanas_i, chave = [], None
+    for i, d in enumerate(datas):
+        k = d.isocalendar()[:2]
+        if k != chave:
+            semanas_i.append(i)
+            chave = k
+        else:
+            semanas_i[-1] = i
+
+    log("4/5 métricas por fundo")
+    Qv = Q.values
+    PLv = PL.values
+    CTv = CT.values
+    cnpjs = list(Q.index)
+    index_rows = []
+    n_ok = n_parado = n_poucos = n_hist = 0
+    for r, cnpj in enumerate(cnpjs):
+        q = Qv[r].astype(float)
+        validos = ~np.isnan(q)
+        if validos.sum() < 5:
+            n_hist += 1
+            continue
+        idx_validos = np.where(validos)[0]
+        last_i = int(idx_validos[-1])
+        if last_i < ref_i - DIAS_TOLERANCIA:
+            n_parado += 1
+            continue
+        # data de referência do fundo: última cota até a data de referência global
+        ate_ref = idx_validos[idx_validos <= ref_i]
+        if len(ate_ref) == 0:
+            n_hist += 1
+            continue
+        asof_i = int(ate_ref[-1])
+        ct = ffill_1d(CTv[r].astype(float))
+        pl = ffill_1d(PLv[r].astype(float))
+        cot_atual = ct[asof_i]
+        pl_atual = pl[asof_i]
+        if not np.isnan(cot_atual) and cot_atual < args.min_cotistas:
+            n_poucos += 1
+            continue
+        m = metricas_fundo(q, datas, cdi_idx, asof_i, fim_mes_i, meses_lbl, mes_fechado)
+        info = reg.get(cnpj, {})
+        nome = titulo(info.get("nome", cnpj))
+        first_i = m["first_i"]
+        # série semanal de PL e cotistas a partir da primeira semana com dado
+        w_ini = next((k for k, i in enumerate(semanas_i) if i >= first_i), None)
+        if w_ini is None:
+            w_ini = len(semanas_i) - 1
+        pl_w = [None if np.isnan(pl[i]) else round(float(pl[i])) for i in semanas_i[w_ini:]]
+        ct_w = [None if np.isnan(ct[i]) else int(ct[i]) for i in semanas_i[w_ini:]]
+        # cotas diárias a partir do primeiro dado, com 7 algarismos significativos
+        qs = [None if np.isnan(v) else float(f"{v:.7g}") for v in q[first_i:]]
+        j12 = m["janelas"].get("12") or {}
+        doc = {
+            "cnpj": cnpj,
+            "cnpj_fmt": f"{cnpj[:2]}.{cnpj[2:5]}.{cnpj[5:8]}/{cnpj[8:12]}-{cnpj[12:]}",
+            "nome": nome,
+            "classe": info.get("classe", ""),
+            "anbima": info.get("anbima", ""),
+            "gestor": titulo(info.get("gestor", "")),
+            "adm": titulo(info.get("adm", "")),
+            "publico": info.get("publico", ""),
+            "taxa_adm": info.get("taxa_adm", ""),
+            "taxa_perf": info.get("taxa_perf", ""),
+            "inicio": info.get("inicio", ""),
+            "cotas": info.get("cotas", ""),
+            "ate": datas[asof_i].isoformat(),
+            "pl": None if np.isnan(pl_atual) else round(float(pl_atual)),
+            "cotistas": None if np.isnan(cot_atual) else int(cot_atual),
+            "d0": first_i,
+            "q": qs,
+            "w0": w_ini,
+            "plw": pl_w,
+            "cotw": ct_w,
+            "janelas": m["janelas"],
+            "extras": m["extras"],
+            "mensal": m["mensal"],
+        }
+        with open(os.path.join(args.out, "fundos", f"{cnpj}.json"), "w", encoding="utf-8") as fh:
+            json.dump(doc, fh, ensure_ascii=False, separators=(",", ":"))
+        index_rows.append([
+            cnpj, nome, info.get("classe", ""), titulo(info.get("gestor", "")),
+            doc["pl"], doc["cotistas"],
+            j12.get("ret"), j12.get("pcdi"), j12.get("sharpe"), j12.get("vol"),
+        ])
+        n_ok += 1
+        if n_ok % 2000 == 0:
+            log(f"  {n_ok:,} fundos gravados")
+
+    log("5/5 índice e metadados")
+    index_rows.sort(key=lambda x: -(x[4] or 0))
+    with open(os.path.join(args.out, "index.json"), "w", encoding="utf-8") as fh:
+        json.dump({"colunas": ["cnpj", "nome", "classe", "gestor", "pl", "cotistas", "ret12", "pcdi12", "sharpe12", "vol12"],
+                   "fundos": index_rows}, fh, ensure_ascii=False, separators=(",", ":"))
+    meta = {
+        "referencia": ref.isoformat(),
+        "gerado": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "calendario": [d.isoformat() for d in datas],
+        "semanas": semanas_i,
+        "fim_mes": fim_mes_i,
+        "meses": meses_lbl,
+        "cdi": [float(f"{v:.9g}") for v in cdi_idx],
+        "cdi_taxa": [float(f"{v:.6g}") for v in taxas],
+        "n_fundos": n_ok,
+        "janelas": list(JANELAS),
+        "min_cotistas": args.min_cotistas,
+        "fontes": {
+            "cvm_informe_diario": CVM_INF,
+            "cvm_cadastro": CVM_CAD,
+            "bcb_cdi": "https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados",
+        },
+    }
+    with open(os.path.join(args.out, "meta.json"), "w", encoding="utf-8") as fh:
+        json.dump(meta, fh, ensure_ascii=False, separators=(",", ":"))
+    status = {
+        "referencia": ref.isoformat(), "gerado": meta["gerado"], "fundos_publicados": n_ok,
+        "fundos_na_matriz": len(cnpjs), "descartados_parados": n_parado,
+        "descartados_poucos_cotistas": n_poucos, "descartados_historico_curto": n_hist,
+        "dias_calendario": len(datas), "meses_processados": meses, "avisos": avisos,
+        "duracao_s": round(time.time() - t_ini),
+    }
+    with open(os.path.join(args.out, "status.json"), "w", encoding="utf-8") as fh:
+        json.dump(status, fh, ensure_ascii=False, indent=2)
+    log(f"concluído: {n_ok:,} fundos publicados em {status['duracao_s']}s "
+        f"(parados {n_parado:,}, poucos cotistas {n_poucos:,}, histórico curto {n_hist:,})")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
