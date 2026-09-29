@@ -331,7 +331,7 @@ def ler_informe(raw: bytes, cnpjs_ok: set[str]) -> pd.DataFrame | None:
 
 def baixar_informes(meses: list[str], offline: str | None, cache: str, cnpjs_ok: set[str]):
     quotas, pls, cots = [], [], []
-    recentes = set(meses[-2:])  # os dois últimos meses são sempre baixados de novo
+    recentes = set(meses[-12:])  # os últimos 12 meses são sempre baixados de novo (a CVM retifica M-2 a M-11)
     for ym in meses:
         fname = f"inf_diario_fi_{ym}.zip"
         if offline:
