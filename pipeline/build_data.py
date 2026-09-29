@@ -761,9 +761,19 @@ def main() -> int:
             "bcb_poupanca": "https://api.bcb.gov.br/dados/serie/bcdata.sgs.195/dados",
             "bcb_ptax": "https://api.bcb.gov.br/dados/serie/bcdata.sgs.1/dados",
             "tesouro_direto": fx.TESOURO_CSV,
-            "indices": "Yahoo Finance (reservas: Stooq, FRED, BCB SGS 7 e Nasdaq)",
+            "indices": "B3 (Ibovespa, IFIX), Nasdaq (Nasdaq 100, SPY, URTH, GLD, AIQ), CoinGecko (Bitcoin); reservas Yahoo, Stooq e FRED",
         },
     }
+    # catálogo de COEs da XP (mantido à mão em pipeline/coes.json, a partir das lâminas e DIEs)
+    coes_src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "coes.json")
+    if os.path.exists(coes_src):
+        with open(coes_src, encoding="utf-8") as fh:
+            coes = json.load(fh)
+        with open(os.path.join(args.out, "coes.json"), "w", encoding="utf-8") as fh:
+            json.dump(coes, fh, ensure_ascii=False, separators=(",", ":"))
+        meta["n_coes"] = len(coes.get("coes", []))
+        meta["coes_capturado"] = coes.get("capturado")
+        log(f"  COEs: {meta['n_coes']} estruturas do catálogo")
     with open(os.path.join(args.out, "meta.json"), "w", encoding="utf-8") as fh:
         json.dump(meta, fh, ensure_ascii=False, separators=(",", ":"))
     status = {

@@ -305,15 +305,19 @@ def nasdaq_api(symbol: str) -> dict[str, float]:
     return out
 
 
+B3_INDICES = {"^BVSP": "IBOV", "IFIX": "IFIX", "IDIV": "IDIV", "SMLL": "SMLL"}
+
+
 def b3_ibov(symbol: str) -> dict[str, float]:
-    """Fechamentos diários do Ibovespa direto da B3 (estatísticas históricas), um pedido por ano."""
-    if symbol != "^BVSP":
-        raise RuntimeError("só Ibovespa")
+    """Fechamentos diários de um índice da B3 (estatísticas históricas), um pedido por ano."""
+    idx = B3_INDICES.get(symbol)
+    if not idx:
+        raise RuntimeError("índice não está na B3")
     out = {}
     ano_atual = date.today().year
     erro = None
     for ano in range(ano_atual - 24, ano_atual + 1):
-        payload = base64.b64encode(json.dumps({"index": "IBOV", "language": "pt-br", "year": str(ano)}, separators=(",", ":")).encode()).decode()
+        payload = base64.b64encode(json.dumps({"index": idx, "language": "pt-br", "year": str(ano)}, separators=(",", ":")).encode()).decode()
         try:
             raw = http_get(f"https://sistemaswebb3-listados.b3.com.br/indexStatisticsProxy/IndexCall/GetPortfolioDay/{payload}",
                            tentativas=2, timeout=60, headers={"Accept": "application/json, text/plain, */*", "Referer": "https://www.b3.com.br/"})
@@ -336,10 +340,32 @@ def b3_ibov(symbol: str) -> dict[str, float]:
     return out
 
 
+def coingecko(symbol: str) -> dict[str, float]:
+    """Preço diário de criptoativos em reais (CoinGecko, sem chave)."""
+    moedas = {"BTC-BRL": ("bitcoin", "brl"), "ETH-BRL": ("ethereum", "brl"), "BTC-USD": ("bitcoin", "usd")}
+    if symbol not in moedas:
+        raise RuntimeError("sem série no CoinGecko")
+    cid, vs = moedas[symbol]
+    raw = http_get(f"https://api.coingecko.com/api/v3/coins/{cid}/market_chart?vs_currency={vs}&days=max", tentativas=2, timeout=90,
+                   headers={"Accept": "application/json"})
+    j = json.loads(raw.decode("utf-8", errors="replace"))
+    out = {}
+    for t, v in j.get("prices") or []:
+        try:
+            out[datetime.utcfromtimestamp(t / 1000).date().isoformat()] = float(v)
+        except Exception:  # noqa: BLE001
+            continue
+    if len(out) < _MIN_PONTOS:
+        raise RuntimeError(f"coingecko {cid}: só {len(out)} pontos ({str(j)[:120]})")
+    return out
+
+
 FONTES_POR_SIMBOLO = {
     "^BVSP": ((b3_ibov, "B3"), (yahoo, "Yahoo"), (stooq, "Stooq"), (sgs_indice, "BCB SGS 7")),
     "^GSPC": ((nasdaq_api, "Nasdaq (ETF SPY)"), (yahoo, "Yahoo"), (stooq, "Stooq"), (fred, "FRED")),  # o FRED não responde de dentro do Actions
     "^NDX": ((nasdaq_api, "Nasdaq"), (fred, "FRED"), (yahoo, "Yahoo"), (stooq, "Stooq")),
+    "IFIX": ((b3_ibov, "B3"),),
+    "BTC-BRL": ((coingecko, "CoinGecko"),),
 }
 FONTES_PADRAO = ((nasdaq_api, "Nasdaq"), (yahoo, "Yahoo"), (stooq, "Stooq"))
 _MAX_ATRASO_DIAS = 15
@@ -371,8 +397,13 @@ BENCH_DEF = [
     ("sp500", "S&P 500 (US$)", "^GSPC", "USD", "Índice em dólar"),
     ("sp500brl", "S&P 500 (R$)", "^GSPC", "BRL*", "Índice convertido pelo dólar PTAX"),
     ("nasdaq", "Nasdaq 100 (US$)", "^NDX", "USD", "Índice em dólar"),
+    ("nasdaqbrl", "Nasdaq 100 (R$)", "^NDX", "BRL*", "Índice convertido pelo dólar PTAX"),
     ("msci", "MSCI World (US$)", "URTH", "USD", "Pelo ETF iShares URTH, em dólar"),
     ("mscibrl", "MSCI World (R$)", "URTH", "BRL*", "ETF URTH convertido pelo dólar PTAX"),
+    ("ifix", "IFIX", "IFIX", "BRL", "Índice de fundos imobiliários da B3"),
+    ("ouro", "Ouro (US$)", "GLD", "USD", "Pelo ETF SPDR Gold Shares (GLD), em dólar"),
+    ("ourobrl", "Ouro (R$)", "GLD", "BRL*", "ETF GLD convertido pelo dólar PTAX"),
+    ("btc", "Bitcoin (R$)", "BTC-BRL", "BRL", "Preço em reais (CoinGecko)"),
 ]
 UNDERLYINGS = {"GLD": "SPDR Gold Shares (GLD)", "AIQ": "Global X Artificial Intelligence & Technology (AIQ)",
                "^GSPC": "S&P 500", "^NDX": "Nasdaq 100", "^BVSP": "Ibovespa", "URTH": "MSCI World (URTH)"}
@@ -398,13 +429,14 @@ def construir_benchmarks(datas: list[date], hoje: date, offline: str | None, avi
         log("  benchmarks sintéticos (modo offline)")
         mercado = {"^BVSP": sintetico(datas, 1, 0.08, 0.22, 120000), "^GSPC": sintetico(datas, 2, 0.12, 0.16, 5000),
                    "^NDX": sintetico(datas, 3, 0.15, 0.22, 17000), "URTH": sintetico(datas, 4, 0.10, 0.15, 130),
-                   "GLD": sintetico(datas, 5, 0.09, 0.14, 180), "AIQ": sintetico(datas, 6, 0.14, 0.24, 30)}
+                   "GLD": sintetico(datas, 5, 0.09, 0.14, 180), "AIQ": sintetico(datas, 6, 0.14, 0.24, 30),
+                   "IFIX": sintetico(datas, 8, 0.06, 0.10, 3000), "BTC-BRL": sintetico(datas, 9, 0.30, 0.60, 150000)}
         ptax = sintetico(datas, 7, 0.03, 0.14, 5.2)
         ipca_m = {d.strftime("%Y-%m"): 0.0038 for d in datas}
         poup_m = {d.strftime("%Y-%m"): 0.0062 for d in datas}
     else:
         mercado = {}
-        for sym in ["^BVSP", "^GSPC", "^NDX", "URTH", "GLD", "AIQ"]:
+        for sym in ["^BVSP", "^GSPC", "^NDX", "URTH", "GLD", "AIQ", "IFIX", "BTC-BRL"]:
             s = serie_mercado(sym, avisos)
             if s:
                 mercado[sym] = s
@@ -457,7 +489,7 @@ def construir_benchmarks(datas: list[date], hoje: date, offline: str | None, avi
             continue
         q = alinhar(s, datas)
         usada = FONTE_USADA.get(sym, "")
-        fonte = {"Yahoo": "Yahoo Finance", "Stooq": "Stooq", "FRED": "FRED (Fed de St. Louis)", "BCB SGS 7": "BCB SGS 7", "Nasdaq": "Nasdaq", "B3": "B3", "Nasdaq (ETF SPY)": "Nasdaq (ETF SPY)"}.get(usada, usada or "Yahoo Finance")
+        fonte = {"Yahoo": "Yahoo Finance", "Stooq": "Stooq", "FRED": "FRED (Fed de St. Louis)", "BCB SGS 7": "BCB SGS 7", "Nasdaq": "Nasdaq", "B3": "B3", "Nasdaq (ETF SPY)": "Nasdaq (ETF SPY)", "CoinGecko": "CoinGecko"}.get(usada, usada or "Yahoo Finance")
         if usada == "Nasdaq (ETF SPY)":
             desc = "Pelo ETF SPY (preço, sem dividendos), em dólar" if moeda == "USD" else "ETF SPY convertido pelo dólar PTAX"
         if moeda == "BRL*":
@@ -527,9 +559,12 @@ def carregar_tesouro(datas: list[date], hoje: date, offline: str | None, cache: 
     if offline:
         log("  Tesouro sintético (modo offline)")
         titulos = []
-        for i, (tipo, venc, taxa) in enumerate([("Tesouro IPCA+", date(2035, 5, 15), 7.6), ("Tesouro IPCA+ com Juros Semestrais", date(2040, 8, 15), 7.4),
-                                                 ("Tesouro Prefixado", date(2029, 1, 1), 13.9), ("Tesouro Selic", date(2029, 3, 1), 0.05),
-                                                 ("Tesouro Renda+ Aposentadoria Extra", date(2065, 12, 15), 7.3)]):
+        lista = [("Tesouro IPCA+", date(2029, 5, 15), 7.9), ("Tesouro IPCA+", date(2035, 5, 15), 7.6), ("Tesouro IPCA+", date(2040, 5, 15), 7.5), ("Tesouro IPCA+", date(2045, 5, 15), 7.4), ("Tesouro IPCA+", date(2050, 5, 15), 7.3),
+                 ("Tesouro IPCA+ com Juros Semestrais", date(2030, 8, 15), 7.7), ("Tesouro IPCA+ com Juros Semestrais", date(2035, 5, 15), 7.5), ("Tesouro IPCA+ com Juros Semestrais", date(2040, 8, 15), 7.4), ("Tesouro IPCA+ com Juros Semestrais", date(2045, 5, 15), 7.4), ("Tesouro IPCA+ com Juros Semestrais", date(2050, 8, 15), 7.3), ("Tesouro IPCA+ com Juros Semestrais", date(2055, 5, 15), 7.3),
+                 ("Tesouro Prefixado", date(2027, 1, 1), 14.2), ("Tesouro Prefixado", date(2029, 1, 1), 13.9), ("Tesouro Prefixado", date(2032, 1, 1), 13.7), ("Tesouro Prefixado com Juros Semestrais", date(2035, 1, 1), 13.6),
+                 ("Tesouro Selic", date(2029, 3, 1), 0.05), ("Tesouro Selic", date(2031, 3, 1), 0.1),
+                 ("Tesouro Renda+ Aposentadoria Extra", date(2045, 12, 15), 7.4), ("Tesouro Renda+ Aposentadoria Extra", date(2065, 12, 15), 7.3), ("Tesouro Educa+", date(2035, 12, 15), 7.4)]
+        for i, (tipo, venc, taxa) in enumerate(lista):
             s = sintetico(datas, 100 + i, 0.11, 0.03 + 0.02 * i, 1000 + 500 * i)
             tx = {d.isoformat(): taxa + math.sin(k / 40) * 0.6 for k, d in enumerate(datas)}
             titulos.append((tipo, venc, s, tx))
