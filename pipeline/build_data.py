@@ -761,7 +761,7 @@ def main() -> int:
             "bcb_poupanca": "https://api.bcb.gov.br/dados/serie/bcdata.sgs.195/dados",
             "bcb_ptax": "https://api.bcb.gov.br/dados/serie/bcdata.sgs.1/dados",
             "tesouro_direto": fx.TESOURO_CSV,
-            "indices": "Yahoo Finance (reserva: Stooq)",
+            "indices": "Yahoo Finance (reservas: Stooq, FRED, BCB SGS 7 e Nasdaq)",
         },
     }
     with open(os.path.join(args.out, "meta.json"), "w", encoding="utf-8") as fh:

@@ -8,6 +8,7 @@ Todas as funções são tolerantes: uma fonte que falhar vira aviso, nunca derru
 from __future__ import annotations
 
 import csv
+import http.cookiejar
 import io
 import json
 import math
@@ -15,6 +16,7 @@ import os
 import random
 import re
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import date, datetime, timedelta
@@ -128,67 +130,199 @@ def sgs(codigo: int, inicio: date, fim: date) -> dict[str, float]:
     return out
 
 
-# --------------------------------------------------------------------------- Yahoo / Stooq
+# --------------------------------------------------------------------------- índices e ETFs (Yahoo, Stooq, FRED, BCB, Nasdaq)
 
 STOOQ = {"^BVSP": "^bvp", "^GSPC": "^spx", "^NDX": "^ndx", "URTH": "urth.us", "GLD": "gld.us", "AIQ": "aiq.us",
          "BRL=X": "usdbrl", "QQQ": "qqq.us", "SPY": "spy.us"}
+FRED = {"^GSPC": "SP500", "^NDX": "NASDAQ100", "^DJI": "DJIA"}
+SGS_INDICE = {"^BVSP": 7}  # Ibovespa, fechamento diário em pontos
+NASDAQ_ETF = {"URTH": "etf", "GLD": "etf", "AIQ": "etf", "QQQ": "etf", "SPY": "etf"}
+_MIN_PONTOS = 100
 
 
-def yahoo(symbol: str, anos: int = 25) -> dict[str, float]:
-    # período explícito (o parâmetro range só aceita 1d…10y, ytd e max); tenta os dois hosts da API
-    p1 = int(time.time()) - anos * 365 * 86400
-    p2 = int(time.time()) + 86400
-    q = f"?period1={p1}&period2={p2}&interval=1d&events=history&includeAdjustedClose=true"
-    ultimo = None
-    for host in ("query1", "query2"):
-        url = f"https://{host}.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(symbol)}{q}"
+def _erro(e: Exception) -> str:
+    if isinstance(e, urllib.error.HTTPError):
         try:
-            raw = http_get(url, tentativas=2, headers={"Accept": "application/json,text/plain,*/*", "Accept-Language": "en-US,en;q=0.9"})
-            j = json.loads(raw.decode("utf-8"))
-            if not j.get("chart", {}).get("result"):
-                raise RuntimeError(str(j.get("chart", {}).get("error"))[:200])
-            break
-        except Exception as e:  # noqa: BLE001
-            ultimo = e
-            j = None
-    if j is None:
-        raise RuntimeError(f"yahoo {symbol}: {ultimo}")
-    res = j["chart"]["result"][0]
-    ts = res["timestamp"]
-    closes = res["indicators"]["quote"][0]["close"]
+            corpo = e.read(200).decode("utf-8", errors="replace").replace("\n", " ")
+        except Exception:  # noqa: BLE001
+            corpo = ""
+        return f"HTTP {e.code} {corpo[:120]}".strip()
+    return str(e)[:200]
+
+
+def _opener():
+    cj = http.cookiejar.CookieJar()
+    return urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
+
+
+def _get(opener, url: str, headers: dict | None = None, timeout: int = 60) -> bytes:
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*", "Accept-Language": "en-US,en;q=0.9", **(headers or {})})
+    with opener.open(req, timeout=timeout) as r:
+        return r.read()
+
+
+_YAHOO: dict = {"opener": None, "crumb": None}
+
+
+def _yahoo_sessao():
+    """Cookie de consentimento + crumb, como o yfinance faz; sem isso o Yahoo devolve 401/429 fora do navegador."""
+    if _YAHOO["crumb"]:
+        return _YAHOO["opener"], _YAHOO["crumb"]
+    opener = _opener()
+    try:
+        _get(opener, "https://fc.yahoo.com/", timeout=30)
+    except Exception:  # noqa: BLE001  (404 esperado; os cookies vêm assim mesmo)
+        pass
+    crumb = _get(opener, "https://query2.finance.yahoo.com/v1/test/getcrumb", headers={"Accept": "text/plain"}, timeout=30).decode("utf-8", errors="replace").strip()
+    if not crumb or "<" in crumb or len(crumb) > 40:
+        raise RuntimeError("crumb inválido")
+    _YAHOO.update(opener=opener, crumb=crumb)
+    return opener, crumb
+
+
+def _yahoo_parse(raw: bytes, symbol: str) -> dict[str, float]:
+    j = json.loads(raw.decode("utf-8"))
+    chart = j.get("chart") or {}
+    if not chart.get("result"):
+        raise RuntimeError(str(chart.get("error"))[:200])
+    res = chart["result"][0]
+    ts = res.get("timestamp") or []
+    closes = ((res.get("indicators") or {}).get("quote") or [{}])[0].get("close") or []
     out = {}
     for t, c in zip(ts, closes):
         if c is None or not math.isfinite(c):
             continue
         out[datetime.utcfromtimestamp(t).date().isoformat()] = float(c)
-    if len(out) < 100:
+    if len(out) < _MIN_PONTOS:
         raise RuntimeError(f"yahoo {symbol}: só {len(out)} pontos")
     return out
 
 
+def yahoo(symbol: str, anos: int = 25) -> dict[str, float]:
+    p1 = int(time.time()) - anos * 365 * 86400
+    p2 = int(time.time()) + 86400
+    base = f"/v8/finance/chart/{urllib.parse.quote(symbol)}?period1={p1}&period2={p2}&interval=1d&events=history"
+    erros = []
+    # 1) chamada simples (funciona em muitos ambientes); 2) com cookie + crumb
+    for modo in ("simples", "crumb"):
+        for host in ("query2", "query1"):
+            try:
+                if modo == "simples":
+                    raw = http_get(f"https://{host}.finance.yahoo.com{base}", tentativas=1, timeout=60, headers={"Accept": "application/json,text/plain,*/*"})
+                else:
+                    opener, crumb = _yahoo_sessao()
+                    raw = _get(opener, f"https://{host}.finance.yahoo.com{base}&crumb={urllib.parse.quote(crumb)}", headers={"Accept": "application/json,text/plain,*/*"})
+                return _yahoo_parse(raw, symbol)
+            except Exception as e:  # noqa: BLE001
+                erros.append(f"{modo}/{host}: {_erro(e)}")
+                if isinstance(e, urllib.error.HTTPError) and e.code in (401, 403, 429):
+                    _YAHOO["crumb"] = None
+                    time.sleep(4)
+    raise RuntimeError("; ".join(erros)[:400])
+
+
 def stooq(symbol: str) -> dict[str, float]:
     s = STOOQ.get(symbol, symbol.lower())
-    raw = http_get(f"https://stooq.com/q/d/l/?s={urllib.parse.quote(s)}&i=d").decode("utf-8", errors="replace")
+    erros = []
+    for host in ("stooq.com", "stooq.pl"):
+        try:
+            raw = http_get(f"https://{host}/q/d/l/?s={urllib.parse.quote(s)}&i=d", tentativas=1, timeout=60,
+                           headers={"Referer": f"https://{host}/q/d/?s={urllib.parse.quote(s)}", "Accept": "text/csv,text/plain,*/*"}).decode("utf-8", errors="replace")
+            out = {}
+            for row in csv.DictReader(io.StringIO(raw)):
+                try:
+                    out[row["Date"]] = float(row["Close"])
+                except Exception:  # noqa: BLE001
+                    continue
+            if len(out) >= _MIN_PONTOS:
+                return out
+            erros.append(f"{host}: {len(out)} pontos, resposta '{raw[:80].strip()}'")
+        except Exception as e:  # noqa: BLE001
+            erros.append(f"{host}: {_erro(e)}")
+    raise RuntimeError("; ".join(erros)[:400])
+
+
+def fred(symbol: str) -> dict[str, float]:
+    sid = FRED.get(symbol)
+    if not sid:
+        raise RuntimeError("sem série no FRED")
+    raw = http_get(f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}", tentativas=2, timeout=60, headers={"Accept": "text/csv,*/*"}).decode("utf-8", errors="replace")
     out = {}
     for row in csv.DictReader(io.StringIO(raw)):
         try:
-            out[row["Date"]] = float(row["Close"])
+            d = row.get("observation_date") or row.get("DATE")
+            out[d] = float(row[sid])
         except Exception:  # noqa: BLE001
             continue
-    if len(out) < 100:
-        raise RuntimeError(f"stooq {s}: só {len(out)} pontos")
+    if len(out) < _MIN_PONTOS:
+        raise RuntimeError(f"fred {sid}: só {len(out)} pontos, resposta '{raw[:80].strip()}'")
     return out
 
 
+def sgs_indice(symbol: str) -> dict[str, float]:
+    cod = SGS_INDICE.get(symbol)
+    if not cod:
+        raise RuntimeError("sem série no BCB")
+    hoje = date.today()
+    out = {}
+    # a API do SGS limita séries diárias a 10 anos por chamada
+    for k in range(2):
+        fim = hoje - timedelta(days=3650 * k)
+        ini = fim - timedelta(days=3649)
+        try:
+            out.update(sgs(cod, ini, fim))
+        except Exception as e:  # noqa: BLE001
+            if k == 0:
+                raise RuntimeError(f"sgs {cod}: {_erro(e)}")
+    out = {d: v for d, v in out.items() if v and v > 0}
+    if len(out) < _MIN_PONTOS:
+        raise RuntimeError(f"sgs {cod}: só {len(out)} pontos")
+    return out
+
+
+def nasdaq_api(symbol: str) -> dict[str, float]:
+    cls = NASDAQ_ETF.get(symbol)
+    if not cls:
+        raise RuntimeError("sem classe na API da Nasdaq")
+    hoje = date.today()
+    url = (f"https://api.nasdaq.com/api/quote/{urllib.parse.quote(symbol)}/historical?assetclass={cls}"
+           f"&fromdate={(hoje - timedelta(days=365 * 25)).isoformat()}&todate={hoje.isoformat()}&limit=10000")
+    raw = http_get(url, tentativas=2, timeout=90, headers={"Accept": "application/json, text/plain, */*", "Origin": "https://www.nasdaq.com", "Referer": "https://www.nasdaq.com/"})
+    j = json.loads(raw.decode("utf-8", errors="replace"))
+    rows = (((j.get("data") or {}).get("tradesTable") or {}).get("rows")) or []
+    out = {}
+    for r in rows:
+        try:
+            d = datetime.strptime(r["date"], "%m/%d/%Y").date().isoformat()
+            out[d] = float(str(r["close"]).replace("$", "").replace(",", ""))
+        except Exception:  # noqa: BLE001
+            continue
+    if len(out) < _MIN_PONTOS:
+        raise RuntimeError(f"nasdaq {symbol}: só {len(out)} pontos ({str(j.get('status'))[:120]})")
+    return out
+
+
+FONTES_POR_SIMBOLO = {
+    "^BVSP": ((yahoo, "Yahoo"), (stooq, "Stooq"), (sgs_indice, "BCB SGS 7")),
+    "^GSPC": ((yahoo, "Yahoo"), (stooq, "Stooq"), (fred, "FRED")),
+    "^NDX": ((yahoo, "Yahoo"), (stooq, "Stooq"), (fred, "FRED")),
+}
+FONTES_PADRAO = ((yahoo, "Yahoo"), (stooq, "Stooq"), (nasdaq_api, "Nasdaq"))
+
+
+FONTE_USADA: dict[str, str] = {}
+
+
 def serie_mercado(symbol: str, avisos: list[str]) -> dict[str, float] | None:
-    for fn, nome in ((yahoo, "Yahoo"), (stooq, "Stooq")):
+    for fn, nome in FONTES_POR_SIMBOLO.get(symbol, FONTES_PADRAO):
         try:
             s = fn(symbol)
             log(f"  {symbol}: {len(s)} pontos via {nome} ({min(s)} a {max(s)})")
+            FONTE_USADA[symbol] = nome
             return s
         except Exception as e:  # noqa: BLE001
-            log(f"  {symbol}: {nome} falhou ({str(e)[:120]})")
-    avisos.append(f"benchmark {symbol} indisponível (Yahoo e Stooq falharam)")
+            log(f"  {symbol}: {nome} falhou ({str(e)[:400]})")
+    avisos.append(f"benchmark {symbol} indisponível (todas as fontes falharam)")
     return None
 
 
@@ -285,7 +419,7 @@ def construir_benchmarks(datas: list[date], hoje: date, offline: str | None, avi
         if not s:
             continue
         q = alinhar(s, datas)
-        fonte = "Yahoo Finance"
+        fonte = {"Yahoo": "Yahoo Finance", "Stooq": "Stooq", "FRED": "FRED (Fed de St. Louis)", "BCB SGS 7": "BCB SGS 7", "Nasdaq": "Nasdaq"}.get(FONTE_USADA.get(sym, ""), "Yahoo Finance")
         if moeda == "BRL*":
             if ptax_al is None:
                 continue
