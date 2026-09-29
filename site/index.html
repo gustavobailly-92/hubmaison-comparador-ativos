@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comparador de Ativos · Maison Hub</title>
+<meta name="description" content="Compare fundos de investimento entre si e com o CDI: rentabilidade por período, patrimônio, correlação, Sharpe, volatilidade, drawdown e consistência. Dados abertos da CVM e do Banco Central.">
+<meta name="theme-color" content="#070E1C">
+<meta property="og:title" content="Comparador de Ativos · Maison Hub">
+<meta property="og:description" content="Compare fundos de investimento com o CDI usando os dados abertos da CVM.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070E1C; --surface:#0F1D37; --panel:#152540; --panel-2:#1B2E4E;
+  --line:rgba(178,203,230,.14); --line-2:rgba(178,203,230,.26);
+  --text:#F4F8FC; --text-2:#B2CBE6; --muted:#93ACC6; --deep:#293654; --mid:#3F5477;
+  --s1:#5B98E6; --s2:#D4A24A; --s3:#B08CF0; --s4:#43B893; --cdi:#93ACC6;
+  --font:"Gotham","Montserrat",system-ui,sans-serif;
+  --radius:14px; --gutter:16px; --max:1180px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);font-weight:400;font-size:15px;line-height:1.5;
+  background-image:radial-gradient(1200px 600px at 50% -200px,rgba(63,84,119,.35),transparent 70%);}
+a{color:var(--text-2)}
+button{font:inherit;color:inherit}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--text-2);outline-offset:2px;border-radius:6px}
+
+/* header */
+header{padding:22px 0 8px}
+header .row{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{height:56px;width:auto;display:block}
+.status{font-size:12px;color:var(--muted);letter-spacing:.04em;text-align:right;line-height:1.4}
+.status strong{color:var(--text-2);font-weight:500}
+
+/* intro */
+.intro{padding:34px 0 10px}
+h1{font-weight:700;font-size:clamp(26px,3.6vw,38px);letter-spacing:-.01em;margin:0 0 8px;line-height:1.15}
+.intro p{margin:0;color:var(--text-2);max-width:62ch;font-weight:300;font-size:16px}
+
+/* busca */
+.search{position:relative;margin:26px 0 12px}
+.search input{width:100%;background:var(--panel);border:1px solid var(--line-2);border-radius:var(--radius);color:var(--text);
+  padding:16px 18px 16px 50px;font:inherit;font-size:16px;outline:none;transition:border-color .15s,box-shadow .15s}
+.search input::placeholder{color:var(--muted);font-weight:300}
+.search input:focus{border-color:var(--text-2);box-shadow:0 0 0 4px rgba(178,203,230,.10)}
+.search svg.ico{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--muted)}
+.results{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--panel-2);border:1px solid var(--line-2);border-radius:var(--radius);
+  box-shadow:0 20px 50px rgba(0,0,0,.45);z-index:20;overflow:hidden;display:none;max-height:min(420px,60vh);overflow-y:auto}
+.results.on{display:block}
+.results button{display:flex;width:100%;text-align:left;background:none;border:0;padding:11px 16px;gap:14px;align-items:center;cursor:pointer;border-bottom:1px solid var(--line)}
+.results button:last-child{border-bottom:0}
+.results button:hover,.results button.sel{background:rgba(178,203,230,.08)}
+.results .nm{flex:1;min-width:0}
+.results .nm b{display:block;font-weight:500;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.results .nm span{display:block;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.results .kv{font-size:12px;color:var(--text-2);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.results .kv small{display:block;color:var(--muted)}
+.results .empty{padding:16px;color:var(--muted);font-size:14px}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center;min-height:36px}
+.chip{display:inline-flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line-2);border-radius:999px;padding:6px 8px 6px 12px;font-size:13px;max-width:100%}
+.chip .dot{width:9px;height:9px;border-radius:50%;flex:none}
+.chip .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:34ch}
+.chip button{background:none;border:0;width:22px;height:22px;border-radius:50%;cursor:pointer;color:var(--muted);display:grid;place-items:center;padding:0}
+.chip button:hover{background:rgba(178,203,230,.14);color:var(--text)}
+.chips .hint{color:var(--muted);font-size:13px;font-weight:300}
+.chips .clear{background:none;border:0;color:var(--muted);font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:4px 6px}
+.sug{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sug .lbl{font-size:12px;color:var(--muted);letter-spacing:.16em;text-transform:uppercase;margin-right:4px}
+.sug button{background:transparent;border:1px solid var(--line-2);color:var(--text-2);border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer}
+.sug button:hover{border-color:var(--text-2);color:var(--text)}
+
+/* seções */
+.section-lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 18px 14px;margin:14px 0}
+.card h2{font-size:15px;font-weight:600;margin:0 0 2px;letter-spacing:.01em}
+.card .sub{font-size:12.5px;color:var(--muted);margin:0 0 12px;font-weight:300}
+.card h2 + .sub{margin-top:2px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid2 > .card{margin:0}
+@media (max-width:820px){.grid2{grid-template-columns:1fr}}
+.multi{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.multi .m{background:var(--panel);border-radius:10px;padding:12px 12px 6px}
+.multi .m .t{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;margin-bottom:4px}
+.multi .m .t .n{color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:7px;min-width:0}
+.multi .m .t .v{color:var(--text);font-weight:500;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/* filtros */
+.filters{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin:20px 0 6px}
+.seg{display:inline-flex;background:var(--panel);border:1px solid var(--line-2);border-radius:999px;padding:3px}
+.seg button{background:none;border:0;border-radius:999px;padding:6px 14px;font-size:13px;cursor:pointer;color:var(--text-2)}
+.seg button[aria-pressed="true"]{background:var(--text-2);color:var(--deep);font-weight:600}
+.filters .lbl{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+
+/* gráficos */
+.chart{position:relative;width:100%}
+.chart svg{display:block;max-width:100%;overflow:visible}
+.chart .grid line{stroke:var(--line);stroke-width:1}
+.chart .zero line{stroke:var(--line-2)}
+.chart text{font-family:var(--font);font-size:11px;fill:var(--muted);font-variant-numeric:tabular-nums}
+.chart .endlbl{fill:var(--text);font-size:11.5px;font-weight:500}
+.chart .ln{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.chart .ar{opacity:.12}
+.chart .xh{stroke:var(--text-2);stroke-width:1;opacity:.7}
+.chart .hit{fill:transparent;cursor:crosshair}
+.tip{position:absolute;pointer-events:none;background:#0B1730;border:1px solid var(--line-2);border-radius:10px;padding:8px 10px;font-size:12px;min-width:150px;
+  box-shadow:0 12px 30px rgba(0,0,0,.45);display:none;z-index:5}
+.tip .d{color:var(--muted);margin-bottom:4px;font-size:11.5px}
+.tip .r{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.tip .r i{width:14px;height:0;border-top:2px solid;flex:none}
+.tip .r i.dash{border-top-style:dashed}
+.tip .r b{font-weight:600;font-variant-numeric:tabular-nums;min-width:56px}
+.tip .r span{color:var(--text-2);overflow:hidden;text-overflow:ellipsis;max-width:220px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:8px 0 2px;font-size:12.5px;color:var(--text-2)}
+.legend .k{display:inline-flex;align-items:center;gap:7px;max-width:100%}
+.legend .k i{width:16px;height:0;border-top:2px solid;flex:none}
+.legend .k i.dash{border-top-style:dashed}
+.legend .k span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:40ch}
+
+/* tabelas */
+.tbl{overflow-x:auto;margin:0 -4px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:9px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;vertical-align:middle}
+th{font-weight:500;color:var(--muted);font-size:12px;letter-spacing:.04em}
+th:first-child,td:first-child{text-align:left;padding-left:4px}
+td:first-child{max-width:34ch;overflow:hidden;text-overflow:ellipsis;font-weight:500}
+tr:last-child td{border-bottom:0}
+td .sub2{display:block;font-size:11.5px;color:var(--muted);font-weight:400}
+td .n{display:inline-flex;align-items:center;gap:8px;max-width:100%}
+td .n i{width:9px;height:9px;border-radius:50%;flex:none}
+td .n i.cdi{border-radius:0;height:0;width:14px;border-top:2px dashed var(--cdi)}
+td .n span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+tr.cdi td{color:var(--text-2)}
+.neg{color:var(--text-2)}
+td.na{color:var(--muted);font-weight:300}
+.matrix td,.matrix th{text-align:center;padding:0}
+.matrix td:first-child,.matrix th:first-child{text-align:left;padding-left:4px;padding-right:10px}
+.matrix .cell{display:block;margin:3px;border-radius:8px;padding:12px 4px;font-weight:500;font-size:13px;min-width:64px}
+
+/* mais informações */
+.more-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:var(--panel);border:1px solid var(--line-2);border-radius:var(--radius);
+  padding:14px;cursor:pointer;font-size:14px;font-weight:500;margin:18px 0 6px;transition:background .15s}
+.more-btn:hover{background:var(--panel-2)}
+.more-btn svg{transition:transform .2s}
+.more-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
+#more{display:none}
+#more.on{display:block}
+.ficha{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.ficha .f{background:var(--panel);border-radius:10px;padding:14px}
+.ficha .f h3{margin:0 0 8px;font-size:13.5px;font-weight:600;display:flex;gap:8px;align-items:center}
+.ficha .f h3 i{width:9px;height:9px;border-radius:50%;flex:none}
+.ficha dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:12.5px}
+.ficha dt{color:var(--muted);font-weight:300}
+.ficha dd{margin:0;color:var(--text-2);overflow-wrap:anywhere}
+
+/* estado vazio e avisos */
+.empty-state{padding:38px 0 10px;color:var(--muted);font-weight:300;font-size:15px}
+.note{font-size:12.5px;color:var(--muted);font-weight:300;margin:8px 0 0}
+.loading{color:var(--muted);font-size:13px;padding:10px 0}
+.hidden{display:none !important}
+
+/* rodapé */
+footer{margin:40px 0 30px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px;font-weight:300;line-height:1.6}
+footer p{margin:0 0 8px}
+footer .row{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:flex-start}
+footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--line-2)}
+.seg .short{display:none}
+@media (max-width:640px){
+  .logo{height:44px}
+  .status{font-size:11px}
+  .seg .long{display:none}.seg .short{display:inline}
+  .seg button{padding:6px 11px}
+  td:first-child{max-width:18ch}
+  .chip .nm{max-width:22ch}
+  .card{padding:14px 12px 10px}
+  th,td{padding:8px 7px}
+  .matrix .cell{min-width:52px;padding:10px 2px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <div class="row">
+    <a href="https://hubmaison.com" aria-label="Maison Hub" style="display:block;line-height:0"><svg class="logo" viewBox="0 0 1920 596" role="img" aria-label="Maison Hub"><g transform="matrix(1,0,0,-1,0,596)"><path fill="#ffffff" d="M838.915 265.477 790.388 343.542H742.928V151.568H787.415V269.581L837.144 194.091H840.148L890.416 270.388V151.568H934.903V343.542H887.442Z"/><path fill="#ffffff" d="M1097.315 234.003H1052.585L1074.950 288.592ZM1095.779 344.889H1055.196L972.932 151.568H1019.095L1036.320 193.823H1113.580L1130.805 151.568H1178.044L1096.243 343.8Z"/><path fill="#ffffff" d="M1217.956 151.569H1262.981V343.544H1217.956Z"/><path fill="#ffffff" d="M1443.579 247.702C1438.331 252.198 1431.816 256.099 1424.218 259.297 1416.705 262.452 1408.046 265.332 1398.482 267.854 1390.462 269.986 1383.719 271.882 1378.439 273.489 1373.285 275.057 1369.193 276.720 1366.273 278.435 1363.524 280.043 1361.621 281.839 1360.614 283.774 1359.585 285.747 1359.062 288.140 1359.062 290.886V291.425C1359.062 295.544 1360.819 298.911 1364.428 301.720 1368.128 304.596 1373.871 306.054 1381.497 306.054 1389.296 306.054 1397.217 304.424 1405.039 301.209 1412.959 297.951 1421.179 293.437 1429.475 287.793L1430.944 286.793 1454.432 320.851 1453.126 321.891C1443.326 329.691 1432.423 335.764 1420.719 339.940 1409.004 344.116 1395.989 346.234 1382.036 346.234 1372.195 346.234 1363.055 344.844 1354.869 342.104 1346.647 339.353 1339.46 335.344 1333.508 330.187 1327.552 325.021 1322.857 318.799 1319.555 311.691 1316.252 304.580 1314.577 296.493 1314.577 287.657V287.119C1314.577 277.564 1316.133 269.429 1319.202 262.939 1322.279 256.428 1326.675 250.913 1332.266 246.550 1337.786 242.234 1344.575 238.567 1352.443 235.651 1360.222 232.763 1369.006 230.117 1378.541 227.787 1386.356 225.836 1392.788 223.953 1397.658 222.190 1402.453 220.449 1406.237 218.697 1408.902 216.985 1411.393 215.380 1413.084 213.678 1413.926 211.929 1414.794 210.115 1415.235 207.975 1415.235 205.570V205.031C1415.235 200.063 1413.165 196.282 1408.905 193.470 1404.471 190.541 1398.056 189.056 1389.841 189.056 1379.375 189.056 1369.618 191.085 1360.842 195.086 1351.966 199.126 1343.178 204.660 1334.718 211.533L1333.349 212.646 1306.625 180.635 1307.899 179.482C1319.329 169.140 1332.208 161.369 1346.177 156.382 1360.123 151.402 1374.542 148.876 1389.033 148.876 1399.382 148.876 1408.963 150.216 1417.509 152.859 1426.092 155.513 1433.596 159.425 1439.81 164.484 1446.049 169.563 1450.983 175.933 1454.474 183.417 1457.956 190.892 1459.721 199.522 1459.721 209.068V209.606C1459.721 218.064 1458.353 225.461 1455.655 231.589 1452.954 237.723 1448.891 243.144 1443.579 247.702"/><path fill="#ffffff" d="M1599.499 190.133C1591.359 190.133 1583.865 191.664 1577.228 194.683 1570.568 197.707 1564.687 201.875 1559.753 207.071 1554.821 212.261 1550.961 218.402 1548.280 225.325 1545.594 232.251 1544.231 239.730 1544.231 247.556V248.093C1544.231 255.910 1545.592 263.342 1548.278 270.183 1550.967 277.036 1554.743 283.142 1559.505 288.333 1564.243 293.503 1570.019 297.614 1576.671 300.555 1583.318 303.489 1590.817 304.977 1598.961 304.977 1606.917 304.977 1614.367 303.445 1621.106 300.424 1627.861 297.392 1633.783 293.225 1638.708 288.040 1643.629 282.859 1647.489 276.717 1650.179 269.786 1652.868 262.844 1654.23 255.365 1654.23 247.556V247.017C1654.23 239.208 1652.868 231.776 1650.183 224.928 1647.494 218.080 1643.716 211.973 1638.955 206.779 1634.208 201.602 1628.388 197.491 1621.662 194.559 1614.93 191.622 1607.474 190.133 1599.499 190.133ZM1672.476 317.867C1663.473 326.687 1652.646 333.785 1640.292 338.963 1627.924 344.145 1614.200 346.772 1599.499 346.772 1584.794 346.772 1571.025 344.145 1558.576 338.965 1546.127 333.785 1535.247 326.592 1526.241 317.585 1517.235 308.581 1510.09 297.978 1505.001 286.072 1499.906 274.152 1497.321 261.193 1497.321 247.556V247.017C1497.321 233.374 1499.858 220.419 1504.862 208.511 1509.864 196.594 1516.970 186.074 1525.983 177.244 1534.985 168.423 1545.813 161.325 1558.167 156.148 1570.53 150.966 1584.254 148.339 1598.961 148.339 1613.664 148.339 1627.431 150.966 1639.885 156.147 1652.337 161.328 1663.217 168.521 1672.221 177.526 1681.221 186.527 1688.368 197.129 1693.459 209.038 1698.554 220.963 1701.138 233.922 1701.138 247.556V248.093C1701.138 261.722 1698.601 274.677 1693.597 286.601 1688.589 298.522 1681.482 309.041 1672.476 317.867"/><path fill="#ffffff" d="M1874.384 343.543V231.058L1788.781 343.543H1747.888V151.568H1792.374V267.825L1880.938 151.568H1918.870V343.543Z"/><path fill="#ffffff" d="M-.0003 152.147 81.447 450.434C88.048 474.884 109.827 491.972 134.407 491.972H244.929L152.257 152.147Z"/><path fill="#ffffff" d="M225.369 152.147 334.217 555.343C340.821 579.809 362.601 596.896 387.181 596.896H497.683L377.618 152.147Z"/><path fill="#93acc6" d="M281.327 406.944 252.774 477.482 192.843 257.714 221.744 186.235Z"/><path fill="#93acc6" d="M504.196 573.504 444.737 353.253 517.322 157.513H554.959 658.456Z"/></g><text x="743" y="583" font-family="Gotham, Montserrat, sans-serif" font-weight="300" font-size="98" letter-spacing="30" fill="#93acc6">HUB</text></svg></a>
+    <div class="status" id="status">Carregando base de fundos…</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="intro">
+    <h1>Comparador de Ativos</h1>
+    <p>Compare fundos de investimento entre si e com o CDI. Dados abertos da CVM e do Banco Central, atualizados toda semana.</p>
+  </section>
+
+  <div class="search">
+    <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Digite o nome ou o CNPJ do fundo" aria-label="Buscar fundo" aria-controls="results" aria-expanded="false" disabled>
+    <div class="results" id="results" role="listbox"></div>
+  </div>
+  <div class="chips" id="chips"><span class="hint">Adicione até 4 fundos para comparar.</span></div>
+  <div class="sug" id="sug"></div>
+
+  <div id="empty" class="empty-state">Comece pela busca acima. O comparativo com o CDI aparece assim que o primeiro fundo for escolhido.</div>
+
+  <div id="app" class="hidden">
+    <div class="filters">
+      <span class="lbl">Período</span>
+      <div class="seg" id="periodo" role="group" aria-label="Período de análise">
+        <button data-p="12" aria-pressed="true">12<span class="long"> meses</span><span class="short"> m</span></button>
+        <button data-p="24" aria-pressed="false">24<span class="long"> meses</span><span class="short"> m</span></button>
+        <button data-p="36" aria-pressed="false">36<span class="long"> meses</span><span class="short"> m</span></button>
+        <button data-p="48" aria-pressed="false">48<span class="long"> meses</span><span class="short"> m</span></button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Rentabilidade acumulada</h2>
+      <p class="sub" id="acum-sub">Fundos e CDI no mesmo ponto de partida.</p>
+      <div class="chart" id="ch-acum"></div>
+      <div class="legend" id="lg-acum"></div>
+    </div>
+
+    <div class="card">
+      <h2>Rentabilidade por período</h2>
+      <p class="sub">Acumulada até a data de referência. Abaixo de cada valor, quanto isso representa do CDI no mesmo período.</p>
+      <div class="tbl"><table id="tb-ret"></table></div>
+    </div>
+
+    <div class="card">
+      <h2>Patrimônio líquido</h2>
+      <p class="sub">Volume de cada fundo ao longo do tempo, com o valor mais recente.</p>
+      <div class="multi" id="mm-pl"></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h2>Matriz de correlação</h2>
+        <p class="sub" id="corr-sub">Correlação dos retornos diários no período.</p>
+        <div class="tbl"><table class="matrix" id="tb-corr"></table></div>
+      </div>
+      <div class="card">
+        <h2>Índice de Sharpe</h2>
+        <p class="sub">Retorno acima do CDI por unidade de risco (anualizado).</p>
+        <div class="tbl"><table id="tb-sharpe"></table></div>
+      </div>
+    </div>
+
+    <button class="more-btn" id="more-btn" aria-expanded="false" aria-controls="more">
+      <span>Mais informações</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+
+    <div id="more">
+      <div class="card">
+        <h2>Cotistas</h2>
+        <p class="sub">Número de cotistas de cada fundo ao longo do tempo.</p>
+        <div class="multi" id="mm-cot"></div>
+      </div>
+
+      <div class="card">
+        <h2>Drawdown</h2>
+        <p class="sub">Queda em relação ao topo anterior. Quanto mais fundo, maior a perda que o cotista chegou a ver.</p>
+        <div class="chart" id="ch-dd"></div>
+        <div class="legend" id="lg-dd"></div>
+        <div class="tbl" style="margin-top:12px"><table id="tb-dd"></table></div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <h2>Volatilidade</h2>
+          <p class="sub">Anualizada, a partir dos retornos diários.</p>
+          <div class="tbl"><table id="tb-vol"></table></div>
+        </div>
+        <div class="card">
+          <h2>Consistência</h2>
+          <p class="sub" id="cons-sub">Meses fechados no período selecionado.</p>
+          <div class="tbl"><table id="tb-cons"></table></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Rentabilidade mensal</h2>
+        <p class="sub">Últimos 12 meses, fundo a fundo, com o CDI ao lado.</p>
+        <div class="tbl"><table id="tb-mensal"></table></div>
+      </div>
+
+      <div class="card">
+        <h2>Ficha dos fundos</h2>
+        <p class="sub">Informações cadastrais da CVM.</p>
+        <div class="ficha" id="ficha"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="row">
+      <div>
+        <p><strong style="font-weight:500;color:var(--text-2)">Fontes.</strong> Informes diários e cadastro de fundos da CVM (dados abertos) e CDI do Banco Central (SGS, série 12). Universo: fundos em funcionamento, não exclusivos, com pelo menos <span id="ft-min">10</span> cotistas. Atualização semanal.</p>
+        <p>Rentabilidade passada não garante rentabilidade futura. As rentabilidades são brutas de imposto de renda e líquidas de taxas. Material informativo, sem recomendação de investimento.</p>
+      </div>
+      <div>
+        <p><a href="https://hubmaison.com">hubmaison.com</a></p>
+        <p><a href="https://wa.me/5521985004567">WhatsApp (21) 98500-4567</a><br><a href="mailto:gustavo.bailly@maisonholding.com">gustavo.bailly@maisonholding.com</a></p>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<script>
+(() => {
+'use strict';
+// ------------------------------------------------------------------ configuração
+const REPO_DATA = 'https://gustavobailly-92.github.io/hubmaison-comparador-ativos/data';
+const local = location.hostname.endsWith('github.io') || location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:';
+const DATA = local ? './data' : REPO_DATA;
+const CORES = ['#5B98E6', '#D4A24A', '#B08CF0', '#43B893'];
+const COR_CDI = '#93ACC6';
+const MAX = 4;
+const JANELAS = [12, 24, 36, 48];
+
+// ------------------------------------------------------------------ estado
+const S = { meta: null, index: null, sel: [], periodo: 12, cache: new Map() };
+const $ = (id) => document.getElementById(id);
+const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+
+// ------------------------------------------------------------------ formatação (pt-BR, sem espaço inflexível)
+const fix = (s) => String(s).replace(/ /g, ' ');
+const nf = (d) => new Intl.NumberFormat('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d });
+const fmtNum = (v, d = 1) => v == null || !isFinite(v) ? null : fix(nf(d).format(v));
+const pct = (v, d = 1) => { if (v == null || !isFinite(v)) return null; const s = fmtNum(Math.abs(v) * 100, d); return (v < 0 ? '−' : '') + s + '%'; };
+const pctSign = (v, d = 1) => { if (v == null || !isFinite(v)) return null; const s = fmtNum(Math.abs(v) * 100, d); return (v < 0 ? '−' : v > 0 ? '+' : '') + s + '%'; };
+const money = (v) => { if (v == null || !isFinite(v)) return null; const a = Math.abs(v);
+  if (a >= 1e9) return 'R$ ' + fmtNum(v / 1e9, 2) + ' bi'; if (a >= 1e6) return 'R$ ' + fmtNum(v / 1e6, 1) + ' mi'; if (a >= 1e3) return 'R$ ' + fmtNum(v / 1e3, 0) + ' mil'; return 'R$ ' + fmtNum(v, 0); };
+const inteiro = (v) => v == null ? null : fmtNum(v, 0);
+const compact = (v) => { if (v == null) return null; const a = Math.abs(v); if (a >= 1e6) return fmtNum(v / 1e6, 1) + ' mi'; if (a >= 1e3) return fmtNum(v / 1e3, a >= 1e4 ? 0 : 1) + ' mil'; return fmtNum(v, 0); };
+const MESES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+const dBR = (iso) => iso ? iso.slice(8, 10) + '/' + iso.slice(5, 7) + '/' + iso.slice(0, 4) : '';
+const dCurta = (iso) => MESES[+iso.slice(5, 7) - 1] + '/' + iso.slice(2, 4);
+const mesLbl = (ym) => MESES[+ym.slice(5, 7) - 1] + '/' + ym.slice(2, 4);
+const norm = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+// ------------------------------------------------------------------ carga
+async function carregar() {
+  try {
+    const [meta, idx] = await Promise.all([
+      fetch(DATA + '/meta.json', { cache: 'no-cache' }).then(r => { if (!r.ok) throw new Error('meta ' + r.status); return r.json(); }),
+      fetch(DATA + '/index.json', { cache: 'no-cache' }).then(r => { if (!r.ok) throw new Error('index ' + r.status); return r.json(); }),
+    ]);
+    S.meta = meta;
+    S.calIdx = new Map(meta.calendario.map((d, i) => [d, i]));
+    const c = idx.colunas;
+    S.index = idx.fundos.map(r => { const o = {}; c.forEach((k, i) => o[k] = r[i]); o.busca = norm(o.nome) + ' ' + o.cnpj + ' ' + norm(o.gestor); return o; });
+    $('status').innerHTML = '';
+    $('status').append('Dados CVM e BCB ', el('strong', null, 'até ' + dBR(meta.referencia)), document.createElement('br'), inteiro(meta.n_fundos) + ' fundos');
+    $('ft-min').textContent = meta.min_cotistas;
+    $('q').disabled = false;
+    sugestoes();
+    lerURL();
+  } catch (e) {
+    console.error(e);
+    $('status').textContent = 'Não foi possível carregar a base de dados.';
+    $('q').placeholder = 'Base de dados indisponível no momento';
+  }
+}
+
+async function carregarFundo(cnpj) {
+  if (S.cache.has(cnpj)) return S.cache.get(cnpj);
+  const p = fetch(DATA + '/fundos/' + cnpj + '.json', { cache: 'no-cache' }).then(r => { if (!r.ok) throw new Error('fundo ' + r.status); return r.json(); }).then(prep);
+  S.cache.set(cnpj, p);
+  return p;
+}
+
+// séries alinhadas ao calendário global, com preenchimento dos dias sem informe
+function prep(f) {
+  const n = S.meta.calendario.length;
+  const q = new Array(n).fill(null);
+  const raw = new Array(n).fill(null);
+  let last = null;
+  for (let i = 0; i < f.q.length; i++) {
+    const v = f.q[i];
+    const k = f.d0 + i;
+    if (k >= n) break;
+    if (v != null) { last = v; raw[k] = v; }
+    q[k] = last;
+  }
+  // retorno diário atribuído ao dia do informe (entre dois informes consecutivos)
+  const ret = new Array(n).fill(null);
+  let prev = null;
+  for (let k = 0; k < n; k++) if (raw[k] != null) { if (prev != null) ret[k] = raw[k] / prev - 1; prev = raw[k]; }
+  f.qff = q; f.raw = raw; f.ret = ret;
+  f.ateIdx = S.calIdx.get(f.ate);
+  f.firstIdx = f.d0;
+  return f;
+}
+
+// ------------------------------------------------------------------ busca
+const inp = $('q'), res = $('results');
+let selIdx = -1, lista = [];
+function buscar(t) {
+  const toks = norm(t).split(/\s+/).filter(Boolean);
+  if (!toks.length) return [];
+  const digits = t.replace(/\D/g, '');
+  const out = [];
+  for (const f of S.index) {
+    if (S.sel.some(s => s.cnpj === f.cnpj)) continue;
+    let ok = true;
+    for (const k of toks) if (!f.busca.includes(k)) { ok = false; break; }
+    if (!ok && digits.length >= 4 && f.cnpj.includes(digits)) ok = true;
+    if (ok) { out.push(f); if (out.length >= 8) break; }
+  }
+  return out;
+}
+function renderRes(itens) {
+  lista = itens; selIdx = -1;
+  res.innerHTML = '';
+  if (!itens.length) { const d = el('div', 'empty', 'Nenhum fundo encontrado com esse nome.'); res.append(d); res.classList.add('on'); inp.setAttribute('aria-expanded', 'true'); return; }
+  itens.forEach((f, i) => {
+    const b = el('button'); b.type = 'button'; b.setAttribute('role', 'option'); b.dataset.i = i;
+    const nm = el('div', 'nm'); nm.append(el('b', null, f.nome), el('span', null, [f.classe, f.gestor].filter(Boolean).join(' · ')));
+    const kv = el('div', 'kv'); kv.append(money(f.pl) || '', el('small', null, (f.ret12 != null ? pct(f.ret12) + ' em 12 m' : 'sem 12 meses')));
+    b.append(nm, kv);
+    b.addEventListener('click', () => adicionar(f.cnpj));
+    res.append(b);
+  });
+  res.classList.add('on'); inp.setAttribute('aria-expanded', 'true');
+}
+function fecharRes() { res.classList.remove('on'); inp.setAttribute('aria-expanded', 'false'); }
+let deb;
+inp.addEventListener('input', () => { clearTimeout(deb); deb = setTimeout(() => { const t = inp.value.trim(); if (t.length < 2) { fecharRes(); return; } renderRes(buscar(t)); }, 70); });
+inp.addEventListener('focus', () => { if (inp.value.trim().length >= 2) renderRes(buscar(inp.value.trim())); });
+inp.addEventListener('keydown', (e) => {
+  const bs = [...res.querySelectorAll('button')];
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); if (!bs.length) return; selIdx = (selIdx + (e.key === 'ArrowDown' ? 1 : -1) + bs.length) % bs.length; bs.forEach((b, i) => b.classList.toggle('sel', i === selIdx)); bs[selIdx].scrollIntoView({ block: 'nearest' }); }
+  else if (e.key === 'Enter') { if (selIdx >= 0 && bs[selIdx]) bs[selIdx].click(); else if (bs.length === 1) bs[0].click(); }
+  else if (e.key === 'Escape') fecharRes();
+});
+document.addEventListener('click', (e) => { if (!e.target.closest('.search')) fecharRes(); });
+
+function sugestoes() {
+  const box = $('sug'); box.innerHTML = '';
+  const cand = [...S.index].filter(f => f.cotistas && f.ret12 != null).sort((a, b) => b.cotistas - a.cotistas).slice(0, 6);
+  if (!cand.length) return;
+  box.append(el('span', 'lbl', 'Mais procurados'));
+  cand.forEach(f => { const b = el('button', null, f.nome.length > 42 ? f.nome.slice(0, 40) + '…' : f.nome); b.type = 'button'; b.title = f.nome; b.addEventListener('click', () => adicionar(f.cnpj)); box.append(b); });
+}
+
+// ------------------------------------------------------------------ seleção
+async function adicionar(cnpj) {
+  if (S.sel.length >= MAX || S.sel.some(s => s.cnpj === cnpj)) return;
+  fecharRes(); inp.value = '';
+  const usadas = new Set(S.sel.map(s => s.cor));
+  const cor = CORES.find(c => !usadas.has(c));
+  const item = { cnpj, cor, data: null };
+  S.sel.push(item);
+  renderChips();
+  try { item.data = await carregarFundo(cnpj); } catch (e) { console.error(e); S.sel = S.sel.filter(s => s !== item); renderChips(); return; }
+  gravarURL(); render();
+}
+function remover(cnpj) { S.sel = S.sel.filter(s => s.cnpj !== cnpj); renderChips(); gravarURL(); render(); }
+function renderChips() {
+  const box = $('chips'); box.innerHTML = '';
+  if (!S.sel.length) { box.append(el('span', 'hint', 'Adicione até 4 fundos para comparar.')); $('sug').classList.remove('hidden'); return; }
+  $('sug').classList.add('hidden');
+  S.sel.forEach(s => {
+    const meta = S.index.find(f => f.cnpj === s.cnpj);
+    const c = el('span', 'chip'); const d = el('i', 'dot'); d.style.background = s.cor;
+    const nm = el('span', 'nm', meta ? meta.nome : s.cnpj); nm.title = meta ? meta.nome : s.cnpj;
+    const b = el('button'); b.type = 'button'; b.setAttribute('aria-label', 'Remover ' + (meta ? meta.nome : s.cnpj)); b.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+    b.addEventListener('click', () => remover(s.cnpj));
+    c.append(d, nm, b); box.append(c);
+  });
+  if (S.sel.length < MAX) box.append(el('span', 'hint', 'Você pode adicionar mais ' + (MAX - S.sel.length) + (MAX - S.sel.length === 1 ? ' fundo.' : ' fundos.')));
+  const cl = el('button', 'clear', 'Limpar'); cl.type = 'button'; cl.addEventListener('click', () => { S.sel = []; renderChips(); gravarURL(); render(); }); box.append(cl);
+  inp.placeholder = S.sel.length >= MAX ? 'Limite de 4 fundos na comparação' : 'Adicionar outro fundo';
+  inp.disabled = S.sel.length >= MAX;
+}
+$('periodo').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.periodo = +b.dataset.p; [...$('periodo').children].forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false')); gravarURL(); render(); });
+$('more-btn').addEventListener('click', () => { const on = $('more').classList.toggle('on'); $('more-btn').setAttribute('aria-expanded', on ? 'true' : 'false'); if (on) renderMais(); });
+
+function gravarURL() {
+  const u = new URL(location.href);
+  if (S.sel.length) u.searchParams.set('f', S.sel.map(s => s.cnpj).join(',')); else u.searchParams.delete('f');
+  if (S.periodo !== 12) u.searchParams.set('p', S.periodo); else u.searchParams.delete('p');
+  history.replaceState(null, '', u);
+}
+async function lerURL() {
+  const u = new URL(location.href);
+  const p = +u.searchParams.get('p'); if (JANELAS.includes(p)) { S.periodo = p; [...$('periodo').children].forEach(x => x.setAttribute('aria-pressed', +x.dataset.p === p ? 'true' : 'false')); }
+  const fs = (u.searchParams.get('f') || '').split(',').map(s => s.replace(/\D/g, '')).filter(s => s.length === 14).slice(0, MAX);
+  for (const c of fs) if (S.index.some(f => f.cnpj === c)) await adicionar(c);
+}
+
+// ------------------------------------------------------------------ cálculo do período
+function subMeses(iso, m) { const y = +iso.slice(0, 4), mo = +iso.slice(5, 7) - 1, d = +iso.slice(8, 10); const t = new Date(Date.UTC(y, mo - m, 1)); const dim = new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth() + 1, 0)).getUTCDate(); t.setUTCDate(Math.min(d, dim)); return t.toISOString().slice(0, 10); }
+function idxAte(iso) { const cal = S.meta.calendario; let lo = 0, hi = cal.length - 1, r = -1; while (lo <= hi) { const mid = (lo + hi) >> 1; if (cal[mid] <= iso) { r = mid; lo = mid + 1; } else hi = mid - 1; } return r; }
+function janela() {
+  const fim = idxAte(S.meta.referencia);
+  const ini = idxAte(subMeses(S.meta.referencia, S.periodo));
+  return { ini: Math.max(ini, 0), fim };
+}
+
+// ------------------------------------------------------------------ gráfico SVG genérico (linhas, área, crosshair)
+function niceTicks(min, max, n) {
+  if (!(max > min)) { max = min + 1; }
+  const span = max - min, raw = span / n, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const cands = [1, 2, 2.5, 5, 10].map(c => c * mag);
+  const step = cands.find(c => span / c <= n + 1) || cands[cands.length - 1];
+  const t0 = Math.ceil(min / step) * step, out = [];
+  for (let v = t0; v <= max + 1e-9; v += step) out.push(+v.toFixed(10));
+  return { ticks: out, step };
+}
+function xTicks(ini, fim, width) {
+  const cal = S.meta.calendario, out = [];
+  let lastYm = '';
+  for (let i = ini; i <= fim; i++) { const ym = cal[i].slice(0, 7); if (ym !== lastYm) { out.push({ i, ym }); lastYm = ym; } }
+  if (out.length > 1 && (out[1].i - out[0].i) < 8) out.shift();
+  const minPx = 64, maxN = Math.max(2, Math.floor(width / minPx));
+  const stepM = Math.ceil(out.length / maxN);
+  const pick = out.filter((t, k) => k % stepM === 0);
+  return pick.map(t => ({ i: t.i, label: MESES[+t.ym.slice(5, 7) - 1] + (t.ym.slice(5, 7) === '01' || pick.length <= 4 ? '/' + t.ym.slice(2, 4) : '') }));
+}
+function desenhar(root, cfg) {
+  // cfg: {series:[{nome,cor,dash,vals:Float[]|null[] (índice = calendário)}], ini, fim, altura, fmt, area, endLabel, zero, yMin?, yMax?}
+  root.innerHTML = '';
+  const W = Math.max(280, root.clientWidth || 600), H = cfg.altura || 280;
+  const M = { t: 14, r: cfg.endLabel ? 74 : 18, b: 26, l: 46 };
+  const { ini, fim } = cfg;
+  let ymin = Infinity, ymax = -Infinity;
+  cfg.series.forEach(s => { for (let i = ini; i <= fim; i++) { const v = s.vals[i]; if (v != null && isFinite(v)) { if (v < ymin) ymin = v; if (v > ymax) ymax = v; } } });
+  if (!isFinite(ymin)) { ymin = 0; ymax = 1; }
+  if (cfg.zero) { ymin = Math.min(ymin, 0); ymax = Math.max(ymax, 0); }
+  if (cfg.yMax != null) ymax = Math.max(ymax, cfg.yMax);
+  if (ymin === ymax) { ymin -= 1; ymax += 1; }
+  const pad = (ymax - ymin) * 0.06; ymin -= pad; ymax += pad;
+  const nT = H < 200 ? 3 : 5;
+  const { ticks } = niceTicks(ymin, ymax, nT);
+  ymin = Math.min(ymin, ticks[0]); ymax = Math.max(ymax, ticks[ticks.length - 1]);
+  const px = (i) => M.l + (i - ini) / Math.max(1, fim - ini) * (W - M.l - M.r);
+  const py = (v) => M.t + (ymax - v) / (ymax - ymin) * (H - M.t - M.b);
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('width', W); svg.setAttribute('height', H);
+  const g = (cls) => { const e = document.createElementNS(NS, 'g'); if (cls) e.setAttribute('class', cls); svg.append(e); return e; };
+  const grid = g('grid');
+  ticks.forEach(t => {
+    const l = document.createElementNS(NS, 'line'); l.setAttribute('x1', M.l); l.setAttribute('x2', W - M.r); l.setAttribute('y1', py(t)); l.setAttribute('y2', py(t));
+    if (t === 0 && cfg.zero) l.setAttribute('class', 'z');
+    grid.append(l);
+    const tx = document.createElementNS(NS, 'text'); tx.setAttribute('x', M.l - 8); tx.setAttribute('y', py(t) + 4); tx.setAttribute('text-anchor', 'end'); tx.textContent = cfg.fmt(t, true); grid.append(tx);
+  });
+  if (cfg.zero && ticks.includes(0)) { const z = grid.querySelector('.z'); if (z) z.style.stroke = 'var(--line-2)'; }
+  xTicks(ini, fim, W - M.l - M.r).forEach(t => { const tx = document.createElementNS(NS, 'text'); tx.setAttribute('x', px(t.i)); tx.setAttribute('y', H - 8); tx.setAttribute('text-anchor', 'middle'); tx.textContent = t.label; grid.append(tx); });
+  const lines = g('lines');
+  cfg.series.forEach(s => {
+    let d = '', first = true, lastI = null, lastV = null;
+    for (let i = ini; i <= fim; i++) { const v = s.vals[i]; if (v == null || !isFinite(v)) continue; d += (first ? 'M' : 'L') + px(i).toFixed(1) + ' ' + py(v).toFixed(1); first = false; lastI = i; lastV = v; }
+    if (first) return;
+    if (cfg.area) {
+      const base = py(cfg.zero ? 0 : ymin);
+      let firstI = ini; while (firstI <= fim && (s.vals[firstI] == null)) firstI++;
+      const a = document.createElementNS(NS, 'path'); a.setAttribute('class', 'ar'); a.setAttribute('fill', s.cor);
+      a.setAttribute('d', d + `L${px(lastI).toFixed(1)} ${base.toFixed(1)}L${px(firstI).toFixed(1)} ${base.toFixed(1)}Z`); lines.append(a);
+    }
+    const p = document.createElementNS(NS, 'path'); p.setAttribute('class', 'ln'); p.setAttribute('stroke', s.cor); if (s.dash) p.setAttribute('stroke-dasharray', '5 4'); p.setAttribute('d', d); lines.append(p);
+    const ring = document.createElementNS(NS, 'circle'); ring.setAttribute('cx', px(lastI)); ring.setAttribute('cy', py(lastV)); ring.setAttribute('r', 5.5); ring.setAttribute('fill', 'var(--surface)'); lines.append(ring);
+    const dot = document.createElementNS(NS, 'circle'); dot.setAttribute('cx', px(lastI)); dot.setAttribute('cy', py(lastV)); dot.setAttribute('r', 3.5); dot.setAttribute('fill', s.cor); lines.append(dot);
+    if (cfg.endLabel) { const tx = document.createElementNS(NS, 'text'); tx.setAttribute('class', 'endlbl'); tx.setAttribute('x', px(lastI) + 9); tx.setAttribute('y', py(lastV) + 4); tx.textContent = cfg.fmt(lastV); lines.append(tx); }
+  });
+  // crosshair + tooltip
+  const xh = document.createElementNS(NS, 'line'); xh.setAttribute('class', 'xh'); xh.setAttribute('y1', M.t); xh.setAttribute('y2', H - M.b); xh.style.display = 'none'; svg.append(xh);
+  const dots = cfg.series.map(s => { const c = document.createElementNS(NS, 'circle'); c.setAttribute('r', 4); c.setAttribute('fill', s.cor); c.setAttribute('stroke', 'var(--surface)'); c.setAttribute('stroke-width', 2); c.style.display = 'none'; svg.append(c); return c; });
+  const hit = document.createElementNS(NS, 'rect'); hit.setAttribute('class', 'hit'); hit.setAttribute('x', M.l); hit.setAttribute('y', 0); hit.setAttribute('width', W - M.l - M.r); hit.setAttribute('height', H); svg.append(hit);
+  const tip = el('div', 'tip'); root.append(svg, tip);
+  const mover = (ev) => {
+    const r = svg.getBoundingClientRect(); const x = (ev.clientX - r.left) * (W / r.width);
+    const i = Math.round(ini + (x - M.l) / (W - M.l - M.r) * (fim - ini)); if (i < ini || i > fim) { sair(); return; }
+    xh.setAttribute('x1', px(i)); xh.setAttribute('x2', px(i)); xh.style.display = '';
+    tip.innerHTML = ''; tip.append(el('div', 'd', dBR(S.meta.calendario[i])));
+    cfg.series.forEach((s, k) => { const v = s.vals[i]; if (v == null || !isFinite(v)) { dots[k].style.display = 'none'; return; }
+      dots[k].setAttribute('cx', px(i)); dots[k].setAttribute('cy', py(v)); dots[k].style.display = '';
+      const row = el('div', 'r'); const key = el('i', s.dash ? 'dash' : ''); key.style.borderTopColor = s.cor; row.append(key, el('b', null, cfg.fmt(v)), el('span', null, s.nome)); tip.append(row); });
+    tip.style.display = 'block';
+    const tw = tip.offsetWidth, left = (px(i) / W) * r.width; tip.style.left = (left + 14 + tw > r.width ? left - tw - 14 : left + 14) + 'px';
+    tip.style.top = Math.max(0, Math.min((ev.clientY - r.top) - 20, r.height - tip.offsetHeight - 4)) + 'px';
+  };
+  const sair = () => { xh.style.display = 'none'; dots.forEach(d => d.style.display = 'none'); tip.style.display = 'none'; };
+  hit.addEventListener('pointermove', mover); hit.addEventListener('pointerleave', sair);
+  return svg;
+}
+function legenda(box, series) { box.innerHTML = ''; series.forEach(s => { const k = el('span', 'k'); const i = el('i', s.dash ? 'dash' : ''); i.style.borderTopColor = s.cor; k.append(i, el('span', null, s.nome)); box.append(k); }); }
+
+// ------------------------------------------------------------------ render principal
+function render() {
+  const prontos = S.sel.filter(s => s.data);
+  const app = $('app'), empty = $('empty');
+  if (!prontos.length) { app.classList.add('hidden'); empty.classList.remove('hidden'); return; }
+  app.classList.remove('hidden'); empty.classList.add('hidden');
+  const J = janela(), W = String(S.periodo);
+  const cal = S.meta.calendario;
+
+  // 1. rentabilidade acumulada (fundos + CDI) a partir do início da janela
+  const acum = prontos.map(s => {
+    const f = s.data, vals = new Array(cal.length).fill(null);
+    let base = null, baseI = null;
+    for (let i = J.ini; i <= Math.min(J.fim, f.ateIdx); i++) { const v = f.qff[i]; if (v == null) continue; if (base == null) { base = v; baseI = i; } vals[i] = v / base - 1; }
+    return { nome: f.nome, cor: s.cor, vals, baseI, f };
+  });
+  const cdiVals = new Array(cal.length).fill(null); const c0 = S.meta.cdi[J.ini];
+  for (let i = J.ini; i <= J.fim; i++) cdiVals[i] = S.meta.cdi[i] / c0 - 1;
+  const seriesAcum = [...acum, { nome: 'CDI', cor: COR_CDI, dash: true, vals: cdiVals }];
+  desenhar($('ch-acum'), { series: seriesAcum, ini: J.ini, fim: J.fim, altura: 300, fmt: (v, t) => t ? (v * 100).toFixed(0) + '%' : pctSign(v), zero: true });
+  legenda($('lg-acum'), seriesAcum);
+  const tardios = acum.filter(a => a.baseI != null && a.baseI > J.ini + 5);
+  $('acum-sub').textContent = 'De ' + dBR(cal[J.ini]) + ' a ' + dBR(cal[J.fim]) + ', fundos e CDI no mesmo ponto de partida.' +
+    (tardios.length ? ' ' + tardios.map(a => a.nome + ' começa em ' + dBR(cal[a.baseI])).join('; ') + '.' : '');
+
+  // 2. tabela por período
+  const tb = $('tb-ret'); tb.innerHTML = '';
+  const th = el('tr'); th.append(el('th', null, 'Fundo')); JANELAS.forEach(w => th.append(el('th', null, w + ' meses'))); { const _h = el('thead'); _h.append(th); tb.append(_h); }
+  const tbody = el('tbody');
+  prontos.forEach(s => { const tr = el('tr'); tr.append(nomeCell(s)); JANELAS.forEach(w => { const j = s.data.janelas[String(w)]; const td = el('td'); if (!j) { td.className = 'na'; td.textContent = 'sem histórico'; } else { td.textContent = pct(j.ret); if (j.ret < 0) td.classList.add('neg'); const sub = el('span', 'sub2', j.ret > 0 && j.pcdi != null ? fmtNum(j.pcdi, 0) + '% do CDI' : (j.ret <= 0 ? 'abaixo do CDI' : '')); td.append(sub); } tr.append(td); }); tbody.append(tr); });
+  const trc = el('tr', 'cdi'); const tdc = el('td'); const n = el('span', 'n'); n.append(el('i', 'cdi'), el('span', null, 'CDI')); tdc.append(n); trc.append(tdc);
+  JANELAS.forEach(w => { const a = idxAte(subMeses(S.meta.referencia, w)); const td = el('td'); td.textContent = a >= 0 ? pct(S.meta.cdi[J.fim] / S.meta.cdi[a] - 1) : ''; td.append(el('span', 'sub2', 'referência')); trc.append(td); });
+  tbody.append(trc); tb.append(tbody);
+
+  // 3. patrimônio líquido (pequenos múltiplos)
+  multiplos($('mm-pl'), prontos, 'plw', (v) => money(v), (v, t) => t ? compactR(v) : money(v));
+
+  // 4. correlação e Sharpe
+  correlacao(prontos, J);
+  tabelaJanelas($('tb-sharpe'), prontos, (j) => j.sharpe != null ? fmtNum(j.sharpe, 2) : null);
+
+  if ($('more').classList.contains('on')) renderMais();
+}
+function compactR(v) { const a = Math.abs(v); if (a >= 1e9) return fmtNum(v / 1e9, 1) + ' bi'; if (a >= 1e6) return fmtNum(v / 1e6, 0) + ' mi'; if (a >= 1e3) return fmtNum(v / 1e3, 0) + ' mil'; return fmtNum(v, 0); }
+function nomeCell(s) { const td = el('td'); const n = el('span', 'n'); const i = el('i'); i.style.background = s.cor; const sp = el('span', null, s.data.nome); sp.title = s.data.nome; n.append(i, sp); td.append(n); return td; }
+function tabelaJanelas(tb, prontos, fn, extraCols) {
+  tb.innerHTML = ''; const th = el('tr'); th.append(el('th', null, 'Fundo')); JANELAS.forEach(w => th.append(el('th', null, w + ' m'))); (extraCols || []).forEach(c => th.append(el('th', null, c.titulo))); { const _h = el('thead'); _h.append(th); tb.append(_h); }
+  const tbody = el('tbody');
+  prontos.forEach(s => { const tr = el('tr'); tr.append(nomeCell(s)); JANELAS.forEach(w => { const j = s.data.janelas[String(w)]; const td = el('td'); const v = j ? fn(j) : null; if (v == null) { td.className = 'na'; td.textContent = j ? 'n/d' : 'sem histórico'; } else td.textContent = v; tr.append(td); }); (extraCols || []).forEach(c => { const td = el('td'); const v = c.fn(s); if (v == null) { td.className = 'na'; td.textContent = 'n/d'; } else td.textContent = v; tr.append(td); }); tbody.append(tr); });
+  tb.append(tbody);
+}
+function multiplos(box, prontos, campo, fmtV, fmtAxis) {
+  box.innerHTML = '';
+  const cal = S.meta.calendario, sem = S.meta.semanas, pend = [];
+  prontos.forEach(s => {
+    const f = s.data, vals = new Array(cal.length).fill(null);
+    f[campo].forEach((v, k) => { const wi = f.w0 + k; if (wi < sem.length && v != null) vals[sem[wi]] = v; });
+    // preencher entre semanas para a linha ficar contínua
+    let last = null; for (let i = 0; i < cal.length; i++) { if (vals[i] != null) last = vals[i]; else if (last != null && i >= sem[f.w0] && i <= f.ateIdx) vals[i] = last; }
+    const m = el('div', 'm'); const t = el('div', 't'); const nm = el('span', 'n'); const dot = el('i'); dot.style.cssText = 'width:9px;height:9px;border-radius:50%;background:' + s.cor + ';flex:none'; nm.append(dot, el('span', null, f.nome)); nm.title = f.nome;
+    const ult = campo === 'plw' ? f.pl : f.cotistas;
+    t.append(nm, el('span', 'v', fmtV(ult) || '')); m.append(t);
+    const ch = el('div', 'chart'); m.append(ch); box.append(m);
+    pend.push([ch, { nome: f.nome, cor: s.cor, vals }]);
+  });
+  const J = janela();
+  pend.forEach(([ch, serie]) => desenhar(ch, { series: [serie], ini: J.ini, fim: J.fim, altura: 150, area: true, fmt: fmtAxis }));
+}
+function correlacao(prontos, J) {
+  const tb = $('tb-corr'); tb.innerHTML = '';
+  $('corr-sub').textContent = 'Correlação dos retornos diários entre ' + dCurta(S.meta.calendario[J.ini]) + ' e ' + dCurta(S.meta.calendario[J.fim]) + '. Perto de 1, os fundos sobem e caem juntos; perto de 0, não há relação.';
+  if (prontos.length < 2) { const tr = el('tr'); const td = el('td', 'na', 'Adicione pelo menos dois fundos para ver a correlação entre eles.'); td.style.whiteSpace = 'normal'; td.style.textAlign = 'left'; tr.append(td); tb.append(tr); return; }
+  const n = prontos.length, R = [];
+  for (let a = 0; a < n; a++) { R.push([]); for (let b = 0; b < n; b++) R[a].push(a === b ? 1 : pearson(prontos[a].data.ret, prontos[b].data.ret, J)); }
+  const th = el('tr'); th.append(el('th', null, '')); prontos.forEach(s => { const h = el('th'); const i = el('i'); i.style.cssText = 'display:inline-block;width:9px;height:9px;border-radius:50%;background:' + s.cor; h.append(i); h.title = s.data.nome; th.append(h); }); { const _h = el('thead'); _h.append(th); tb.append(_h); }
+  const tbody = el('tbody');
+  prontos.forEach((s, a) => { const tr = el('tr'); tr.append(nomeCell(s)); prontos.forEach((t, b) => { const td = el('td'); const v = R[a][b]; const c = el('span', 'cell', v == null ? 'n/d' : fmtNum(v, 2)); c.style.background = corCorr(v); c.style.color = (v != null && Math.abs(v) > 0.55) ? '#0B1730' : 'var(--text)'; td.append(c); tr.append(td); }); tbody.append(tr); });
+  tb.append(tbody);
+}
+function pearson(ra, rb, J) {
+  let n = 0, sa = 0, sb = 0, saa = 0, sbb = 0, sab = 0;
+  for (let i = J.ini + 1; i <= J.fim; i++) { const a = ra[i], b = rb[i]; if (a == null || b == null) continue; n++; sa += a; sb += b; saa += a * a; sbb += b * b; sab += a * b; }
+  if (n < 20) return null;
+  const cov = sab / n - (sa / n) * (sb / n), va = saa / n - (sa / n) ** 2, vb = sbb / n - (sb / n) ** 2;
+  if (va <= 0 || vb <= 0) return null;
+  return Math.max(-1, Math.min(1, cov / Math.sqrt(va * vb)));
+}
+function corCorr(v) { // divergente: dourado (−1) · neutro (0) · azul (+1)
+  if (v == null) return 'transparent';
+  const t = Math.abs(v);
+  const mix = (a, b, k) => a.map((x, i) => Math.round(x + (b[i] - x) * k));
+  const neutro = [27, 46, 78], azul = [91, 152, 230], ouro = [212, 162, 74];
+  const c = mix(neutro, v >= 0 ? azul : ouro, Math.pow(t, 1.2));
+  return `rgb(${c[0]},${c[1]},${c[2]})`;
+}
+
+// ------------------------------------------------------------------ "mais informações"
+function renderMais() {
+  const prontos = S.sel.filter(s => s.data); if (!prontos.length) return;
+  const J = janela(), cal = S.meta.calendario, W = String(S.periodo);
+  multiplos($('mm-cot'), prontos, 'cotw', (v) => v == null ? null : inteiro(v) + ' cotistas', (v, t) => t ? compact(v) : inteiro(v));
+  // drawdown na janela
+  const dd = prontos.map(s => { const f = s.data, vals = new Array(cal.length).fill(null); let pico = -Infinity; for (let i = J.ini; i <= Math.min(J.fim, f.ateIdx); i++) { const v = f.qff[i]; if (v == null) continue; if (v > pico) pico = v; vals[i] = v / pico - 1; } return { nome: f.nome, cor: s.cor, vals }; });
+  desenhar($('ch-dd'), { series: dd, ini: J.ini, fim: J.fim, altura: 220, fmt: (v, t) => t ? (v * 100).toFixed(0) + '%' : pct(v), zero: true, area: prontos.length === 1, yMax: 0 });
+  legenda($('lg-dd'), dd);
+  tabelaJanelas($('tb-dd'), prontos, (j) => pct(j.mdd), [{ titulo: 'Atual', fn: (s) => { const j = s.data.janelas[W]; return j ? pct(j.dd) : null; } }]);
+  $('tb-dd').querySelector('thead tr th:first-child').textContent = 'Drawdown máximo';
+  tabelaJanelas($('tb-vol'), prontos, (j) => pct(j.vol));
+  // consistência (janela selecionada)
+  const tc = $('tb-cons'); tc.innerHTML = '';
+  $('cons-sub').textContent = 'Meses fechados nos últimos ' + S.periodo + ' meses.';
+  const th = el('tr'); ['Fundo', 'Acima do CDI', 'Meses positivos', 'Melhor mês', 'Pior mês'].forEach(t => th.append(el('th', null, t))); { const _h = el('thead'); _h.append(th); tc.append(_h); }
+  const tbc = el('tbody');
+  prontos.forEach(s => { const j = s.data.janelas[W]; const tr = el('tr'); tr.append(nomeCell(s)); if (!j || !j.meses) { const td = el('td', 'na', 'sem histórico'); td.colSpan = 4; tr.append(td); } else { const c1 = el('td', null, fmtNum(j.cons * 100, 0) + '%'); c1.append(el('span', 'sub2', Math.round(j.cons * j.meses) + ' de ' + j.meses + ' meses')); const c2 = el('td', null, fmtNum(j.pos * 100, 0) + '%'); c2.append(el('span', 'sub2', Math.round(j.pos * j.meses) + ' de ' + j.meses + ' meses')); tr.append(c1, c2, el('td', null, pctSign(j.melhor)), el('td', j.pior < 0 ? 'neg' : '', pctSign(j.pior))); } tbc.append(tr); });
+  tc.append(tbc);
+  // rentabilidade mensal (últimos 12 meses)
+  const tm = $('tb-mensal'); tm.innerHTML = '';
+  const meses = new Map(); prontos.forEach(s => s.data.mensal.forEach(m => meses.set(m[0], m[2])));
+  const ult = [...meses.keys()].sort().slice(-12);
+  const thm = el('tr'); thm.append(el('th', null, 'Mês')); prontos.forEach(s => { const h = el('th'); const i = el('i'); i.style.cssText = 'display:inline-block;width:9px;height:9px;border-radius:50%;background:' + s.cor + ';margin-right:6px;vertical-align:middle'; h.append(i, document.createTextNode(s.data.nome.length > 22 ? s.data.nome.slice(0, 20) + '…' : s.data.nome)); h.title = s.data.nome; h.style.textAlign = 'right'; thm.append(h); }); thm.append(el('th', null, 'CDI')); { const _h = el('thead'); _h.append(thm); tm.append(_h); }
+  const tbm = el('tbody');
+  ult.forEach(ym => { const tr = el('tr'); const parcial = prontos.some(s => s.data.mensal.some(m => m[0] === ym && m[3])); const td0 = el('td', null, mesLbl(ym) + (parcial ? ' (parcial)' : '')); td0.style.fontWeight = '400'; tr.append(td0);
+    prontos.forEach(s => { const m = s.data.mensal.find(x => x[0] === ym); const td = el('td'); if (!m) { td.className = 'na'; td.textContent = 'n/d'; } else { td.textContent = pctSign(m[1], 2); if (m[1] < 0) td.classList.add('neg'); } tr.append(td); });
+    const tdc = el('td', null, pctSign(meses.get(ym), 2)); tdc.style.color = 'var(--text-2)'; tr.append(tdc); tbm.append(tr); });
+  tm.append(tbm);
+  // ficha
+  const fb = $('ficha'); fb.innerHTML = '';
+  prontos.forEach(s => { const f = s.data; const d = el('div', 'f'); const h = el('h3'); const i = el('i'); i.style.background = s.cor; h.append(i, document.createTextNode(f.nome)); d.append(h);
+    const dl = el('dl'); const add = (k, v) => { if (v == null || v === '') return; dl.append(el('dt', null, k), el('dd', null, v)); };
+    add('CNPJ', f.cnpj_fmt); add('Classe CVM', f.classe); add('Classe ANBIMA', f.anbima); add('Gestor', f.gestor); add('Administrador', f.adm); add('Público-alvo', f.publico);
+    add('Taxa de administração', f.taxa_adm ? f.taxa_adm.replace('.', ',') + '% a.a.' : null); add('Taxa de performance', f.taxa_perf ? f.taxa_perf.replace('.', ',') + '%' : null);
+    add('Início', f.inicio ? dBR(f.inicio) : null); add('Fundo de cotas', f.cotas === 'S' ? 'Sim' : f.cotas === 'N' ? 'Não' : null);
+    add('Patrimônio líquido', money(f.pl)); add('Cotistas', inteiro(f.cotistas)); add('Última cota', dBR(f.ate));
+    d.append(dl); fb.append(d); });
+}
+
+// ------------------------------------------------------------------ redimensionamento
+let rto; window.addEventListener('resize', () => { clearTimeout(rto); rto = setTimeout(() => { if (S.sel.some(s => s.data)) render(); }, 150); });
+
+carregar();
+})();
+</script>
+</body>
+</html>
