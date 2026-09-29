@@ -135,9 +135,24 @@ STOOQ = {"^BVSP": "^bvp", "^GSPC": "^spx", "^NDX": "^ndx", "URTH": "urth.us", "G
 
 
 def yahoo(symbol: str, anos: int = 25) -> dict[str, float]:
-    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(symbol)}?range={anos}y&interval=1d"
-    raw = http_get(url, headers={"Accept": "application/json"})
-    j = json.loads(raw.decode("utf-8"))
+    # período explícito (o parâmetro range só aceita 1d…10y, ytd e max); tenta os dois hosts da API
+    p1 = int(time.time()) - anos * 365 * 86400
+    p2 = int(time.time()) + 86400
+    q = f"?period1={p1}&period2={p2}&interval=1d&events=history&includeAdjustedClose=true"
+    ultimo = None
+    for host in ("query1", "query2"):
+        url = f"https://{host}.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(symbol)}{q}"
+        try:
+            raw = http_get(url, tentativas=2, headers={"Accept": "application/json,text/plain,*/*", "Accept-Language": "en-US,en;q=0.9"})
+            j = json.loads(raw.decode("utf-8"))
+            if not j.get("chart", {}).get("result"):
+                raise RuntimeError(str(j.get("chart", {}).get("error"))[:200])
+            break
+        except Exception as e:  # noqa: BLE001
+            ultimo = e
+            j = None
+    if j is None:
+        raise RuntimeError(f"yahoo {symbol}: {ultimo}")
     res = j["chart"]["result"][0]
     ts = res["timestamp"]
     closes = res["indicators"]["quote"][0]["close"]
