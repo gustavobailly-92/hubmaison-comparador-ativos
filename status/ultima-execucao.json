@@ -1,6 +1,6 @@
 {
   "referencia": "2026-09-25",
-  "gerado": "2026-09-29T17:59:05Z",
+  "gerado": "2026-09-29T18:14:47Z",
   "fundos_publicados": 6417,
   "fundos_na_matriz": 13496,
   "fundos_xp": 1012,
@@ -9,6 +9,9 @@
     "poupanca",
     "dolar",
     "ibov",
+    "sp500",
+    "sp500brl",
+    "nasdaq",
     "msci",
     "mscibrl"
   ],
@@ -16,6 +19,8 @@
   "historicos": [
     "GLD",
     "AIQ",
+    "^GSPC",
+    "^NDX",
     "^BVSP",
     "URTH"
   ],
@@ -77,9 +82,7 @@
     "202609"
   ],
   "avisos": [
-    "CDI sem valor em 14 dias do calendário (tratados como 0)",
-    "benchmark ^GSPC indisponível (todas as fontes falharam)",
-    "benchmark ^NDX indisponível (todas as fontes falharam)"
+    "CDI sem valor em 14 dias do calendário (tratados como 0)"
   ],
-  "duracao_s": 623
+  "duracao_s": 455
 }
