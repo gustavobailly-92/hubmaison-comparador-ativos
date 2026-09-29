@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Comparador de Ativos · Maison Hub</title>
-<meta name="description" content="Compare fundos de investimento entre si e com o CDI: rentabilidade por período, patrimônio, correlação, Sharpe, volatilidade, drawdown e consistência. Dados abertos da CVM e do Banco Central, atualizados de terça a sábado.">
+<meta name="description" content="Compare fundos de investimento, títulos do Tesouro Direto, renda fixa e benchmarks como CDI, IPCA, Ibovespa e S&P 500: rentabilidade por período, patrimônio, correlação, Sharpe, volatilidade, drawdown, consistência, ranking dos fundos da XP, perspectivas e análise de COE. Dados abertos da CVM, do Banco Central e do Tesouro Nacional, atualizados de terça a sábado.">
 <meta name="theme-color" content="#070E1C">
 <meta property="og:title" content="Comparador de Ativos · Maison Hub">
-<meta property="og:description" content="Compare fundos de investimento com o CDI usando os dados abertos da CVM.">
+<meta property="og:description" content="Compare fundos, Tesouro Direto, renda fixa e benchmarks com dados abertos da CVM, do Banco Central e do Tesouro Nacional.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -1 660 446'%3E%3Cg transform='matrix(1,0,0,-1,0,596)' fill='%23ffffff'%3E%3Cpath d='M-.0003 152.147 81.447 450.434C88.048 474.884 109.827 491.972 134.407 491.972H244.929L152.257 152.147Z'/%3E%3Cpath d='M225.369 152.147 334.217 555.343C340.821 579.809 362.601 596.896 387.181 596.896H497.683L377.618 152.147Z'/%3E%3C/g%3E%3Cg transform='matrix(1,0,0,-1,0,596)' fill='%2393acc6'%3E%3Cpath d='M281.327 406.944 252.774 477.482 192.843 257.714 221.744 186.235Z'/%3E%3Cpath d='M504.196 573.504 444.737 353.253 517.322 157.513H554.959 658.456Z'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -19,16 +20,19 @@
   --s1:#5B98E6; --s2:#D4A24A; --s3:#B08CF0; --s4:#43B893; --cdi:#93ACC6;
   --font:"Gotham","Montserrat",system-ui,sans-serif;
   --radius:14px; --gutter:16px; --max:1180px;
+  --ease:cubic-bezier(.2,.7,.2,1);
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);font-weight:400;font-size:15px;line-height:1.5;
   background-image:radial-gradient(1200px 600px at 50% -200px,rgba(63,84,119,.35),transparent 70%);}
 a{color:var(--text-2)}
 button{font:inherit;color:inherit}
+input,select{font:inherit}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 :focus-visible{outline:2px solid var(--text-2);outline-offset:2px;border-radius:6px}
+.hidden{display:none !important}
 
 /* header */
 header{padding:22px 0 8px}
@@ -36,11 +40,12 @@ header .row{display:flex;align-items:center;justify-content:space-between;gap:16
 .logo{height:56px;width:auto;display:block}
 .status{font-size:12px;color:var(--muted);letter-spacing:.04em;text-align:right;line-height:1.4}
 .status strong{color:var(--text-2);font-weight:500}
+.status .cnt{display:block}
 
 /* intro */
 .intro{padding:34px 0 10px}
 h1{font-weight:700;font-size:clamp(26px,3.6vw,38px);letter-spacing:-.01em;margin:0 0 8px;line-height:1.15}
-.intro p{margin:0;color:var(--text-2);max-width:62ch;font-weight:300;font-size:16px}
+.intro p{margin:0;color:var(--text-2);max-width:66ch;font-weight:300;font-size:16px}
 
 /* busca */
 .search{position:relative;margin:26px 0 12px}
@@ -50,10 +55,11 @@ h1{font-weight:700;font-size:clamp(26px,3.6vw,38px);letter-spacing:-.01em;margin
 .search input:focus{border-color:var(--text-2);box-shadow:0 0 0 4px rgba(178,203,230,.10)}
 .search svg.ico{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--muted)}
 .results{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--panel-2);border:1px solid var(--line-2);border-radius:var(--radius);
-  box-shadow:0 20px 50px rgba(0,0,0,.45);z-index:20;overflow:hidden;display:none;max-height:min(420px,60vh);overflow-y:auto}
+  box-shadow:0 20px 50px rgba(0,0,0,.45);z-index:20;overflow:hidden;display:none;max-height:min(480px,64vh);overflow-y:auto}
 .results.on{display:block}
-.results button{display:flex;width:100%;text-align:left;background:none;border:0;padding:11px 16px;gap:14px;align-items:center;cursor:pointer;border-bottom:1px solid var(--line)}
-.results button:last-child{border-bottom:0}
+.results .grp{padding:9px 16px 4px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--line)}
+.results .grp:first-child{border-top:0}
+.results button{display:flex;width:100%;text-align:left;background:none;border:0;padding:10px 16px;gap:14px;align-items:center;cursor:pointer}
 .results button:hover,.results button.sel{background:rgba(178,203,230,.08)}
 .results .nm{flex:1;min-width:0}
 .results .nm b{display:block;font-weight:500;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -61,54 +67,96 @@ h1{font-weight:700;font-size:clamp(26px,3.6vw,38px);letter-spacing:-.01em;margin
 .results .kv{font-size:12px;color:var(--text-2);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 .results .kv small{display:block;color:var(--muted)}
 .results .empty{padding:16px;color:var(--muted);font-size:14px}
+.hints{display:flex;flex-wrap:wrap;gap:6px 14px;margin:2px 0 10px;font-size:12.5px;color:var(--muted);font-weight:300}
+.hints b{font-weight:500;color:var(--text-2)}
 
 /* chips */
 .chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center;min-height:36px}
-.chip{display:inline-flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line-2);border-radius:999px;padding:6px 8px 6px 12px;font-size:13px;max-width:100%}
+.chip{display:inline-flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line-2);border-radius:999px;padding:6px 8px 6px 12px;font-size:13px;max-width:100%;animation:chip-in .28s var(--ease)}
+@keyframes chip-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 .chip .dot{width:9px;height:9px;border-radius:50%;flex:none}
 .chip .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:34ch}
+.chip .tag{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);flex:none}
 .chip button{background:none;border:0;width:22px;height:22px;border-radius:50%;cursor:pointer;color:var(--muted);display:grid;place-items:center;padding:0}
 .chip button:hover{background:rgba(178,203,230,.14);color:var(--text)}
 .chips .hint{color:var(--muted);font-size:13px;font-weight:300}
-.chips .clear{background:none;border:0;color:var(--muted);font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:4px 6px}
-.sug{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.sug .lbl{font-size:12px;color:var(--muted);letter-spacing:.16em;text-transform:uppercase;margin-right:4px}
-.sug button{background:transparent;border:1px solid var(--line-2);color:var(--text-2);border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer}
-.sug button:hover{border-color:var(--text-2);color:var(--text)}
+.chips .clear,.linkbtn{background:none;border:0;color:var(--muted);font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:4px 6px}
+.linkbtn:hover,.chips .clear:hover{color:var(--text)}
+
+/* benchmarks */
+.benchrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 0;position:relative}
+.benchrow .lbl{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.bchip{display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid var(--line-2);border-radius:999px;padding:5px 10px 5px 10px;font-size:13px;color:var(--text-2);cursor:pointer;transition:border-color .15s,background .15s}
+.bchip:hover{border-color:var(--text-2);color:var(--text)}
+.bchip i{width:16px;height:0;border-top:2px dashed;flex:none}
+.bchip[aria-pressed="false"]{opacity:.55}
+.bchip[aria-pressed="false"] i{border-top-color:var(--muted) !important}
+.bchip .x{margin-left:2px;color:var(--muted);display:inline-grid;place-items:center}
+.bchip.add{border-style:dashed}
+.pop{position:absolute;top:calc(100% + 8px);left:0;background:var(--panel-2);border:1px solid var(--line-2);border-radius:12px;box-shadow:0 20px 50px rgba(0,0,0,.45);z-index:25;min-width:280px;max-width:min(380px,92vw);padding:6px;display:none}
+.pop.on{display:block}
+.pop button{display:flex;width:100%;align-items:center;gap:10px;background:none;border:0;padding:9px 10px;border-radius:8px;cursor:pointer;text-align:left;font-size:13.5px}
+.pop button:hover{background:rgba(178,203,230,.08)}
+.pop button i{width:9px;height:9px;border-radius:50%;flex:none}
+.pop button .n{flex:1;min-width:0}
+.pop button .n small{display:block;color:var(--muted);font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pop button .v{color:var(--text-2);font-variant-numeric:tabular-nums;font-size:12.5px;white-space:nowrap}
+.pop .ttl{padding:8px 10px 4px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.rfform{display:none;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px;padding:10px 12px;background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.rfform.on{display:flex}
+.rfform select,.rfform input{background:var(--surface);border:1px solid var(--line-2);border-radius:8px;color:var(--text);padding:7px 10px;font-size:13.5px}
+.rfform input{width:92px;text-align:right;font-variant-numeric:tabular-nums}
+.rfform .u{color:var(--muted);font-size:13px}
+.btn{background:var(--text-2);color:var(--deep);border:0;border-radius:999px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:transform .12s var(--ease),filter .12s}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:transparent;color:var(--text-2);border:1px solid var(--line-2)}
+.btn.ghost:hover{border-color:var(--text-2);color:var(--text)}
 
 /* seções */
 .section-lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 18px 14px;margin:14px 0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 18px 14px;margin:14px 0;animation:card-in .35s var(--ease) both}
+@keyframes card-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .card h2{font-size:15px;font-weight:600;margin:0 0 2px;letter-spacing:.01em}
 .card .sub{font-size:12.5px;color:var(--muted);margin:0 0 12px;font-weight:300}
-.card h2 + .sub{margin-top:2px}
+.card .head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.card .head .tools{flex:none}
+.card .head .tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.grid2 > .card{margin:0}
+.grid2 > .card{margin:0;min-width:0}
 @media (max-width:820px){.grid2{grid-template-columns:1fr}}
+.grid2.wide{grid-template-columns:1fr}
 .multi{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
 .multi .m{background:var(--panel);border-radius:10px;padding:12px 12px 6px}
 .multi .m .t{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;margin-bottom:4px}
 .multi .m .t .n{color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:7px;min-width:0}
+.multi .m .t .n > span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .multi .m .t .v{color:var(--text);font-weight:500;white-space:nowrap;font-variant-numeric:tabular-nums}
 
 /* filtros */
 .filters{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin:20px 0 6px}
 .seg{display:inline-flex;background:var(--panel);border:1px solid var(--line-2);border-radius:999px;padding:3px}
-.seg button{background:none;border:0;border-radius:999px;padding:6px 14px;font-size:13px;cursor:pointer;color:var(--text-2)}
+.seg button{background:none;border:0;border-radius:999px;padding:6px 14px;font-size:13px;cursor:pointer;color:var(--text-2);transition:background .15s}
 .seg button[aria-pressed="true"]{background:var(--text-2);color:var(--deep);font-weight:600}
 .filters .lbl{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.filters .sp{flex:1}
+.iconbtn{display:inline-flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line-2);border-radius:999px;padding:7px 14px 7px 10px;font-size:13px;cursor:pointer;color:var(--text-2);transition:border-color .15s,background .15s}
+.iconbtn:hover{border-color:var(--text-2);color:var(--text)}
+.iconbtn[aria-pressed="true"]{background:var(--text-2);color:var(--deep);border-color:var(--text-2);font-weight:600}
+.iconbtn svg{width:16px;height:16px}
 
 /* gráficos */
 .chart{position:relative;width:100%}
 .chart svg{display:block;max-width:100%;overflow:visible}
 .chart .grid line{stroke:var(--line);stroke-width:1}
-.chart .zero line{stroke:var(--line-2)}
 .chart text{font-family:var(--font);font-size:11px;fill:var(--muted);font-variant-numeric:tabular-nums}
 .chart .endlbl{fill:var(--text);font-size:11.5px;font-weight:500}
 .chart .ln{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
 .chart .ar{opacity:.12}
+.chart .band{opacity:.13}
 .chart .xh{stroke:var(--text-2);stroke-width:1;opacity:.7}
 .chart .hit{fill:transparent;cursor:crosshair}
+.chart .wm{color:var(--text-2);opacity:.065;pointer-events:none}
 .tip{position:absolute;pointer-events:none;background:#0B1730;border:1px solid var(--line-2);border-radius:10px;padding:8px 10px;font-size:12px;min-width:150px;
   box-shadow:0 12px 30px rgba(0,0,0,.45);display:none;z-index:5}
 .tip .d{color:var(--muted);margin-bottom:4px;font-size:11.5px}
@@ -134,14 +182,27 @@ tr:last-child td{border-bottom:0}
 td .sub2{display:block;font-size:11.5px;color:var(--muted);font-weight:400}
 td .n{display:inline-flex;align-items:center;gap:8px;max-width:100%}
 td .n i{width:9px;height:9px;border-radius:50%;flex:none}
-td .n i.cdi{border-radius:0;height:0;width:14px;border-top:2px dashed var(--cdi)}
+td .n i.dash{border-radius:0;height:0;width:14px;border-top:2px dashed}
 td .n span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-tr.cdi td{color:var(--text-2)}
+tr.ref td{color:var(--text-2)}
 .neg{color:var(--text-2)}
 td.na{color:var(--muted);font-weight:300}
 .matrix td,.matrix th{text-align:center;padding:0}
 .matrix td:first-child,.matrix th:first-child{text-align:left;padding-left:4px;padding-right:10px}
 .matrix .cell{display:block;margin:3px;border-radius:8px;padding:12px 4px;font-weight:500;font-size:13px;min-width:64px}
+
+/* perspectivas */
+.prem{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px 14px;margin:6px 0 14px}
+.prem label{display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--muted);letter-spacing:.02em}
+.prem input,.prem select{background:var(--panel);border:1px solid var(--line-2);border-radius:8px;color:var(--text);padding:8px 10px;font-size:14px;width:100%;font-variant-numeric:tabular-nums}
+.prem input[type=range]{padding:0;height:28px;accent-color:var(--text-2);background:transparent;border:0}
+.prem .seg{align-self:flex-start}
+.prem .seg button{padding:5px 12px;white-space:nowrap}
+.prem .val{color:var(--text);font-size:13px;font-weight:500}
+.premtxt{font-size:12.5px;color:var(--muted);font-weight:300;line-height:1.55;margin:4px 0 0}
+.premtxt b{font-weight:500;color:var(--text-2)}
+.premtxt ul{margin:6px 0 0;padding-left:18px}
+.premtxt li{margin:2px 0}
 
 /* mais informações */
 .more-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:var(--panel);border:1px solid var(--line-2);border-radius:var(--radius);
@@ -158,12 +219,52 @@ td.na{color:var(--muted);font-weight:300}
 .ficha dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:12.5px}
 .ficha dt{color:var(--muted);font-weight:300}
 .ficha dd{margin:0;color:var(--text-2);overflow-wrap:anywhere}
+.ficha dd a{color:var(--text-2)}
+
+/* ranking XP */
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 12px}
+.tabs button{background:transparent;border:1px solid var(--line-2);color:var(--text-2);border-radius:999px;padding:6px 13px;font-size:13px;cursor:pointer;transition:background .15s,border-color .15s}
+.tabs button:hover{border-color:var(--text-2);color:var(--text)}
+.tabs button[aria-selected="true"]{background:var(--text-2);color:var(--deep);border-color:var(--text-2);font-weight:600}
+.selrow{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:0 0 10px}
+.selrow label{font-size:12px;color:var(--muted);display:inline-flex;align-items:center;gap:8px}
+.selrow select{background:var(--panel);border:1px solid var(--line-2);border-radius:8px;color:var(--text);padding:6px 10px;font-size:13px;max-width:min(320px,70vw)}
+.rank td:first-child{max-width:none;font-weight:400;color:var(--muted);width:28px;padding-right:0}
+.rank td:nth-child(2){text-align:left;font-weight:500;max-width:40ch;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.rank td:nth-child(2):hover{color:var(--text-2)}
+.rank td .sub2{overflow:hidden;text-overflow:ellipsis}
+.rank th:nth-child(2){text-align:left}
+.rank .add{background:transparent;border:1px solid var(--line-2);color:var(--text-2);border-radius:999px;padding:4px 10px;font-size:12px;cursor:pointer;white-space:nowrap}
+.rank .add:hover{border-color:var(--text-2);color:var(--text)}
+.rank .add[disabled]{opacity:.45;cursor:default}
+.badge{display:inline-block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--s2);color:var(--s2);border-radius:5px;padding:1px 5px;margin-left:6px;vertical-align:middle}
+.rank tr.in td:nth-child(2){color:var(--text)}
+
+/* COE */
+.coegrid{display:grid;grid-template-columns:minmax(260px,1fr) minmax(280px,1.4fr);gap:16px}
+@media (max-width:900px){.coegrid{grid-template-columns:1fr}}
+.coegrid > *{min-width:0}
+select{max-width:100%}
+.prem input,.prem select{min-width:0}
+.drop{display:block;border:1px dashed var(--line-2);border-radius:12px;padding:16px;text-align:center;color:var(--muted);font-size:13px;font-weight:300;cursor:pointer;transition:border-color .15s,background .15s;margin-bottom:12px}
+.drop:hover,.drop.over{border-color:var(--text-2);background:rgba(178,203,230,.05);color:var(--text-2)}
+.drop input{display:none}
+.drop b{display:block;font-weight:500;color:var(--text-2);margin-bottom:2px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:0 0 12px}
+.kpi{background:var(--panel);border-radius:10px;padding:12px 12px 10px}
+.kpi .l{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.kpi .v{font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;margin-top:2px}
+.kpi .s{font-size:11.5px;color:var(--muted);margin-top:1px}
+.coeform .prem{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.coeform input[type=text]{grid-column:1/-1}
+.small{font-size:12.5px;color:var(--muted);font-weight:300}
 
 /* estado vazio e avisos */
-.empty-state{padding:38px 0 10px;color:var(--muted);font-weight:300;font-size:15px}
+.empty-state{padding:30px 0 6px;color:var(--muted);font-weight:300;font-size:15px;max-width:70ch}
+.empty-state a{color:var(--text-2)}
 .note{font-size:12.5px;color:var(--muted);font-weight:300;margin:8px 0 0}
 .loading{color:var(--muted);font-size:13px;padding:10px 0}
-.hidden{display:none !important}
+.warn{font-size:12.5px;color:var(--s2);margin:6px 0 0}
 
 /* rodapé */
 footer{margin:40px 0 30px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px;font-weight:300;line-height:1.6}
@@ -174,40 +275,52 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
 @media (max-width:640px){
   .logo{height:44px}
   .status{font-size:11px}
+  .status .cnt{display:none}
   .seg .long{display:none}.seg .short{display:inline}
   .seg button{padding:6px 11px}
   td:first-child{max-width:18ch}
+  .rank td:nth-child(2){max-width:22ch}
   .chip .nm{max-width:22ch}
   .card{padding:14px 12px 10px}
   th,td{padding:8px 7px}
   .matrix .cell{min-width:52px;padding:10px 2px}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none !important}}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="wm" viewBox="0 -1 660 446"><g transform="matrix(1,0,0,-1,0,596)"><path d="M-.0003 152.147 81.447 450.434C88.048 474.884 109.827 491.972 134.407 491.972H244.929L152.257 152.147Z"/><path d="M225.369 152.147 334.217 555.343C340.821 579.809 362.601 596.896 387.181 596.896H497.683L377.618 152.147Z"/><path d="M281.327 406.944 252.774 477.482 192.843 257.714 221.744 186.235Z"/><path d="M504.196 573.504 444.737 353.253 517.322 157.513H554.959 658.456Z"/></g></symbol></defs></svg>
 <header class="wrap">
   <div class="row">
     <a href="https://hubmaison.com" aria-label="Maison Hub" style="display:block;line-height:0"><svg class="logo" viewBox="0 0 1920 596" role="img" aria-label="Maison Hub"><g transform="matrix(1,0,0,-1,0,596)"><path fill="#ffffff" d="M838.915 265.477 790.388 343.542H742.928V151.568H787.415V269.581L837.144 194.091H840.148L890.416 270.388V151.568H934.903V343.542H887.442Z"/><path fill="#ffffff" d="M1097.315 234.003H1052.585L1074.950 288.592ZM1095.779 344.889H1055.196L972.932 151.568H1019.095L1036.320 193.823H1113.580L1130.805 151.568H1178.044L1096.243 343.8Z"/><path fill="#ffffff" d="M1217.956 151.569H1262.981V343.544H1217.956Z"/><path fill="#ffffff" d="M1443.579 247.702C1438.331 252.198 1431.816 256.099 1424.218 259.297 1416.705 262.452 1408.046 265.332 1398.482 267.854 1390.462 269.986 1383.719 271.882 1378.439 273.489 1373.285 275.057 1369.193 276.720 1366.273 278.435 1363.524 280.043 1361.621 281.839 1360.614 283.774 1359.585 285.747 1359.062 288.140 1359.062 290.886V291.425C1359.062 295.544 1360.819 298.911 1364.428 301.720 1368.128 304.596 1373.871 306.054 1381.497 306.054 1389.296 306.054 1397.217 304.424 1405.039 301.209 1412.959 297.951 1421.179 293.437 1429.475 287.793L1430.944 286.793 1454.432 320.851 1453.126 321.891C1443.326 329.691 1432.423 335.764 1420.719 339.940 1409.004 344.116 1395.989 346.234 1382.036 346.234 1372.195 346.234 1363.055 344.844 1354.869 342.104 1346.647 339.353 1339.46 335.344 1333.508 330.187 1327.552 325.021 1322.857 318.799 1319.555 311.691 1316.252 304.580 1314.577 296.493 1314.577 287.657V287.119C1314.577 277.564 1316.133 269.429 1319.202 262.939 1322.279 256.428 1326.675 250.913 1332.266 246.550 1337.786 242.234 1344.575 238.567 1352.443 235.651 1360.222 232.763 1369.006 230.117 1378.541 227.787 1386.356 225.836 1392.788 223.953 1397.658 222.190 1402.453 220.449 1406.237 218.697 1408.902 216.985 1411.393 215.380 1413.084 213.678 1413.926 211.929 1414.794 210.115 1415.235 207.975 1415.235 205.570V205.031C1415.235 200.063 1413.165 196.282 1408.905 193.470 1404.471 190.541 1398.056 189.056 1389.841 189.056 1379.375 189.056 1369.618 191.085 1360.842 195.086 1351.966 199.126 1343.178 204.660 1334.718 211.533L1333.349 212.646 1306.625 180.635 1307.899 179.482C1319.329 169.140 1332.208 161.369 1346.177 156.382 1360.123 151.402 1374.542 148.876 1389.033 148.876 1399.382 148.876 1408.963 150.216 1417.509 152.859 1426.092 155.513 1433.596 159.425 1439.81 164.484 1446.049 169.563 1450.983 175.933 1454.474 183.417 1457.956 190.892 1459.721 199.522 1459.721 209.068V209.606C1459.721 218.064 1458.353 225.461 1455.655 231.589 1452.954 237.723 1448.891 243.144 1443.579 247.702"/><path fill="#ffffff" d="M1599.499 190.133C1591.359 190.133 1583.865 191.664 1577.228 194.683 1570.568 197.707 1564.687 201.875 1559.753 207.071 1554.821 212.261 1550.961 218.402 1548.280 225.325 1545.594 232.251 1544.231 239.730 1544.231 247.556V248.093C1544.231 255.910 1545.592 263.342 1548.278 270.183 1550.967 277.036 1554.743 283.142 1559.505 288.333 1564.243 293.503 1570.019 297.614 1576.671 300.555 1583.318 303.489 1590.817 304.977 1598.961 304.977 1606.917 304.977 1614.367 303.445 1621.106 300.424 1627.861 297.392 1633.783 293.225 1638.708 288.040 1643.629 282.859 1647.489 276.717 1650.179 269.786 1652.868 262.844 1654.23 255.365 1654.23 247.556V247.017C1654.23 239.208 1652.868 231.776 1650.183 224.928 1647.494 218.080 1643.716 211.973 1638.955 206.779 1634.208 201.602 1628.388 197.491 1621.662 194.559 1614.93 191.622 1607.474 190.133 1599.499 190.133ZM1672.476 317.867C1663.473 326.687 1652.646 333.785 1640.292 338.963 1627.924 344.145 1614.200 346.772 1599.499 346.772 1584.794 346.772 1571.025 344.145 1558.576 338.965 1546.127 333.785 1535.247 326.592 1526.241 317.585 1517.235 308.581 1510.09 297.978 1505.001 286.072 1499.906 274.152 1497.321 261.193 1497.321 247.556V247.017C1497.321 233.374 1499.858 220.419 1504.862 208.511 1509.864 196.594 1516.970 186.074 1525.983 177.244 1534.985 168.423 1545.813 161.325 1558.167 156.148 1570.53 150.966 1584.254 148.339 1598.961 148.339 1613.664 148.339 1627.431 150.966 1639.885 156.147 1652.337 161.328 1663.217 168.521 1672.221 177.526 1681.221 186.527 1688.368 197.129 1693.459 209.038 1698.554 220.963 1701.138 233.922 1701.138 247.556V248.093C1701.138 261.722 1698.601 274.677 1693.597 286.601 1688.589 298.522 1681.482 309.041 1672.476 317.867"/><path fill="#ffffff" d="M1874.384 343.543V231.058L1788.781 343.543H1747.888V151.568H1792.374V267.825L1880.938 151.568H1918.870V343.543Z"/><path fill="#ffffff" d="M-.0003 152.147 81.447 450.434C88.048 474.884 109.827 491.972 134.407 491.972H244.929L152.257 152.147Z"/><path fill="#ffffff" d="M225.369 152.147 334.217 555.343C340.821 579.809 362.601 596.896 387.181 596.896H497.683L377.618 152.147Z"/><path fill="#93acc6" d="M281.327 406.944 252.774 477.482 192.843 257.714 221.744 186.235Z"/><path fill="#93acc6" d="M504.196 573.504 444.737 353.253 517.322 157.513H554.959 658.456Z"/></g><text x="743" y="583" font-family="Gotham, Montserrat, sans-serif" font-weight="300" font-size="98" letter-spacing="30" fill="#93acc6">HUB</text></svg></a>
-    <div class="status" id="status">Carregando base de fundos…</div>
+    <div class="status" id="status">Carregando base de dados…</div>
   </div>
 </header>
 
 <main class="wrap">
   <section class="intro">
     <h1>Comparador de Ativos</h1>
-    <p>Compare fundos de investimento entre si e com o CDI. Dados abertos da CVM e do Banco Central, atualizados de terça a sábado.</p>
+    <p>Compare fundos de investimento, títulos do Tesouro Direto, renda fixa e benchmarks no mesmo gráfico. Dados abertos da CVM, do Banco Central e do Tesouro Nacional, atualizados de terça a sábado.</p>
   </section>
 
   <div class="search">
     <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-    <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Digite o nome ou o CNPJ do fundo" aria-label="Buscar fundo" aria-controls="results" aria-expanded="false" disabled>
+    <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Fundo, CNPJ, título do Tesouro, benchmark ou renda fixa (ex.: 110% do CDI)" aria-label="Buscar ativo" aria-controls="results" aria-expanded="false" disabled>
     <div class="results" id="results" role="listbox"></div>
   </div>
-  <div class="chips" id="chips"><span class="hint">Adicione até 4 fundos para comparar.</span></div>
-  <div class="sug" id="sug"></div>
+  <div class="hints"><span>Exemplos:</span><b>Tesouro IPCA+ 2035</b><span>·</span><b>Ibovespa</b><span>·</span><b>CDB 110% do CDI</b><span>·</span><b>prefixado 14%</b><span>·</span><b>IPCA+ 7%</b></div>
+  <div class="chips" id="chips"><span class="hint">Adicione até 4 ativos para comparar.</span></div>
+  <div class="benchrow" id="benchrow"></div>
+  <div class="rfform" id="rfform">
+    <span class="u">Renda fixa:</span>
+    <select id="rf-tipo" aria-label="Tipo de renda fixa"><option value="pcdi">CDB / LCI a % do CDI</option><option value="pre">Prefixado</option><option value="ipca">IPCA+</option></select>
+    <input id="rf-taxa" type="number" step="0.1" min="0" max="500" value="110" aria-label="Taxa">
+    <span class="u" id="rf-un">% do CDI</span>
+    <button class="btn" id="rf-add" type="button">Adicionar</button>
+    <button class="linkbtn" id="rf-close" type="button">fechar</button>
+  </div>
 
-  <div id="empty" class="empty-state">Comece pela busca acima. O comparativo com o CDI aparece assim que o primeiro fundo for escolhido.</div>
+  <div id="empty" class="empty-state">Comece pela busca acima ou escolha um fundo no <a href="#ranking">ranking dos fundos da XP</a>. O comparativo com o CDI aparece assim que o primeiro ativo for escolhido.</div>
 
   <div id="app" class="hidden">
     <div class="filters">
@@ -218,11 +331,41 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
         <button data-p="36" aria-pressed="false">36<span class="long"> meses</span><span class="short"> m</span></button>
         <button data-p="48" aria-pressed="false">48<span class="long"> meses</span><span class="short"> m</span></button>
       </div>
+      <span class="sp"></span>
+      <button class="iconbtn" id="persp-btn" aria-pressed="false" aria-controls="persp" type="button" title="Projeções com premissas">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-6 4 3 5-8 4 5"/><path d="M17 6h4v4"/></svg>
+        <span>Perspectivas</span>
+      </button>
+    </div>
+
+    <div class="card hidden" id="persp">
+      <div class="head">
+        <div><h2>Perspectivas</h2><p class="sub">Projeções a partir das premissas abaixo. Não é previsão: cada ativo é replicado pelo seu comportamento histórico e pelo seu indexador.</p></div>
+        <div class="tools"><button class="linkbtn" id="persp-close" type="button">fechar</button></div>
+      </div>
+      <div class="prem">
+        <label>Horizonte<div class="seg" id="p-h" role="group"><button data-h="12" aria-pressed="true">12 m</button><button data-h="24" aria-pressed="false">24 m</button><button data-h="36" aria-pressed="false">36 m</button></div></label>
+        <label>CDI médio no período (% a.a.)<input id="p-cdi" type="number" step="0.25" min="0" max="40"></label>
+        <label>IPCA médio (% a.a.)<input id="p-ipca" type="number" step="0.25" min="-5" max="40"></label>
+        <label>Excesso sobre o CDI dos ativos de risco<select id="p-exc"><option value="0.5">50% do histórico</option><option value="1">100% do histórico</option><option value="0">nenhum</option></select></label>
+        <label>Tesouro: variação da taxa até o horizonte<span class="val" id="p-dy-val">0,00 p.p.</span><input id="p-dy" type="range" min="-3" max="3" step="0.25" value="0"></label>
+        <label>Intervalo<div class="seg" id="p-conf" role="group"><button data-c="68" aria-pressed="true">68%</button><button data-c="95" aria-pressed="false">95%</button></div></label>
+      </div>
+      <div class="chart" id="ch-persp"></div>
+      <div class="legend" id="lg-persp"></div>
+      <div class="tbl" style="margin-top:12px"><table id="tb-persp"></table></div>
+      <div id="persp-td" class="hidden">
+        <h2 style="margin-top:18px">E se a taxa do Tesouro voltar ao que já foi?</h2>
+        <p class="sub">Retorno estimado no horizonte para cada título, se a taxa de mercado fosse para os níveis observados desde <span id="persp-td-desde"></span>. Combina o carrego do título com o efeito de preço da variação de taxa (duration).</p>
+        <div class="tbl"><table id="tb-persp-td"></table></div>
+      </div>
+      <div class="premtxt" id="persp-ativos"></div>
+      <div class="premtxt" id="persp-prem"></div>
     </div>
 
     <div class="card">
       <h2>Rentabilidade acumulada</h2>
-      <p class="sub" id="acum-sub">Fundos e CDI no mesmo ponto de partida.</p>
+      <p class="sub" id="acum-sub">Ativos e benchmarks no mesmo ponto de partida.</p>
       <div class="chart" id="ch-acum"></div>
       <div class="legend" id="lg-acum"></div>
     </div>
@@ -233,7 +376,7 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
       <div class="tbl"><table id="tb-ret"></table></div>
     </div>
 
-    <div class="card">
+    <div class="card" id="card-pl">
       <h2>Patrimônio líquido</h2>
       <p class="sub">Volume de cada fundo ao longo do tempo, com o valor mais recente.</p>
       <div class="multi" id="mm-pl"></div>
@@ -247,7 +390,7 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
       </div>
       <div class="card">
         <h2>Índice de Sharpe</h2>
-        <p class="sub">Retorno acima do CDI por unidade de risco (anualizado).</p>
+        <p class="sub">Retorno acima do CDI por unidade de risco (anualizado). Não se aplica a ativos que acompanham o CDI.</p>
         <div class="tbl"><table id="tb-sharpe"></table></div>
       </div>
     </div>
@@ -258,7 +401,7 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
     </button>
 
     <div id="more">
-      <div class="card">
+      <div class="card" id="card-cot">
         <h2>Cotistas</h2>
         <p class="sub">Número de cotistas de cada fundo ao longo do tempo.</p>
         <div class="multi" id="mm-cot"></div>
@@ -266,7 +409,7 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
 
       <div class="card">
         <h2>Drawdown</h2>
-        <p class="sub">Queda em relação ao topo anterior. Quanto mais fundo, maior a perda que o cotista chegou a ver.</p>
+        <p class="sub">Queda em relação ao topo anterior. Quanto mais fundo, maior a perda que o investidor chegou a ver.</p>
         <div class="chart" id="ch-dd"></div>
         <div class="legend" id="lg-dd"></div>
         <div class="tbl" style="margin-top:12px"><table id="tb-dd"></table></div>
@@ -287,14 +430,62 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
 
       <div class="card">
         <h2>Rentabilidade mensal</h2>
-        <p class="sub">Últimos 12 meses, fundo a fundo, com o CDI ao lado.</p>
+        <p class="sub">Últimos 12 meses, ativo a ativo, com o CDI ao lado.</p>
         <div class="tbl"><table id="tb-mensal"></table></div>
       </div>
 
       <div class="card">
-        <h2>Ficha dos fundos</h2>
-        <p class="sub">Informações cadastrais da CVM.</p>
+        <h2>Ficha dos ativos</h2>
+        <p class="sub">Cadastro da CVM, dados da plataforma XP e características dos títulos.</p>
         <div class="ficha" id="ficha"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="ranking">
+    <div class="head">
+      <div><h2>Ranking dos fundos da XP</h2><p class="sub" id="rank-sub">Fundos disponíveis na plataforma XP, ordenados pelos últimos 12 meses com os dados da CVM.</p></div>
+    </div>
+    <div class="tabs" id="rank-tabs" role="tablist"></div>
+    <div class="selrow">
+      <label>Classe <select id="rank-classe"></select></label>
+      <label>Ordenar por <select id="rank-ord"><option value="ret12">Rentabilidade 12 meses</option><option value="pcdi12">% do CDI</option><option value="sharpe12">Sharpe</option><option value="vol12">Menor volatilidade</option><option value="pl">Patrimônio</option><option value="cotistas">Cotistas</option></select></label>
+      <span class="small" id="rank-n"></span>
+    </div>
+    <div class="tbl"><table class="rank" id="tb-rank"></table></div>
+    <div style="text-align:center;margin-top:8px"><button class="linkbtn" id="rank-more" type="button">Mostrar todos</button></div>
+  </div>
+
+  <div class="card" id="coe">
+    <div class="head">
+      <div><h2>COE: análise de cenários</h2><p class="sub">Certificados de Operações Estruturadas. Escolha uma estrutura de exemplo, envie a lâmina em PDF ou preencha os termos para ver o payoff e o que o histórico do ativo-objeto sugere.</p></div>
+    </div>
+    <div class="coegrid">
+      <div class="coeform">
+        <label class="drop" id="drop"><input type="file" id="lamina" accept="application/pdf"><b>Enviar lâmina (PDF)</b>O leitor tenta identificar ativo-objeto, prazo, participação, cap e proteção. Confira os campos antes de analisar.</label>
+        <div class="prem">
+          <label style="grid-column:1/-1">Estrutura<select id="coe-sel"></select></label>
+          <label style="grid-column:1/-1">Nome<input id="coe-nome" type="text" placeholder="Ex.: COE Alta do Ouro"></label>
+          <label>Tipo<select id="coe-tipo"><option value="alta">Alta (call)</option><option value="baixa">Baixa (put)</option><option value="digital">Digital (cupom fixo)</option></select></label>
+          <label>Ativo-objeto<select id="coe-ativo"></select></label>
+          <label>Participação (%)<input id="coe-part" type="number" step="1" min="0" max="500" value="100"></label>
+          <label>Cap / cupom (%)<input id="coe-cap" type="number" step="1" min="0" max="500" placeholder="sem cap"></label>
+          <label>Capital protegido (%)<input id="coe-prot" type="number" step="1" min="0" max="100" value="100"></label>
+          <label>Prazo (meses)<input id="coe-prazo" type="number" step="1" min="1" max="120" value="36"></label>
+          <label>CDI no prazo (% a.a.)<input id="coe-cdi" type="number" step="0.25" min="0" max="40"></label>
+        </div>
+        <button class="btn" id="coe-run" type="button">Analisar cenários</button>
+        <p class="small" id="coe-msg" style="margin:10px 0 0"></p>
+      </div>
+      <div>
+        <div class="kpis" id="coe-kpis"></div>
+        <h2 style="font-size:13.5px">Payoff no vencimento</h2>
+        <p class="sub">Retorno do COE conforme a variação do ativo-objeto, com o CDI do período como referência.</p>
+        <div class="chart" id="ch-payoff"></div>
+        <h2 style="font-size:13.5px;margin-top:16px">O que o histórico sugere</h2>
+        <p class="sub" id="coe-hist-sub">Distribuição dos retornos do ativo-objeto em janelas com o prazo do COE.</p>
+        <div class="chart" id="ch-hist"></div>
+        <div class="tbl" style="margin-top:12px"><table id="tb-coe"></table></div>
       </div>
     </div>
   </div>
@@ -302,8 +493,8 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
   <footer>
     <div class="row">
       <div>
-        <p><strong style="font-weight:500;color:var(--text-2)">Fontes.</strong> Informes diários e cadastro de fundos da CVM (dados abertos) e CDI do Banco Central (SGS, série 12). Universo: fundos em funcionamento, não exclusivos, com pelo menos <span id="ft-min">10</span> cotistas. Atualização de terça a sábado, após a publicação da CVM.</p>
-        <p>Rentabilidade passada não garante rentabilidade futura. As rentabilidades são brutas de imposto de renda e líquidas de taxas. Material informativo, sem recomendação de investimento.</p>
+        <p><strong style="font-weight:500;color:var(--text-2)">Fontes.</strong> Informes diários e cadastro de fundos da CVM (dados abertos); CDI, IPCA, poupança e PTAX do Banco Central (SGS); preços e taxas do Tesouro Direto (Tesouro Transparente); índices internacionais e Ibovespa via Yahoo Finance. Universo de fundos: em funcionamento, não exclusivos, com pelo menos <span id="ft-min">10</span> cotistas. Atualização de terça a sábado, após a publicação da CVM.</p>
+        <p>Rentabilidade passada não garante rentabilidade futura. As rentabilidades são brutas de imposto de renda e líquidas de taxas. Perspectivas e cenários são simulações baseadas em premissas, sem qualquer garantia. Material informativo, sem recomendação de investimento.</p>
       </div>
       <div>
         <p><a href="https://hubmaison.com">hubmaison.com</a></p>
@@ -322,47 +513,58 @@ const local = location.hostname.endsWith('github.io') || location.hostname === '
 const DATA = local ? './data' : REPO_DATA;
 const CORES = ['#5B98E6', '#D4A24A', '#B08CF0', '#43B893'];
 const COR_CDI = '#93ACC6';
-const MAX = 4;
+const CORES_BENCH = { ipca: '#E07A7A', poupanca: '#7FB5A4', dolar: '#C9B48A', ibov: '#F0C674', sp500: '#8FB8FF', sp500brl: '#6C8FE0', nasdaq: '#C7A6FF', msci: '#9FD7C8', mscibrl: '#68B39F' };
+const MAX = 4, MAX_BENCH = 3;
 const JANELAS = [12, 24, 36, 48];
+const RF_NOMES = { pcdi: (t) => 'Renda fixa ' + fmtNum(t, t % 1 ? 1 : 0) + '% do CDI', pre: (t) => 'Prefixado ' + fmtNum(t, t % 1 ? 2 : 0) + '% a.a.', ipca: (t) => 'IPCA+ ' + fmtNum(t, t % 1 ? 2 : 0) + '% a.a.' };
 
 // ------------------------------------------------------------------ estado
-const S = { meta: null, index: null, sel: [], periodo: 12, cache: new Map() };
+const S = { meta: null, index: null, sel: [], bench: [], cdi: true, periodo: 12, cache: new Map(), persp: false,
+  prem: { h: 12, cdi: null, ipca: null, exc: 0.5, dy: 0, conf: 68 }, rank: { tipo: null, classe: '', ord: 'ret12', todos: false } };
 const $ = (id) => document.getElementById(id);
 const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs) => { const e = document.createElementNS(NS, tag); if (attrs) for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
 
 // ------------------------------------------------------------------ formatação (pt-BR, sem espaço inflexível)
-const fix = (s) => String(s).replace(/ /g, ' ');
+const fix = (s) => String(s).replace(/ /g, ' ');
 const nf = (d) => new Intl.NumberFormat('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d });
-const fmtNum = (v, d = 1) => v == null || !isFinite(v) ? null : fix(nf(d).format(v));
+function fmtNum(v, d = 1) { return v == null || !isFinite(v) ? null : fix(nf(d).format(v)).replace(/^-/, '−'); }
 const pct = (v, d = 1) => { if (v == null || !isFinite(v)) return null; const s = fmtNum(Math.abs(v) * 100, d); return (v < 0 ? '−' : '') + s + '%'; };
 const pctSign = (v, d = 1) => { if (v == null || !isFinite(v)) return null; const s = fmtNum(Math.abs(v) * 100, d); return (v < 0 ? '−' : v > 0 ? '+' : '') + s + '%'; };
 const money = (v) => { if (v == null || !isFinite(v)) return null; const a = Math.abs(v);
   if (a >= 1e9) return 'R$ ' + fmtNum(v / 1e9, 2) + ' bi'; if (a >= 1e6) return 'R$ ' + fmtNum(v / 1e6, 1) + ' mi'; if (a >= 1e3) return 'R$ ' + fmtNum(v / 1e3, 0) + ' mil'; return 'R$ ' + fmtNum(v, 0); };
 const inteiro = (v) => v == null ? null : fmtNum(v, 0);
 const compact = (v) => { if (v == null) return null; const a = Math.abs(v); if (a >= 1e6) return fmtNum(v / 1e6, 1) + ' mi'; if (a >= 1e3) return fmtNum(v / 1e3, a >= 1e4 ? 0 : 1) + ' mil'; return fmtNum(v, 0); };
+const compactR = (v) => { const a = Math.abs(v); if (a >= 1e9) return fmtNum(v / 1e9, 1) + ' bi'; if (a >= 1e6) return fmtNum(v / 1e6, 0) + ' mi'; if (a >= 1e3) return fmtNum(v / 1e3, 0) + ' mil'; return fmtNum(v, 0); };
 const MESES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
 const dBR = (iso) => iso ? iso.slice(8, 10) + '/' + iso.slice(5, 7) + '/' + iso.slice(0, 4) : '';
 const dCurta = (iso) => MESES[+iso.slice(5, 7) - 1] + '/' + iso.slice(2, 4);
 const mesLbl = (ym) => MESES[+ym.slice(5, 7) - 1] + '/' + ym.slice(2, 4);
 const norm = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const anual = (ret, meses) => (ret == null || meses <= 0) ? null : Math.pow(1 + ret, 12 / meses) - 1;
 
 // ------------------------------------------------------------------ carga
+async function getJSON(path) { const r = await fetch(DATA + '/' + path, { cache: 'no-cache' }); if (!r.ok) throw new Error(path + ' ' + r.status); return r.json(); }
 async function carregar() {
   try {
-    const [meta, idx] = await Promise.all([
-      fetch(DATA + '/meta.json', { cache: 'no-cache' }).then(r => { if (!r.ok) throw new Error('meta ' + r.status); return r.json(); }),
-      fetch(DATA + '/index.json', { cache: 'no-cache' }).then(r => { if (!r.ok) throw new Error('index ' + r.status); return r.json(); }),
-    ]);
+    const [meta, idx] = await Promise.all([getJSON('meta.json'), getJSON('index.json')]);
     S.meta = meta;
     S.calIdx = new Map(meta.calendario.map((d, i) => [d, i]));
     const c = idx.colunas;
-    S.index = idx.fundos.map(r => { const o = {}; c.forEach((k, i) => o[k] = r[i]); o.busca = norm(o.nome) + ' ' + o.cnpj + ' ' + norm(o.gestor); return o; });
+    S.index = idx.fundos.map(r => { const o = {}; c.forEach((k, i) => o[k] = r[i]); o.busca = norm(o.nome) + ' ' + o.cnpj + ' ' + norm(o.gestor) + ' ' + norm(o.xp_classe); return o; });
+    S.tesouro = (meta.tesouro || []).map(t => ({ ...t, busca: norm(t.nome + ' ' + t.tipo + ' tesouro direto ' + t.venc.slice(0, 4)) }));
+    S.benchmarks = (meta.benchmarks || []).map(b => ({ ...b, busca: norm(b.nome + ' ' + b.desc + ' benchmark indice') }));
+    const cdiA = meta.cdi_taxa && meta.cdi_taxa.length ? Math.pow(1 + meta.cdi_taxa[meta.cdi_taxa.length - 1], 252) - 1 : 0.12;
+    S.cdiAtual = cdiA;
+    S.prem.cdi = Math.round(cdiA * 400) / 4; S.prem.ipca = (() => { const b = S.benchmarks.find(x => x.id === 'ipca'); return b && b.ret12 != null ? Math.round(b.ret12 * 400) / 4 : 4.5; })();
+    $('p-cdi').value = S.prem.cdi; $('p-ipca').value = S.prem.ipca; $('coe-cdi').value = S.prem.cdi;
     $('status').innerHTML = '';
-    $('status').append('Dados CVM e BCB ', el('strong', null, 'até ' + dBR(meta.referencia)), document.createElement('br'), inteiro(meta.n_fundos) + ' fundos');
+    $('status').append('Dados até ', el('strong', null, dBR(meta.referencia)), el('span', 'cnt', inteiro(meta.n_fundos) + ' fundos · ' + (meta.tesouro || []).length + ' títulos · ' + (S.benchmarks.length + 1) + ' benchmarks'));
     $('ft-min').textContent = meta.min_cotistas;
     $('q').disabled = false;
-    sugestoes();
-    lerURL();
+    renderBench(); renderRanking(); iniciarCOE();
+    await lerURL();
   } catch (e) {
     console.error(e);
     $('status').textContent = 'Não foi possível carregar a base de dados.';
@@ -370,65 +572,102 @@ async function carregar() {
   }
 }
 
-async function carregarFundo(cnpj) {
-  if (S.cache.has(cnpj)) return S.cache.get(cnpj);
-  const p = fetch(DATA + '/fundos/' + cnpj + '.json', { cache: 'no-cache' }).then(r => { if (!r.ok) throw new Error('fundo ' + r.status); return r.json(); }).then(prep);
-  S.cache.set(cnpj, p);
-  return p;
-}
-
 // séries alinhadas ao calendário global, com preenchimento dos dias sem informe
 function prep(f) {
   const n = S.meta.calendario.length;
-  const q = new Array(n).fill(null);
-  const raw = new Array(n).fill(null);
+  const q = new Array(n).fill(null), raw = new Array(n).fill(null);
   let last = null;
-  for (let i = 0; i < f.q.length; i++) {
-    const v = f.q[i];
-    const k = f.d0 + i;
-    if (k >= n) break;
-    if (v != null) { last = v; raw[k] = v; }
-    q[k] = last;
-  }
-  // retorno diário atribuído ao dia do informe (entre dois informes consecutivos)
-  const ret = new Array(n).fill(null);
-  let prev = null;
+  for (let i = 0; i < f.q.length; i++) { const v = f.q[i]; const k = (f.d0 || 0) + i; if (k >= n) break; if (v != null) { last = v; raw[k] = v; } q[k] = last; }
+  const ret = new Array(n).fill(null); let prev = null;
   for (let k = 0; k < n; k++) if (raw[k] != null) { if (prev != null) ret[k] = raw[k] / prev - 1; prev = raw[k]; }
   f.qff = q; f.raw = raw; f.ret = ret;
-  f.ateIdx = S.calIdx.get(f.ate);
-  f.firstIdx = f.d0;
+  f.ateIdx = S.calIdx.has(f.ate) ? S.calIdx.get(f.ate) : idxAte(f.ate);
+  f.firstIdx = f.d0 || 0;
   return f;
 }
+function cached(key, loader) { if (S.cache.has(key)) return S.cache.get(key); const p = loader().then(prep); S.cache.set(key, p); return p; }
+const carregarFundo = (cnpj) => cached('f:' + cnpj, () => getJSON('fundos/' + cnpj + '.json').then(f => ({ ...f, kind: 'fundo', key: cnpj })));
+const carregarTesouro = (id) => cached('td:' + id, () => getJSON('tesouro/' + id + '.json').then(f => ({ ...f, kind: 'tesouro', key: 'td:' + id })));
+const carregarBench = (id) => cached('b:' + id, () => getJSON('bench/' + id + '.json').then(f => ({ ...f, kind: 'bench', key: 'b:' + id })));
 
-// ------------------------------------------------------------------ busca
-const inp = $('q'), res = $('results');
-let selIdx = -1, lista = [];
-function buscar(t) {
-  const toks = norm(t).split(/\s+/).filter(Boolean);
-  if (!toks.length) return [];
-  const digits = t.replace(/\D/g, '');
-  const out = [];
-  for (const f of S.index) {
-    if (S.sel.some(s => s.cnpj === f.cnpj)) continue;
-    let ok = true;
-    for (const k of toks) if (!f.busca.includes(k)) { ok = false; break; }
-    if (!ok && digits.length >= 4 && f.cnpj.includes(digits)) ok = true;
-    if (ok) { out.push(f); if (out.length >= 8) break; }
-  }
+// renda fixa sintética: id = tipo:taxa (taxa em %)
+async function rendaFixa(id) {
+  if (S.cache.has('rf:' + id)) return S.cache.get('rf:' + id);
+  const p = (async () => {
+    const [tipo, tx] = id.split(':'); const taxa = +tx;
+    const cal = S.meta.calendario, n = cal.length, q = new Array(n);
+    if (tipo === 'pcdi') { let v = 1; for (let i = 0; i < n; i++) { if (i > 0) v *= 1 + (S.meta.cdi_taxa[i] || 0) * taxa / 100; q[i] = v; } }
+    else if (tipo === 'pre') { for (let i = 0; i < n; i++) q[i] = Math.pow(1 + taxa / 100, i / 252); }
+    else { const ip = await carregarBench('ipca'); for (let i = 0; i < n; i++) { const b = ip.qff[i] != null ? ip.qff[i] / (ip.qff[ip.firstIdx] || 1) : 1; q[i] = Math.pow(1 + taxa / 100, i / 252) * b; } }
+    const doc = { kind: 'rf', key: 'rf:' + id, id, tipo, taxa, nome: RF_NOMES[tipo](taxa), d0: 0, q, ate: S.meta.referencia, janelas: {}, mensal: [] };
+    prep(doc);
+    // métricas por janela, a partir da própria série
+    JANELAS.forEach(w => { const j = janelaMetricas(doc, w); if (j) doc.janelas[String(w)] = j; });
+    doc.mensal = mensalDe(doc);
+    return doc;
+  })();
+  S.cache.set('rf:' + id, p);
+  return p;
+}
+function janelaMetricas(doc, w) {
+  const fim = idxAte(S.meta.referencia), ini = idxAte(subMeses(S.meta.referencia, w));
+  if (ini < 0 || doc.qff[ini] == null) return null;
+  const ret = doc.qff[fim] / doc.qff[ini] - 1, cdi = S.meta.cdi[fim] / S.meta.cdi[ini] - 1;
+  const rs = []; for (let i = ini + 1; i <= fim; i++) if (doc.ret[i] != null) rs.push(doc.ret[i]);
+  const m = rs.reduce((a, b) => a + b, 0) / Math.max(1, rs.length); const va = rs.reduce((a, b) => a + (b - m) ** 2, 0) / Math.max(1, rs.length - 1);
+  const vol = Math.sqrt(va) * Math.sqrt(252);
+  let pico = -Infinity, mdd = 0, dd = 0; for (let i = ini; i <= fim; i++) { const v = doc.qff[i]; if (v == null) continue; if (v > pico) pico = v; dd = v / pico - 1; if (dd < mdd) mdd = dd; }
+  const aR = anual(ret, w), aC = anual(cdi, w);
+  return { ret, cdi, pcdi: cdi > 0 && ret > 0 ? +(ret / cdi * 100).toFixed(1) : null, vol, sharpe: vol > 0.004 ? (aR - aC) / vol : null, mdd, dd, cons: null, pos: null, meses: w, melhor: null, pior: null };
+}
+function mensalDe(doc) {
+  const fm = S.meta.fim_mes, ms = S.meta.meses, out = [];
+  for (let k = 1; k < fm.length; k++) { const a = fm[k - 1], b = fm[k]; if (doc.qff[a] == null || doc.qff[b] == null) continue; out.push([ms[k], doc.qff[b] / doc.qff[a] - 1, S.meta.cdi[b] / S.meta.cdi[a] - 1, b === fm[fm.length - 1] && S.meta.referencia.slice(0, 7) === ms[k] && !fimDeMes(S.meta.referencia) ? 1 : 0]); }
   return out;
 }
-function renderRes(itens) {
-  lista = itens; selIdx = -1;
-  res.innerHTML = '';
-  if (!itens.length) { const d = el('div', 'empty', 'Nenhum fundo encontrado com esse nome.'); res.append(d); res.classList.add('on'); inp.setAttribute('aria-expanded', 'true'); return; }
-  itens.forEach((f, i) => {
-    const b = el('button'); b.type = 'button'; b.setAttribute('role', 'option'); b.dataset.i = i;
-    const nm = el('div', 'nm'); nm.append(el('b', null, f.nome), el('span', null, [f.classe, f.gestor].filter(Boolean).join(' · ')));
-    const kv = el('div', 'kv'); kv.append(money(f.pl) || '', el('small', null, (f.ret12 != null ? pct(f.ret12) + ' em 12 m' : 'sem 12 meses')));
-    b.append(nm, kv);
-    b.addEventListener('click', () => adicionar(f.cnpj));
-    res.append(b);
-  });
+function fimDeMes(iso) { const d = new Date(iso + 'T00:00:00Z'); const n = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 0)); return n.getUTCDate() - d.getUTCDate() <= 3; }
+
+// ------------------------------------------------------------------ busca (fundos, Tesouro, benchmarks, renda fixa)
+const inp = $('q'), res = $('results');
+let selIdx = -1;
+function parseRF(t) {
+  const s = norm(t).replace(',', '.');
+  let m;
+  if ((m = s.match(/(\d+(?:\.\d+)?)\s*%?\s*(?:do\s*)?cdi/)) || (m = s.match(/cdi\s*(\d+(?:\.\d+)?)/))) return { tipo: 'pcdi', taxa: +m[1] };
+  if ((m = s.match(/pre(?:fixado)?\s*(\d+(?:\.\d+)?)/)) || (m = s.match(/(\d+(?:\.\d+)?)\s*%?\s*(?:a\.?a\.?\s*)?pre(?:fixado)?/))) return { tipo: 'pre', taxa: +m[1] };
+  if ((m = s.match(/ipca\s*\+?\s*(\d+(?:\.\d+)?)/)) || (m = s.match(/(\d+(?:\.\d+)?)\s*%?\s*ipca/))) return { tipo: 'ipca', taxa: +m[1] };
+  if (/^(cdb|lci|lca|renda fixa|rf)\b/.test(s)) return { tipo: 'pcdi', taxa: null };
+  return null;
+}
+function buscar(t) {
+  const toks = norm(t).split(/\s+/).filter(Boolean);
+  const digits = t.replace(/\D/g, '');
+  const has = (b) => toks.every(k => b.includes(k));
+  const fundos = [];
+  if (toks.length) for (const f of S.index) {
+    if (S.sel.some(s => s.key === f.cnpj)) continue;
+    if (has(f.busca) || (digits.length >= 4 && f.cnpj.includes(digits))) { fundos.push(f); if (fundos.length >= 6) break; }
+  }
+  const tesouro = toks.length ? S.tesouro.filter(x => !S.sel.some(s => s.key === 'td:' + x.id) && has(x.busca)).slice(0, 5) : [];
+  const bench = toks.length ? S.benchmarks.filter(x => !S.bench.includes(x.id) && has(x.busca)).slice(0, 5) : [];
+  if (toks.length && 'cdi'.includes(toks[0]) && !S.cdi) bench.unshift({ id: 'cdi', nome: 'CDI', desc: 'Certificado de Depósito Interbancário', ret12: S.meta.cdi[S.meta.cdi.length - 1] / S.meta.cdi[idxAte(subMeses(S.meta.referencia, 12))] - 1 });
+  const rf = parseRF(t);
+  const coe = /\bcoe\b/.test(norm(t));
+  return { fundos, tesouro, bench, rf, coe };
+}
+function renderRes(r) {
+  res.innerHTML = ''; selIdx = -1;
+  const total = r.fundos.length + r.tesouro.length + r.bench.length + (r.rf ? 1 : 0) + (r.coe ? 1 : 0);
+  if (!total) { res.append(el('div', 'empty', 'Nada encontrado com esse nome. Tente parte do nome do fundo, o CNPJ, "Tesouro IPCA+" ou "Ibovespa".')); res.classList.add('on'); inp.setAttribute('aria-expanded', 'true'); return; }
+  const grupo = (t) => res.append(el('div', 'grp', t));
+  const item = (titulo, sub, k1, k2, fn) => { const b = el('button'); b.type = 'button'; b.setAttribute('role', 'option');
+    const nm = el('div', 'nm'); nm.append(el('b', null, titulo), el('span', null, sub)); const kv = el('div', 'kv'); kv.append(k1 || '', el('small', null, k2 || '')); b.append(nm, kv); b.addEventListener('click', fn); res.append(b); };
+  if (r.fundos.length) { grupo('Fundos'); r.fundos.forEach(f => item(f.nome, [f.xp_classe || f.classe, f.gestor].filter(Boolean).join(' · '), money(f.pl), f.ret12 != null ? pct(f.ret12) + ' em 12 m' : 'sem 12 meses', () => adicionar(f.cnpj, 'fundo'))); }
+  if (r.tesouro.length) { grupo('Tesouro Direto'); r.tesouro.forEach(t => item(t.nome, 'Vencimento ' + dBR(t.venc) + ' · taxa ' + fmtNum(t.taxa, 2) + '%' + (t.indexador === 'PRE' ? ' a.a.' : t.indexador === 'SELIC' ? ' + Selic' : ' + IPCA'), t.ret12 != null ? pct(t.ret12) : '', 'em 12 m', () => adicionar('td:' + t.id, 'tesouro'))); }
+  if (r.bench.length) { grupo('Benchmarks'); r.bench.forEach(b => item(b.nome, b.desc, b.ret12 != null ? pct(b.ret12) : '', 'em 12 m', () => { ligarBench(b.id); fecharRes(); inp.value = ''; })); }
+  if (r.rf) { grupo('Renda fixa'); const tx = r.rf.taxa; const nome = tx != null ? RF_NOMES[r.rf.tipo](tx) : 'Renda fixa a % do CDI';
+    item(nome, tx != null ? 'Série sintética construída com o ' + (r.rf.tipo === 'pcdi' ? 'CDI diário' : r.rf.tipo === 'pre' ? 'juro fixo' : 'IPCA mensal mais o juro fixo') : 'Informe a taxa, por exemplo "110% do CDI"', '', '', () => { if (tx != null) adicionar('rf:' + r.rf.tipo + ':' + tx, 'rf'); else abrirRF(r.rf.tipo); }); }
+  if (r.coe) { grupo('COE'); item('Análise de cenários de COE', 'Envie a lâmina ou escolha uma estrutura de exemplo, no fim da página', '', '', () => { fecharRes(); inp.value = ''; $('coe').scrollIntoView({ behavior: 'smooth', block: 'start' }); }); }
   res.classList.add('on'); inp.setAttribute('aria-expanded', 'true');
 }
 function fecharRes() { res.classList.remove('on'); inp.setAttribute('aria-expanded', 'false'); }
@@ -441,72 +680,113 @@ inp.addEventListener('keydown', (e) => {
   else if (e.key === 'Enter') { if (selIdx >= 0 && bs[selIdx]) bs[selIdx].click(); else if (bs.length === 1) bs[0].click(); }
   else if (e.key === 'Escape') fecharRes();
 });
-document.addEventListener('click', (e) => { if (!e.target.closest('.search')) fecharRes(); });
+document.addEventListener('click', (e) => { if (!e.target.closest('.search')) fecharRes(); if (!e.target.closest('#benchrow')) $('bench-pop') && $('bench-pop').classList.remove('on'); });
 
-function sugestoes() {
-  const box = $('sug'); box.innerHTML = '';
-  const cand = [...S.index].filter(f => f.cotistas && f.ret12 != null).sort((a, b) => b.cotistas - a.cotistas).slice(0, 6);
-  if (!cand.length) return;
-  box.append(el('span', 'lbl', 'Mais procurados'));
-  cand.forEach(f => { const b = el('button', null, f.nome.length > 42 ? f.nome.slice(0, 40) + '…' : f.nome); b.type = 'button'; b.title = f.nome; b.addEventListener('click', () => adicionar(f.cnpj)); box.append(b); });
-}
-
-// ------------------------------------------------------------------ seleção
-async function adicionar(cnpj) {
-  if (S.sel.length >= MAX || S.sel.some(s => s.cnpj === cnpj)) return;
+// ------------------------------------------------------------------ seleção de ativos
+function nomeDe(s) { if (s.data) return s.data.nome; if (s.kind === 'rf') { const [, t, x] = s.key.split(':'); return RF_NOMES[t] ? RF_NOMES[t](+x) : s.key; } if (s.kind === 'fundo') { const m = S.index.find(f => f.cnpj === s.key); return m ? m.nome : s.key; } if (s.kind === 'tesouro') { const m = S.tesouro.find(t => 'td:' + t.id === s.key); return m ? m.nome : s.key; } return s.key; }
+async function adicionar(key, kind) {
+  if (S.sel.length >= MAX || S.sel.some(s => s.key === key)) return;
   fecharRes(); inp.value = '';
   const usadas = new Set(S.sel.map(s => s.cor));
-  const cor = CORES.find(c => !usadas.has(c));
-  const item = { cnpj, cor, data: null };
-  S.sel.push(item);
-  renderChips();
-  try { item.data = await carregarFundo(cnpj); } catch (e) { console.error(e); S.sel = S.sel.filter(s => s !== item); renderChips(); return; }
-  gravarURL(); render();
+  const item = { key, kind, cor: CORES.find(c => !usadas.has(c)), data: null };
+  S.sel.push(item); renderChips();
+  try { item.data = kind === 'fundo' ? await carregarFundo(key) : kind === 'tesouro' ? await carregarTesouro(key.slice(3)) : await rendaFixa(key.slice(3)); }
+  catch (e) { console.error(e); S.sel = S.sel.filter(s => s !== item); renderChips(); return; }
+  renderChips(); gravarURL(); render(); renderRanking();
 }
-function remover(cnpj) { S.sel = S.sel.filter(s => s.cnpj !== cnpj); renderChips(); gravarURL(); render(); }
+function remover(key) { S.sel = S.sel.filter(s => s.key !== key); renderChips(); gravarURL(); render(); renderRanking(); }
 function renderChips() {
   const box = $('chips'); box.innerHTML = '';
-  if (!S.sel.length) { box.append(el('span', 'hint', 'Adicione até 4 fundos para comparar.')); $('sug').classList.remove('hidden'); return; }
-  $('sug').classList.add('hidden');
+  if (!S.sel.length) { box.append(el('span', 'hint', 'Adicione até 4 ativos para comparar.')); const b = el('button', 'clear', 'Adicionar renda fixa'); b.type = 'button'; b.addEventListener('click', () => abrirRF()); box.append(b); inp.placeholder = 'Fundo, CNPJ, título do Tesouro, benchmark ou renda fixa (ex.: 110% do CDI)'; inp.disabled = false; return; }
   S.sel.forEach(s => {
-    const meta = S.index.find(f => f.cnpj === s.cnpj);
     const c = el('span', 'chip'); const d = el('i', 'dot'); d.style.background = s.cor;
-    const nm = el('span', 'nm', meta ? meta.nome : s.cnpj); nm.title = meta ? meta.nome : s.cnpj;
-    const b = el('button'); b.type = 'button'; b.setAttribute('aria-label', 'Remover ' + (meta ? meta.nome : s.cnpj)); b.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
-    b.addEventListener('click', () => remover(s.cnpj));
-    c.append(d, nm, b); box.append(c);
+    const nm = el('span', 'nm', nomeDe(s)); nm.title = nomeDe(s);
+    const b = el('button'); b.type = 'button'; b.setAttribute('aria-label', 'Remover ' + nomeDe(s)); b.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+    b.addEventListener('click', () => remover(s.key));
+    c.append(d, nm); if (s.kind !== 'fundo') c.append(el('span', 'tag', s.kind === 'tesouro' ? 'Tesouro' : 'Renda fixa')); c.append(b); box.append(c);
   });
-  if (S.sel.length < MAX) box.append(el('span', 'hint', 'Você pode adicionar mais ' + (MAX - S.sel.length) + (MAX - S.sel.length === 1 ? ' fundo.' : ' fundos.')));
-  const cl = el('button', 'clear', 'Limpar'); cl.type = 'button'; cl.addEventListener('click', () => { S.sel = []; renderChips(); gravarURL(); render(); }); box.append(cl);
-  inp.placeholder = S.sel.length >= MAX ? 'Limite de 4 fundos na comparação' : 'Adicionar outro fundo';
+  if (S.sel.length < MAX) { box.append(el('span', 'hint', 'Você pode adicionar mais ' + (MAX - S.sel.length) + (MAX - S.sel.length === 1 ? ' ativo.' : ' ativos.'))); const b = el('button', 'clear', 'Renda fixa'); b.type = 'button'; b.addEventListener('click', () => abrirRF()); box.append(b); }
+  const cl = el('button', 'clear', 'Limpar'); cl.type = 'button'; cl.addEventListener('click', () => { S.sel = []; renderChips(); gravarURL(); render(); renderRanking(); }); box.append(cl);
+  inp.placeholder = S.sel.length >= MAX ? 'Limite de 4 ativos na comparação' : 'Adicionar outro ativo';
   inp.disabled = S.sel.length >= MAX;
 }
+
+// renda fixa: formulário compacto
+function abrirRF(tipo) { const f = $('rfform'); f.classList.add('on'); if (tipo) $('rf-tipo').value = tipo; rfUnidade(); $('rf-taxa').focus(); }
+function rfUnidade() { const t = $('rf-tipo').value; $('rf-un').textContent = t === 'pcdi' ? '% do CDI' : '% a.a.'; if (!$('rf-taxa').dataset.touched) $('rf-taxa').value = t === 'pcdi' ? 110 : t === 'pre' ? 14 : 7; }
+$('rf-tipo').addEventListener('change', rfUnidade);
+$('rf-taxa').addEventListener('input', () => { $('rf-taxa').dataset.touched = '1'; });
+$('rf-add').addEventListener('click', () => { const t = +$('rf-taxa').value; if (!(t > 0)) return; adicionar('rf:' + $('rf-tipo').value + ':' + t, 'rf'); $('rfform').classList.remove('on'); });
+$('rf-close').addEventListener('click', () => $('rfform').classList.remove('on'));
+$('rf-taxa').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('rf-add').click(); });
+
+// ------------------------------------------------------------------ benchmarks
+function ligarBench(id) {
+  if (id === 'cdi') { S.cdi = true; }
+  else if (!S.bench.includes(id)) { if (S.bench.length >= MAX_BENCH) return; S.bench.push(id); }
+  renderBench(); gravarURL();
+  if (id === 'cdi') { render(); return; }
+  carregarBench(id).then(() => render(), (e) => { console.error(e); S.bench = S.bench.filter(b => b !== id); renderBench(); gravarURL(); render(); });
+}
+function desligarBench(id) { if (id === 'cdi') S.cdi = !S.cdi; else S.bench = S.bench.filter(b => b !== id); renderBench(); gravarURL(); render(); }
+function renderBench() {
+  const box = $('benchrow'); box.innerHTML = '';
+  box.append(el('span', 'lbl', 'Comparar com'));
+  const cdi = el('button', 'bchip'); cdi.type = 'button'; cdi.setAttribute('aria-pressed', S.cdi ? 'true' : 'false'); const i = el('i'); i.style.borderTopColor = COR_CDI; cdi.append(i, document.createTextNode('CDI')); cdi.title = S.cdi ? 'Ocultar o CDI' : 'Mostrar o CDI'; cdi.addEventListener('click', () => desligarBench('cdi')); box.append(cdi);
+  S.bench.forEach(id => { const b = S.benchmarks.find(x => x.id === id); if (!b) return; const c = el('button', 'bchip'); c.type = 'button'; c.setAttribute('aria-pressed', 'true'); const i = el('i'); i.style.borderTopColor = CORES_BENCH[id] || COR_CDI; c.append(i, document.createTextNode(b.nome)); const x = el('span', 'x'); x.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>'; c.append(x); c.title = 'Remover ' + b.nome; c.addEventListener('click', () => desligarBench(id)); box.append(c); });
+  if (S.bench.length < MAX_BENCH && S.benchmarks.length) {
+    const add = el('button', 'bchip add'); add.type = 'button'; add.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>'; add.append(document.createTextNode('Benchmark')); add.setAttribute('aria-haspopup', 'listbox');
+    const pop = el('div', 'pop'); pop.id = 'bench-pop'; pop.append(el('div', 'ttl', 'Últimos 12 meses'));
+    S.benchmarks.filter(b => !S.bench.includes(b.id)).forEach(b => { const o = el('button'); o.type = 'button'; const i = el('i'); i.style.background = CORES_BENCH[b.id] || COR_CDI; const n = el('span', 'n'); n.append(document.createTextNode(b.nome), el('small', null, b.desc)); o.append(i, n, el('span', 'v', b.ret12 != null ? pctSign(b.ret12) : '')); o.addEventListener('click', () => { pop.classList.remove('on'); ligarBench(b.id); }); pop.append(o); });
+    add.addEventListener('click', (e) => { e.stopPropagation(); pop.classList.toggle('on'); });
+    box.append(add, pop);
+  }
+}
+
+// ------------------------------------------------------------------ controles
 $('periodo').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.periodo = +b.dataset.p; [...$('periodo').children].forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false')); gravarURL(); render(); });
 $('more-btn').addEventListener('click', () => { const on = $('more').classList.toggle('on'); $('more-btn').setAttribute('aria-expanded', on ? 'true' : 'false'); if (on) renderMais(); });
+$('persp-btn').addEventListener('click', () => togglePersp(!S.persp));
+$('persp-close').addEventListener('click', () => togglePersp(false));
+function togglePersp(on) { S.persp = on; $('persp').classList.toggle('hidden', !on); $('persp-btn').setAttribute('aria-pressed', on ? 'true' : 'false'); gravarURL(); if (on) { renderPersp(); $('persp').scrollIntoView({ behavior: 'smooth', block: 'start' }); } }
+$('p-h').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.prem.h = +b.dataset.h; [...$('p-h').children].forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false')); renderPersp(); });
+$('p-conf').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.prem.conf = +b.dataset.c; [...$('p-conf').children].forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false')); renderPersp(); });
+['p-cdi', 'p-ipca', 'p-exc', 'p-dy'].forEach(id => $(id).addEventListener('input', () => { S.prem.cdi = +$('p-cdi').value; S.prem.ipca = +$('p-ipca').value; S.prem.exc = +$('p-exc').value; S.prem.dy = +$('p-dy').value; $('p-dy-val').textContent = (S.prem.dy > 0 ? '+' : S.prem.dy < 0 ? '−' : '') + fmtNum(Math.abs(S.prem.dy), 2) + ' p.p.'; renderPersp(); }));
 
 function gravarURL() {
   const u = new URL(location.href);
-  if (S.sel.length) u.searchParams.set('f', S.sel.map(s => s.cnpj).join(',')); else u.searchParams.delete('f');
+  u.searchParams.delete('f');
+  if (S.sel.length) u.searchParams.set('a', S.sel.map(s => s.key).join(',')); else u.searchParams.delete('a');
+  if (S.bench.length) u.searchParams.set('b', S.bench.join(',')); else u.searchParams.delete('b');
+  if (!S.cdi) u.searchParams.set('nocdi', '1'); else u.searchParams.delete('nocdi');
   if (S.periodo !== 12) u.searchParams.set('p', S.periodo); else u.searchParams.delete('p');
+  if (S.persp) u.searchParams.set('persp', '1'); else u.searchParams.delete('persp');
   history.replaceState(null, '', u);
 }
 async function lerURL() {
   const u = new URL(location.href);
   const p = +u.searchParams.get('p'); if (JANELAS.includes(p)) { S.periodo = p; [...$('periodo').children].forEach(x => x.setAttribute('aria-pressed', +x.dataset.p === p ? 'true' : 'false')); }
-  const fs = (u.searchParams.get('f') || '').split(',').map(s => s.replace(/\D/g, '')).filter(s => s.length === 14).slice(0, MAX);
-  for (const c of fs) if (S.index.some(f => f.cnpj === c)) await adicionar(c);
+  if (u.searchParams.get('nocdi') === '1') S.cdi = false;
+  S.bench = (u.searchParams.get('b') || '').split(',').filter(id => S.benchmarks.some(b => b.id === id)).slice(0, MAX_BENCH);
+  renderBench();
+  await Promise.all(S.bench.map(id => carregarBench(id).catch(e => { console.error(e); S.bench = S.bench.filter(b => b !== id); })));
+  renderBench();
+  const keys = (u.searchParams.get('a') || '').split(',').filter(Boolean);
+  (u.searchParams.get('f') || '').split(',').map(s => s.replace(/\D/g, '')).filter(s => s.length === 14).forEach(c => keys.push(c));
+  for (const k of keys.slice(0, MAX)) {
+    if (k.startsWith('td:')) { if (S.tesouro.some(t => 'td:' + t.id === k)) await adicionar(k, 'tesouro'); }
+    else if (k.startsWith('rf:')) { const [, tipo, tx] = k.split(':'); if (RF_NOMES[tipo] && +tx > 0) await adicionar('rf:' + tipo + ':' + (+tx), 'rf'); }
+    else if (S.index.some(f => f.cnpj === k)) await adicionar(k, 'fundo');
+  }
+  if (u.searchParams.get('persp') === '1' && S.sel.length) togglePersp(true);
 }
 
 // ------------------------------------------------------------------ cálculo do período
 function subMeses(iso, m) { const y = +iso.slice(0, 4), mo = +iso.slice(5, 7) - 1, d = +iso.slice(8, 10); const t = new Date(Date.UTC(y, mo - m, 1)); const dim = new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth() + 1, 0)).getUTCDate(); t.setUTCDate(Math.min(d, dim)); return t.toISOString().slice(0, 10); }
 function idxAte(iso) { const cal = S.meta.calendario; let lo = 0, hi = cal.length - 1, r = -1; while (lo <= hi) { const mid = (lo + hi) >> 1; if (cal[mid] <= iso) { r = mid; lo = mid + 1; } else hi = mid - 1; } return r; }
-function janela() {
-  const fim = idxAte(S.meta.referencia);
-  const ini = idxAte(subMeses(S.meta.referencia, S.periodo));
-  return { ini: Math.max(ini, 0), fim };
-}
+function janela() { const fim = idxAte(S.meta.referencia); const ini = idxAte(subMeses(S.meta.referencia, S.periodo)); return { ini: Math.max(ini, 0), fim }; }
 
-// ------------------------------------------------------------------ gráfico SVG genérico (linhas, área, crosshair)
+// ------------------------------------------------------------------ gráfico SVG genérico (linhas, área, faixas, crosshair, marca d'água)
 function niceTicks(min, max, n) {
   if (!(max > min)) { max = min + 1; }
   const span = max - min, raw = span / n, mag = Math.pow(10, Math.floor(Math.log10(raw)));
@@ -514,9 +794,11 @@ function niceTicks(min, max, n) {
   const step = cands.find(c => span / c <= n + 1) || cands[cands.length - 1];
   const t0 = Math.ceil(min / step) * step, out = [];
   for (let v = t0; v <= max + 1e-9; v += step) out.push(+v.toFixed(10));
+  if (!out.length) out.push(+t0.toFixed(10));
+  if (max - out[out.length - 1] > step * 0.5) out.push(+(out[out.length - 1] + step).toFixed(10));
   return { ticks: out, step };
 }
-function xTicks(ini, fim, width) {
+function xTicksCal(ini, fim, width) {
   const cal = S.meta.calendario, out = [];
   let lastYm = '';
   for (let i = ini; i <= fim; i++) { const ym = cal[i].slice(0, 7); if (ym !== lastYm) { out.push({ i, ym }); lastYm = ym; } }
@@ -526,14 +808,21 @@ function xTicks(ini, fim, width) {
   const pick = out.filter((t, k) => k % stepM === 0);
   return pick.map(t => ({ i: t.i, label: MESES[+t.ym.slice(5, 7) - 1] + (t.ym.slice(5, 7) === '01' || pick.length <= 4 ? '/' + t.ym.slice(2, 4) : '') }));
 }
+function marcaDagua(svg, x0, y0, w, h) {
+  const hh = Math.min(h * 0.62, w * 0.5 * 446 / 660), ww = hh * 660 / 446;
+  const u = svgEl('use', { href: '#wm', x: (x0 + (w - ww) / 2).toFixed(1), y: (y0 + (h - hh) / 2).toFixed(1), width: ww.toFixed(1), height: hh.toFixed(1), class: 'wm', fill: 'currentColor' });
+  u.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#wm');
+  svg.append(u);
+}
 function desenhar(root, cfg) {
-  // cfg: {series:[{nome,cor,dash,vals:Float[]|null[] (índice = calendário)}], ini, fim, altura, fmt, area, endLabel, zero, yMin?, yMax?}
+  // cfg: {series:[{nome,cor,dash,vals,band:{lo,hi}}], ini, fim, altura, fmt, area, zero, yMax, xTicks(i→label list), xLabel(i), semMarca}
   root.innerHTML = '';
   const W = Math.max(280, root.clientWidth || 600), H = cfg.altura || 280;
   const M = { t: 14, r: cfg.endLabel ? 74 : 18, b: 26, l: 46 };
   const { ini, fim } = cfg;
   let ymin = Infinity, ymax = -Infinity;
-  cfg.series.forEach(s => { for (let i = ini; i <= fim; i++) { const v = s.vals[i]; if (v != null && isFinite(v)) { if (v < ymin) ymin = v; if (v > ymax) ymax = v; } } });
+  const acc = (v) => { if (v != null && isFinite(v)) { if (v < ymin) ymin = v; if (v > ymax) ymax = v; } };
+  cfg.series.forEach(s => { for (let i = ini; i <= fim; i++) { acc(s.vals[i]); if (s.band) { acc(s.band.lo[i]); acc(s.band.hi[i]); } } });
   if (!isFinite(ymin)) { ymin = 0; ymax = 1; }
   if (cfg.zero) { ymin = Math.min(ymin, 0); ymax = Math.max(ymax, 0); }
   if (cfg.yMax != null) ymax = Math.max(ymax, cfg.yMax);
@@ -544,47 +833,51 @@ function desenhar(root, cfg) {
   ymin = Math.min(ymin, ticks[0]); ymax = Math.max(ymax, ticks[ticks.length - 1]);
   const px = (i) => M.l + (i - ini) / Math.max(1, fim - ini) * (W - M.l - M.r);
   const py = (v) => M.t + (ymax - v) / (ymax - ymin) * (H - M.t - M.b);
-  const NS = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('width', W); svg.setAttribute('height', H);
-  const g = (cls) => { const e = document.createElementNS(NS, 'g'); if (cls) e.setAttribute('class', cls); svg.append(e); return e; };
+  const svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, width: W, height: H });
+  if (!cfg.semMarca) marcaDagua(svg, M.l, M.t, W - M.l - M.r, H - M.t - M.b);
+  const g = (cls) => { const e = svgEl('g', { class: cls }); svg.append(e); return e; };
   const grid = g('grid');
   ticks.forEach(t => {
-    const l = document.createElementNS(NS, 'line'); l.setAttribute('x1', M.l); l.setAttribute('x2', W - M.r); l.setAttribute('y1', py(t)); l.setAttribute('y2', py(t));
-    if (t === 0 && cfg.zero) l.setAttribute('class', 'z');
-    grid.append(l);
-    const tx = document.createElementNS(NS, 'text'); tx.setAttribute('x', M.l - 8); tx.setAttribute('y', py(t) + 4); tx.setAttribute('text-anchor', 'end'); tx.textContent = cfg.fmt(t, true); grid.append(tx);
+    const l = svgEl('line', { x1: M.l, x2: W - M.r, y1: py(t), y2: py(t) }); if (t === 0 && cfg.zero) l.style.stroke = 'var(--line-2)'; grid.append(l);
+    const tx = svgEl('text', { x: M.l - 8, y: py(t) + 4, 'text-anchor': 'end' }); tx.textContent = cfg.fmt(t, true); grid.append(tx);
   });
-  if (cfg.zero && ticks.includes(0)) { const z = grid.querySelector('.z'); if (z) z.style.stroke = 'var(--line-2)'; }
-  xTicks(ini, fim, W - M.l - M.r).forEach(t => { const tx = document.createElementNS(NS, 'text'); tx.setAttribute('x', px(t.i)); tx.setAttribute('y', H - 8); tx.setAttribute('text-anchor', 'middle'); tx.textContent = t.label; grid.append(tx); });
+  const xt = cfg.xTicks ? cfg.xTicks(W - M.l - M.r) : xTicksCal(ini, fim, W - M.l - M.r);
+  xt.forEach(t => { const tx = svgEl('text', { x: px(t.i), y: H - 8, 'text-anchor': 'middle' }); tx.textContent = t.label; grid.append(tx); });
   const lines = g('lines');
   cfg.series.forEach(s => {
+    if (s.band) {
+      let up = '', down = '', first = true;
+      for (let i = ini; i <= fim; i++) { const lo = s.band.lo[i], hi = s.band.hi[i]; if (lo == null || hi == null) continue; up += (first ? 'M' : 'L') + px(i).toFixed(1) + ' ' + py(hi).toFixed(1); down = 'L' + px(i).toFixed(1) + ' ' + py(lo).toFixed(1) + down; first = false; }
+      if (!first) lines.append(svgEl('path', { class: 'band', fill: s.cor, d: up + down + 'Z' }));
+    }
     let d = '', first = true, lastI = null, lastV = null;
     for (let i = ini; i <= fim; i++) { const v = s.vals[i]; if (v == null || !isFinite(v)) continue; d += (first ? 'M' : 'L') + px(i).toFixed(1) + ' ' + py(v).toFixed(1); first = false; lastI = i; lastV = v; }
     if (first) return;
     if (cfg.area) {
       const base = py(cfg.zero ? 0 : ymin);
       let firstI = ini; while (firstI <= fim && (s.vals[firstI] == null)) firstI++;
-      const a = document.createElementNS(NS, 'path'); a.setAttribute('class', 'ar'); a.setAttribute('fill', s.cor);
-      a.setAttribute('d', d + `L${px(lastI).toFixed(1)} ${base.toFixed(1)}L${px(firstI).toFixed(1)} ${base.toFixed(1)}Z`); lines.append(a);
+      lines.append(svgEl('path', { class: 'ar', fill: s.cor, d: d + `L${px(lastI).toFixed(1)} ${base.toFixed(1)}L${px(firstI).toFixed(1)} ${base.toFixed(1)}Z` }));
     }
-    const p = document.createElementNS(NS, 'path'); p.setAttribute('class', 'ln'); p.setAttribute('stroke', s.cor); if (s.dash) p.setAttribute('stroke-dasharray', '5 4'); p.setAttribute('d', d); lines.append(p);
-    const ring = document.createElementNS(NS, 'circle'); ring.setAttribute('cx', px(lastI)); ring.setAttribute('cy', py(lastV)); ring.setAttribute('r', 5.5); ring.setAttribute('fill', 'var(--surface)'); lines.append(ring);
-    const dot = document.createElementNS(NS, 'circle'); dot.setAttribute('cx', px(lastI)); dot.setAttribute('cy', py(lastV)); dot.setAttribute('r', 3.5); dot.setAttribute('fill', s.cor); lines.append(dot);
-    if (cfg.endLabel) { const tx = document.createElementNS(NS, 'text'); tx.setAttribute('class', 'endlbl'); tx.setAttribute('x', px(lastI) + 9); tx.setAttribute('y', py(lastV) + 4); tx.textContent = cfg.fmt(lastV); lines.append(tx); }
+    const p = svgEl('path', { class: 'ln', stroke: s.cor, d }); if (s.dash) p.setAttribute('stroke-dasharray', '5 4'); if (s.fina) p.style.strokeWidth = '1.4'; lines.append(p);
+    lines.append(svgEl('circle', { cx: px(lastI), cy: py(lastV), r: 5.5, fill: 'var(--surface)' }));
+    lines.append(svgEl('circle', { cx: px(lastI), cy: py(lastV), r: 3.5, fill: s.cor }));
+    if (cfg.endLabel) { const tx = svgEl('text', { class: 'endlbl', x: px(lastI) + 9, y: py(lastV) + 4 }); tx.textContent = cfg.fmt(lastV); lines.append(tx); }
   });
   // crosshair + tooltip
-  const xh = document.createElementNS(NS, 'line'); xh.setAttribute('class', 'xh'); xh.setAttribute('y1', M.t); xh.setAttribute('y2', H - M.b); xh.style.display = 'none'; svg.append(xh);
-  const dots = cfg.series.map(s => { const c = document.createElementNS(NS, 'circle'); c.setAttribute('r', 4); c.setAttribute('fill', s.cor); c.setAttribute('stroke', 'var(--surface)'); c.setAttribute('stroke-width', 2); c.style.display = 'none'; svg.append(c); return c; });
-  const hit = document.createElementNS(NS, 'rect'); hit.setAttribute('class', 'hit'); hit.setAttribute('x', M.l); hit.setAttribute('y', 0); hit.setAttribute('width', W - M.l - M.r); hit.setAttribute('height', H); svg.append(hit);
+  const xh = svgEl('line', { class: 'xh', y1: M.t, y2: H - M.b }); xh.style.display = 'none'; svg.append(xh);
+  const dots = cfg.series.map(s => { const c = svgEl('circle', { r: 4, fill: s.cor, stroke: 'var(--surface)', 'stroke-width': 2 }); c.style.display = 'none'; svg.append(c); return c; });
+  const hit = svgEl('rect', { class: 'hit', x: M.l, y: 0, width: W - M.l - M.r, height: H }); svg.append(hit);
   const tip = el('div', 'tip'); root.append(svg, tip);
+  const xLabel = cfg.xLabel || ((i) => dBR(S.meta.calendario[i]));
   const mover = (ev) => {
     const r = svg.getBoundingClientRect(); const x = (ev.clientX - r.left) * (W / r.width);
     const i = Math.round(ini + (x - M.l) / (W - M.l - M.r) * (fim - ini)); if (i < ini || i > fim) { sair(); return; }
     xh.setAttribute('x1', px(i)); xh.setAttribute('x2', px(i)); xh.style.display = '';
-    tip.innerHTML = ''; tip.append(el('div', 'd', dBR(S.meta.calendario[i])));
+    tip.innerHTML = ''; tip.append(el('div', 'd', xLabel(i)));
     cfg.series.forEach((s, k) => { const v = s.vals[i]; if (v == null || !isFinite(v)) { dots[k].style.display = 'none'; return; }
       dots[k].setAttribute('cx', px(i)); dots[k].setAttribute('cy', py(v)); dots[k].style.display = '';
-      const row = el('div', 'r'); const key = el('i', s.dash ? 'dash' : ''); key.style.borderTopColor = s.cor; row.append(key, el('b', null, cfg.fmt(v)), el('span', null, s.nome)); tip.append(row); });
+      const row = el('div', 'r'); const key = el('i', s.dash ? 'dash' : ''); key.style.borderTopColor = s.cor;
+      row.append(key, el('b', null, cfg.fmt(v) + (s.band && s.band.lo[i] != null ? '' : '')), el('span', null, s.nome + (s.band && s.band.lo[i] != null ? ' (' + cfg.fmt(s.band.lo[i]) + ' a ' + cfg.fmt(s.band.hi[i]) + ')' : ''))); tip.append(row); });
     tip.style.display = 'block';
     const tw = tip.offsetWidth, left = (px(i) / W) * r.width; tip.style.left = (left + 14 + tw > r.width ? left - tw - 14 : left + 14) + 'px';
     tip.style.top = Math.max(0, Math.min((ev.clientY - r.top) - 20, r.height - tip.offsetHeight - 4)) + 'px';
@@ -595,55 +888,70 @@ function desenhar(root, cfg) {
 }
 function legenda(box, series) { box.innerHTML = ''; series.forEach(s => { const k = el('span', 'k'); const i = el('i', s.dash ? 'dash' : ''); i.style.borderTopColor = s.cor; k.append(i, el('span', null, s.nome)); box.append(k); }); }
 
+// ------------------------------------------------------------------ séries de referência (CDI e benchmarks) na janela
+function acumulada(qff, ini, fim, ateIdx) {
+  const vals = new Array(S.meta.calendario.length).fill(null); let base = null, baseI = null;
+  for (let i = ini; i <= Math.min(fim, ateIdx == null ? fim : ateIdx); i++) { const v = qff[i]; if (v == null) continue; if (base == null) { base = v; baseI = i; } vals[i] = v / base - 1; }
+  return { vals, baseI };
+}
+function refSeries(J) {
+  const out = [];
+  if (S.cdi) { const cdiVals = new Array(S.meta.calendario.length).fill(null); const c0 = S.meta.cdi[J.ini]; for (let i = J.ini; i <= J.fim; i++) cdiVals[i] = S.meta.cdi[i] / c0 - 1; out.push({ id: 'cdi', nome: 'CDI', cor: COR_CDI, dash: true, vals: cdiVals, ret: S.meta.cdi }); }
+  S.bench.forEach(id => { const p = S.cache.get('b:' + id); if (!p || !p.__v) return; const b = p.__v; const a = acumulada(b.qff, J.ini, J.fim, b.ateIdx); out.push({ id, nome: b.nome, cor: CORES_BENCH[id] || COR_CDI, dash: true, vals: a.vals, doc: b }); });
+  return out;
+}
+// guarda o valor resolvido das promessas de cache para uso síncrono
+const _cachedSet = S.cache.set.bind(S.cache);
+S.cache.set = (k, p) => { p.then(v => { p.__v = v; }, () => {}); return _cachedSet(k, p); };
+
 // ------------------------------------------------------------------ render principal
 function render() {
   const prontos = S.sel.filter(s => s.data);
   const app = $('app'), empty = $('empty');
   if (!prontos.length) { app.classList.add('hidden'); empty.classList.remove('hidden'); return; }
   app.classList.remove('hidden'); empty.classList.add('hidden');
-  const J = janela(), W = String(S.periodo);
-  const cal = S.meta.calendario;
+  const J = janela(), W = String(S.periodo), cal = S.meta.calendario;
 
-  // 1. rentabilidade acumulada (fundos + CDI) a partir do início da janela
-  const acum = prontos.map(s => {
-    const f = s.data, vals = new Array(cal.length).fill(null);
-    let base = null, baseI = null;
-    for (let i = J.ini; i <= Math.min(J.fim, f.ateIdx); i++) { const v = f.qff[i]; if (v == null) continue; if (base == null) { base = v; baseI = i; } vals[i] = v / base - 1; }
-    return { nome: f.nome, cor: s.cor, vals, baseI, f };
-  });
-  const cdiVals = new Array(cal.length).fill(null); const c0 = S.meta.cdi[J.ini];
-  for (let i = J.ini; i <= J.fim; i++) cdiVals[i] = S.meta.cdi[i] / c0 - 1;
-  const seriesAcum = [...acum, { nome: 'CDI', cor: COR_CDI, dash: true, vals: cdiVals }];
-  desenhar($('ch-acum'), { series: seriesAcum, ini: J.ini, fim: J.fim, altura: 300, fmt: (v, t) => t ? (v * 100).toFixed(0) + '%' : pctSign(v), zero: true });
+  // 1. rentabilidade acumulada (ativos + CDI + benchmarks) a partir do início da janela
+  const acum = prontos.map(s => { const f = s.data; const a = acumulada(f.qff, J.ini, J.fim, f.ateIdx); return { nome: f.nome, cor: s.cor, vals: a.vals, baseI: a.baseI, f }; });
+  const refs = refSeries(J);
+  const seriesAcum = [...acum, ...refs];
+  desenhar($('ch-acum'), { series: seriesAcum, ini: J.ini, fim: J.fim, altura: 320, fmt: (v, t) => t ? (v * 100).toFixed(0) + '%' : pctSign(v), zero: true });
   legenda($('lg-acum'), seriesAcum);
   const tardios = acum.filter(a => a.baseI != null && a.baseI > J.ini + 5);
-  $('acum-sub').textContent = 'De ' + dBR(cal[J.ini]) + ' a ' + dBR(cal[J.fim]) + ', fundos e CDI no mesmo ponto de partida.' +
-    (tardios.length ? ' ' + tardios.map(a => a.nome + ' começa em ' + dBR(cal[a.baseI])).join('; ') + '.' : '');
+  $('acum-sub').textContent = 'De ' + dBR(cal[J.ini]) + ' a ' + dBR(cal[J.fim]) + ', todos no mesmo ponto de partida.' +
+    (tardios.length ? ' ' + tardios.map(a => a.nome + ' começa em ' + dBR(cal[a.baseI])).join('; ') + '.' : '') +
+    (refs.some(r => r.doc && r.doc.moeda === 'USD') ? ' Índices em dólar não incluem a variação cambial.' : '');
 
   // 2. tabela por período
   const tb = $('tb-ret'); tb.innerHTML = '';
-  const th = el('tr'); th.append(el('th', null, 'Fundo')); JANELAS.forEach(w => th.append(el('th', null, w + ' meses'))); { const _h = el('thead'); _h.append(th); tb.append(_h); }
+  const th = el('tr'); th.append(el('th', null, 'Ativo')); JANELAS.forEach(w => th.append(el('th', null, w + ' meses'))); { const _h = el('thead'); _h.append(th); tb.append(_h); }
   const tbody = el('tbody');
-  prontos.forEach(s => { const tr = el('tr'); tr.append(nomeCell(s)); JANELAS.forEach(w => { const j = s.data.janelas[String(w)]; const td = el('td'); if (!j) { td.className = 'na'; td.textContent = 'sem histórico'; } else { td.textContent = pct(j.ret); if (j.ret < 0) td.classList.add('neg'); const sub = el('span', 'sub2', j.ret > 0 && j.pcdi != null ? fmtNum(j.pcdi, 0) + '% do CDI' : (j.ret <= 0 ? 'abaixo do CDI' : '')); td.append(sub); } tr.append(td); }); tbody.append(tr); });
-  const trc = el('tr', 'cdi'); const tdc = el('td'); const n = el('span', 'n'); n.append(el('i', 'cdi'), el('span', null, 'CDI')); tdc.append(n); trc.append(tdc);
-  JANELAS.forEach(w => { const a = idxAte(subMeses(S.meta.referencia, w)); const td = el('td'); td.textContent = a >= 0 ? pct(S.meta.cdi[J.fim] / S.meta.cdi[a] - 1) : ''; td.append(el('span', 'sub2', 'referência')); trc.append(td); });
-  tbody.append(trc); tb.append(tbody);
+  prontos.forEach(s => { const tr = el('tr'); tr.append(nomeCell(s)); JANELAS.forEach(w => { const j = s.data.janelas[String(w)]; const td = el('td'); if (!j) { td.className = 'na'; td.textContent = 'sem histórico'; } else { td.textContent = pct(j.ret); if (j.ret < 0) td.classList.add('neg'); td.append(el('span', 'sub2', j.ret > 0 && j.pcdi != null ? fmtNum(j.pcdi, 0) + '% do CDI' : (j.ret <= 0 ? 'abaixo do CDI' : ''))); } tr.append(td); }); tbody.append(tr); });
+  refs.forEach(r => { const tr = el('tr', 'ref'); const td0 = el('td'); const n = el('span', 'n'); const i = el('i', 'dash'); i.style.borderTopColor = r.cor; n.append(i, el('span', null, r.nome)); td0.append(n); tr.append(td0);
+    JANELAS.forEach(w => { const a = idxAte(subMeses(S.meta.referencia, w)); const td = el('td'); let v = null;
+      if (r.id === 'cdi') v = a >= 0 ? S.meta.cdi[J.fim] / S.meta.cdi[a] - 1 : null; else { const j = r.doc.janelas[String(w)]; v = j ? j.ret : null; }
+      if (v == null) { td.className = 'na'; td.textContent = 'sem histórico'; } else { td.textContent = pct(v); if (v < 0) td.classList.add('neg'); td.append(el('span', 'sub2', r.id === 'cdi' ? 'referência' : (v > 0 && r.doc.janelas[String(w)].pcdi != null ? fmtNum(r.doc.janelas[String(w)].pcdi, 0) + '% do CDI' : 'abaixo do CDI'))); }
+      tr.append(td); }); tbody.append(tr); });
+  tb.append(tbody);
 
-  // 3. patrimônio líquido (pequenos múltiplos)
-  multiplos($('mm-pl'), prontos, 'plw', (v) => money(v), (v, t) => t ? compactR(v) : money(v));
+  // 3. patrimônio líquido (só fundos)
+  const fundos = prontos.filter(s => s.kind === 'fundo');
+  $('card-pl').classList.toggle('hidden', !fundos.length);
+  if (fundos.length) multiplos($('mm-pl'), fundos, 'plw', (v) => money(v), (v, t) => t ? compactR(v) : money(v));
 
   // 4. correlação e Sharpe
-  correlacao(prontos, J);
-  tabelaJanelas($('tb-sharpe'), prontos, (j) => j.sharpe != null ? fmtNum(j.sharpe, 2) : null);
+  correlacao(prontos, refs, J);
+  tabelaJanelas($('tb-sharpe'), prontos, (j) => j.vol != null && j.vol < 0.004 ? '—' : (j.sharpe != null ? fmtNum(j.sharpe, 2) : null));
 
   if ($('more').classList.contains('on')) renderMais();
+  if (S.persp) renderPersp();
 }
-function compactR(v) { const a = Math.abs(v); if (a >= 1e9) return fmtNum(v / 1e9, 1) + ' bi'; if (a >= 1e6) return fmtNum(v / 1e6, 0) + ' mi'; if (a >= 1e3) return fmtNum(v / 1e3, 0) + ' mil'; return fmtNum(v, 0); }
 function nomeCell(s) { const td = el('td'); const n = el('span', 'n'); const i = el('i'); i.style.background = s.cor; const sp = el('span', null, s.data.nome); sp.title = s.data.nome; n.append(i, sp); td.append(n); return td; }
 function tabelaJanelas(tb, prontos, fn, extraCols) {
-  tb.innerHTML = ''; const th = el('tr'); th.append(el('th', null, 'Fundo')); JANELAS.forEach(w => th.append(el('th', null, w + ' m'))); (extraCols || []).forEach(c => th.append(el('th', null, c.titulo))); { const _h = el('thead'); _h.append(th); tb.append(_h); }
+  tb.innerHTML = ''; const th = el('tr'); th.append(el('th', null, 'Ativo')); JANELAS.forEach(w => th.append(el('th', null, w + ' m'))); (extraCols || []).forEach(c => th.append(el('th', null, c.titulo))); { const _h = el('thead'); _h.append(th); tb.append(_h); }
   const tbody = el('tbody');
-  prontos.forEach(s => { const tr = el('tr'); tr.append(nomeCell(s)); JANELAS.forEach(w => { const j = s.data.janelas[String(w)]; const td = el('td'); const v = j ? fn(j) : null; if (v == null) { td.className = 'na'; td.textContent = j ? 'n/d' : 'sem histórico'; } else td.textContent = v; tr.append(td); }); (extraCols || []).forEach(c => { const td = el('td'); const v = c.fn(s); if (v == null) { td.className = 'na'; td.textContent = 'n/d'; } else td.textContent = v; tr.append(td); }); tbody.append(tr); });
+  prontos.forEach(s => { const tr = el('tr'); tr.append(nomeCell(s)); JANELAS.forEach(w => { const j = s.data.janelas[String(w)]; const td = el('td'); const v = j ? fn(j) : null; if (v == null) { td.className = 'na'; td.textContent = j ? 'n/d' : 'sem histórico'; } else if (v === '—') { td.className = 'na'; td.textContent = v; td.title = 'Acompanha o CDI: volatilidade abaixo de 0,4% a.a.'; } else td.textContent = v; tr.append(td); }); (extraCols || []).forEach(c => { const td = el('td'); const v = c.fn(s); if (v == null) { td.className = 'na'; td.textContent = 'n/d'; } else td.textContent = v; tr.append(td); }); tbody.append(tr); });
   tb.append(tbody);
 }
 function multiplos(box, prontos, campo, fmtV, fmtAxis) {
@@ -651,8 +959,7 @@ function multiplos(box, prontos, campo, fmtV, fmtAxis) {
   const cal = S.meta.calendario, sem = S.meta.semanas, pend = [];
   prontos.forEach(s => {
     const f = s.data, vals = new Array(cal.length).fill(null);
-    f[campo].forEach((v, k) => { const wi = f.w0 + k; if (wi < sem.length && v != null) vals[sem[wi]] = v; });
-    // preencher entre semanas para a linha ficar contínua
+    (f[campo] || []).forEach((v, k) => { const wi = f.w0 + k; if (wi < sem.length && v != null) vals[sem[wi]] = v; });
     let last = null; for (let i = 0; i < cal.length; i++) { if (vals[i] != null) last = vals[i]; else if (last != null && i >= sem[f.w0] && i <= f.ateIdx) vals[i] = last; }
     const m = el('div', 'm'); const t = el('div', 't'); const nm = el('span', 'n'); const dot = el('i'); dot.style.cssText = 'width:9px;height:9px;border-radius:50%;background:' + s.cor + ';flex:none'; nm.append(dot, el('span', null, f.nome)); nm.title = f.nome;
     const ult = campo === 'plw' ? f.pl : f.cotistas;
@@ -661,17 +968,21 @@ function multiplos(box, prontos, campo, fmtV, fmtAxis) {
     pend.push([ch, { nome: f.nome, cor: s.cor, vals }]);
   });
   const J = janela();
-  pend.forEach(([ch, serie]) => desenhar(ch, { series: [serie], ini: J.ini, fim: J.fim, altura: 150, area: true, fmt: fmtAxis }));
+  pend.forEach(([ch, serie]) => desenhar(ch, { series: [serie], ini: J.ini, fim: J.fim, altura: 150, area: true, fmt: fmtAxis, semMarca: true }));
 }
-function correlacao(prontos, J) {
+function correlacao(prontos, refs, J) {
   const tb = $('tb-corr'); tb.innerHTML = '';
-  $('corr-sub').textContent = 'Correlação dos retornos diários entre ' + dCurta(S.meta.calendario[J.ini]) + ' e ' + dCurta(S.meta.calendario[J.fim]) + '. Perto de 1, os fundos sobem e caem juntos; perto de 0, não há relação.';
-  if (prontos.length < 2) { const tr = el('tr'); const td = el('td', 'na', 'Adicione pelo menos dois fundos para ver a correlação entre eles.'); td.style.whiteSpace = 'normal'; td.style.textAlign = 'left'; tr.append(td); tb.append(tr); return; }
-  const n = prontos.length, R = [];
-  for (let a = 0; a < n; a++) { R.push([]); for (let b = 0; b < n; b++) R[a].push(a === b ? 1 : pearson(prontos[a].data.ret, prontos[b].data.ret, J)); }
-  const th = el('tr'); th.append(el('th', null, '')); prontos.forEach(s => { const h = el('th'); const i = el('i'); i.style.cssText = 'display:inline-block;width:9px;height:9px;border-radius:50%;background:' + s.cor; h.append(i); h.title = s.data.nome; th.append(h); }); { const _h = el('thead'); _h.append(th); tb.append(_h); }
+  $('corr-sub').textContent = 'Correlação dos retornos diários entre ' + dCurta(S.meta.calendario[J.ini]) + ' e ' + dCurta(S.meta.calendario[J.fim]) + '. Perto de 1, sobem e caem juntos; perto de 0, não há relação.';
+  const itens = prontos.map(s => ({ nome: s.data.nome, cor: s.cor, ret: s.data.ret, dash: false }));
+  refs.forEach(r => { if (r.id === 'cdi') { const ret = new Array(S.meta.calendario.length).fill(null); for (let i = 1; i < ret.length; i++) ret[i] = S.meta.cdi[i] / S.meta.cdi[i - 1] - 1; itens.push({ nome: 'CDI', cor: r.cor, ret, dash: true }); } else itens.push({ nome: r.nome, cor: r.cor, ret: r.doc.ret, dash: true }); });
+  tb.closest('.grid2').classList.toggle('wide', itens.length > 4);
+  if (itens.length < 2) { const tr = el('tr'); const td = el('td', 'na', 'Adicione pelo menos dois ativos, ou um ativo e um benchmark, para ver a correlação.'); td.style.whiteSpace = 'normal'; td.style.textAlign = 'left'; tr.append(td); tb.append(tr); return; }
+  const n = itens.length, R = [];
+  for (let a = 0; a < n; a++) { R.push([]); for (let b = 0; b < n; b++) R[a].push(a === b ? 1 : pearson(itens[a].ret, itens[b].ret, J)); }
+  const th = el('tr'); th.append(el('th', null, '')); itens.forEach(s => { const h = el('th'); const i = el('i'); i.style.cssText = s.dash ? 'display:inline-block;width:14px;border-top:2px dashed ' + s.cor + ';vertical-align:middle' : 'display:inline-block;width:9px;height:9px;border-radius:50%;background:' + s.cor; h.append(i); h.title = s.nome; th.append(h); }); { const _h = el('thead'); _h.append(th); tb.append(_h); }
   const tbody = el('tbody');
-  prontos.forEach((s, a) => { const tr = el('tr'); tr.append(nomeCell(s)); prontos.forEach((t, b) => { const td = el('td'); const v = R[a][b]; const c = el('span', 'cell', v == null ? 'n/d' : fmtNum(v, 2)); c.style.background = corCorr(v); c.style.color = (v != null && Math.abs(v) > 0.55) ? '#0B1730' : 'var(--text)'; td.append(c); tr.append(td); }); tbody.append(tr); });
+  itens.forEach((s, a) => { const tr = el('tr'); const td0 = el('td'); const nn = el('span', 'n'); const i = el('i', s.dash ? 'dash' : ''); if (s.dash) i.style.borderTopColor = s.cor; else i.style.background = s.cor; const sp = el('span', null, s.nome); sp.title = s.nome; nn.append(i, sp); td0.append(nn); tr.append(td0);
+    itens.forEach((t, b) => { const td = el('td'); const v = R[a][b]; const c = el('span', 'cell', v == null ? 'n/d' : fmtNum(v, 2)); c.style.background = corCorr(v); c.style.color = (v != null && Math.abs(v) > 0.55) ? '#0B1730' : 'var(--text)'; td.append(c); tr.append(td); }); tbody.append(tr); });
   tb.append(tbody);
 }
 function pearson(ra, rb, J) {
@@ -679,7 +990,7 @@ function pearson(ra, rb, J) {
   for (let i = J.ini + 1; i <= J.fim; i++) { const a = ra[i], b = rb[i]; if (a == null || b == null) continue; n++; sa += a; sb += b; saa += a * a; sbb += b * b; sab += a * b; }
   if (n < 20) return null;
   const cov = sab / n - (sa / n) * (sb / n), va = saa / n - (sa / n) ** 2, vb = sbb / n - (sb / n) ** 2;
-  if (va <= 0 || vb <= 0) return null;
+  if (va <= 1e-14 || vb <= 1e-14) return null;
   return Math.max(-1, Math.min(1, cov / Math.sqrt(va * vb)));
 }
 function corCorr(v) { // divergente: dourado (−1) · neutro (0) · azul (+1)
@@ -695,10 +1006,14 @@ function corCorr(v) { // divergente: dourado (−1) · neutro (0) · azul (+1)
 function renderMais() {
   const prontos = S.sel.filter(s => s.data); if (!prontos.length) return;
   const J = janela(), cal = S.meta.calendario, W = String(S.periodo);
-  multiplos($('mm-cot'), prontos, 'cotw', (v) => v == null ? null : inteiro(v) + ' cotistas', (v, t) => t ? compact(v) : inteiro(v));
-  // drawdown na janela
-  const dd = prontos.map(s => { const f = s.data, vals = new Array(cal.length).fill(null); let pico = -Infinity; for (let i = J.ini; i <= Math.min(J.fim, f.ateIdx); i++) { const v = f.qff[i]; if (v == null) continue; if (v > pico) pico = v; vals[i] = v / pico - 1; } return { nome: f.nome, cor: s.cor, vals }; });
-  desenhar($('ch-dd'), { series: dd, ini: J.ini, fim: J.fim, altura: 220, fmt: (v, t) => t ? (v * 100).toFixed(0) + '%' : pct(v), zero: true, area: prontos.length === 1, yMax: 0 });
+  const fundos = prontos.filter(s => s.kind === 'fundo');
+  $('card-cot').classList.toggle('hidden', !fundos.length);
+  if (fundos.length) multiplos($('mm-cot'), fundos, 'cotw', (v) => v == null ? null : inteiro(v) + ' cotistas', (v, t) => t ? compact(v) : inteiro(v));
+  // drawdown na janela (ativos + benchmarks)
+  const ddDe = (qff, ateIdx) => { const vals = new Array(cal.length).fill(null); let pico = -Infinity; for (let i = J.ini; i <= Math.min(J.fim, ateIdx); i++) { const v = qff[i]; if (v == null) continue; if (v > pico) pico = v; vals[i] = v / pico - 1; } return vals; };
+  const dd = prontos.map(s => ({ nome: s.data.nome, cor: s.cor, vals: ddDe(s.data.qff, s.data.ateIdx) }));
+  refSeries(J).filter(r => r.id !== 'cdi').forEach(r => dd.push({ nome: r.nome, cor: r.cor, dash: true, vals: ddDe(r.doc.qff, r.doc.ateIdx) }));
+  desenhar($('ch-dd'), { series: dd, ini: J.ini, fim: J.fim, altura: 220, fmt: (v, t) => t ? (v * 100).toFixed(0) + '%' : pct(v), zero: true, area: dd.length === 1, yMax: 0 });
   legenda($('lg-dd'), dd);
   tabelaJanelas($('tb-dd'), prontos, (j) => pct(j.mdd), [{ titulo: 'Atual', fn: (s) => { const j = s.data.janelas[W]; return j ? pct(j.dd) : null; } }]);
   $('tb-dd').querySelector('thead tr th:first-child').textContent = 'Drawdown máximo';
@@ -706,35 +1021,339 @@ function renderMais() {
   // consistência (janela selecionada)
   const tc = $('tb-cons'); tc.innerHTML = '';
   $('cons-sub').textContent = 'Meses fechados nos últimos ' + S.periodo + ' meses.';
-  const th = el('tr'); ['Fundo', 'Acima do CDI', 'Meses positivos', 'Melhor mês', 'Pior mês'].forEach(t => th.append(el('th', null, t))); { const _h = el('thead'); _h.append(th); tc.append(_h); }
+  const th = el('tr'); ['Ativo', 'Acima do CDI', 'Meses positivos', 'Melhor mês', 'Pior mês'].forEach(t => th.append(el('th', null, t))); { const _h = el('thead'); _h.append(th); tc.append(_h); }
   const tbc = el('tbody');
-  prontos.forEach(s => { const j = s.data.janelas[W]; const tr = el('tr'); tr.append(nomeCell(s)); if (!j || !j.meses) { const td = el('td', 'na', 'sem histórico'); td.colSpan = 4; tr.append(td); } else { const c1 = el('td', null, fmtNum(j.cons * 100, 0) + '%'); c1.append(el('span', 'sub2', Math.round(j.cons * j.meses) + ' de ' + j.meses + ' meses')); const c2 = el('td', null, fmtNum(j.pos * 100, 0) + '%'); c2.append(el('span', 'sub2', Math.round(j.pos * j.meses) + ' de ' + j.meses + ' meses')); tr.append(c1, c2, el('td', null, pctSign(j.melhor)), el('td', j.pior < 0 ? 'neg' : '', pctSign(j.pior))); } tbc.append(tr); });
+  prontos.forEach(s => { const j = s.data.janelas[W]; const tr = el('tr'); tr.append(nomeCell(s));
+    if (!j || !j.meses || j.cons == null) { const ms = (s.data.mensal || []).filter(m => !m[3]).slice(-S.periodo); if (!ms.length) { const td = el('td', 'na', 'sem histórico'); td.colSpan = 4; tr.append(td); } else { const acima = ms.filter(m => m[1] > m[2]).length, pos = ms.filter(m => m[1] > 0).length; const c1 = el('td', null, fmtNum(acima / ms.length * 100, 0) + '%'); c1.append(el('span', 'sub2', acima + ' de ' + ms.length + ' meses')); const c2 = el('td', null, fmtNum(pos / ms.length * 100, 0) + '%'); c2.append(el('span', 'sub2', pos + ' de ' + ms.length + ' meses')); const mx = Math.max(...ms.map(m => m[1])), mn = Math.min(...ms.map(m => m[1])); tr.append(c1, c2, el('td', null, pctSign(mx)), el('td', mn < 0 ? 'neg' : '', pctSign(mn))); } }
+    else { const c1 = el('td', null, fmtNum(j.cons * 100, 0) + '%'); c1.append(el('span', 'sub2', Math.round(j.cons * j.meses) + ' de ' + j.meses + ' meses')); const c2 = el('td', null, fmtNum(j.pos * 100, 0) + '%'); c2.append(el('span', 'sub2', Math.round(j.pos * j.meses) + ' de ' + j.meses + ' meses')); tr.append(c1, c2, el('td', null, pctSign(j.melhor)), el('td', j.pior < 0 ? 'neg' : '', pctSign(j.pior))); }
+    tbc.append(tr); });
   tc.append(tbc);
   // rentabilidade mensal (últimos 12 meses)
   const tm = $('tb-mensal'); tm.innerHTML = '';
-  const meses = new Map(); prontos.forEach(s => s.data.mensal.forEach(m => meses.set(m[0], m[2])));
+  const meses = new Map(); prontos.forEach(s => (s.data.mensal || []).forEach(m => meses.set(m[0], m[2])));
   const ult = [...meses.keys()].sort().slice(-12);
   const thm = el('tr'); thm.append(el('th', null, 'Mês')); prontos.forEach(s => { const h = el('th'); const i = el('i'); i.style.cssText = 'display:inline-block;width:9px;height:9px;border-radius:50%;background:' + s.cor + ';margin-right:6px;vertical-align:middle'; h.append(i, document.createTextNode(s.data.nome.length > 22 ? s.data.nome.slice(0, 20) + '…' : s.data.nome)); h.title = s.data.nome; h.style.textAlign = 'right'; thm.append(h); }); thm.append(el('th', null, 'CDI')); { const _h = el('thead'); _h.append(thm); tm.append(_h); }
   const tbm = el('tbody');
-  ult.forEach(ym => { const tr = el('tr'); const parcial = prontos.some(s => s.data.mensal.some(m => m[0] === ym && m[3])); const td0 = el('td', null, mesLbl(ym) + (parcial ? ' (parcial)' : '')); td0.style.fontWeight = '400'; tr.append(td0);
-    prontos.forEach(s => { const m = s.data.mensal.find(x => x[0] === ym); const td = el('td'); if (!m) { td.className = 'na'; td.textContent = 'n/d'; } else { td.textContent = pctSign(m[1], 2); if (m[1] < 0) td.classList.add('neg'); } tr.append(td); });
+  ult.forEach(ym => { const tr = el('tr'); const parcial = prontos.some(s => (s.data.mensal || []).some(m => m[0] === ym && m[3])); const td0 = el('td', null, mesLbl(ym) + (parcial ? ' (parcial)' : '')); td0.style.fontWeight = '400'; tr.append(td0);
+    prontos.forEach(s => { const m = (s.data.mensal || []).find(x => x[0] === ym); const td = el('td'); if (!m) { td.className = 'na'; td.textContent = 'n/d'; } else { td.textContent = pctSign(m[1], 2); if (m[1] < 0) td.classList.add('neg'); } tr.append(td); });
     const tdc = el('td', null, pctSign(meses.get(ym), 2)); tdc.style.color = 'var(--text-2)'; tr.append(tdc); tbm.append(tr); });
   tm.append(tbm);
   // ficha
   const fb = $('ficha'); fb.innerHTML = '';
   prontos.forEach(s => { const f = s.data; const d = el('div', 'f'); const h = el('h3'); const i = el('i'); i.style.background = s.cor; h.append(i, document.createTextNode(f.nome)); d.append(h);
-    const dl = el('dl'); const add = (k, v) => { if (v == null || v === '') return; dl.append(el('dt', null, k), el('dd', null, v)); };
-    add('CNPJ', f.cnpj_fmt); add('Classe CVM', f.classe); add('Classe ANBIMA', f.anbima); add('Gestor', f.gestor); add('Administrador', f.adm); add('Público-alvo', f.publico);
-    add('Taxa de administração', f.taxa_adm ? f.taxa_adm.replace('.', ',') + '% a.a.' : null); add('Taxa de performance', f.taxa_perf ? f.taxa_perf.replace('.', ',') + '%' : null);
-    add('Início', f.inicio ? dBR(f.inicio) : null); add('Fundo de cotas', f.cotas === 'S' ? 'Sim' : f.cotas === 'N' ? 'Não' : null);
-    add('Patrimônio líquido', money(f.pl)); add('Cotistas', inteiro(f.cotistas)); add('Última cota', dBR(f.ate));
+    const dl = el('dl'); const add = (k, v, href) => { if (v == null || v === '') return; const dd = el('dd'); if (href) { const a = el('a', null, v); a.href = href; a.target = '_blank'; a.rel = 'noopener'; dd.append(a); } else dd.textContent = v; dl.append(el('dt', null, k), dd); };
+    if (s.kind === 'fundo') {
+      add('CNPJ', f.cnpj_fmt); add('Classe CVM', f.classe); add('Classe ANBIMA', f.anbima); add('Gestor', f.gestor); add('Administrador', f.adm); add('Público-alvo', f.publico);
+      add('Taxa de administração', f.taxa_adm ? String(f.taxa_adm).replace('.', ',') + '% a.a.' : null); add('Taxa de performance', f.taxa_perf ? String(f.taxa_perf).replace('.', ',') + '%' : null);
+      add('Início', f.inicio ? dBR(f.inicio) : null); add('Fundo de cotas', f.cotas === 'S' ? 'Sim' : f.cotas === 'N' ? 'Não' : null);
+      add('Patrimônio líquido', money(f.pl)); add('Cotistas', inteiro(f.cotistas)); add('Última cota', dBR(f.ate));
+      if (f.xp) { const xv = (v) => v == null || v === '' || v === '-' ? null : v; add('Na XP', [f.xp.tipo, f.xp.classe].filter(Boolean).join(' · ')); add('Benchmark (XP)', xv(f.xp.benchmark)); add('Risco (XP)', f.xp.risco != null ? fmtNum(f.xp.risco, 0) + ' de 100' : null); add('Aplicação mínima', f.xp.aplic_min != null ? money(f.xp.aplic_min) : null); add('Resgate', f.xp.liquidez_dias != null ? 'D+' + fmtNum(f.xp.liquidez_dias, 0) : null); add('Status na XP', xv(f.xp.status)); if (f.xp.pagina) add('Página na XP', 'abrir', f.xp.pagina); }
+    } else if (s.kind === 'tesouro') {
+      add('Título', f.tipo); add('Vencimento', dBR(f.venc)); add('Indexador', f.indexador === 'PRE' ? 'Prefixado' : f.indexador === 'SELIC' ? 'Selic' : 'IPCA'); add('Taxa atual', fmtNum(f.taxa, 2) + '%' + (f.indexador === 'PRE' ? ' a.a.' : f.indexador === 'SELIC' ? ' + Selic' : ' + IPCA'));
+      if (f.taxa_hist) add('Taxa desde ' + dBR(f.taxa_hist.desde), 'mín. ' + fmtNum(f.taxa_hist.min, 2) + '% · mediana ' + fmtNum(f.taxa_hist.mediana, 2) + '% · máx. ' + fmtNum(f.taxa_hist.max, 2) + '%');
+      add('Duration', f.duration != null ? fmtNum(f.duration, 1) + ' anos' : null); add('Cupom', f.cupom ? fmtNum(f.cupom * 100, 0) + '% a.a., semestral' : 'Não paga cupom'); add('Última cotação', dBR(f.ate)); add('Fonte', 'Tesouro Transparente (preço de venda ao Tesouro)');
+    } else {
+      add('Tipo', f.tipo === 'pcdi' ? 'Pós-fixado ao CDI' : f.tipo === 'pre' ? 'Prefixado' : 'IPCA + juro fixo'); add('Taxa', f.tipo === 'pcdi' ? fmtNum(f.taxa, 1) + '% do CDI' : fmtNum(f.taxa, 2) + '% a.a.'); add('Construção', f.tipo === 'pcdi' ? 'CDI diário do Banco Central multiplicado pelo percentual' : f.tipo === 'pre' ? 'Juro fixo capitalizado por dia útil' : 'IPCA mensal do IBGE mais o juro fixo, por dia útil'); add('Observação', 'Série sintética, sem marcação a mercado, sem custos e antes do imposto de renda.');
+    }
     d.append(dl); fb.append(d); });
 }
 
-// ------------------------------------------------------------------ redimensionamento
-let rto; window.addEventListener('resize', () => { clearTimeout(rto); rto = setTimeout(() => { if (S.sel.some(s => s.data)) render(); }, 150); });
+// ------------------------------------------------------------------ ranking dos fundos da XP
+const ORD = { ret12: (a, b) => (b.ret12 ?? -9) - (a.ret12 ?? -9), pcdi12: (a, b) => (b.pcdi12 ?? -9e9) - (a.pcdi12 ?? -9e9), sharpe12: (a, b) => (b.sharpe12 ?? -9e9) - (a.sharpe12 ?? -9e9), vol12: (a, b) => (a.vol12 ?? 9e9) - (b.vol12 ?? 9e9), pl: (a, b) => (b.pl ?? 0) - (a.pl ?? 0), cotistas: (a, b) => (b.cotistas ?? 0) - (a.cotistas ?? 0) };
+function renderRanking() {
+  const rows = S.index.filter(f => f.xp_tipo);
+  const card = $('ranking');
+  if (!rows.length) { card.classList.add('hidden'); return; }
+  card.classList.remove('hidden');
+  const tipos = (S.meta.xp_tipos || []).filter(t => rows.some(r => r.xp_tipo === t));
+  if (!S.rank.tipo || !tipos.includes(S.rank.tipo)) S.rank.tipo = tipos[0];
+  const tabs = $('rank-tabs'); tabs.innerHTML = '';
+  tipos.forEach(t => { const b = el('button', null, t); b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', t === S.rank.tipo ? 'true' : 'false'); b.addEventListener('click', () => { S.rank.tipo = t; S.rank.classe = ''; S.rank.todos = false; renderRanking(); }); tabs.append(b); });
+  const doTipo = rows.filter(r => r.xp_tipo === S.rank.tipo);
+  const classes = [...new Set(doTipo.map(r => r.xp_classe).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+  const sc = $('rank-classe'); sc.innerHTML = ''; sc.append(new Option('Todas as classes (' + doTipo.length + ')', ''));
+  classes.forEach(c => sc.append(new Option(c + ' (' + doTipo.filter(r => r.xp_classe === c).length + ')', c)));
+  if (!classes.includes(S.rank.classe)) S.rank.classe = '';
+  sc.value = S.rank.classe; $('rank-ord').value = S.rank.ord;
+  const lista = doTipo.filter(r => !S.rank.classe || r.xp_classe === S.rank.classe).sort(ORD[S.rank.ord]);
+  const mostrar = S.rank.todos ? lista : lista.slice(0, 15);
+  $('rank-n').textContent = lista.length + (lista.length === 1 ? ' fundo' : ' fundos') + ' · dados CVM até ' + dBR(S.meta.referencia);
+  $('rank-more').textContent = S.rank.todos ? 'Mostrar só os 15 primeiros' : 'Mostrar todos (' + lista.length + ')';
+  $('rank-more').classList.toggle('hidden', lista.length <= 15);
+  const tb = $('tb-rank'); tb.innerHTML = '';
+  const th = el('tr'); ['#', 'Fundo', '12 meses', '% do CDI', 'Volatilidade', 'Sharpe', 'Patrimônio', 'Risco XP', ''].forEach(t => th.append(el('th', null, t))); { const _h = el('thead'); _h.append(th); tb.append(_h); }
+  const tbody = el('tbody');
+  mostrar.forEach((f, k) => {
+    const tr = el('tr'); const dentro = S.sel.some(s => s.key === f.cnpj); if (dentro) tr.className = 'in';
+    tr.append(el('td', null, String(k + 1)));
+    const tdn = el('td'); tdn.append(document.createTextNode(f.nome)); if (f.xp_top) tdn.append(el('span', 'badge', 'Top XP')); tdn.append(el('span', 'sub2', [f.xp_classe, f.gestor].filter(Boolean).join(' · '))); tdn.title = 'Adicionar ' + f.nome + ' à comparação'; tdn.addEventListener('click', () => { if (!dentro && S.sel.length < MAX) { adicionar(f.cnpj, 'fundo'); window.scrollTo({ top: 0, behavior: 'smooth' }); } }); tr.append(tdn);
+    const r = el('td', f.ret12 < 0 ? 'neg' : '', f.ret12 != null ? pct(f.ret12) : 'n/d'); tr.append(r);
+    tr.append(el('td', f.pcdi12 == null ? 'na' : '', f.pcdi12 != null ? fmtNum(f.pcdi12, 0) + '%' : (f.ret12 != null && f.ret12 <= 0 ? 'abaixo' : 'n/d')));
+    tr.append(el('td', null, f.vol12 != null ? pct(f.vol12) : 'n/d'));
+    tr.append(el('td', f.sharpe12 == null || (f.vol12 != null && f.vol12 < 0.004) ? 'na' : '', f.vol12 != null && f.vol12 < 0.004 ? '—' : (f.sharpe12 != null ? fmtNum(f.sharpe12, 2) : 'n/d')));
+    tr.append(el('td', null, money(f.pl) || 'n/d'));
+    tr.append(el('td', f.xp_risco == null ? 'na' : '', f.xp_risco != null ? fmtNum(f.xp_risco, 0) : 'n/d'));
+    const tda = el('td'); const b = el('button', 'add', dentro ? 'Na comparação' : 'Comparar'); b.type = 'button'; b.disabled = dentro || S.sel.length >= MAX; b.addEventListener('click', () => { adicionar(f.cnpj, 'fundo'); window.scrollTo({ top: 0, behavior: 'smooth' }); }); tda.append(b); tr.append(tda);
+    tbody.append(tr);
+  });
+  tb.append(tbody);
+}
+$('rank-classe').addEventListener('change', () => { S.rank.classe = $('rank-classe').value; S.rank.todos = false; renderRanking(); });
+$('rank-ord').addEventListener('change', () => { S.rank.ord = $('rank-ord').value; renderRanking(); });
+$('rank-more').addEventListener('click', () => { S.rank.todos = !S.rank.todos; renderRanking(); });
 
+// ------------------------------------------------------------------ perspectivas (projeções com premissas)
+function melhorJanela(doc) { for (const w of [String(S.periodo), '12', '24', '36', '48']) if (doc.janelas && doc.janelas[w]) return { w: +w, j: doc.janelas[w] }; return null; }
+function anualDoc(doc, ini, fim) { const a = doc.qff[ini], b = doc.qff[fim]; if (a == null || b == null) return null; return anual(b / a - 1, S.periodo); }
+function modeloAtivo(s, P, ipcaDoc) {
+  const f = s.data, cdi = P.cdi / 100, ipca = P.ipca / 100;
+  const out = { nome: f.nome, cor: s.cor, kind: s.kind, mu: cdi, sigma: 0, texto: '' };
+  if (s.kind === 'rf') {
+    if (f.tipo === 'pcdi') { out.mu = f.taxa / 100 * cdi; out.texto = fmtNum(f.taxa, 1) + '% do CDI médio de ' + fmtNum(P.cdi, 2) + '% a.a.'; }
+    else if (f.tipo === 'pre') { out.mu = f.taxa / 100; out.texto = 'Juro fixo de ' + fmtNum(f.taxa, 2) + '% a.a., sem marcação a mercado'; }
+    else { out.mu = (1 + f.taxa / 100) * (1 + ipca) - 1; out.texto = 'IPCA de ' + fmtNum(P.ipca, 2) + '% mais ' + fmtNum(f.taxa, 2) + '% a.a.'; }
+    return out;
+  }
+  const mj = melhorJanela(f); const j = mj ? mj.j : null;
+  if (s.kind === 'tesouro') {
+    const tx = f.taxa / 100;
+    const carry = f.indexador === 'PRE' ? tx : f.indexador === 'SELIC' ? (1 + cdi) * (1 + tx) - 1 : (1 + tx) * (1 + ipca) - 1;
+    let D = f.duration; let dEst = false;
+    if (D == null && f.venc) { D = Math.min(25, Math.max(0.5, (new Date(f.venc) - new Date(S.meta.referencia)) / 3.156e10)) * 0.85; dEst = true; }
+    out.carry = carry; out.D = D; out.dEst = dEst;
+    const h = P.h / 12, dy = f.indexador === 'SELIC' ? 0 : P.dy / 100;
+    const tot = Math.pow(1 + carry, h) * (1 - (D || 0) * dy) - 1;
+    out.mu = Math.pow(1 + tot, 1 / h) - 1;
+    out.sigma = j && j.vol != null ? j.vol : 0.05;
+    out.texto = (f.indexador === 'PRE' ? 'Carrego de ' + fmtNum(f.taxa, 2) + '% a.a.' : f.indexador === 'SELIC' ? 'CDI de ' + fmtNum(P.cdi, 2) + '% mais ' + fmtNum(f.taxa, 2) + '% a.a.' : 'IPCA de ' + fmtNum(P.ipca, 2) + '% mais ' + fmtNum(f.taxa, 2) + '% a.a.')
+      + (D && f.indexador !== 'SELIC' ? '; taxa ' + (P.dy === 0 ? 'estável' : (P.dy > 0 ? 'subindo ' : 'caindo ') + fmtNum(Math.abs(P.dy), 2) + ' p.p.') + ' com duration de ' + fmtNum(D, 1) + ' anos' + (dEst ? ' (estimada)' : '') : '')
+      + '; vol. histórica de ' + pct(out.sigma);
+    return out;
+  }
+  // fundo
+  if (!j) { out.texto = 'Sem janela fechada: assume o CDI'; return out; }
+  const aR = anual(j.ret, mj.w), aC = anual(j.cdi, mj.w);
+  out.sigma = j.vol || 0;
+  const posFixado = j.vol != null && j.vol < 0.01;
+  const xpb = norm((f.xp && f.xp.benchmark) || ''), cls = norm((f.anbima || '') + ' ' + (f.xp && f.xp.classe || ''));
+  const inflacao = /ipca|inflac|imab|ima-b/.test(xpb + ' ' + cls);
+  if (posFixado) {
+    const ratio = aC > 0 ? (1 + aR) / (1 + aC) : 1; const rat = aC > 0 ? aR / aC : 1;
+    out.mu = rat * cdi; out.texto = 'Pós-fixado: replicou ' + fmtNum(rat * 100, 0) + '% do CDI nos últimos ' + mj.w + ' meses, aplicado ao CDI médio de ' + fmtNum(P.cdi, 2) + '% a.a.'; void ratio;
+  } else if (inflacao && ipcaDoc) {
+    const J = { ini: idxAte(subMeses(S.meta.referencia, mj.w)), fim: idxAte(S.meta.referencia) };
+    const aI = anualDoc(ipcaDoc, J.ini, J.fim) ?? ipca;
+    const spread = aR - aI; out.mu = ipca + spread * P.exc;
+    out.texto = 'Indexado à inflação: IPCA de ' + fmtNum(P.ipca, 2) + '% mais ' + (P.exc === 0 ? 'nada' : fmtNum(P.exc * 100, 0) + '% do excesso histórico sobre o IPCA (' + pctSign(spread) + ' a.a.)') + '; vol. de ' + pct(j.vol);
+  } else {
+    const exc = aR - aC; out.mu = cdi + exc * P.exc;
+    out.texto = 'Ativo de risco: CDI de ' + fmtNum(P.cdi, 2) + '% mais ' + (P.exc === 0 ? 'nada' : fmtNum(P.exc * 100, 0) + '% do excesso histórico sobre o CDI (' + pctSign(exc) + ' a.a. em ' + mj.w + ' meses)') + '; vol. de ' + pct(j.vol);
+  }
+  return out;
+}
+function fan(m, h, z) {
+  const muL = Math.log(1 + m.mu) - m.sigma * m.sigma / 2;
+  const med = [], lo = [], hi = [];
+  for (let t = 0; t <= h; t++) { const y = t / 12; const c = muL * y, s = m.sigma * Math.sqrt(y); med.push(Math.exp(c) - 1); lo.push(Math.exp(c - z * s) - 1); hi.push(Math.exp(c + z * s) - 1); }
+  return { med, lo, hi };
+}
+function mesMais(iso, m) { const y = +iso.slice(0, 4), mo = +iso.slice(5, 7) - 1 + m; const d = new Date(Date.UTC(y, mo, 1)); return d.toISOString().slice(0, 7); }
+let perspPend = false;
+async function renderPersp() {
+  const prontos = S.sel.filter(s => s.data); if (!prontos.length || !S.persp) return;
+  if (!S.cache.get('b:ipca') || !S.cache.get('b:ipca').__v) { if (perspPend) return; perspPend = true; try { await carregarBench('ipca'); } catch (e) { console.warn(e); } perspPend = false; }
+  const ipcaDoc = S.cache.get('b:ipca') && S.cache.get('b:ipca').__v;
+  const P = S.prem, h = P.h, z = P.conf === 95 ? 1.96 : 1;
+  const modelos = prontos.map(s => modeloAtivo(s, P, ipcaDoc));
+  const series = modelos.map(m => { const f = fan(m, h, z); return { nome: m.nome, cor: m.cor, vals: f.med, band: m.sigma > 0.002 ? { lo: f.lo, hi: f.hi } : null, m, fim: f.med[h], lo: f.lo[h], hi: f.hi[h] }; });
+  const refs = [{ nome: 'CDI', cor: COR_CDI, dash: true, vals: fan({ mu: P.cdi / 100, sigma: 0 }, h, z).med }, { nome: 'IPCA', cor: CORES_BENCH.ipca, dash: true, vals: fan({ mu: P.ipca / 100, sigma: 0 }, h, z).med }];
+  const ref = S.meta.referencia;
+  desenhar($('ch-persp'), { series: [...series, ...refs], ini: 0, fim: h, altura: 300, zero: true, fmt: (v, t) => t ? (v * 100).toFixed(0) + '%' : pctSign(v),
+    xTicks: () => { const out = []; const step = h > 24 ? 6 : 3; for (let t = 0; t <= h; t += step) out.push({ i: t, label: t === 0 ? 'hoje' : mesLbl(mesMais(ref, t)) }); return out; },
+    xLabel: (i) => i === 0 ? 'Hoje' : 'Mês ' + i + ' · ' + mesLbl(mesMais(ref, i)) });
+  legenda($('lg-persp'), [...series, ...refs]);
+  // tabela
+  const tb = $('tb-persp'); tb.innerHTML = '';
+  const th = el('tr'); ['Ativo', 'Pessimista', 'Mediana', 'Otimista', 'Mediana vs CDI'].forEach(t => th.append(el('th', null, t))); { const _h = el('thead'); _h.append(th); tb.append(_h); }
+  const tbody = el('tbody'); const cdiH = refs[0].vals[h], ipcaH = refs[1].vals[h];
+  series.forEach(s => { const tr = el('tr'); const td0 = el('td'); const n = el('span', 'n'); const i = el('i'); i.style.background = s.cor; const sp = el('span', null, s.nome); sp.title = s.nome; n.append(i, sp); td0.append(n); tr.append(td0);
+    tr.append(el('td', s.lo < 0 ? 'neg' : '', pctSign(s.lo)), el('td', null, pctSign(s.fim)), el('td', null, pctSign(s.hi)));
+    const d = s.fim - cdiH; tr.append(el('td', d < 0 ? 'neg' : '', (d < 0 ? '−' : '+') + fmtNum(Math.abs(d) * 100, 1) + ' p.p.')); tbody.append(tr); });
+  [['CDI', cdiH, COR_CDI], ['IPCA', ipcaH, CORES_BENCH.ipca]].forEach(([nm, v, cor]) => { const tr = el('tr', 'ref'); const td0 = el('td'); const n = el('span', 'n'); const i = el('i', 'dash'); i.style.borderTopColor = cor; n.append(i, el('span', null, nm)); td0.append(n); tr.append(td0); tr.append(el('td', null, pctSign(v)), el('td', null, pctSign(v)), el('td', null, pctSign(v))); tr.append(el('td', null, nm === 'CDI' ? '' : (v - cdiH < 0 ? '−' : '+') + fmtNum(Math.abs(v - cdiH) * 100, 1) + ' p.p.')); tbody.append(tr); });
+  tb.append(tbody);
+  const pa = $('persp-ativos'); pa.innerHTML = ''; pa.append(el('div', null, 'Premissa de cada ativo:'));
+  const ula = el('ul'); series.forEach(s => { const li = el('li'); const b = el('b', null, s.nome + ': '); b.style.color = s.cor; li.append(b, document.createTextNode(s.m.texto.replace(/\.$/, '') + '.')); ula.append(li); }); pa.append(ula);
+  // cenários de taxa do Tesouro
+  const tds = prontos.filter(s => s.kind === 'tesouro' && s.data.indexador !== 'SELIC');
+  $('persp-td').classList.toggle('hidden', !tds.length);
+  if (tds.length) {
+    const desde = tds.map(s => s.data.taxa_hist && s.data.taxa_hist.desde).filter(Boolean).sort()[0]; $('persp-td-desde').textContent = desde ? dBR(desde) : 'o início da série';
+    const t2 = $('tb-persp-td'); t2.innerHTML = '';
+    const th2 = el('tr'); ['Título', 'Taxa mínima', 'Mediana', 'Taxa atual', 'Taxa máxima', 'Premissa'].forEach(t => th2.append(el('th', null, t))); { const _h = el('thead'); _h.append(th2); t2.append(_h); }
+    const tb2 = el('tbody');
+    tds.forEach(s => { const f = s.data, m = modelos[prontos.indexOf(s)]; const tr = el('tr'); tr.append(nomeCell(s));
+      const cen = [f.taxa_hist ? f.taxa_hist.min : null, f.taxa_hist ? f.taxa_hist.mediana : null, f.taxa, f.taxa_hist ? f.taxa_hist.max : null, f.taxa + P.dy];
+      cen.forEach(tx => { const td = el('td'); if (tx == null) { td.className = 'na'; td.textContent = 'n/d'; } else { const tot = Math.pow(1 + m.carry, h / 12) * (1 - (m.D || 0) * (tx - f.taxa) / 100) - 1; td.textContent = pctSign(tot); if (tot < 0) td.classList.add('neg'); td.append(el('span', 'sub2', 'taxa ' + fmtNum(tx, 2) + '%')); } tr.append(td); });
+      tb2.append(tr); });
+    t2.append(tb2);
+  }
+  // premissas por extenso
+  const pt = $('persp-prem'); pt.innerHTML = '';
+  pt.append(el('div', null, 'Como as projeções são construídas:'));
+  const ul = el('ul');
+  [
+    'Horizonte de ' + h + ' meses a partir de ' + dBR(ref) + '. CDI médio de ' + fmtNum(P.cdi, 2) + '% a.a. e IPCA de ' + fmtNum(P.ipca, 2) + '% a.a. (valores iniciais: CDI atual e IPCA acumulado em 12 meses).',
+    'Fundos e benchmarks com volatilidade abaixo de 1% a.a. são tratados como pós-fixados e replicam o percentual do CDI entregue na janela de ' + S.periodo + ' meses.',
+    'Os demais fundos partem do CDI (ou do IPCA, quando indexados à inflação) mais ' + (P.exc === 0 ? 'nenhum excesso' : fmtNum(P.exc * 100, 0) + '% do excesso histórico') + ', com a volatilidade histórica; a faixa mostra o intervalo de ' + P.conf + '% de um modelo lognormal.',
+    'Títulos do Tesouro combinam o carrego da taxa atual com o efeito de preço de uma variação de taxa (duration), e usam a volatilidade histórica do título.',
+    'Renda fixa sintética não tem marcação a mercado. Nada aqui considera imposto de renda, come-cotas, custódia ou spreads. Projeções não são previsões nem recomendação.',
+  ].forEach(t => ul.append(el('li', null, t)));
+  pt.append(ul);
+}
+
+// ------------------------------------------------------------------ COE: catálogo, formulário, leitura da lâmina e cenários
+const COES = [
+  { id: 'ouro', nome: 'Exemplo: Alta do Ouro (GLD), 3 anos', tipo: 'alta', ativo: 'gld', part: 100, cap: null, prot: 100, prazo: 36 },
+  { id: 'ia', nome: 'Exemplo: Inteligência Artificial (AIQ), 4 anos, com cap', tipo: 'alta', ativo: 'aiq', part: 100, cap: 60, prot: 100, prazo: 48 },
+  { id: 'sp', nome: 'Exemplo: S&P 500 digital, 2 anos', tipo: 'digital', ativo: 'gspc', part: 100, cap: 30, prot: 100, prazo: 24 },
+];
+function iniciarCOE() {
+  const sel = $('coe-sel'); sel.innerHTML = ''; sel.append(new Option('Personalizado (preencha os campos)', ''));
+  COES.forEach(c => sel.append(new Option(c.nome, c.id)));
+  const at = $('coe-ativo'); at.innerHTML = '';
+  (S.meta.historicos || []).forEach(h => at.append(new Option(h.nome, h.id)));
+  if (!(S.meta.historicos || []).length) { at.append(new Option('Histórico indisponível', '')); $('coe-msg').textContent = 'Os históricos dos ativos-objeto ainda não foram publicados pela atualização de dados.'; }
+  sel.addEventListener('change', () => { const c = COES.find(x => x.id === sel.value); if (!c) return; $('coe-nome').value = c.nome.replace('Exemplo: ', 'COE '); $('coe-tipo').value = c.tipo; $('coe-ativo').value = c.ativo; $('coe-part').value = c.part; $('coe-cap').value = c.cap == null ? '' : c.cap; $('coe-prot').value = c.prot; $('coe-prazo').value = c.prazo; $('coe-msg').textContent = 'Estrutura de exemplo, apenas ilustrativa. Os termos reais estão na lâmina de cada COE.'; analisarCOE(); });
+  $('coe-run').addEventListener('click', analisarCOE);
+  $('coe-tipo').addEventListener('change', () => { const d = $('coe-tipo').value === 'digital'; $('coe-cap').placeholder = d ? 'cupom' : 'sem cap'; });
+  const drop = $('drop'), file = $('lamina');
+  ['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add('over'); }));
+  ['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove('over'); }));
+  drop.addEventListener('drop', (e) => { const f = e.dataTransfer.files && e.dataTransfer.files[0]; if (f) lerLamina(f); });
+  file.addEventListener('change', () => { if (file.files[0]) lerLamina(file.files[0]); });
+  sel.value = COES[0].id; sel.dispatchEvent(new Event('change'));
+}
+function lerCOE() {
+  const num = (id) => { const v = parseFloat(String($(id).value).replace(',', '.')); return isFinite(v) ? v : null; };
+  return { nome: $('coe-nome').value.trim() || 'COE', tipo: $('coe-tipo').value, ativo: $('coe-ativo').value, part: num('coe-part') ?? 100, cap: num('coe-cap'), prot: num('coe-prot') ?? 100, prazo: Math.max(1, Math.round(num('coe-prazo') || 36)), cdi: num('coe-cdi') ?? S.prem.cdi };
+}
+function payoffCOE(c, v) {
+  const piso = -(1 - c.prot / 100);
+  if (c.tipo === 'digital') return v > 0 ? (c.cap != null ? c.cap / 100 : 0) : Math.max(v, piso);
+  const dir = c.tipo === 'baixa' ? -v : v;
+  if (dir > 0) { let g = dir * c.part / 100; if (c.cap != null) g = Math.min(g, c.cap / 100); return g; }
+  return Math.max(dir, piso);
+}
+function janelasHist(h, meses) {
+  const d = h.datas, p = h.precos, out = [];
+  const alvo = (iso) => { const y = +iso.slice(0, 4), m = +iso.slice(5, 7) - 1 + meses, dd = +iso.slice(8, 10); const t = new Date(Date.UTC(y, m, 1)); const dim = new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth() + 1, 0)).getUTCDate(); t.setUTCDate(Math.min(dd, dim)); return t.toISOString().slice(0, 10); };
+  let j = 0;
+  for (let i = 0; i < d.length; i += 5) { const a = alvo(d[i]); while (j < d.length && d[j] < a) j++; if (j >= d.length) break; if (p[i] > 0 && p[j] > 0) out.push({ ini: d[i], fim: d[j], var: p[j] / p[i] - 1 }); }
+  return out;
+}
+async function analisarCOE() {
+  const c = lerCOE(); const msg = $('coe-msg');
+  const cdiPrazo = Math.pow(1 + c.cdi / 100, c.prazo / 12) - 1;
+  // KPIs
+  const k = $('coe-kpis'); k.innerHTML = '';
+  const kpi = (l, v, s) => { const d = el('div', 'kpi'); d.append(el('div', 'l', l), el('div', 'v', v), el('div', 's', s || '')); k.append(d); };
+  kpi('Ganho máximo', c.tipo === 'digital' ? (c.cap != null ? '+' + fmtNum(c.cap, 0) + '%' : 'n/d') : (c.cap != null ? '+' + fmtNum(c.cap, 0) + '%' : 'sem limite'), c.tipo === 'digital' ? 'cupom fixo se o ativo subir' : 'participação de ' + fmtNum(c.part, 0) + '%');
+  kpi('Proteção', fmtNum(c.prot, 0) + '%', c.prot >= 100 ? 'capital protegido no vencimento' : 'perda máxima de ' + fmtNum(100 - c.prot, 0) + '%');
+  kpi('CDI no prazo', '+' + fmtNum(cdiPrazo * 100, 1) + '%', c.prazo + ' meses a ' + fmtNum(c.cdi, 2) + '% a.a.');
+  // payoff
+  const N = 60, vmin = -0.5, vmax = c.cap != null ? Math.max(0.6, (c.cap / 100) / (c.part / 100) * 1.4) : 1.0;
+  const xs = [], coe = [], und = [], cdiL = [];
+  for (let i = 0; i <= N; i++) { const v = vmin + (vmax - vmin) * i / N; xs.push(v); coe.push(payoffCOE(c, v)); und.push(v); cdiL.push(cdiPrazo); }
+  desenhar($('ch-payoff'), { series: [{ nome: c.nome, cor: CORES[1], vals: coe }, { nome: 'Ativo-objeto', cor: 'var(--mid)', dash: true, vals: und, fina: true }, { nome: 'CDI no prazo', cor: COR_CDI, dash: true, vals: cdiL, fina: true }], ini: 0, fim: N, altura: 240, zero: true, fmt: (v, t) => t ? (v * 100).toFixed(0) + '%' : pctSign(v), semMarca: false,
+    xTicks: () => { const out = []; for (let i = 0; i <= N; i += N / 6) out.push({ i, label: pctSign(xs[Math.round(i)], 0) }); return out; }, xLabel: (i) => 'Ativo-objeto ' + pctSign(xs[i], 0) });
+  // histórico
+  const hist = (S.meta.historicos || []).find(h => h.id === c.ativo);
+  const tb = $('tb-coe'); tb.innerHTML = '';
+  const ch = $('ch-hist'); ch.innerHTML = '';
+  if (!hist) { $('coe-hist-sub').textContent = 'Sem histórico para este ativo-objeto.'; }
+  else {
+    let H = null; try { H = await cachedHist(hist.id); } catch (e) { console.error(e); }
+    if (!H) $('coe-hist-sub').textContent = 'Não foi possível carregar o histórico do ativo-objeto.';
+    else {
+      const jan = janelasHist(H, c.prazo);
+      if (jan.length < 5) $('coe-hist-sub').textContent = 'Histórico curto demais para janelas de ' + c.prazo + ' meses (' + hist.nome + ' desde ' + dBR(hist.desde) + ').';
+      else {
+        const rets = jan.map(w => payoffCOE(c, w.var)).sort((a, b) => a - b);
+        const q = (p) => rets[Math.min(rets.length - 1, Math.floor(p * rets.length))];
+        const ganho = rets.filter(r => r > 0).length / rets.length, bateu = rets.filter(r => r > cdiPrazo).length / rets.length;
+        const undPos = jan.filter(w => w.var > 0).length / jan.length;
+        $('coe-hist-sub').textContent = jan.length + ' janelas de ' + c.prazo + ' meses de ' + hist.nome + ', de ' + dBR(jan[0].ini) + ' a ' + dBR(jan[jan.length - 1].fim) + '. O ativo subiu em ' + fmtNum(undPos * 100, 0) + '% delas.';
+        kpi('Ganho histórico', fmtNum(ganho * 100, 0) + '%', 'das janelas o COE teria rendido algo');
+        kpi('Bateu o CDI', fmtNum(bateu * 100, 0) + '%', 'das janelas, ao CDI da premissa');
+        kpi('Mediana do COE', pctSign(q(0.5)), 'pior ' + pctSign(rets[0]) + ' · melhor ' + pctSign(rets[rets.length - 1]));
+        histograma(ch, jan.map(w => w.var), c, cdiPrazo);
+      }
+    }
+  }
+  // cenários
+  const th = el('tr'); ['Ativo-objeto no vencimento', 'Retorno do COE', 'Ao ano', 'Contra o CDI no prazo'].forEach(t => th.append(el('th', null, t))); { const _h = el('thead'); _h.append(th); tb.append(_h); }
+  const tbody = el('tbody');
+  [-0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.5, 1].forEach(v => { const r = payoffCOE(c, v); const tr = el('tr'); tr.append(el('td', null, pctSign(v, 0)), el('td', r < 0 ? 'neg' : '', pctSign(r)), el('td', null, pctSign(Math.pow(1 + r, 12 / c.prazo) - 1)), el('td', r - cdiPrazo < 0 ? 'neg' : '', (r - cdiPrazo < 0 ? '−' : '+') + fmtNum(Math.abs(r - cdiPrazo) * 100, 1) + ' p.p.')); tbody.append(tr); });
+  tb.append(tbody);
+  if (!msg.textContent) msg.textContent = '';
+}
+const histCache = new Map();
+function cachedHist(id) { if (!histCache.has(id)) histCache.set(id, getJSON('hist/' + id + '.json')); return histCache.get(id); }
+function histograma(root, vars, c, cdiPrazo) {
+  root.innerHTML = '';
+  const W = Math.max(280, root.clientWidth || 600), H = 200, M = { t: 14, r: 12, b: 26, l: 40 };
+  const lo = Math.min(...vars), hi = Math.max(...vars), nb = 14, step = (hi - lo) / nb || 0.01;
+  const bins = new Array(nb).fill(0); vars.forEach(v => { const b = Math.min(nb - 1, Math.floor((v - lo) / step)); bins[b]++; });
+  const mx = Math.max(...bins);
+  const svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, width: W, height: H });
+  const px = (v) => M.l + (v - lo) / (hi - lo || 1) * (W - M.l - M.r), py = (n) => M.t + (1 - n / mx) * (H - M.t - M.b);
+  const g = svgEl('g', { class: 'grid' }); svg.append(g);
+  [0, 0.5, 1].forEach(f => { const y = py(mx * f); g.append(svgEl('line', { x1: M.l, x2: W - M.r, y1: y, y2: y })); const t = svgEl('text', { x: M.l - 8, y: y + 4, 'text-anchor': 'end' }); t.textContent = Math.round(mx * f); g.append(t); });
+  const tip = el('div', 'tip');
+  bins.forEach((n, i) => { const a = lo + i * step, b = a + step, mid = (a + b) / 2; const r = payoffCOE(c, mid);
+    const rect = svgEl('rect', { x: px(a) + 1, y: py(n), width: Math.max(1, px(b) - px(a) - 2), height: py(0) - py(n), rx: 3, fill: r > cdiPrazo ? CORES[1] : r > 0 ? '#8A6E3A' : 'var(--mid)', opacity: .9 });
+    rect.addEventListener('pointerenter', () => { tip.innerHTML = ''; tip.append(el('div', 'd', 'Ativo entre ' + pctSign(a, 0) + ' e ' + pctSign(b, 0))); const row = el('div', 'r'); row.append(el('b', null, n + (n === 1 ? ' janela' : ' janelas')), el('span', null, 'COE ' + pctSign(r))); tip.append(row); tip.style.display = 'block'; tip.style.left = Math.min(px(mid) / W * root.clientWidth + 12, root.clientWidth - 170) + 'px'; tip.style.top = '10px'; });
+    rect.addEventListener('pointerleave', () => { tip.style.display = 'none'; });
+    svg.append(rect); });
+  const nt = 6; for (let k = 0; k <= nt; k++) { const v = lo + (hi - lo) * k / nt; const t = svgEl('text', { x: px(v), y: H - 8, 'text-anchor': 'middle' }); t.textContent = pctSign(v, 0); g.append(t); }
+  const z = svgEl('line', { x1: px(0), x2: px(0), y1: M.t, y2: H - M.b }); z.style.stroke = 'var(--line-2)'; z.style.strokeDasharray = '3 3'; svg.append(z);
+  root.append(svg, tip);
+  const lg = el('div', 'legend'); [['Bateu o CDI', CORES[1]], ['Ganhou, abaixo do CDI', '#8A6E3A'], ['Só a proteção', '#3F5477']].forEach(([n, cr]) => { const k = el('span', 'k'); const i = el('i'); i.style.borderTopColor = cr; i.style.borderTopWidth = '8px'; k.append(i, el('span', null, n)); lg.append(k); }); root.append(lg);
+}
+let pdfjsP = null;
+function pdfjs() {
+  if (pdfjsP) return pdfjsP;
+  pdfjsP = new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js'; s.onload = () => { const lib = window['pdfjs-dist/build/pdf'] || window.pdfjsLib; if (!lib) { rej(new Error('pdfjs')); return; } lib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; res(lib); }; s.onerror = () => rej(new Error('pdfjs')); document.head.append(s); });
+  return pdfjsP;
+}
+async function lerLamina(file) {
+  const msg = $('coe-msg'); msg.textContent = 'Lendo a lâmina…';
+  let texto = '';
+  try {
+    const lib = await pdfjs();
+    const pdf = await lib.getDocument({ data: await file.arrayBuffer() }).promise;
+    for (let p = 1; p <= Math.min(pdf.numPages, 12); p++) { const pg = await pdf.getPage(p); const tc = await pg.getTextContent(); texto += tc.items.map(i => i.str).join(' ') + '\n'; }
+  } catch (e) { console.error(e); msg.textContent = 'Não foi possível ler o PDF neste navegador. Preencha os campos com os termos da lâmina.'; return; }
+  const t = norm(texto).replace(/\s+/g, ' ');
+  const achados = [];
+  const n = (re, k = 1) => { const m = t.match(re); return m ? parseFloat(m[k].replace(',', '.')) : null; };
+  const part = n(/participa[cç][aã]o[^0-9]{0,40}(\d{1,3}(?:[.,]\d+)?)\s*%/); if (part != null) { $('coe-part').value = part; achados.push('participação ' + part + '%'); }
+  const cap = n(/(?:cap|rentabilidade m[aá]xima|ganho m[aá]ximo|limite de (?:ganho|alta)|cupom)[^0-9]{0,40}(\d{1,3}(?:[.,]\d+)?)\s*%/); if (cap != null) { $('coe-cap').value = cap; achados.push('cap/cupom ' + cap + '%'); }
+  const prot = n(/(?:capital protegido|prote[cç][aã]o(?: de capital| do capital)?)[^0-9]{0,40}(\d{1,3})\s*%/); $('coe-prot').value = prot != null ? prot : (/capital protegido|valor nominal protegido/.test(t) ? 100 : $('coe-prot').value); if (prot != null || /capital protegido/.test(t)) achados.push('proteção ' + $('coe-prot').value + '%');
+  let prazo = n(/(\d{1,3})\s*meses/); if (prazo == null) { const anos = n(/(\d{1,2})\s*anos/); if (anos != null) prazo = anos * 12; } if (prazo != null) { $('coe-prazo').value = prazo; achados.push('prazo ' + prazo + ' meses'); }
+  const mapa = [['gld', /ouro|gold|gld/], ['aiq', /inteligencia artificial|artificial intelligence|aiq/], ['ndx', /nasdaq/], ['gspc', /s&p ?500|sp500|s&p/], ['bvsp', /ibovespa|ibov/], ['urth', /msci world|urth|mundo/]];
+  const at = mapa.find(([id, re]) => re.test(t) && [...$('coe-ativo').options].some(o => o.value === id)); if (at) { $('coe-ativo').value = at[0]; achados.push('ativo ' + $('coe-ativo').selectedOptions[0].text); }
+  if (/digital|cupom fixo|autocall/.test(t)) $('coe-tipo').value = 'digital'; else if (/baixa|queda|put/.test(t) && !/alta/.test(t)) $('coe-tipo').value = 'baixa'; else $('coe-tipo').value = 'alta';
+  const nome = (texto.match(/COE[^\n]{3,60}/) || [])[0]; if (nome) $('coe-nome').value = nome.replace(/\s+/g, ' ').trim();
+  $('coe-sel').value = '';
+  msg.textContent = achados.length ? 'Lido da lâmina: ' + achados.join(', ') + '. Confira os campos, a leitura é aproximada.' : 'Não encontrei os termos no texto do PDF. Preencha os campos manualmente.';
+  analisarCOE();
+}
+
+// ------------------------------------------------------------------ redimensionamento e início
+let rto; window.addEventListener('resize', () => { clearTimeout(rto); rto = setTimeout(() => { if (S.sel.some(s => s.data)) render(); if ($('coe-kpis').children.length) analisarCOE(); }, 150); });
 carregar();
+
 })();
 </script>
 </body>
