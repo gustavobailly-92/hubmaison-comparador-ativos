@@ -1,6 +1,6 @@
 {
   "referencia": "2026-09-25",
-  "gerado": "2026-09-29T22:25:07Z",
+  "gerado": "2026-09-29T22:29:12Z",
   "fundos_publicados": 6417,
   "fundos_na_matriz": 13496,
   "fundos_xp": 1012,
@@ -89,5 +89,5 @@
     "CDI sem valor em 14 dias do calendário (tratados como 0)",
     "benchmark BTC-BRL indisponível (todas as fontes falharam)"
   ],
-  "duracao_s": 219
+  "duracao_s": 199
 }
