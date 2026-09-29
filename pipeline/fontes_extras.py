@@ -338,7 +338,7 @@ def b3_ibov(symbol: str) -> dict[str, float]:
 
 FONTES_POR_SIMBOLO = {
     "^BVSP": ((b3_ibov, "B3"), (yahoo, "Yahoo"), (stooq, "Stooq"), (sgs_indice, "BCB SGS 7")),
-    "^GSPC": ((fred, "FRED"), (yahoo, "Yahoo"), (stooq, "Stooq"), (nasdaq_api, "Nasdaq (ETF SPY)")),
+    "^GSPC": ((nasdaq_api, "Nasdaq (ETF SPY)"), (yahoo, "Yahoo"), (stooq, "Stooq"), (fred, "FRED")),  # o FRED não responde de dentro do Actions
     "^NDX": ((nasdaq_api, "Nasdaq"), (fred, "FRED"), (yahoo, "Yahoo"), (stooq, "Stooq")),
 }
 FONTES_PADRAO = ((nasdaq_api, "Nasdaq"), (yahoo, "Yahoo"), (stooq, "Stooq"))
