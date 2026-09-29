@@ -3,7 +3,7 @@
 Comparador de fundos de investimento, títulos do Tesouro Direto, renda fixa e benchmarks, publicado em **hubmaison.com/comparadordeativos**.
 Os dados vêm dos dados abertos da CVM (informe diário e cadastro de fundos), do Banco Central (CDI, IPCA, poupança e PTAX pelo SGS),
 do Tesouro Transparente (preços e taxas do Tesouro Direto), da B3 (Ibovespa e IFIX), da Nasdaq (Nasdaq 100, S&P 500 via ETF SPY, MSCI World via URTH,
-ouro via GLD e inteligência artificial via AIQ) e da CoinGecko (bitcoin), com Yahoo Finance, Stooq e FRED como reservas,
+ouro via GLD e inteligência artificial via AIQ) e da Coinbase (bitcoin em dólar, convertido pela PTAX), com CoinGecko, Yahoo Finance, Stooq e FRED como reservas,
 e são regenerados **de terça a sábado às 10:07 (Brasília)** por este repositório, logo após a publicação da CVM (08:00).
 Os últimos 12 meses de informes da CVM são baixados de novo a cada execução, para absorver as retificações.
 
@@ -11,7 +11,7 @@ Os últimos 12 meses de informes da CVM são baixados de novo a cada execução,
 
 ```
 pipeline/build_data.py     baixa CVM + BCB, calcula as métricas e grava dist/data/
-pipeline/fontes_extras.py  benchmarks (BCB, B3, Nasdaq, CoinGecko), Tesouro Direto e a lista de fundos da XP
+pipeline/fontes_extras.py  benchmarks (BCB, B3, Nasdaq, Coinbase), Tesouro Direto e a lista de fundos da XP
 pipeline/coes.json         catálogo dos COEs da prateleira da XP (termos lidos das lâminas e dos DIEs)
 pipeline/xp_fundos.csv     fundos da plataforma XP (tipo, classe, risco, benchmark, taxas, liquidez)
 site/index.html            a página (autocontida), lê dist/data/ ou o GitHub Pages deste repositório
