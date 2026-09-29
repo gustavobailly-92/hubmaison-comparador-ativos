@@ -761,7 +761,7 @@ def main() -> int:
             "bcb_poupanca": "https://api.bcb.gov.br/dados/serie/bcdata.sgs.195/dados",
             "bcb_ptax": "https://api.bcb.gov.br/dados/serie/bcdata.sgs.1/dados",
             "tesouro_direto": fx.TESOURO_CSV,
-            "indices": "B3 (Ibovespa, IFIX), Nasdaq (Nasdaq 100, SPY, URTH, GLD, AIQ), CoinGecko (Bitcoin); reservas Yahoo, Stooq e FRED",
+            "indices": "B3 (Ibovespa, IFIX), Nasdaq (Nasdaq 100, SPY, URTH, GLD, AIQ), Coinbase (Bitcoin em dólar, convertido pela PTAX); reservas CoinGecko, Yahoo, Stooq e FRED",
         },
     }
     # catálogo de COEs da XP (mantido à mão em pipeline/coes.json, a partir das lâminas e DIEs)

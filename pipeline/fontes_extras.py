@@ -340,13 +340,41 @@ def b3_ibov(symbol: str) -> dict[str, float]:
     return out
 
 
+def coinbase(symbol: str) -> dict[str, float]:
+    """Fechamento diário de criptoativos em dólar pela API pública da Coinbase Exchange (sem chave, 300 velas por chamada)."""
+    produtos = {"BTC-USD": "BTC-USD", "ETH-USD": "ETH-USD"}
+    if symbol not in produtos:
+        raise RuntimeError("sem série na Coinbase")
+    out: dict[str, float] = {}
+    ini = date(2016, 1, 1)
+    hoje = date.today()
+    while ini <= hoje:
+        fim = min(ini + timedelta(days=290), hoje)
+        url = (f"https://api.exchange.coinbase.com/products/{produtos[symbol]}/candles?granularity=86400"
+               f"&start={ini.isoformat()}T00:00:00Z&end={fim.isoformat()}T23:59:59Z")
+        raw = http_get(url, tentativas=2, timeout=60, headers={"Accept": "application/json"})
+        j = json.loads(raw.decode("utf-8", errors="replace"))
+        if not isinstance(j, list):
+            raise RuntimeError(f"coinbase: resposta inesperada ({str(j)[:120]})")
+        for vela in j:  # [tempo, mínima, máxima, abertura, fechamento, volume]
+            try:
+                out[datetime.utcfromtimestamp(int(vela[0])).date().isoformat()] = float(vela[4])
+            except Exception:  # noqa: BLE001
+                continue
+        ini = fim + timedelta(days=1)
+        time.sleep(0.4)
+    if len(out) < _MIN_PONTOS:
+        raise RuntimeError(f"coinbase {symbol}: só {len(out)} pontos")
+    return out
+
+
 def coingecko(symbol: str) -> dict[str, float]:
-    """Preço diário de criptoativos em reais (CoinGecko, sem chave)."""
+    """Preço diário de criptoativos (CoinGecko, sem chave: a API pública limita a 365 dias)."""
     moedas = {"BTC-BRL": ("bitcoin", "brl"), "ETH-BRL": ("ethereum", "brl"), "BTC-USD": ("bitcoin", "usd")}
     if symbol not in moedas:
         raise RuntimeError("sem série no CoinGecko")
     cid, vs = moedas[symbol]
-    raw = http_get(f"https://api.coingecko.com/api/v3/coins/{cid}/market_chart?vs_currency={vs}&days=max", tentativas=2, timeout=90,
+    raw = http_get(f"https://api.coingecko.com/api/v3/coins/{cid}/market_chart?vs_currency={vs}&days=365&interval=daily", tentativas=2, timeout=90,
                    headers={"Accept": "application/json"})
     j = json.loads(raw.decode("utf-8", errors="replace"))
     out = {}
@@ -365,7 +393,7 @@ FONTES_POR_SIMBOLO = {
     "^GSPC": ((nasdaq_api, "Nasdaq (ETF SPY)"), (yahoo, "Yahoo"), (stooq, "Stooq"), (fred, "FRED")),  # o FRED não responde de dentro do Actions
     "^NDX": ((nasdaq_api, "Nasdaq"), (fred, "FRED"), (yahoo, "Yahoo"), (stooq, "Stooq")),
     "IFIX": ((b3_ibov, "B3"),),
-    "BTC-BRL": ((coingecko, "CoinGecko"),),
+    "BTC-USD": ((coinbase, "Coinbase"), (coingecko, "CoinGecko")),
 }
 FONTES_PADRAO = ((nasdaq_api, "Nasdaq"), (yahoo, "Yahoo"), (stooq, "Stooq"))
 _MAX_ATRASO_DIAS = 15
@@ -403,7 +431,7 @@ BENCH_DEF = [
     ("ifix", "IFIX", "IFIX", "BRL", "Índice de fundos imobiliários da B3"),
     ("ouro", "Ouro (US$)", "GLD", "USD", "Pelo ETF SPDR Gold Shares (GLD), em dólar"),
     ("ourobrl", "Ouro (R$)", "GLD", "BRL*", "ETF GLD convertido pelo dólar PTAX"),
-    ("btc", "Bitcoin (R$)", "BTC-BRL", "BRL", "Preço em reais (CoinGecko)"),
+    ("btc", "Bitcoin (R$)", "BTC-USD", "BRL*", "Fechamento diário em dólar (Coinbase) convertido pelo dólar PTAX"),
 ]
 UNDERLYINGS = {"GLD": "SPDR Gold Shares (GLD)", "AIQ": "Global X Artificial Intelligence & Technology (AIQ)",
                "^GSPC": "S&P 500", "^NDX": "Nasdaq 100", "^BVSP": "Ibovespa", "URTH": "MSCI World (URTH)"}
@@ -430,13 +458,13 @@ def construir_benchmarks(datas: list[date], hoje: date, offline: str | None, avi
         mercado = {"^BVSP": sintetico(datas, 1, 0.08, 0.22, 120000), "^GSPC": sintetico(datas, 2, 0.12, 0.16, 5000),
                    "^NDX": sintetico(datas, 3, 0.15, 0.22, 17000), "URTH": sintetico(datas, 4, 0.10, 0.15, 130),
                    "GLD": sintetico(datas, 5, 0.09, 0.14, 180), "AIQ": sintetico(datas, 6, 0.14, 0.24, 30),
-                   "IFIX": sintetico(datas, 8, 0.06, 0.10, 3000), "BTC-BRL": sintetico(datas, 9, 0.30, 0.60, 150000)}
+                   "IFIX": sintetico(datas, 8, 0.06, 0.10, 3000), "BTC-USD": sintetico(datas, 9, 0.30, 0.60, 30000)}
         ptax = sintetico(datas, 7, 0.03, 0.14, 5.2)
         ipca_m = {d.strftime("%Y-%m"): 0.0038 for d in datas}
         poup_m = {d.strftime("%Y-%m"): 0.0062 for d in datas}
     else:
         mercado = {}
-        for sym in ["^BVSP", "^GSPC", "^NDX", "URTH", "GLD", "AIQ", "IFIX", "BTC-BRL"]:
+        for sym in ["^BVSP", "^GSPC", "^NDX", "URTH", "GLD", "AIQ", "IFIX", "BTC-USD"]:
             s = serie_mercado(sym, avisos)
             if s:
                 mercado[sym] = s
@@ -489,7 +517,7 @@ def construir_benchmarks(datas: list[date], hoje: date, offline: str | None, avi
             continue
         q = alinhar(s, datas)
         usada = FONTE_USADA.get(sym, "")
-        fonte = {"Yahoo": "Yahoo Finance", "Stooq": "Stooq", "FRED": "FRED (Fed de St. Louis)", "BCB SGS 7": "BCB SGS 7", "Nasdaq": "Nasdaq", "B3": "B3", "Nasdaq (ETF SPY)": "Nasdaq (ETF SPY)", "CoinGecko": "CoinGecko"}.get(usada, usada or "Yahoo Finance")
+        fonte = {"Yahoo": "Yahoo Finance", "Stooq": "Stooq", "FRED": "FRED (Fed de St. Louis)", "BCB SGS 7": "BCB SGS 7", "Nasdaq": "Nasdaq", "B3": "B3", "Nasdaq (ETF SPY)": "Nasdaq (ETF SPY)", "CoinGecko": "CoinGecko", "Coinbase": "Coinbase"}.get(usada, usada or "Yahoo Finance")
         if usada == "Nasdaq (ETF SPY)":
             desc = "Pelo ETF SPY (preço, sem dividendos), em dólar" if moeda == "USD" else "ETF SPY convertido pelo dólar PTAX"
         if moeda == "BRL*":
