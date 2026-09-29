@@ -1,10 +1,18 @@
 {
   "referencia": "2026-09-25",
-  "gerado": "2026-09-29T16:42:37Z",
-  "fundos_publicados": 6055,
-  "fundos_na_matriz": 13170,
-  "descartados_parados": 455,
-  "descartados_poucos_cotistas": 6635,
+  "gerado": "2026-09-29T17:44:37Z",
+  "fundos_publicados": 6417,
+  "fundos_na_matriz": 13496,
+  "fundos_xp": 1012,
+  "benchmarks": [
+    "ipca",
+    "poupanca",
+    "dolar"
+  ],
+  "tesouro_titulos": 58,
+  "historicos": [],
+  "descartados_parados": 464,
+  "descartados_poucos_cotistas": 6590,
   "descartados_historico_curto": 25,
   "dias_calendario": 1080,
   "meses_processados": [
@@ -61,7 +69,13 @@
     "202609"
   ],
   "avisos": [
-    "CDI sem valor em 14 dias do calendário (tratados como 0)"
+    "CDI sem valor em 14 dias do calendário (tratados como 0)",
+    "benchmark ^BVSP indisponível (Yahoo e Stooq falharam)",
+    "benchmark ^GSPC indisponível (Yahoo e Stooq falharam)",
+    "benchmark ^NDX indisponível (Yahoo e Stooq falharam)",
+    "benchmark URTH indisponível (Yahoo e Stooq falharam)",
+    "benchmark GLD indisponível (Yahoo e Stooq falharam)",
+    "benchmark AIQ indisponível (Yahoo e Stooq falharam)"
   ],
-  "duracao_s": 172
+  "duracao_s": 349
 }
