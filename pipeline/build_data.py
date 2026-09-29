@@ -507,16 +507,23 @@ def main() -> int:
     log("1/5 cadastro de fundos")
     reg = carregar_cadastro(args.offline, args.cache)
 
+    # fundos da plataforma XP: entram mesmo com poucos cotistas ou marcados como exclusivos
+    # (os FIEs de previdência têm a seguradora como único cotista)
+    xp_lista = fx.carregar_xp(args.xp)
+    xp_cnpjs = set(xp_lista)
+    log(f"  lista XP: {len(xp_lista):,} CNPJs")
+
     # universo cadastral: em funcionamento (quando a situação é conhecida) e não exclusivo
-    def elegivel(r):
-        if r["exclusivo"].startswith("S"):
+    def elegivel(c, r):
+        if r["exclusivo"].startswith("S") and c not in xp_cnpjs:
             return False
         sit = r["sit"]
         if sit and "FUNCIONAMENTO NORMAL" not in sit:
             return False
         return True
 
-    cnpjs_ok = {c for c, r in reg.items() if elegivel(r)}
+    cnpjs_ok = {c for c, r in reg.items() if elegivel(c, r)}
+    cnpjs_ok |= {c for c in xp_cnpjs if c not in reg}  # sem cadastro conhecido: tenta mesmo assim
     log(f"universo cadastral elegível: {len(cnpjs_ok):,} de {len(reg):,}")
 
     log("2/5 informes diários")
@@ -580,8 +587,6 @@ def main() -> int:
     cnpjs = list(Q.index)
     index_rows = []
     n_ok = n_parado = n_poucos = n_hist = n_xp = 0
-    xp_lista = fx.carregar_xp(args.xp)
-    log(f"  lista XP: {len(xp_lista):,} CNPJs")
     for r, cnpj in enumerate(cnpjs):
         q = Qv[r].astype(float)
         validos = ~np.isnan(q)
@@ -603,12 +608,12 @@ def main() -> int:
         pl = ffill_1d(PLv[r].astype(float))
         cot_atual = ct[asof_i]
         pl_atual = pl[asof_i]
-        if not np.isnan(cot_atual) and cot_atual < args.min_cotistas:
+        if not np.isnan(cot_atual) and cot_atual < args.min_cotistas and cnpj not in xp_cnpjs:
             n_poucos += 1
             continue
         m = metricas_fundo(q, datas, cdi_idx, asof_i, fim_mes_i, meses_lbl, mes_fechado)
         info = reg.get(cnpj, {})
-        nome = titulo(info.get("nome", cnpj))
+        nome = titulo(info.get("nome") or xp_lista.get(cnpj, {}).get("nome_xp") or cnpj)
         first_i = m["first_i"]
         # série semanal de PL e cotistas a partir da primeira semana com dado
         w_ini = next((k for k, i in enumerate(semanas_i) if i >= first_i), None)
