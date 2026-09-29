@@ -2,8 +2,9 @@ name: Atualizar dados e publicar
 
 on:
   schedule:
-    # Toda segunda-feira às 06:00 de Brasília (09:00 UTC). A CVM publica os informes diários de madrugada.
-    - cron: "0 9 * * 1"
+    # De terça a sábado às 10:07 de Brasília (13:07 UTC). A CVM publica os informes de terça a sábado às 08:00,
+    # com o que os fundos enviaram até 23:59 do dia anterior; os meses antigos recebem retificações semanais.
+    - cron: "7 13 * * 2-6"
   workflow_dispatch:
   push:
     branches: [main]
