@@ -1,0 +1,101 @@
+name: Atualizar dados e publicar
+
+on:
+  schedule:
+    # Toda segunda-feira às 06:00 de Brasília (09:00 UTC). A CVM publica os informes diários de madrugada.
+    - cron: "0 9 * * 1"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - "pipeline/**"
+      - ".github/workflows/**"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  gerar:
+    name: Gerar dados (CVM + BCB)
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Dependências
+        run: pip install --quiet pandas numpy
+
+      - name: Cache dos informes mensais da CVM
+        uses: actions/cache@v4
+        with:
+          path: cache
+          key: cvm-informes-${{ github.run_id }}
+          restore-keys: |
+            cvm-informes-
+
+      - name: Pipeline de dados
+        run: |
+          mkdir -p status
+          set -o pipefail
+          python pipeline/build_data.py --out dist/data --cache cache 2>&1 | tee status/log.txt
+
+      - name: Registrar resultado no repositório (também em caso de erro)
+        if: always()
+        run: |
+          mkdir -p status
+          cp dist/data/status.json status/ultima-execucao.json 2>/dev/null || echo '{"erro":"pipeline não concluiu"}' > status/ultima-execucao.json
+          tail -c 200000 status/log.txt > status/log.tail.txt 2>/dev/null || true
+          mv status/log.tail.txt status/log.txt 2>/dev/null || true
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add status
+          git commit -m "status: execução ${{ github.run_id }}" || echo "nada a registrar"
+          git push || echo "não foi possível registrar o status"
+
+      - name: Resumo da execução
+        run: |
+          cat dist/data/status.json
+          echo "### Comparador de Fundos" >> $GITHUB_STEP_SUMMARY
+          python - <<'EOF' >> $GITHUB_STEP_SUMMARY
+          import json
+          s = json.load(open("dist/data/status.json"))
+          print(f"- Data de referência: **{s['referencia']}**")
+          print(f"- Fundos publicados: **{s['fundos_publicados']:,}** (na matriz: {s['fundos_na_matriz']:,})")
+          print(f"- Descartados: parados {s['descartados_parados']:,} · poucos cotistas {s['descartados_poucos_cotistas']:,} · histórico curto {s['descartados_historico_curto']:,}")
+          print(f"- Duração: {s['duracao_s']}s")
+          for a in s.get("avisos", []):
+              print(f"- Aviso: {a}")
+          EOF
+
+      - name: Página do comparador
+        run: |
+          cp -r site/. dist/
+          touch dist/.nojekyll
+          du -sh dist dist/data
+          ls dist/data/fundos | wc -l
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  publicar:
+    name: Publicar no GitHub Pages
+    needs: gerar
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
