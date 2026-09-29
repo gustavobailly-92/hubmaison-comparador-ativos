@@ -1,6 +1,6 @@
 {
   "referencia": "2026-09-25",
-  "gerado": "2026-09-29T18:27:19Z",
+  "gerado": "2026-09-29T22:25:07Z",
   "fundos_publicados": 6417,
   "fundos_na_matriz": 13496,
   "fundos_xp": 1012,
@@ -12,8 +12,12 @@
     "sp500",
     "sp500brl",
     "nasdaq",
+    "nasdaqbrl",
     "msci",
-    "mscibrl"
+    "mscibrl",
+    "ifix",
+    "ouro",
+    "ourobrl"
   ],
   "tesouro_titulos": 58,
   "historicos": [
@@ -82,7 +86,8 @@
     "202609"
   ],
   "avisos": [
-    "CDI sem valor em 14 dias do calendário (tratados como 0)"
+    "CDI sem valor em 14 dias do calendário (tratados como 0)",
+    "benchmark BTC-BRL indisponível (todas as fontes falharam)"
   ],
-  "duracao_s": 207
+  "duracao_s": 219
 }
