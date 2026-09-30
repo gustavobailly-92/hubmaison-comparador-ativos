@@ -1,6 +1,6 @@
 {
   "referencia": "2026-09-28",
-  "gerado": "2026-09-30T20:14:04Z",
+  "gerado": "2026-09-30T20:35:42Z",
   "fundos_publicados": 6419,
   "fundos_na_matriz": 13497,
   "fundos_xp": 1012,
@@ -92,5 +92,5 @@
   "avisos": [
     "CDI sem valor em 14 dias do calendário (tratados como 0)"
   ],
-  "duracao_s": 263
+  "duracao_s": 237
 }
