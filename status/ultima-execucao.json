@@ -1,24 +1,17 @@
 {
-  "referencia": "2026-09-25",
-  "gerado": "2026-09-29T22:38:21Z",
-  "fundos_publicados": 6417,
-  "fundos_na_matriz": 13496,
+  "referencia": "2026-09-28",
+  "gerado": "2026-09-30T18:27:50Z",
+  "fundos_publicados": 6419,
+  "fundos_na_matriz": 13497,
   "fundos_xp": 1012,
   "benchmarks": [
-    "ipca",
     "poupanca",
-    "dolar",
     "ibov",
     "sp500",
-    "sp500brl",
     "nasdaq",
-    "nasdaqbrl",
     "msci",
-    "mscibrl",
     "ifix",
-    "ouro",
-    "ourobrl",
-    "btc"
+    "ouro"
   ],
   "tesouro_titulos": 58,
   "historicos": [
@@ -29,10 +22,10 @@
     "^BVSP",
     "URTH"
   ],
-  "descartados_parados": 464,
-  "descartados_poucos_cotistas": 6590,
-  "descartados_historico_curto": 25,
-  "dias_calendario": 1080,
+  "descartados_parados": 476,
+  "descartados_poucos_cotistas": 6569,
+  "descartados_historico_curto": 33,
+  "dias_calendario": 1081,
   "meses_processados": [
     "202207",
     "202208",
@@ -87,7 +80,9 @@
     "202609"
   ],
   "avisos": [
-    "CDI sem valor em 14 dias do calendário (tratados como 0)"
+    "CDI sem valor em 14 dias do calendário (tratados como 0)",
+    "PTAX (SGS 1) indisponível: Expecting value: line 1 column 1 (char 0)",
+    "IPCA (SGS 433) indisponível: Expecting value: line 1 column 1 (char 0)"
   ],
-  "duracao_s": 198
+  "duracao_s": 270
 }
