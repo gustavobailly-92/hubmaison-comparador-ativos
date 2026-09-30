@@ -56,6 +56,15 @@ cenários e leitura de outras lâminas em PDF).
 O catálogo `pipeline/coes.json` é mantido à mão: os COEs em oferta mudam a cada reserva e os termos vêm da lâmina (material publicitário)
 e do DIE de cada um, disponíveis em "Detalhes do ativo" no Hub XP.
 
+O **ranking de fundos** e os **COEs** abrem em painéis sobrepostos (atalhos do topo; `?coe=<id>` abre o COE direto). No ranking, cada janela
+(12, 24 e 36 meses) mostra a rentabilidade absoluta e, abaixo, a comparação com o benchmark do próprio fundo: "% CDI" para os referenciados,
+"Ibov +x p.p." para ações, "IMA-B +x p.p." / "IPCA +x p.p." para os atrelados à inflação, e assim por diante (coluna `bm` do `index.json`,
+deduzida do benchmark informado pela XP ou da classe CVM).
+
+O **relatório para o cliente** (bloco "Relatório para o cliente" na Diversificação) monta, só no navegador, um documento A4 com capa, carteira,
+rentabilidade estimada dos últimos 12 meses, projeção de 10 anos, liquidez (resgate por prazo, com o D+ da XP editável), uma página por ativo
+e as gestoras da carteira. Abre numa nova aba com tema escuro ou claro; o PDF sai por "Imprimir → Salvar como PDF".
+
 ## Rodar localmente
 
 ```bash
