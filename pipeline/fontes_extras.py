@@ -388,6 +388,28 @@ def coingecko(symbol: str) -> dict[str, float]:
     return out
 
 
+def anbima_ima_hoje() -> dict[str, tuple[str, float]]:
+    """Lê o resultado diário público do IMA (ima_completo.txt): índice -> (data AAAA-MM-DD, número índice)."""
+    raw = http_get("https://www.anbima.com.br/informacoes/ima/arqs/ima_completo.txt", tentativas=2, timeout=60)
+    txt = raw.decode("latin-1", errors="replace")
+    out: dict[str, tuple[str, float]] = {}
+    for linha in txt.splitlines():
+        campos = linha.split("@")
+        if len(campos) < 4 or not re.match(r"\d{2}/\d{2}/\d{4}$", campos[1].strip()):
+            continue
+        d, m, y = campos[1].strip().split("/")
+        nome = campos[2].strip()
+        try:
+            val = float(campos[3].strip().replace(".", "").replace(",", "."))
+        except ValueError:
+            continue
+        if nome and val > 0:
+            out[nome] = (f"{y}-{m}-{d}", val)
+    if not out:
+        raise RuntimeError("ima_completo.txt sem linhas reconhecíveis")
+    return out
+
+
 FONTES_POR_SIMBOLO = {
     "^BVSP": ((b3_ibov, "B3"), (yahoo, "Yahoo"), (stooq, "Stooq"), (sgs_indice, "BCB SGS 7")),
     "^GSPC": ((nasdaq_api, "Nasdaq (ETF SPY)"), (yahoo, "Yahoo"), (stooq, "Stooq"), (fred, "FRED")),  # o FRED não responde de dentro do Actions
@@ -506,6 +528,9 @@ def construir_benchmarks(datas: list[date], hoje: date, offline: str | None, avi
     if ipca_m:
         q, est = indice_mensal_para_diario(ipca_m, datas)
         add("ipca", "IPCA", "BRL", "BCB SGS 433", "Inflação oficial, distribuída pelos dias úteis do mês" + (f"; {', '.join(est)} estimado pelo mês anterior" if est else ""), q)
+        # IPCA + 6% a.a.: referência de juro real, capitalizada por dia útil sobre o IPCA
+        n = len(datas)
+        add("ipca6", "IPCA + 6%", "BRL", "BCB SGS 433 + 6% a.a.", "IPCA mais juro real de 6% ao ano, capitalizado por dia útil (referência para renda fixa atrelada à inflação)", q * np.power(1.06, np.arange(n) / 252.0))
     if poup_m:
         q, est = indice_mensal_para_diario(poup_m, datas)
         add("poupanca", "Poupança", "BRL", "BCB SGS 195", "Rendimento da poupança (regra atual)", q)

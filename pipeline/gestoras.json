@@ -1,0 +1,1691 @@
+{
+ "_nota": "Casas gestoras: nome curto, site (para o ícone) e trechos do nome legal usados no casamento (maiúsculas, sem acento). Mantido à mão.",
+ "gestoras": [
+  {
+   "nome": "XP Asset",
+   "site": "xpasset.com.br",
+   "match": [
+    "XP ALLOCATION",
+    "XP VISTA",
+    "XP ADVISORY",
+    "XP GESTAO DE RECURSOS",
+    "XP PE GESTAO",
+    "XP SPORTS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "XP Vida e Previdência",
+   "site": "xpi.com.br",
+   "match": [
+    "XP VIDA E PREVIDENCIA"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Icatu Vanguarda",
+   "site": "icatuvanguarda.com.br",
+   "match": [
+    "ICATU VANGUARDA"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Icatu Seguros",
+   "site": "icatuseguros.com.br",
+   "match": [
+    "ICATU SEGUROS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Franklin Templeton",
+   "site": "franklintempleton.com.br",
+   "match": [
+    "FRANKLIN TEMPLETON"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "SPX Capital",
+   "site": "spxcapital.com",
+   "match": [
+    "SPX GESTAO",
+    "SPX PRIVATE",
+    "SPX REAL ESTATE"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "ARX Investimentos",
+   "site": "arxinvestimentos.com.br",
+   "match": [
+    "ARX INVESTIMENTOS"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Itaú Asset",
+   "site": "itauassetmanagement.com.br",
+   "match": [
+    "ITAU UNIBANCO ASSET",
+    "ITAU ASSET"
+   ],
+   "logo": "v2"
+  },
+  {
+   "nome": "Sparta",
+   "site": "sparta.com.br",
+   "match": [
+    "SPARTA ADMINISTRADORA"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "SulAmérica Investimentos",
+   "site": "sulamericainvestimentos.com.br",
+   "match": [
+    "SUL AMERICA GESTAO",
+    "SUL AMERICA INVESTIMENTOS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "BNP Paribas AM",
+   "site": "bnpparibas-am.com.br",
+   "match": [
+    "BNP PARIBAS ASSET"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Kinea",
+   "site": "kinea.com.br",
+   "match": [
+    "KINEA INVESTIMENTOS",
+    "KINEA PRIVATE"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Capitânia",
+   "site": "capitania.net",
+   "match": [
+    "CAPITANIA CAPITAL",
+    "CAPITANIA PREV",
+    "CAPITANIA ALTERNATIVES"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Leto Asset",
+   "site": "letoasset.com.br",
+   "match": [
+    "LETO ASSET"
+   ],
+   "logo": "v2"
+  },
+  {
+   "nome": "Kapitalo",
+   "site": "kapitalo.com.br",
+   "match": [
+    "KAPITALO"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Legacy Capital",
+   "site": "legacycapital.com.br",
+   "match": [
+    "LEGACY CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "MAG Investimentos",
+   "site": "maginvestimentos.com.br",
+   "match": [
+    "MONGERAL AEGON INVESTIMENTOS"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Pátria",
+   "site": "patria.com",
+   "match": [
+    "PATRIA INVESTIMENTOS",
+    "PATRIA VBI"
+   ],
+   "logo": "v2"
+  },
+  {
+   "nome": "Tivio Capital",
+   "site": "tiviocapital.com.br",
+   "match": [
+    "TIVIO CAPITAL"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Gama Investimentos",
+   "site": "gamainvestimentos.com.br",
+   "match": [
+    "GAMA INVESTIMENTOS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Jive",
+   "site": "jiveinvestments.com",
+   "match": [
+    "JIVE HIGH YIELD",
+    "JIVE INVESTMENTS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "AZ Quest",
+   "site": "azquest.com.br",
+   "match": [
+    "AZ QUEST"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "BTG Pactual Asset",
+   "site": "btgpactual.com",
+   "match": [
+    "BTG PACTUAL ASSET",
+    "BTG PACTUAL GESTORA",
+    "BTG PACTUAL GESTAO"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Principal AM",
+   "site": "principalam.com",
+   "match": [
+    "PRINCIPAL ASSET"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Verde Asset",
+   "site": "verdeasset.com.br",
+   "match": [
+    "VERDE ASSET"
+   ],
+   "logo": "v2"
+  },
+  {
+   "nome": "Absolute",
+   "site": "absolute-invest.com.br",
+   "match": [
+    "ABSOLUTE GESTAO",
+    "ABSOLUTE CREDITO",
+    "ABSOLUTE DHAMA"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Alaska Asset",
+   "site": "alaska-asset.com.br",
+   "match": [
+    "ALASKA INVESTIMENTOS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Truxt",
+   "site": "truxt.com.br",
+   "match": [
+    "TRUXT"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Vinci Compass",
+   "site": "vincicompass.com",
+   "match": [
+    "VINCI GESTORA",
+    "VINCI SOLUCOES",
+    "VINCI CG",
+    "VINCI REAL ESTATE",
+    "VINCI CAPITAL",
+    "VINCI EQUITIES"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Vinland",
+   "site": "vinlandcap.com",
+   "match": [
+    "VINLAND"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "BB Asset",
+   "site": "bb.com.br",
+   "match": [
+    "BB GESTAO DE RECURSOS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Plural",
+   "site": "plural.com.br",
+   "match": [
+    "PLURAL GESTAO"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Hashdex",
+   "site": "hashdex.com",
+   "match": [
+    "HASHDEX"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Ibiuna",
+   "site": "ibiuna.com.br",
+   "match": [
+    "IBIUNA"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "JGP",
+   "site": "jgp.com.br",
+   "match": [
+    "JGP GESTAO",
+    "JGP EQUITIES"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Kadima",
+   "site": "kadimaasset.com.br",
+   "match": [
+    "KADIMA"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Occam",
+   "site": "occam.com.br",
+   "match": [
+    "OCCAM BRASIL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Polo Capital",
+   "site": "polocapital.com",
+   "match": [
+    "POLO CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Riza",
+   "site": "rizaasset.com.br",
+   "match": [
+    "RIZA LIQUIDOS",
+    "RIZA REAL ESTATE",
+    "RIZA ALLOCATION",
+    "RIZA SECURITIZACAO",
+    "RIZA AGRONEGOCIO"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Valora",
+   "site": "valorainvest.com.br",
+   "match": [
+    "VALORA RENDA FIXA",
+    "VALORA IMOBILIARIO"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Augme",
+   "site": "augme.com.br",
+   "match": [
+    "AUGME"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Dahlia Capital",
+   "site": "dahliacapital.com.br",
+   "match": [
+    "DAHLIA"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Daycoval Asset",
+   "site": "daycoval.com.br",
+   "match": [
+    "DAYCOVAL ASSET"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Genoa Capital",
+   "site": "genoacapital.com.br",
+   "match": [
+    "GENOA CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "IP Capital Partners",
+   "site": "ip-capitalpartners.com",
+   "match": [
+    "INVESTIDOR PROFISSIONAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Leblon Equities",
+   "site": "leblonequities.com.br",
+   "match": [
+    "LEBLON EQUITIES"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "RPS Capital",
+   "site": "rpscapital.com.br",
+   "match": [
+    "RPS CAPITAL"
+   ],
+   "logo": "v2"
+  },
+  {
+   "nome": "Real Investor",
+   "site": "realinvestor.com.br",
+   "match": [
+    "REAL INVESTOR"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Root Capital",
+   "site": "rootcapital.com.br",
+   "match": [
+    "ROOT CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Safra Asset",
+   "site": "safraasset.com.br",
+   "match": [
+    "SAFRA DISTRIBUIDORA",
+    "SAFRA ASSET"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "V8 Capital",
+   "site": "v8capital.com.br",
+   "match": [
+    "V8 CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "ACE Capital",
+   "site": "acecapital.com.br",
+   "match": [
+    "ACE CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "ASA Investments",
+   "site": "asainvestments.com.br",
+   "match": [
+    "ASA ASSET"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Apex Capital",
+   "site": "apexcapital.com.br",
+   "match": [
+    "APEX CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Bocom BBM",
+   "site": "bocombbm.com.br",
+   "match": [
+    "BOCOM BBM"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Bradesco Asset",
+   "site": "bradescoasset.com.br",
+   "match": [
+    "BANCO BRADESCO",
+    "BRAM -",
+    "BRADESCO ASSET"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Brave Gestora",
+   "site": "bravegestora.com.br",
+   "match": [
+    "BRAVE GESTORA"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Constellation",
+   "site": "constellation.com.br",
+   "match": [
+    "CONSTELLATION INVESTIMENTOS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Drys Capital",
+   "site": "dryscapital.com.br",
+   "match": [
+    "DRYS CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Encore",
+   "site": "encoreasset.com.br",
+   "match": [
+    "ENCORE GESTAO"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Forpus Capital",
+   "site": "forpuscapital.com.br",
+   "match": [
+    "FORPUS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Moat Capital",
+   "site": "moatcapital.com.br",
+   "match": [
+    "MOAT CAPITAL"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Navi Capital",
+   "site": "navicapital.com.br",
+   "match": [
+    "NAVI CAPITAL",
+    "NAVI YIELD"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Newave Capital",
+   "site": "newavecapital.com.br",
+   "match": [
+    "NEWAVE CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Sharp Capital",
+   "site": "sharpcapital.com.br",
+   "match": [
+    "SHARP CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "WHG",
+   "site": "whg.com.br",
+   "match": [
+    "WEALTH HIGH GOVERNANCE"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "AF Invest",
+   "site": "afinvest.com.br",
+   "match": [
+    "AF INVEST"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Atena Capital",
+   "site": "atenacapital.com.br",
+   "match": [
+    "ATENA CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Paramis",
+   "site": "paramis.com.br",
+   "match": [
+    "PARAMIS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "M8 Partners",
+   "site": "m8partners.com.br",
+   "match": [
+    "M8 PARTNERS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Mantaro Capital",
+   "site": "mantarocapital.com.br",
+   "match": [
+    "MANTARO"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Novus Capital",
+   "site": "novuscapital.com.br",
+   "match": [
+    "NOVUS CAPITAL",
+    "NOVUS CREDITO"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Oceana",
+   "site": "oceanainvestimentos.com.br",
+   "match": [
+    "OCEANA INVESTIMENTOS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Opportunity",
+   "site": "opportunity.com.br",
+   "match": [
+    "OPPORTUNITY GESTAO",
+    "OPPORTUNITY ASSET",
+    "OPPORTUNITY HDF"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Porto Seguro Investimentos",
+   "site": "portoseguro.com.br",
+   "match": [
+    "PORTO SEGURO INVESTIMENTOS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Safari Capital",
+   "site": "safaricapital.com.br",
+   "match": [
+    "SAFARI CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Solis",
+   "site": "solisinvestimentos.com.br",
+   "match": [
+    "SOLIS INVESTIMENTOS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Studio Investimentos",
+   "site": "studioinvest.com.br",
+   "match": [
+    "STUDIO INVESTIMENTOS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Távola Capital",
+   "site": "tavolacapital.com.br",
+   "match": [
+    "TAVOLA CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Vista Capital",
+   "site": "vistacapital.com.br",
+   "match": [
+    "VISTA CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Asset1",
+   "site": "asset1.com.br",
+   "match": [
+    "ASSET1"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Bayes Capital",
+   "site": "bayescapital.com.br",
+   "match": [
+    "BAYES CAPITAL"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Adam Capital",
+   "site": "adamcapital.com.br",
+   "match": [
+    "ADAMCAPITAL",
+    "ADAM CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Alphakey",
+   "site": "alphakey.com.br",
+   "match": [
+    "ALPHAKEY"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Atlas One",
+   "site": "atlasone.com.br",
+   "match": [
+    "ATLAS ONE"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Bahia Asset",
+   "site": "bahiaasset.com.br",
+   "match": [
+    "BAHIA AM"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Dao Capital",
+   "site": "daocapital.com.br",
+   "match": [
+    "DAO CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Giant Steps",
+   "site": "giantsteps.com.br",
+   "match": [
+    "GIANT STEPS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "HIX",
+   "site": "hix.com.br",
+   "match": [
+    "HIX INVESTIMENTOS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Inter Asset",
+   "site": "interasset.com.br",
+   "match": [
+    "INTER ASSET"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Iridium",
+   "site": "iridiumgestao.com.br",
+   "match": [
+    "IRIDIUM"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Journey Capital",
+   "site": "journeycapital.com.br",
+   "match": [
+    "JOURNEY CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Kiron Capital",
+   "site": "kironcapital.com.br",
+   "match": [
+    "KIRON CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "LIS Capital",
+   "site": "liscapital.com.br",
+   "match": [
+    "LIS CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Mapfre Investimentos",
+   "site": "mapfreinvestimentos.com.br",
+   "match": [
+    "MAPFRE INVESTIMENTOS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Meraki Capital",
+   "site": "merakicapital.com.br",
+   "match": [
+    "MERAKI CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "PIMCO",
+   "site": "pimco.com",
+   "match": [
+    "PIMCO"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Quantitas",
+   "site": "quantitas.com.br",
+   "match": [
+    "QUANTITAS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "TG Core",
+   "site": "tgcore.com.br",
+   "match": [
+    "TG CORE"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Grão",
+   "site": "grao.com.br",
+   "match": [
+    "GRAO GESTAO"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Arbor Capital",
+   "site": "arborcapital.com.br",
+   "match": [
+    "ARBOR GESTAO"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Ouro Preto",
+   "site": "ouropretoinvestimentos.com.br",
+   "match": [
+    "OURO PRETO GESTAO"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "BlackRock",
+   "site": "ishares.com",
+   "match": [
+    "BLACKROCK"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Bocaina Capital",
+   "site": "bocainacapital.com.br",
+   "match": [
+    "BOCAINA CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "EB Capital",
+   "site": "ebcapital.com.br",
+   "match": [
+    "EB CAPITAL",
+    "EB CLIMATE"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Geo Capital",
+   "site": "geocapital.com.br",
+   "match": [
+    "GEO CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Guepardo",
+   "site": "guepardoinvest.com.br",
+   "match": [
+    "GUEPARDO"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Indie Capital",
+   "site": "indiecapital.com.br",
+   "match": [
+    "INDIE CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Mauá Capital",
+   "site": "mauacapital.com",
+   "match": [
+    "MAUA CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Neo Investimentos",
+   "site": "neoinvestimentos.com.br",
+   "match": [
+    "NEO MULTIMERCADO",
+    "NEO EQUITIES"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Norte Asset",
+   "site": "norteasset.com.br",
+   "match": [
+    "NORTE ASSET"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Oby Capital",
+   "site": "obycapital.com.br",
+   "match": [
+    "OBY CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Persevera",
+   "site": "persevera.com.br",
+   "match": [
+    "PERSEVERA"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "RBR Asset",
+   "site": "rbrasset.com.br",
+   "match": [
+    "RBR PRIVATE",
+    "RBR INFRA",
+    "RBR ASSET"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Reach Capital",
+   "site": "reachcapital.com.br",
+   "match": [
+    "REACH CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Regia Capital",
+   "site": "regiacapital.com.br",
+   "match": [
+    "REGIA CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Tenax Capital",
+   "site": "tenaxcapital.com.br",
+   "match": [
+    "TENAX CAPITAL"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Trígono Capital",
+   "site": "trigonocapital.com",
+   "match": [
+    "TRIGONO CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "4UM Investimentos",
+   "site": "4um.com.br",
+   "match": [
+    "4UM "
+   ],
+   "logo": "v2"
+  },
+  {
+   "nome": "Atmos Capital",
+   "site": "atmoscapital.com.br",
+   "match": [
+    "ATMOS CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Absoluto Partners",
+   "site": "absolutopartners.com.br",
+   "match": [
+    "ABSOLUTO PARTNERS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Artesanal",
+   "site": "artesanalinvestimentos.com.br",
+   "match": [
+    "ARTESANAL INVESTIMENTOS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Auster Capital",
+   "site": "austercapital.com.br",
+   "match": [
+    "AUSTER CAPITAL"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Bogari Capital",
+   "site": "bogaricapital.com.br",
+   "match": [
+    "BOGARI"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Bresser",
+   "site": "bresserasset.com.br",
+   "match": [
+    "BRESSER ADMINISTRACAO"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Canvas Capital",
+   "site": "canvascapital.com.br",
+   "match": [
+    "CANVAS CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Exploritas",
+   "site": "exploritas.com.br",
+   "match": [
+    "EXPLORITAS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Galapagos Capital",
+   "site": "galapagoscapital.com",
+   "match": [
+    "GALAPAGOS CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Integral Investimentos",
+   "site": "integralinvestimentos.com.br",
+   "match": [
+    "INTEGRAL INVESTIMENTOS"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Logos Capital",
+   "site": "logoscapital.com.br",
+   "match": [
+    "LOGOS GESTAO"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Mar Asset",
+   "site": "marasset.com.br",
+   "match": [
+    "MAR ASSET"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Módulo Capital",
+   "site": "modulocapital.com.br",
+   "match": [
+    "MODULO CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Nu Asset",
+   "site": "nubank.com.br",
+   "match": [
+    "NU ASSET"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Organon Capital",
+   "site": "organoncapital.com.br",
+   "match": [
+    "ORGANON CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Perfin",
+   "site": "perfin.com.br",
+   "match": [
+    "PERFIN"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "QR Asset",
+   "site": "qrasset.com.br",
+   "match": [
+    "QR ASSET"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Rio Bravo",
+   "site": "riobravo.com.br",
+   "match": [
+    "RIO BRAVO"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Somma",
+   "site": "sommainvestimentos.com.br",
+   "match": [
+    "SOMMA INVESTIMENTOS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Squadra",
+   "site": "squadrainvest.com.br",
+   "match": [
+    "SQUADRA"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Suno Asset",
+   "site": "suno.com.br",
+   "match": [
+    "SUNO GESTORA"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Tarpon",
+   "site": "tarponcapital.com",
+   "match": [
+    "TARPON"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Tempo Capital",
+   "site": "tempocapital.com.br",
+   "match": [
+    "TEMPO CAPITAL"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "TreeCorp",
+   "site": "treecorp.com.br",
+   "match": [
+    "TREECORP"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Genial Gestão",
+   "site": "genialinvestimentos.com.br",
+   "match": [
+    "GENIAL GESTAO"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Ventor",
+   "site": "ventor.com.br",
+   "match": [
+    "VENTOR INVESTIMENTOS"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Vokin",
+   "site": "vokin.com.br",
+   "match": [
+    "VOKIN"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Velt Partners",
+   "site": "veltpartners.com",
+   "match": [
+    "VELT PARTNERS"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Santander Asset",
+   "site": "santander.com.br",
+   "match": [
+    "SANTANDER BRASIL GESTAO",
+    "SANTANDER DISTRIBUIDORA",
+    "SANTANDER ASSET"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Caixa Asset",
+   "site": "caixa.gov.br",
+   "match": [
+    "CAIXA DISTRIBUIDORA",
+    "CAIXA ECONOMICA"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "UBS",
+   "site": "ubs.com",
+   "match": [
+    "UBS BRASIL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Brasilprev",
+   "site": "brasilprev.com.br",
+   "match": [
+    "BRASILPREV"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "G5 Partners",
+   "site": "g5partners.com",
+   "match": [
+    "G5 ADMINISTRADORA"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Western Asset",
+   "site": "westernasset.com",
+   "match": [
+    "WESTERN ASSET"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Schroders",
+   "site": "schroders.com",
+   "match": [
+    "SCHRODER"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "J.P. Morgan AM",
+   "site": "jpmorgan.com",
+   "match": [
+    "J.P. MORGAN",
+    "JP MORGAN",
+    "JPMORGAN"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Morgan Stanley",
+   "site": "morganstanley.com",
+   "match": [
+    "MORGAN STANLEY"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Claritas",
+   "site": "claritas.com.br",
+   "match": [
+    "CLARITAS"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Warren",
+   "site": "warren.com.br",
+   "match": [
+    "WARREN"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Empiricus Gestão",
+   "site": "empiricus.com.br",
+   "match": [
+    "EMPIRICUS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Órama",
+   "site": "orama.com.br",
+   "match": [
+    "ORAMA"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Bradesco Vida e Previdência",
+   "site": "bradesco.com.br",
+   "match": [
+    "BRADESCO VIDA"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Porto Seguro",
+   "site": "portoseguro.com.br",
+   "match": [
+    "PORTO SEGURO"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Sicredi Asset",
+   "site": "sicredi.com.br",
+   "match": [
+    "SICREDI"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Banrisul",
+   "site": "banrisul.com.br",
+   "match": [
+    "BANRISUL"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Votorantim Asset",
+   "site": "vam.com.br",
+   "match": [
+    "VOTORANTIM ASSET"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Mirae Asset",
+   "site": "miraeasset.com",
+   "match": [
+    "MIRAE ASSET"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Nomura",
+   "site": "nomura.com",
+   "match": [
+    "NOMURA"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Trafalgar",
+   "site": "trafalgar.com.br",
+   "match": [
+    "TRAFALGAR"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Garde",
+   "site": "garde.com.br",
+   "match": [
+    "GARDE ASSET"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Mauá",
+   "site": "mauacapital.com",
+   "match": [
+    "MAUA"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Bahia",
+   "site": "bahiaasset.com.br",
+   "match": [
+    "BAHIA ASSET"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Tarpon",
+   "site": "tarponcapital.com",
+   "match": [
+    "TARPON"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Nest",
+   "site": "nestinvest.com.br",
+   "match": [
+    "NEST INTERNATIONAL"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "STK Capital",
+   "site": "stkcapital.com.br",
+   "match": [
+    "STK CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Tera Investimentos",
+   "site": "terainvestimentos.com.br",
+   "match": [
+    "TERA INVESTIMENTOS"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Levante",
+   "site": "levante.com.br",
+   "match": [
+    "LEVANTE GESTORA"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Trópico",
+   "site": "tropicoinvest.com.br",
+   "match": [
+    "TROPICO INVESTIMENTOS"
+   ],
+   "logo": "www"
+  },
+  {
+   "nome": "Santa Fé",
+   "site": "santafeinvestimentos.com.br",
+   "match": [
+    "SANTA FE INVESTIMENTOS"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Kijani",
+   "site": "kijani.com.br",
+   "match": [
+    "KIJANI"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Joule Asset",
+   "site": "jouleasset.com.br",
+   "match": [
+    "JOULE"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Brio Investimentos",
+   "site": "brioinvestimentos.com.br",
+   "match": [
+    "BRIO INVESTIMENTOS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Armor Capital",
+   "site": "armorcapital.com.br",
+   "match": [
+    "ARMOR GESTORA"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Prinz Capital",
+   "site": "prinzcapital.com.br",
+   "match": [
+    "PRINZ GESTORA"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Manatí Capital",
+   "site": "manaticapital.com.br",
+   "match": [
+    "MANATI CAPITAL"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "BlueOak",
+   "site": "blueoak.com.br",
+   "match": [
+    "BLUEOAK"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "GTI",
+   "site": "gti.com.br",
+   "match": [
+    "GTI ADMINISTRACAO"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Aqua Capital",
+   "site": "aquacapital.com.br",
+   "match": [
+    "AQUA CAPITAL"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "TB Capital",
+   "site": "tbcapital.com.br",
+   "match": [
+    "TB CAPITAL"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "BC Gestão",
+   "site": "bcgestao.com.br",
+   "match": [
+    "BC GESTAO"
+   ],
+   "logo": "www"
+  },
+  {
+   "nome": "LCP Gestora",
+   "site": "lcpgestora.com.br",
+   "match": [
+    "LCP GESTORA"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Turmalina",
+   "site": "turmalina.com.br",
+   "match": [
+    "TURMALINA"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Own Partners",
+   "site": "ownpartners.com.br",
+   "match": [
+    "OWN PARTNERS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Jus Capital",
+   "site": "juscapital.com.br",
+   "match": [
+    "JUS CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Basílica Partners",
+   "site": "basilicapartners.com",
+   "match": [
+    "BASILICA PARTNERS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "CY Capital",
+   "site": "cy.capital",
+   "match": [
+    "CY.CAPITAL"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Capsigma",
+   "site": "capsigma.com.br",
+   "match": [
+    "CAPSIGMA"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Exa Capital",
+   "site": "exacapital.com.br",
+   "match": [
+    "EXA CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Entercapital",
+   "site": "entercapital.com.br",
+   "match": [
+    "ENTERCAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Hire Gestão",
+   "site": "hiregestao.com.br",
+   "match": [
+    "HIRE GESTAO"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Jubarte Capital",
+   "site": "jubartecapital.com.br",
+   "match": [
+    "JUBARTE"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "MOS Gestão",
+   "site": "mosgestao.com.br",
+   "match": [
+    "MOS GESTAO"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "Morada Capital",
+   "site": "moradacapital.com.br",
+   "match": [
+    "MORADA CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "ARZ Capital",
+   "site": "arzcapital.com.br",
+   "match": [
+    "ARZ CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Acuto Capital",
+   "site": "acutocapital.com.br",
+   "match": [
+    "ACUTO CAPITAL"
+   ],
+   "logo": false
+  },
+  {
+   "nome": "TMF Brasil",
+   "site": "tmf-group.com",
+   "match": [
+    "TMF BRASIL"
+   ],
+   "logo": "g"
+  }
+ ]
+}

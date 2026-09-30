@@ -216,6 +216,19 @@ def carregar_cadastro(offline: str | None, cache: str) -> dict:
         if rawz:
             z = zipfile.ZipFile(io.BytesIO(rawz))
             novos = 0
+            # registro_fundo.csv: gestor e administrador ficam no nível do fundo (RCVM 175), ligados à classe por ID_Registro_Fundo
+            fundo_info: dict[str, dict] = {}
+            for name in z.namelist():
+                if not name.lower().endswith("registro_fundo.csv"):
+                    continue
+                rawf = z.read(name)
+                dff = pd.read_csv(io.BytesIO(rawf), sep=";", encoding=encoding_de(rawf[:2_000_000]), dtype=str, low_memory=False)
+                cf = dff.columns
+                f_id = find_col(cf, "ID_Registro_Fundo"); f_g = find_col(cf, "Gestor"); f_a = find_col(cf, "Administrador"); f_tp = find_col(cf, "Tipo_Fundo"); f_cnpj = find_col(cf, "CNPJ_Fundo")
+                if f_id:
+                    for row in dff.to_dict("records"):
+                        fundo_info[str(row.get(f_id, "")).strip()] = {"gestor": get(row, f_g), "adm": get(row, f_a), "tipo": get(row, f_tp), "cnpj_fundo": cnpj_digits(row.get(f_cnpj, ""))}
+                log(f"registro de fundos: {len(fundo_info):,} fundos com gestor/administrador")
             for name in z.namelist():
                 if "classe" not in name.lower() or "subclasse" in name.lower() or not name.lower().endswith(".csv"):
                     continue
@@ -230,17 +243,29 @@ def carregar_cadastro(offline: str | None, cache: str) -> dict:
                 k_anb = find_col(cc, "Classificacao_Anbima", "CLASSE_ANBIMA")
                 k_pub = find_col(cc, "Publico_Alvo", "PUBLICO_ALVO")
                 k_ini = find_col(cc, "Data_Inicio", "Data_Inicio_Atividade", "DT_INI_ATIV")
+                k_idf = find_col(cc, "ID_Registro_Fundo")
+                k_condom = find_col(cc, "Forma_Condominio")
+                k_cotas = find_col(cc, "Classe_Cotas")
                 if not k_cnpj or not k_nome:
                     continue
                 for row in dfc.to_dict("records"):
                     cnpj = cnpj_digits(row[k_cnpj])
-                    if len(cnpj) != 14 or cnpj in reg:
+                    if len(cnpj) != 14:
+                        continue
+                    fi = fundo_info.get(str(row.get(k_idf, "")).strip(), {}) if k_idf else {}
+                    if cnpj in reg:
+                        # já veio do cad_fi: só completa gestor/administrador se estiverem vazios
+                        if not reg[cnpj].get("gestor") and fi.get("gestor"):
+                            reg[cnpj]["gestor"] = fi["gestor"]
+                        if not reg[cnpj].get("adm") and fi.get("adm"):
+                            reg[cnpj]["adm"] = fi["adm"]
                         continue
                     reg[cnpj] = {
                         "nome": get(row, k_nome), "sit": get(row, k_sit).upper(), "classe": get(row, k_classe),
-                        "exclusivo": get(row, k_excl).upper(), "cotas": "", "gestor": "", "adm": "",
+                        "exclusivo": get(row, k_excl).upper(), "cotas": "S" if get(row, k_cotas).upper().startswith("S") else "",
+                        "gestor": fi.get("gestor", ""), "adm": fi.get("adm", ""),
                         "anbima": get(row, k_anb), "taxa_adm": "", "taxa_perf": "", "publico": get(row, k_pub),
-                        "inicio": get(row, k_ini)[:10], "condom": "", "tipo": "CLASSE",
+                        "inicio": get(row, k_ini)[:10], "condom": get(row, k_condom), "tipo": "CLASSE",
                     }
                     novos += 1
             log(f"registro de classes: {novos} CNPJs complementados")
@@ -249,6 +274,78 @@ def carregar_cadastro(offline: str | None, cache: str) -> dict:
 
     log(f"cadastro consolidado: {len(reg)} CNPJs")
     return reg
+
+
+# --------------------------------------------------------------------------- gestoras
+
+def _norm_gestor(nome: str) -> str:
+    s = unicodedata.normalize("NFKD", str(nome or "")).encode("ascii", "ignore").decode().upper()
+    return re.sub(r"\s+", " ", s).strip()
+
+
+def carregar_gestoras(caminho: str) -> list[dict]:
+    try:
+        return json.load(open(caminho, encoding="utf-8")).get("gestoras", [])
+    except Exception as e:  # noqa: BLE001
+        log(f"aviso: gestoras.json ignorado ({e})")
+        return []
+
+
+def casar_gestora(nome_legal: str, catalogo: list[dict]) -> dict | None:
+    """Encontra a casa gestora no catálogo pelo nome legal da CVM (trechos em maiúsculas, sem acento)."""
+    n = _norm_gestor(nome_legal)
+    if not n:
+        return None
+    for g in catalogo:
+        for m in g.get("match", []):
+            if m in n:
+                return g
+    return None
+
+
+def gestor_curto(nome_legal: str) -> str:
+    """Nome curto derivado do nome legal quando não há catálogo: tira sufixos societários e termos genéricos."""
+    n = titulo(nome_legal)
+    n = re.sub(r"(?i)\b(S/?A\.?|S\.A\.?|LTDA\.?|EIRELI|DTVM|CTVM|CCVM)\b", "", n)
+    n = re.sub(r"(?i)\b(Gestão|Gestao|Gestora|Gestor|Administradora|Administração|Administracao|Distribuidora|Corretora|De|Do|Da|Dos|Das|E|Em|Recursos|Investimentos|Investimento|Valores|Mobiliários|Mobiliarios|Títulos|Titulos|Carteiras?|Financeiros|Financeira|Terceiros|Consultoria|Asset|Management|Participações|Participacoes)\b", "", n)
+    n = re.sub(r"\s*[\-–]\s*$", "", re.sub(r"\s+", " ", n)).strip(" -,.")
+    return n or titulo(nome_legal)
+
+
+# --------------------------------------------------------------------------- índices ANBIMA (proxy + acumulação)
+
+# id, nome, CNPJ do fundo passivo, nome do fundo, taxa de administração (fração a.a.), nome do índice no arquivo da ANBIMA
+PROXIES_INDICE = [
+    ("imab", "IMA-B", "10740658000193", "Caixa Brasil IMA-B Títulos Públicos", 0.0020, "IMA-B"),
+    ("irfm", "IRF-M", "14508605000100", "Caixa Brasil IRF-M Títulos Públicos", 0.0020, "IRF-M"),
+]
+
+
+def ler_ima_csv(caminho: str) -> dict[str, dict[str, float]]:
+    out: dict[str, dict[str, float]] = {}
+    if not caminho or not os.path.exists(caminho):
+        return out
+    with open(caminho, encoding="utf-8") as fh:
+        for linha in fh:
+            partes = linha.strip().split(";")
+            if len(partes) != 3 or partes[0] == "indice":
+                continue
+            try:
+                out.setdefault(partes[0], {})[partes[1]] = float(partes[2])
+            except ValueError:
+                continue
+    return out
+
+
+def gravar_ima_csv(caminho: str, dados: dict[str, dict[str, float]]) -> None:
+    if not caminho:
+        return
+    os.makedirs(os.path.dirname(caminho) or ".", exist_ok=True)
+    with open(caminho, "w", encoding="utf-8") as fh:
+        fh.write("indice;data;numero_indice\n")
+        for nome in sorted(dados):
+            for d in sorted(dados[nome]):
+                fh.write(f"{nome};{d};{dados[nome][d]:.6f}\n")
 
 
 # --------------------------------------------------------------------------- CDI
@@ -491,6 +588,7 @@ def main() -> int:
     ap.add_argument("--offline", default=None, help="pasta com arquivos locais em vez de baixar")
     ap.add_argument("--min-cotistas", type=int, default=MIN_COTISTAS)
     ap.add_argument("--hoje", default=None, help="AAAA-MM-DD (testes)")
+    ap.add_argument("--ima-csv", default="status/ima.csv", help="acumulado diário dos índices ANBIMA (lido e regravado a cada execução)")
     ap.add_argument("--xp", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "xp_fundos.csv"),
                     help="lista de fundos da plataforma XP (extraída do Guia de Fundos)")
     ap.add_argument("--sem-extras", action="store_true", help="pula benchmarks e Tesouro (testes rápidos)")
@@ -510,6 +608,8 @@ def main() -> int:
     # fundos da plataforma XP: entram mesmo com poucos cotistas ou marcados como exclusivos
     # (os FIEs de previdência têm a seguradora como único cotista)
     xp_lista = fx.carregar_xp(args.xp)
+    gestoras = carregar_gestoras(os.path.join(os.path.dirname(os.path.abspath(__file__)), "gestoras.json"))
+    log(f"  catálogo de gestoras: {len(gestoras)} casas")
     xp_cnpjs = set(xp_lista)
     log(f"  lista XP: {len(xp_lista):,} CNPJs")
 
@@ -625,9 +725,18 @@ def main() -> int:
         qs = [None if np.isnan(v) else float(f"{v:.7g}") for v in q[first_i:]]
         j12 = m["janelas"].get("12") or {}
         xp = xp_lista.get(cnpj)
+        gl = info.get("gestor", "")
+        gcat = casar_gestora(gl, gestoras) if gl else None
+        g_curto = (gcat or {}).get("nome") or (gestor_curto(gl) if gl else ((xp or {}).get("gestor") or ""))
+        g_site = (gcat or {}).get("site") if gcat and gcat.get("logo") else None
+        g_logo = (gcat or {}).get("logo") if gcat and gcat.get("logo") else None
+        taxa_adm = info.get("taxa_adm", "") or ((xp or {}).get("taxa_adm") if xp and xp.get("taxa_adm") is not None else "")
         doc = {
             "cnpj": cnpj,
             "xp": xp,
+            "gestor_curto": g_curto,
+            "gestor_site": g_site,
+            "gestor_logo": g_logo,
             "cnpj_fmt": f"{cnpj[:2]}.{cnpj[2:5]}.{cnpj[5:8]}/{cnpj[8:12]}-{cnpj[12:]}",
             "nome": nome,
             "classe": info.get("classe", ""),
@@ -635,8 +744,8 @@ def main() -> int:
             "gestor": titulo(info.get("gestor", "")),
             "adm": titulo(info.get("adm", "")),
             "publico": info.get("publico", ""),
-            "taxa_adm": info.get("taxa_adm", ""),
-            "taxa_perf": info.get("taxa_perf", ""),
+            "taxa_adm": taxa_adm,
+            "taxa_perf": info.get("taxa_perf", "") or ((xp or {}).get("taxa_perf") if xp and xp.get("taxa_perf") is not None else ""),
             "inicio": info.get("inicio", ""),
             "cotas": info.get("cotas", ""),
             "ate": datas[asof_i].isoformat(),
@@ -653,12 +762,15 @@ def main() -> int:
         }
         with open(os.path.join(args.out, "fundos", f"{cnpj}.json"), "w", encoding="utf-8") as fh:
             json.dump(doc, fh, ensure_ascii=False, separators=(",", ":"))
+        j24 = m["janelas"].get("24") or {}
+        j36 = m["janelas"].get("36") or {}
         index_rows.append([
-            cnpj, nome, info.get("classe", ""), titulo(info.get("gestor", "")),
+            cnpj, nome, info.get("classe", ""), g_curto,
             doc["pl"], doc["cotistas"],
             j12.get("ret"), j12.get("pcdi"), j12.get("sharpe"), j12.get("vol"),
             (xp or {}).get("tipo"), (xp or {}).get("classe"), (xp or {}).get("risco"),
             1 if (xp or {}).get("top") else 0, (xp or {}).get("estrelas"),
+            j24.get("ret"), j36.get("ret"), g_site, g_logo,
         ])
         if xp:
             n_xp += 1
@@ -692,6 +804,58 @@ def main() -> int:
         except Exception as e:  # noqa: BLE001
             avisos.append(f"benchmarks falharam: {e}")
             bench, hist = [], {}
+        # Índices ANBIMA sem fonte aberta com histórico: replicados por fundos passivos de títulos públicos (taxa devolvida),
+        # emendados com o número oficial diário da ANBIMA acumulado em status/ima.csv (público, só o dia corrente).
+        ima_csv = args.ima_csv
+        ima_hist = ler_ima_csv(ima_csv)
+        if not args.offline:
+            try:
+                hoje_ima = fx.anbima_ima_hoje()
+                novos_ima = 0
+                for nome_i, (d_i, v_i) in hoje_ima.items():
+                    if d_i not in ima_hist.setdefault(nome_i, {}):
+                        ima_hist[nome_i][d_i] = v_i
+                        novos_ima += 1
+                gravar_ima_csv(ima_csv, ima_hist)
+                log(f"  ANBIMA IMA: {len(hoje_ima)} índices em {next(iter(hoje_ima.values()))[0]} ({novos_ima} novos; {sum(len(v) for v in ima_hist.values())} registros acumulados)")
+            except Exception as e:  # noqa: BLE001
+                avisos.append(f"ANBIMA IMA diário indisponível: {e}")
+        for id_, nome_b, cnpj_p, nome_f, taxa_p, chave_anbima in PROXIES_INDICE:
+            if args.offline and cnpj_p not in Q.index:
+                cnpj_p = str(Q.index[0])  # base sintética: qualquer fundo serve para exercitar o caminho
+            if cnpj_p not in Q.index:
+                avisos.append(f"benchmark {nome_b}: fundo {nome_f} ({cnpj_p}) não está na matriz")
+                continue
+            qp = ffill_1d(Q.loc[cnpj_p].to_numpy(dtype=float))
+            fator = (1.0 + taxa_p) ** (1.0 / 252.0)
+            qg = np.full(len(qp), np.nan)
+            base = None
+            for i, v in enumerate(qp):
+                if np.isnan(v):
+                    continue
+                if base is None:
+                    qg[i] = 100.0
+                else:
+                    qg[i] = qg[base] * (v / qp[base]) * (fator ** (i - base))
+                base = i
+            desc = f"Replicado pelo fundo passivo {nome_f} (taxa de administração de {taxa_p * 100:.2f}% a.a. devolvida)"
+            fonte = "CVM (fundo indexado)"
+            ofi = ima_hist.get(chave_anbima) or {}
+            if len(ofi) >= 20:
+                # emenda: a partir do primeiro dia oficial disponível, segue o número da ANBIMA (escalado no dia da emenda)
+                d_str = [d.isoformat() for d in datas]
+                j0 = next((i for i, ds in enumerate(d_str) if ds in ofi and not np.isnan(qg[i])), None)
+                if j0 is not None:
+                    escala = qg[j0] / ofi[d_str[j0]]
+                    ult = qg[j0]
+                    for i in range(j0, len(d_str)):
+                        if d_str[i] in ofi:
+                            ult = ofi[d_str[i]] * escala
+                        qg[i] = ult
+                    desc += f"; número oficial da ANBIMA a partir de {d_str[j0]}"
+                    fonte = "ANBIMA (oficial) + fundo indexado"
+            bench.append({"id": id_, "nome": nome_b, "moeda": "BRL", "fonte": fonte, "desc": desc, "q": qg})
+            log(f"  {nome_b}: proxy pelo fundo {nome_f}" + (" com emenda oficial" if len(ofi) >= 20 else ""))
         for b in bench:
             d = doc_serie(b["q"], {k: v for k, v in b.items() if k != "q"})
             if not d:
@@ -734,7 +898,7 @@ def main() -> int:
     index_rows.sort(key=lambda x: -(x[4] or 0))
     with open(os.path.join(args.out, "index.json"), "w", encoding="utf-8") as fh:
         json.dump({"colunas": ["cnpj", "nome", "classe", "gestor", "pl", "cotistas", "ret12", "pcdi12", "sharpe12", "vol12",
-                               "xp_tipo", "xp_classe", "xp_risco", "xp_top", "xp_estrelas"],
+                               "xp_tipo", "xp_classe", "xp_risco", "xp_top", "xp_estrelas", "ret24", "ret36", "gestor_site", "gestor_logo"],
                    "fundos": index_rows}, fh, ensure_ascii=False, separators=(",", ":"))
     meta = {
         "referencia": ref.isoformat(),
