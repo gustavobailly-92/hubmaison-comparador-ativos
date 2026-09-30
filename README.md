@@ -13,6 +13,8 @@ Os últimos 12 meses de informes da CVM são baixados de novo a cada execução,
 pipeline/build_data.py     baixa CVM + BCB, calcula as métricas e grava dist/data/
 pipeline/fontes_extras.py  benchmarks (BCB, B3, Nasdaq, Coinbase), Tesouro Direto e a lista de fundos da XP
 pipeline/coes.json         catálogo dos COEs da prateleira da XP (termos lidos das lâminas e dos DIEs)
+pipeline/gestoras.json     casas gestoras: nome curto, site (ícone) e trechos do nome legal da CVM para o casamento
+status/ima.csv             número diário dos índices IMA da ANBIMA, acumulado a cada execução (público só o dia corrente)
 pipeline/xp_fundos.csv     fundos da plataforma XP (tipo, classe, risco, benchmark, taxas, liquidez)
 site/index.html            a página (autocontida), lê dist/data/ ou o GitHub Pages deste repositório
 .github/workflows/         agendamento de terça a sábado + publicação no GitHub Pages
@@ -23,9 +25,9 @@ Saída do pipeline (`dist/data/`):
 | Arquivo | Conteúdo |
 |---|---|
 | `meta.json` | calendário de dias úteis, CDI acumulado e diário, semanas, data de referência, lista de benchmarks, títulos do Tesouro, históricos e tipos XP |
-| `index.json` | índice de busca: um registro compacto por fundo (CNPJ, nome, classe, gestor, PL, cotistas, 12 meses, campos XP) |
+| `index.json` | índice de busca: um registro compacto por fundo (CNPJ, nome, classe, gestora, PL, cotistas, 12/24/36 meses, campos XP, site e ícone da gestora) |
 | `fundos/<cnpj>.json` | cotas diárias, patrimônio e cotistas semanais, métricas por janela (12/24/36/48 meses), retornos mensais, dados XP |
-| `bench/<id>.json` | benchmarks alinhados ao calendário: ipca, poupanca, dolar, ibov, ifix, sp500, sp500brl, nasdaq, nasdaqbrl, msci, mscibrl, ouro, ourobrl, btc |
+| `bench/<id>.json` | benchmarks alinhados ao calendário: ipca, ipca6 (IPCA + 6% a.a.), poupanca, dolar, ibov, ifix, imab, irfm, sp500, sp500brl, nasdaq, nasdaqbrl, msci, mscibrl, ouro, ourobrl, btc |
 | `tesouro/<id>.json` | títulos do Tesouro Direto: preço, taxa semanal, duration, histórico de taxa (mín., mediana, máx.) |
 | `hist/<id>.json` | histórico longo dos ativos-objeto (GLD, AIQ, S&P 500, Nasdaq 100, Ibovespa, URTH) para cenários de COE |
 | `coes.json` | cópia do catálogo de COEs (estrutura, ativo-objeto, participação, proteção, prazo, links da lâmina e do DIE) |
@@ -37,8 +39,17 @@ consistência (% de meses fechados acima do CDI), meses positivos, melhor e pior
 
 Universo publicado: fundos em funcionamento normal, não exclusivos, com pelo menos 10 cotistas e informe recente.
 
+Gestora e administrador vêm de `registro_fundo.csv` (RCVM 175), cruzado com `registro_classe.csv` por `ID_Registro_Fundo`;
+o nome curto e o site da gestora vêm de `pipeline/gestoras.json` (com um nome curto derivado do nome legal quando a casa não está no catálogo).
+A taxa de administração não existe no cadastro novo da CVM; quando o fundo está na planilha da XP, usa-se a taxa de lá.
+
+**IMA-B e IRF-M** não têm fonte aberta com histórico (as séries do BCB pararam em maio/2023 e a ANBIMA publica em aberto só o dia corrente).
+São replicados pela cota dos fundos passivos Caixa Brasil IMA-B e IRF-M Títulos Públicos, com a taxa de administração (0,20% a.a.) devolvida.
+A cada execução o pipeline lê `ima_completo.txt` da ANBIMA e acumula o número oficial em `status/ima.csv`; quando houver pelo menos 20 dias oficiais,
+a série passa a seguir o número da ANBIMA a partir do primeiro dia disponível (emendada ao proxy).
+
 A página ainda calcula no navegador: séries sintéticas de renda fixa (% do CDI, prefixado, IPCA+), períodos personalizados e o período
-máximo (desde a primeira cota do ativo mais recente da comparação), a aba **Perspectivas** (projeções lognormais com premissas de CDI,
+máximo (desde a primeira cota do ativo mais recente da comparação), a carteira de **Diversificação** (até 10 ativos com pesos, com ou sem rebalanceamento), a aba **Perspectivas** (projeções lognormais com premissas de CDI,
 IPCA, excesso de retorno e variação de taxa do Tesouro) e a análise dos COEs da prateleira da XP (payoff, histórico do ativo-objeto,
 cenários e leitura de outras lâminas em PDF).
 
