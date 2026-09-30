@@ -117,10 +117,24 @@ def coup_dates_factor(datas: list[date], venc: date, cupom_aa: float) -> np.ndar
 
 # --------------------------------------------------------------------------- BCB SGS
 
+def json_com_retentativa(url: str, tentativas: int = 6, espera: int = 25):
+    """A API do BCB às vezes devolve uma página HTML (manutenção ou limite de acesso) em vez de JSON: insiste com pausa."""
+    ultimo = None
+    for i in range(tentativas):
+        try:
+            raw = http_get(url, tentativas=2, timeout=90, headers={"Accept": "application/json"})
+            return json.loads(raw.decode("utf-8"))
+        except Exception as e:  # noqa: BLE001
+            ultimo = e
+            log(f"  {url.split('?')[0].split('/')[-2] if '/dados' in url else url[:60]}: resposta inválida ({str(e)[:80]}); nova tentativa em {espera}s")
+            time.sleep(espera)
+    raise RuntimeError(f"{url}: {ultimo}")
+
+
 def sgs(codigo: int, inicio: date, fim: date) -> dict[str, float]:
     url = (f"https://api.bcb.gov.br/dados/serie/bcdata.sgs.{codigo}/dados?formato=json"
            f"&dataInicial={inicio.strftime('%d/%m/%Y')}&dataFinal={fim.strftime('%d/%m/%Y')}")
-    dados = json.loads(http_get(url).decode("utf-8"))
+    dados = json_com_retentativa(url)
     out = {}
     for d in dados:
         try:

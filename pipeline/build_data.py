@@ -312,6 +312,36 @@ def gestor_curto(nome_legal: str) -> str:
     return n or titulo(nome_legal)
 
 
+# --------------------------------------------------------------------------- benchmark de referência de cada fundo
+
+def bench_do_fundo(xp: dict | None, classe_cvm: str) -> str:
+    """Escolhe o benchmark de comparação do fundo a partir do benchmark declarado na XP (ou da classe), entre os ids publicados."""
+    b = _norm_gestor((xp or {}).get("benchmark", "")) if xp else ""
+    tipo = _norm_gestor((xp or {}).get("tipo", "")) if xp else ""
+    if b and b != "-":
+        if "CDI" in b or "SELIC" in b:
+            return "cdi"
+        if "IMA" in b:
+            return "imab"
+        if "IPCA" in b or "IGP" in b or "INPC" in b:
+            return "ipca"
+        if "IFIX" in b:
+            return "ifix"
+        if "MSCI" in b:
+            return "mscibrl"
+        if "S&P" in b or "SP500" in b or "NASDAQ" in b:
+            return "sp500brl"
+        if any(k in b for k in ("IBOV", "IBX", "IDIV", "SMLL", "IVBX", "BOVESPA", "ACOES")):
+            return "ibov"
+        if "DOLAR" in b or "PTAX" in b or "CAMBIO" in b:
+            return "dolar"
+    if "ACOES" in tipo or "ACOES" in _norm_gestor(classe_cvm):
+        return "ibov"
+    if "CAMBIAL" in tipo:
+        return "dolar"
+    return "cdi"
+
+
 # --------------------------------------------------------------------------- índices ANBIMA (proxy + acumulação)
 
 # id, nome, CNPJ do fundo passivo, nome do fundo, taxa de administração (fração a.a.), nome do índice no arquivo da ANBIMA
@@ -357,7 +387,7 @@ def carregar_cdi(inicio: date, fim: date, offline: str | None) -> dict[str, floa
     else:
         url = (f"{BCB_CDI}?formato=json&dataInicial={inicio.strftime('%d/%m/%Y')}"
                f"&dataFinal={fim.strftime('%d/%m/%Y')}")
-        dados = json.loads(http_get(url).decode("utf-8"))
+        dados = fx.json_com_retentativa(url, tentativas=6, espera=25)
     out = {}
     for d in dados:
         try:
@@ -770,7 +800,7 @@ def main() -> int:
             j12.get("ret"), j12.get("pcdi"), j12.get("sharpe"), j12.get("vol"),
             (xp or {}).get("tipo"), (xp or {}).get("classe"), (xp or {}).get("risco"),
             1 if (xp or {}).get("top") else 0, (xp or {}).get("estrelas"),
-            j24.get("ret"), j36.get("ret"), g_site, g_logo,
+            j24.get("ret"), j36.get("ret"), g_site, g_logo, bench_do_fundo(xp, info.get("classe", "")),
         ])
         if xp:
             n_xp += 1
@@ -898,7 +928,7 @@ def main() -> int:
     index_rows.sort(key=lambda x: -(x[4] or 0))
     with open(os.path.join(args.out, "index.json"), "w", encoding="utf-8") as fh:
         json.dump({"colunas": ["cnpj", "nome", "classe", "gestor", "pl", "cotistas", "ret12", "pcdi12", "sharpe12", "vol12",
-                               "xp_tipo", "xp_classe", "xp_risco", "xp_top", "xp_estrelas", "ret24", "ret36", "gestor_site", "gestor_logo"],
+                               "xp_tipo", "xp_classe", "xp_risco", "xp_top", "xp_estrelas", "ret24", "ret36", "gestor_site", "gestor_logo", "bm"],
                    "fundos": index_rows}, fh, ensure_ascii=False, separators=(",", ":"))
     meta = {
         "referencia": ref.isoformat(),
