@@ -41,6 +41,12 @@ BCB_CDI = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados"
 
 JANELAS = (12, 24, 36, 48)          # meses
 MIN_COTISTAS = 10                   # fundos com menos cotistas ficam fora da busca
+# fundos de previdência (FIEs dos planos PGBL/VGBL) têm a seguradora como único cotista: ficam fora da regra acima
+RE_PREVIDENCIA = re.compile(r"PREV|\bFIE\b|VGBL|PGBL|APOSENTADORIA", re.I)
+
+
+def eh_previdencia(nome: str) -> bool:
+    return bool(nome) and bool(RE_PREVIDENCIA.search(nome))
 DIAS_TOLERANCIA = 7                 # dias úteis sem informe até considerar o fundo "parado"
 
 # --------------------------------------------------------------------------- utilidades
@@ -645,7 +651,7 @@ def main() -> int:
 
     # universo cadastral: em funcionamento (quando a situação é conhecida) e não exclusivo
     def elegivel(c, r):
-        if r["exclusivo"].startswith("S") and c not in xp_cnpjs:
+        if r["exclusivo"].startswith("S") and c not in xp_cnpjs and not eh_previdencia(r.get("nome", "")):
             return False
         sit = r["sit"]
         if sit and "FUNCIONAMENTO NORMAL" not in sit:
@@ -738,11 +744,12 @@ def main() -> int:
         pl = ffill_1d(PLv[r].astype(float))
         cot_atual = ct[asof_i]
         pl_atual = pl[asof_i]
-        if not np.isnan(cot_atual) and cot_atual < args.min_cotistas and cnpj not in xp_cnpjs:
+        info = reg.get(cnpj, {})
+        if (not np.isnan(cot_atual) and cot_atual < args.min_cotistas and cnpj not in xp_cnpjs
+                and not eh_previdencia(info.get("nome", ""))):
             n_poucos += 1
             continue
         m = metricas_fundo(q, datas, cdi_idx, asof_i, fim_mes_i, meses_lbl, mes_fechado)
-        info = reg.get(cnpj, {})
         nome = titulo(info.get("nome") or xp_lista.get(cnpj, {}).get("nome_xp") or cnpj)
         first_i = m["first_i"]
         # série semanal de PL e cotistas a partir da primeira semana com dado
