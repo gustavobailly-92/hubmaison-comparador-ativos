@@ -1,9 +1,9 @@
 {
-  "referencia": "2026-09-28",
-  "gerado": "2026-09-30T20:39:51Z",
-  "fundos_publicados": 6419,
-  "fundos_na_matriz": 13497,
-  "fundos_xp": 1012,
+  "referencia": "2026-09-29",
+  "gerado": "2026-10-01T18:53:19Z",
+  "fundos_publicados": 6420,
+  "fundos_na_matriz": 13494,
+  "fundos_xp": 1011,
   "benchmarks": [
     "ipca",
     "ipca6",
@@ -33,11 +33,10 @@
     "URTH"
   ],
   "descartados_parados": 476,
-  "descartados_poucos_cotistas": 6569,
-  "descartados_historico_curto": 33,
-  "dias_calendario": 1081,
+  "descartados_poucos_cotistas": 6567,
+  "descartados_historico_curto": 31,
+  "dias_calendario": 1061,
   "meses_processados": [
-    "202207",
     "202208",
     "202209",
     "202210",
@@ -87,10 +86,11 @@
     "202606",
     "202607",
     "202608",
-    "202609"
+    "202609",
+    "202610"
   ],
   "avisos": [
     "CDI sem valor em 14 dias do calendário (tratados como 0)"
   ],
-  "duracao_s": 196
+  "duracao_s": 314
 }
