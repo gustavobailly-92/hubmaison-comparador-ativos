@@ -37,7 +37,8 @@ Métricas por janela: rentabilidade acumulada, CDI no mesmo período e % do CDI,
 índice de Sharpe (retorno anualizado menos CDI, dividido pela volatilidade), drawdown máximo e atual,
 consistência (% de meses fechados acima do CDI), meses positivos, melhor e pior mês.
 
-Universo publicado: fundos em funcionamento normal, não exclusivos, com pelo menos 10 cotistas e informe recente.
+Universo publicado: fundos em funcionamento normal, não exclusivos, com pelo menos 10 cotistas e informe recente. Os fundos da plataforma XP
+e os fundos de previdência (nome com PREV, FIE, VGBL ou PGBL; os FIEs têm a seguradora como único cotista) entram sem a regra de cotistas.
 
 Gestora e administrador vêm de `registro_fundo.csv` (RCVM 175), cruzado com `registro_classe.csv` por `ID_Registro_Fundo`;
 o nome curto e o site da gestora vêm de `pipeline/gestoras.json` (com um nome curto derivado do nome legal quando a casa não está no catálogo).
@@ -61,7 +62,8 @@ O **ranking de fundos** e os **COEs** abrem em painéis sobrepostos (atalhos do 
 "Ibov +x p.p." para ações, "IMA-B +x p.p." / "IPCA +x p.p." para os atrelados à inflação, e assim por diante (coluna `bm` do `index.json`,
 deduzida do benchmark informado pela XP ou da classe CVM).
 
-O **relatório para o cliente** (bloco "Relatório para o cliente" na Diversificação) monta, só no navegador, um documento A4 com capa, carteira,
+Na **Diversificação**, mover o peso de um ativo redistribui o restante entre os outros na proporção que já tinham, de modo que a soma é sempre 100%;
+"Montar carteira" (atalho do topo e barra do ranking) leva direto a essa seção. O **relatório para o cliente** (bloco "Relatório para o cliente" na Diversificação) monta, só no navegador, um documento A4 com capa, carteira,
 rentabilidade estimada dos últimos 12 meses, projeção de 10 anos, liquidez (resgate por prazo, com o D+ da XP editável), uma página por ativo
 e as gestoras da carteira. Abre numa nova aba com tema escuro ou claro; o PDF sai por "Imprimir → Salvar como PDF".
 
