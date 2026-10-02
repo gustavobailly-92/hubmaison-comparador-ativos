@@ -149,6 +149,10 @@ header .row{display:flex;align-items:center;justify-content:space-between;gap:16
 .bgrp{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:8px 0 4px}
 .bgrp:first-child{margin-top:0}
 .rail details summary{cursor:pointer;list-style:none;font-size:12.5px;color:var(--text-2);margin-top:8px;display:flex;align-items:center;gap:6px}
+.rail .bbox{margin-top:10px;padding:7px 6px 6px;border:1px solid var(--line);border-radius:12px;background:rgba(7,14,28,.25);display:flex;flex-direction:column;gap:4px}
+.rail .bbox .bgrp{margin:0 0 2px 4px}
+.rail .bbox .bitem .sp{display:none}
+.rail .bbox .bitem .nm{flex:1}
 .rail details summary::-webkit-details-marker{display:none}
 .rail details summary svg{width:12px;height:12px;transition:transform .2s}
 .rail details[open] summary svg{transform:rotate(180deg)}
@@ -426,6 +430,25 @@ body.sheet-open{overflow:hidden}
 .prem .seg{align-self:flex-start}
 .prem .seg button{padding:5px 12px;white-space:nowrap}
 .prem .val{color:var(--text);font-size:13px;font-weight:500}
+.sim-top{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:flex-end;margin:4px 0 14px}
+.sim-top label{display:flex;flex-direction:column;gap:5px;font-size:11.5px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.sim-top select{background:rgba(7,14,28,.55);border:1px solid var(--line);border-radius:999px;color:var(--text);padding:6px 30px 6px 12px;font-size:12.5px;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238FA6BF' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;font-family:var(--font)}
+.sim-top .seg{align-self:flex-start}
+.sim-acts{display:flex;gap:8px;margin-left:auto;align-self:flex-end}
+.sim-acts .mini.on{border-color:rgba(143,180,227,.6);color:var(--text)}
+.sim-acts .mini:disabled{opacity:.45;cursor:default}
+.paths table{width:auto;min-width:min(100%,560px)}
+.paths th{font-size:10.5px}
+.paths td{padding:5px 8px}
+.paths td:first-child{font-weight:500;color:var(--text);white-space:nowrap}
+.paths td:first-child small{display:block;font-weight:300;color:var(--muted);font-size:10.5px}
+.paths td.now{color:var(--text-2);font-variant-numeric:tabular-nums;text-align:right}
+.paths input{width:76px;background:var(--panel);border:1px solid var(--line-2);border-radius:8px;color:var(--text);padding:6px 8px;font-size:13px;text-align:right;font-variant-numeric:tabular-nums;font-family:var(--font)}
+.paths input:focus{outline:none;border-color:var(--s1)}
+.paths input:disabled{opacity:.4}
+.sim-cen{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin:10px 0 14px}
+.sim-cen .lbl3{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.sim-cen .seg.dim{opacity:.45}
 .premtxt{font-size:12.5px;color:var(--muted);font-weight:300;line-height:1.55;margin:4px 0 0}
 .premtxt b{font-weight:500;color:var(--text-2)}
 .premtxt ul{margin:6px 0 0;padding-left:18px}
@@ -651,7 +674,7 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
                 <label>De<input type="date" id="d-ini"></label>
                 <label>Até<input type="date" id="d-fim"></label>
               </div>
-              <button class="iconbtn" id="persp-btn" aria-pressed="false" aria-controls="persp" type="button" title="Projeções com premissas"><svg><use href="#i-persp"/></svg><span>Perspectivas</span></button>
+              <button class="iconbtn" id="persp-btn" aria-pressed="false" aria-controls="persp" type="button" title="Simulador: patamares de juros e inflação e o que cada ativo faria até 10 anos"><svg><use href="#i-gauge"/></svg><span>Simulador</span></button>
             </div>
           </div>
           <p class="pinfo" id="pinfo"></p>
@@ -661,25 +684,27 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
 
         <div class="card hidden" id="persp">
           <div class="head">
-            <div><h2><svg><use href="#i-persp"/></svg>Perspectivas</h2><p class="sub">Projeções a partir das premissas abaixo; não é previsão.</p></div>
+            <div><h2><svg><use href="#i-gauge"/></svg>Simulador</h2><p class="sub">Onde as taxas estarão e o que cada ativo faria; não é previsão.</p></div>
             <div class="tools"><button class="linkbtn" id="persp-close" type="button">fechar</button></div>
           </div>
-          <div class="prem">
-            <label>Horizonte<div class="seg" id="p-h" role="group"><button data-h="12" aria-pressed="true">12 m</button><button data-h="24" aria-pressed="false">24 m</button><button data-h="36" aria-pressed="false">36 m</button></div></label>
-            <label>CDI médio no período (% a.a.)<input id="p-cdi" type="number" step="0.25" min="0" max="40"></label>
-            <label>IPCA médio (% a.a.)<input id="p-ipca" type="number" step="0.25" min="-5" max="40"></label>
-            <label>Excesso sobre o CDI dos ativos de risco<select id="p-exc"><option value="0.5">50% do histórico</option><option value="1">100% do histórico</option><option value="0">nenhum</option></select></label>
-            <label>Tesouro: variação da taxa até o horizonte<span class="val" id="p-dy-val">0,00 p.p.</span><input id="p-dy" type="range" min="-3" max="3" step="0.25" value="0"></label>
+          <div class="sim-top">
+            <label>Horizonte<div class="seg" id="p-h" role="group"><button data-h="12" aria-pressed="true">12 m</button><button data-h="24" aria-pressed="false">24 m</button><button data-h="36" aria-pressed="false">36 m</button><button data-h="120" aria-pressed="false">10 anos</button></div></label>
             <label>Intervalo<div class="seg" id="p-conf" role="group"><button data-c="68" aria-pressed="true">68%</button><button data-c="95" aria-pressed="false">95%</button></div></label>
+            <label>Excesso dos ativos de risco<select id="p-exc"><option value="0.5">50% do histórico</option><option value="1">100% do histórico</option><option value="0">nenhum</option></select></label>
+            <div class="sim-acts"><button class="mini" type="button" id="p-focus" title="Preenche CDI e IPCA com as medianas do relatório Focus do Banco Central">Focus</button><button class="mini" type="button" id="p-reset" title="Volta ao padrão: Focus e juro real na mediana">Restaurar</button></div>
           </div>
+          <div class="tbl paths"><table id="p-paths">
+            <thead><tr><th>Taxas (% a.a.)</th><th>hoje</th><th>12 m</th><th>24 m</th><th>36 m</th><th>depois</th></tr></thead>
+            <tbody>
+              <tr><td>CDI</td><td class="now" id="p-cdi0"></td><td><input data-k="cdi" data-i="1" inputmode="decimal"></td><td><input data-k="cdi" data-i="2" inputmode="decimal"></td><td><input data-k="cdi" data-i="3" inputmode="decimal"></td><td><input data-k="cdi" data-i="4" inputmode="decimal"></td></tr>
+              <tr><td>IPCA</td><td class="now" id="p-ipca0"></td><td><input data-k="ipca" data-i="1" inputmode="decimal"></td><td><input data-k="ipca" data-i="2" inputmode="decimal"></td><td><input data-k="ipca" data-i="3" inputmode="decimal"></td><td><input data-k="ipca" data-i="4" inputmode="decimal"></td></tr>
+              <tr><td>Juro real <small id="p-real-ref"></small></td><td class="now" id="p-real0"></td><td><input data-k="real" data-i="1" inputmode="decimal"></td><td><input data-k="real" data-i="2" inputmode="decimal"></td><td><input data-k="real" data-i="3" inputmode="decimal"></td><td><input data-k="real" data-i="4" inputmode="decimal"></td></tr>
+            </tbody>
+          </table></div>
+          <div class="sim-cen"><span class="lbl3">Juro real</span><div class="seg" id="p-cen" role="group"><button data-c="mediana" aria-pressed="true">Voltar à mediana</button><button data-c="min" aria-pressed="false">Cair à mínima</button><button data-c="max" aria-pressed="false">Subir à máxima</button><button data-c="atual" aria-pressed="false">Ficar como está</button></div><span class="lbl3">em</span><div class="seg" id="p-cen-em" role="group"><button data-m="12" aria-pressed="false">12 m</button><button data-m="24" aria-pressed="true">24 m</button><button data-m="36" aria-pressed="false">36 m</button></div></div>
           <div class="chart" id="ch-persp"></div>
           <div class="legend" id="lg-persp"></div>
           <div class="tbl" style="margin-top:12px"><table id="tb-persp"></table></div>
-          <div id="persp-td" class="hidden">
-            <h2 style="margin-top:18px">E se a taxa do Tesouro voltar ao que já foi?</h2>
-            <p class="sub">Retorno estimado se a taxa de mercado fosse para os níveis observados desde <span id="persp-td-desde"></span>.</p>
-            <div class="tbl"><table id="tb-persp-td"></table></div>
-          </div>
           <div class="premtxt" id="persp-ativos"></div>
           <div class="premtxt" id="persp-prem"></div>
         </div>
@@ -912,9 +937,9 @@ const CORES_BENCH = { cdi: '#93ACC6', ipca: '#E07A7A', ipca6: '#F2A0A0', poupanc
 // [título, ids, dobra]: os grupos com dobra ficam recolhidos numa caixa <details> com o título indicado
 const GRUPOS_BENCH = [
   ['Referência', ['cdi', 'ipca', 'poupanca', 'ibov'], null],
-  ['Outros índices', ['ipca6', 'ifix', 'imab', 'irfm', 'dolar'], 'Outros índices de referência'],
-  ['Internacional', ['sp500', 'sp500brl', 'nasdaq', 'nasdaqbrl', 'msci', 'mscibrl'], 'Internacional e alternativos'],
-  ['Alternativos', ['ouro', 'ourobrl', 'btc'], 'Internacional e alternativos'],
+  ['Brasil', ['ipca6', 'ifix', 'imab', 'irfm', 'dolar'], 'Outros índices de referência'],
+  ['Internacional', ['sp500', 'sp500brl', 'nasdaq', 'nasdaqbrl', 'msci', 'mscibrl'], 'Outros índices de referência'],
+  ['Alternativos', ['ouro', 'ourobrl', 'btc'], 'Outros índices de referência'],
 ];
 const MAX = 10, MAX_BENCH = 3;
 const JANELAS = [12, 24, 36, 48];
@@ -964,12 +989,13 @@ async function carregar() {
     const c = idx.colunas;
     S.index = idx.fundos.map(r => { const o = {}; c.forEach((k, i) => o[k] = r[i]); o.busca = norm(o.nome) + ' ' + o.cnpj + ' ' + norm(o.gestor) + ' ' + norm(o.xp_classe); return o; });
     S.temRet2436 = c.includes('ret24'); S.temBm = c.includes('bm');
-    S.tesouro = (meta.tesouro || []).map(t => ({ ...t, busca: norm(t.nome + ' ' + t.tipo + ' tesouro direto ' + t.venc.slice(0, 4)) }));
+    S.tesouro = (meta.tesouro || []).map(t => ({ ...t, busca: norm(t.nome + ' ' + t.tipo + ' tesouro direto titulo publico ' + t.venc.slice(0, 4) + ' ' +
+      (t.indexador === 'IPCA' ? 'ntnb ntn-b ntn b ipca+ ipca mais inflacao juro real ' + (/juros/i.test(t.nome) ? 'juros semestrais cupom' : 'principal sem cupom') : t.indexador === 'SELIC' ? 'lft selic pos-fixado' : 'ltn ntnf ntn-f prefixado prefixada')) }));
     S.benchmarks = (meta.benchmarks || []).map(b => ({ ...b, busca: norm(b.nome + ' ' + b.desc + ' benchmark indice') }));
     const cdiA = meta.cdi_taxa && meta.cdi_taxa.length ? Math.pow(1 + meta.cdi_taxa[meta.cdi_taxa.length - 1], 252) - 1 : 0.12;
     S.cdiAtual = cdiA;
     S.prem.cdi = Math.round(cdiA * 400) / 4; S.prem.ipca = (() => { const b = S.benchmarks.find(x => x.id === 'ipca'); return b && b.ret12 != null ? Math.round(b.ret12 * 400) / 4 : 4.5; })();
-    $('p-cdi').value = S.prem.cdi; $('p-ipca').value = S.prem.ipca; $('coe-cdi').value = S.prem.cdi;
+    $('coe-cdi').value = S.prem.cdi;
     $('status').innerHTML = '';
     const pill = el('span', 'pill'); pill.append(el('i'), document.createTextNode('até '), el('b', null, dBR(meta.referencia))); pill.title = inteiro(meta.n_fundos) + ' fundos · ' + (meta.tesouro || []).length + ' títulos · ' + (S.benchmarks.length + 1) + ' benchmarks' + (meta.n_coes ? ' · ' + meta.n_coes + ' COEs' : '') + ' · atualizado de terça a sábado'; $('status').append(pill);
     $('ft-min').textContent = meta.min_cotistas;
@@ -1081,12 +1107,14 @@ function buscar(t) {
     if (S.sel.some(s => s.key === f.cnpj)) continue;
     if (has(f.busca) || (digits.length >= 4 && f.cnpj.includes(digits))) { fundos.push(f); if (fundos.length >= 6) break; }
   }
-  const tesouro = toks.length ? S.tesouro.filter(x => !S.sel.some(s => s.key === 'td:' + x.id) && has(x.busca)).slice(0, 6) : [];
+  const tesouro = toks.length ? S.tesouro.filter(x => !S.sel.some(s => s.key === 'td:' + x.id) && has(x.busca)).sort((a, b) => (/juros/i.test(a.nome) - /juros/i.test(b.nome)) || a.venc.localeCompare(b.venc)).slice(0, 10) : [];
+  // busca por título público (NTN-B, IPCA+, LTN, LFT...): o Tesouro vem antes dos fundos
+  const tituloPrimeiro = toks.length > 0 && tesouro.length > 0 && /^(tesouro|ntn|ntnb|ntnf|ltn|lft|ipca\+?|ipcamais|prefixad|selic|principal|juros|titulo)/.test(toks.join(''));
   const bench = toks.length ? S.benchmarks.filter(x => !S.bench.includes(x.id) && has(x.busca)).slice(0, 5) : [];
   if (toks.length && 'cdi'.includes(toks[0]) && !S.cdi) bench.unshift({ id: 'cdi', nome: 'CDI', desc: 'Certificado de Depósito Interbancário', ret12: ret12CDI() });
   const rf = parseRF(t);
   const coe = /\bcoe\b/.test(norm(t));
-  return { fundos, tesouro, bench, rf, coe };
+  return { fundos, tesouro, bench, rf, coe, tituloPrimeiro };
 }
 function ret12CDI() { const a = idxAte(subMeses(S.meta.referencia, 12)); return a >= 0 ? S.meta.cdi[S.meta.cdi.length - 1] / S.meta.cdi[a] - 1 : null; }
 function renderRes(r) {
@@ -1096,8 +1124,9 @@ function renderRes(r) {
   const grupo = (t, ic) => { const g = el('div', 'grp'); g.append(icon(ic, 13), document.createTextNode(t)); res.append(g); };
   const item = (titulo, sub, k1, k2, fn) => { const b = el('button'); b.type = 'button'; b.setAttribute('role', 'option');
     const nm = el('div', 'nm'); nm.append(el('b', null, titulo), el('span', null, sub)); const kv = el('div', 'kv'); kv.append(k1 || '', el('small', null, k2 || '')); b.append(nm, kv); b.addEventListener('click', fn); res.append(b); };
-  if (r.fundos.length) { grupo('Fundos', 'i-fund'); r.fundos.forEach(f => item(f.nome, [f.xp_classe || f.classe, f.gestor].filter(Boolean).join(' · '), money(f.pl), f.ret12 != null ? pct(f.ret12) + ' em 12 m' : 'sem 12 meses', () => adicionar(f.cnpj, 'fundo'))); }
-  if (r.tesouro.length) { grupo('Tesouro Direto', 'i-td'); r.tesouro.forEach(t => item(t.nome, 'Vencimento ' + dBR(t.venc) + ' · ' + taxaTD(t), t.ret12 != null ? pct(t.ret12) : '', 'em 12 m', () => adicionar('td:' + t.id, 'tesouro'))); }
+  const blocoFundos = () => { if (r.fundos.length) { grupo('Fundos', 'i-fund'); r.fundos.forEach(f => item(f.nome, [f.xp_classe || f.classe, f.gestor].filter(Boolean).join(' · '), money(f.pl), f.ret12 != null ? pct(f.ret12) + ' em 12 m' : 'sem 12 meses', () => adicionar(f.cnpj, 'fundo'))); } };
+  const blocoTesouro = () => { if (r.tesouro.length) { grupo('Tesouro Direto', 'i-td'); r.tesouro.forEach(t => item(t.nome, (t.indexador === 'IPCA' ? (/juros/i.test(t.nome) ? 'Juros semestrais · ' : 'Principal · ') : '') + 'vencimento ' + dBR(t.venc) + ' · ' + taxaTD(t), t.ret12 != null ? pct(t.ret12) : '', 'em 12 m', () => adicionar('td:' + t.id, 'tesouro'))); } };
+  if (r.tituloPrimeiro) { blocoTesouro(); blocoFundos(); } else { blocoFundos(); blocoTesouro(); }
   if (r.bench.length) { grupo('Benchmarks', 'i-bench'); r.bench.forEach(b => item(b.nome, b.desc, b.ret12 != null ? pct(b.ret12) : '', 'em 12 m', () => { ligarBench(b.id); fecharRes(); inp.value = ''; })); }
   if (r.rf) { grupo('Renda fixa', 'i-rf'); const tx = r.rf.taxa; const nome = tx != null ? RF_NOMES[r.rf.tipo](tx) : 'Renda fixa a % do CDI';
     item(nome, tx != null ? 'Série sintética construída com o ' + (r.rf.tipo === 'pcdi' ? 'CDI diário' : r.rf.tipo === 'pre' ? 'juro fixo' : 'IPCA mensal mais o juro fixo') : 'Informe a taxa, por exemplo "110% do CDI"', '', '', () => { if (tx != null) adicionar('rf:' + r.rf.tipo + ':' + tx, 'rf'); else abrirRF(r.rf.tipo); }); }
@@ -1215,9 +1244,11 @@ function renderBench() {
       alvo = dobras.get(dobra);
       if (S.bench.some(b => ids.includes(b))) alvo.open = true;
     }
-    // título do grupo só quando a dobra reúne mais de um grupo
-    if (!dobra || GRUPOS_BENCH.filter(g => g[2] === dobra).length > 1) alvo.append(el('div', 'bgrp', titulo));
-    disp.forEach(id => { if (id === 'cdi') { const cdiDoc = { qff: S.meta.cdi }; alvo.append(item('cdi', 'CDI', S.cdi, ret12CDI(), cdiDoc)); } else { const b = S.benchmarks.find(x => x.id === id); alvo.append(item(id, b.nome, S.bench.includes(id), b.ret12, benchDoc(id))); } });
+    // dentro da dobra, cada grupo fica na sua própria caixa com título
+    let caixa = alvo;
+    if (dobra) { caixa = el('div', 'bbox'); caixa.append(el('div', 'bgrp', titulo)); alvo.append(caixa); }
+    else alvo.append(el('div', 'bgrp', titulo));
+    disp.forEach(id => { if (id === 'cdi') { const cdiDoc = { qff: S.meta.cdi }; caixa.append(item('cdi', 'CDI', S.cdi, ret12CDI(), cdiDoc)); } else { const b = S.benchmarks.find(x => x.id === id); caixa.append(item(id, b.nome, S.bench.includes(id), b.ret12, benchDoc(id))); } });
   });
 }
 
@@ -1240,9 +1271,6 @@ $('more-btn').addEventListener('click', () => { const on = $('more').classList.t
 $('persp-btn').addEventListener('click', () => togglePersp(!S.persp));
 $('persp-close').addEventListener('click', () => togglePersp(false));
 function togglePersp(on) { S.persp = on; $('persp').classList.toggle('hidden', !on); $('persp-btn').setAttribute('aria-pressed', on ? 'true' : 'false'); gravarURL(); if (on) { renderPersp(); $('persp').scrollIntoView({ behavior: 'smooth', block: 'start' }); } }
-$('p-h').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.prem.h = +b.dataset.h; [...$('p-h').children].forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false')); renderPersp(); });
-$('p-conf').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.prem.conf = +b.dataset.c; [...$('p-conf').children].forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false')); renderPersp(); });
-['p-cdi', 'p-ipca', 'p-exc', 'p-dy'].forEach(id => $(id).addEventListener('input', () => { S.prem.cdi = +$('p-cdi').value; S.prem.ipca = +$('p-ipca').value; S.prem.exc = +$('p-exc').value; S.prem.dy = +$('p-dy').value; $('p-dy-val').textContent = (S.prem.dy > 0 ? '+' : S.prem.dy < 0 ? '−' : '') + fmtNum(Math.abs(S.prem.dy), 2) + ' p.p.'; renderPersp(); }));
 
 // ------------------------------------------------------------------ URL
 function gravarURL() {
@@ -1821,107 +1849,7 @@ function janelaBase(doc) {
   return null;
 }
 function anualDoc(doc, ini, fim, meses) { const a = doc.qff[ini], b = doc.qff[fim]; if (a == null || b == null) return null; return anual(b / a - 1, meses); }
-function modeloAtivo(s, P, ipcaDoc) {
-  const f = s.data, cdi = P.cdi / 100, ipca = P.ipca / 100;
-  const out = { nome: f.nome, cor: s.cor, kind: s.kind, mu: cdi, sigma: 0, texto: '' };
-  if (s.kind === 'rf') {
-    if (f.tipo === 'pcdi') { out.mu = f.taxa / 100 * cdi; out.texto = fmtNum(f.taxa, 1) + '% do CDI médio de ' + fmtNum(P.cdi, 2) + '% a.a.'; }
-    else if (f.tipo === 'pre') { out.mu = f.taxa / 100; out.texto = 'Juro fixo de ' + fmtNum(f.taxa, 2) + '% a.a., sem marcação a mercado'; }
-    else { out.mu = (1 + f.taxa / 100) * (1 + ipca) - 1; out.texto = 'IPCA de ' + fmtNum(P.ipca, 2) + '% mais ' + fmtNum(f.taxa, 2) + '% a.a.'; }
-    return out;
-  }
-  const mj = janelaBase(f); const j = mj ? mj.j : null;
-  if (s.kind === 'tesouro') {
-    const tx = f.taxa / 100;
-    const carry = f.indexador === 'PRE' ? tx : f.indexador === 'SELIC' ? (1 + cdi) * (1 + tx) - 1 : (1 + tx) * (1 + ipca) - 1;
-    let D = f.duration; let dEst = false;
-    if (D == null && f.venc) { D = Math.min(25, Math.max(0.5, anosAte(f.venc))) * 0.85; dEst = true; }
-    out.carry = carry; out.D = D; out.dEst = dEst;
-    const h = P.h / 12, dy = f.indexador === 'SELIC' ? 0 : P.dy / 100;
-    const tot = Math.pow(1 + carry, h) * (1 - (D || 0) * dy) - 1;
-    out.mu = Math.pow(1 + tot, 1 / h) - 1;
-    out.sigma = j && j.vol != null ? j.vol : 0.05;
-    out.texto = (f.indexador === 'PRE' ? 'Carrego de ' + fmtNum(f.taxa, 2) + '% a.a.' : f.indexador === 'SELIC' ? 'CDI de ' + fmtNum(P.cdi, 2) + '% mais ' + fmtNum(f.taxa, 2) + '% a.a.' : 'IPCA de ' + fmtNum(P.ipca, 2) + '% mais ' + fmtNum(f.taxa, 2) + '% a.a.')
-      + (D && f.indexador !== 'SELIC' ? '; taxa ' + (P.dy === 0 ? 'estável' : (P.dy > 0 ? 'subindo ' : 'caindo ') + fmtNum(Math.abs(P.dy), 2) + ' p.p.') + ' com duration de ' + fmtNum(D, 1) + ' anos' + (dEst ? ' (estimada)' : '') : '')
-      + '; vol. histórica de ' + pct(out.sigma);
-    return out;
-  }
-  if (!j) { out.texto = 'Sem janela fechada: assume o CDI'; return out; }
-  const aR = j.aR != null ? j.aR : anual(j.ret, mj.w), aC = j.aC != null ? j.aC : anual(j.cdi, mj.w);
-  out.sigma = j.vol || 0;
-  const posFixado = j.vol != null && j.vol < 0.01;
-  const xpb = norm((f.xp && f.xp.benchmark) || ''), cls = norm((f.anbima || '') + ' ' + (f.xp && f.xp.classe || ''));
-  const inflacao = /ipca|inflac|imab|ima-b/.test(xpb + ' ' + cls);
-  if (posFixado) {
-    const rat = aC > 0 ? aR / aC : 1;
-    out.mu = rat * cdi; out.texto = 'Pós-fixado: replicou ' + fmtNum(rat * 100, 0) + '% do CDI nos últimos ' + mj.w + ' meses, aplicado ao CDI médio de ' + fmtNum(P.cdi, 2) + '% a.a.';
-  } else if (inflacao && ipcaDoc) {
-    const J = janela(); const aI = anualDoc(ipcaDoc, J.ini, J.fim, periodoMeses(J)) ?? ipca;
-    const spread = aR - aI; out.mu = ipca + spread * P.exc;
-    out.texto = 'Indexado à inflação: IPCA de ' + fmtNum(P.ipca, 2) + '% mais ' + (P.exc === 0 ? 'nada' : fmtNum(P.exc * 100, 0) + '% do excesso histórico sobre o IPCA (' + pctSign(spread) + ' a.a.)') + '; vol. de ' + pct(j.vol);
-  } else {
-    const exc = aR - aC; out.mu = cdi + exc * P.exc;
-    out.texto = 'Ativo de risco: CDI de ' + fmtNum(P.cdi, 2) + '% mais ' + (P.exc === 0 ? 'nada' : fmtNum(P.exc * 100, 0) + '% do excesso histórico sobre o CDI (' + pctSign(exc) + ' a.a. em ' + mj.w + ' meses)') + '; vol. de ' + pct(j.vol);
-  }
-  return out;
-}
-function fan(m, h, z) {
-  const muL = Math.log(1 + m.mu) - m.sigma * m.sigma / 2;
-  const med = [], lo = [], hi = [];
-  for (let t = 0; t <= h; t++) { const y = t / 12; const c = muL * y, s = m.sigma * Math.sqrt(y); med.push(Math.exp(c) - 1); lo.push(Math.exp(c - z * s) - 1); hi.push(Math.exp(c + z * s) - 1); }
-  return { med, lo, hi };
-}
 function mesMais(iso, m) { const y = +iso.slice(0, 4), mo = +iso.slice(5, 7) - 1 + m; const d = new Date(Date.UTC(y, mo, 1)); return d.toISOString().slice(0, 7); }
-let perspPend = false;
-async function renderPersp() {
-  const prontos = S.sel.filter(s => s.data); if (!prontos.length || !S.persp) return;
-  if (!benchDoc('ipca')) { if (perspPend) return; perspPend = true; try { await carregarBench('ipca'); } catch (e) { console.warn(e); } perspPend = false; }
-  const ipcaDoc = benchDoc('ipca');
-  const P = S.prem, h = P.h, z = P.conf === 95 ? 1.96 : 1;
-  const modelos = prontos.map(s => modeloAtivo(s, P, ipcaDoc));
-  const series = modelos.map(m => { const f = fan(m, h, z); return { nome: m.nome, cor: m.cor, vals: f.med, band: m.sigma > 0.002 ? { lo: f.lo, hi: f.hi } : null, m, fim: f.med[h], lo: f.lo[h], hi: f.hi[h] }; });
-  const refs = [{ nome: 'CDI', cor: COR_CDI, dash: true, vals: fan({ mu: P.cdi / 100, sigma: 0 }, h, z).med }, { nome: 'IPCA', cor: CORES_BENCH.ipca, dash: true, vals: fan({ mu: P.ipca / 100, sigma: 0 }, h, z).med }];
-  const ref = S.meta.referencia;
-  desenhar($('ch-persp'), { series: [...series, ...refs], ini: 0, fim: h, altura: 300, zero: true, fmt: (v, t) => t ? (v * 100).toFixed(0) + '%' : pctSign(v),
-    xTicks: () => { const out = []; const step = h > 24 ? 6 : 3; for (let t = 0; t <= h; t += step) out.push({ i: t, label: t === 0 ? 'hoje' : mesLbl(mesMais(ref, t)) }); return out; },
-    xLabel: (i) => i === 0 ? 'Hoje' : 'Mês ' + i + ' · ' + mesLbl(mesMais(ref, i)) });
-  legenda($('lg-persp'), [...series, ...refs]);
-  const tb = $('tb-persp'); tb.innerHTML = '';
-  const th = el('tr'); ['Ativo', 'Pessimista', 'Mediana', 'Otimista', 'Mediana vs CDI'].forEach(t => th.append(el('th', null, t))); { const _h = el('thead'); _h.append(th); tb.append(_h); }
-  const tbody = el('tbody'); const cdiH = refs[0].vals[h], ipcaH = refs[1].vals[h];
-  series.forEach(s => { const tr = el('tr'); const td0 = el('td'); const n = el('span', 'n'); const i = el('i'); i.style.background = s.cor; const sp = el('span', null, s.nome); sp.title = s.nome; n.append(i, sp); td0.append(n); tr.append(td0);
-    tr.append(el('td', s.lo < 0 ? 'neg' : '', pctSign(s.lo)), el('td', 'hl', pctSign(s.fim)), el('td', null, pctSign(s.hi)));
-    const d = s.fim - cdiH; const tdv = el('td'); tdv.append(el('span', 'badge ' + (d < 0 ? 'neg' : 'pos'), (d < 0 ? '−' : '+') + fmtNum(Math.abs(d) * 100, 1) + ' p.p.')); tr.append(tdv); tbody.append(tr); });
-  [['CDI', cdiH, COR_CDI], ['IPCA', ipcaH, CORES_BENCH.ipca]].forEach(([nm, v, cor]) => { const tr = el('tr', 'ref'); const td0 = el('td'); const n = el('span', 'n'); const i = el('i', 'dash'); i.style.borderTopColor = cor; n.append(i, el('span', null, nm)); td0.append(n); tr.append(td0); tr.append(el('td', null, pctSign(v)), el('td', null, pctSign(v)), el('td', null, pctSign(v))); tr.append(el('td', null, nm === 'CDI' ? '' : (v - cdiH < 0 ? '−' : '+') + fmtNum(Math.abs(v - cdiH) * 100, 1) + ' p.p.')); tbody.append(tr); });
-  tb.append(tbody);
-  const pa = $('persp-ativos'); pa.innerHTML = ''; pa.append(el('div', null, 'Premissa de cada ativo:'));
-  const ula = el('ul'); series.forEach(s => { const li = el('li'); const b = el('b', null, s.nome + ': '); b.style.color = s.cor; li.append(b, document.createTextNode(s.m.texto.replace(/\.$/, '') + '.')); ula.append(li); }); pa.append(ula);
-  const tds = prontos.filter(s => s.kind === 'tesouro' && s.data.indexador !== 'SELIC');
-  $('persp-td').classList.toggle('hidden', !tds.length);
-  if (tds.length) {
-    const desde = tds.map(s => s.data.taxa_hist && s.data.taxa_hist.desde).filter(Boolean).sort()[0]; $('persp-td-desde').textContent = desde ? dBR(desde) : 'o início da série';
-    const t2 = $('tb-persp-td'); t2.innerHTML = '';
-    const th2 = el('tr'); ['Título', 'Taxa mínima', 'Mediana', 'Taxa atual', 'Taxa máxima', 'Premissa'].forEach(t => th2.append(el('th', null, t))); { const _h = el('thead'); _h.append(th2); t2.append(_h); }
-    const tb2 = el('tbody');
-    tds.forEach(s => { const f = s.data, m = modelos[prontos.indexOf(s)]; const tr = el('tr'); tr.append(nomeCell(s));
-      const cen = [f.taxa_hist ? f.taxa_hist.min : null, f.taxa_hist ? f.taxa_hist.mediana : null, f.taxa, f.taxa_hist ? f.taxa_hist.max : null, f.taxa + P.dy];
-      cen.forEach(tx => { const td = el('td'); if (tx == null) { td.className = 'na'; td.textContent = 'n/d'; } else { const tot = Math.pow(1 + m.carry, h / 12) * (1 - (m.D || 0) * (tx - f.taxa) / 100) - 1; td.textContent = pctSign(tot); if (tot < 0) td.classList.add('neg'); td.append(el('span', 'sub2', 'taxa ' + fmtNum(tx, 2) + '%')); } tr.append(td); });
-      tb2.append(tr); });
-    t2.append(tb2);
-  }
-  const pt = $('persp-prem'); pt.innerHTML = '';
-  pt.append(el('div', null, 'Como as projeções são construídas:'));
-  const ul = el('ul');
-  [
-    'Horizonte de ' + h + ' meses a partir de ' + dBR(ref) + '. CDI médio de ' + fmtNum(P.cdi, 2) + '% a.a. e IPCA de ' + fmtNum(P.ipca, 2) + '% a.a. (valores iniciais: CDI atual e IPCA acumulado em 12 meses).',
-    'Fundos e benchmarks com volatilidade abaixo de 1% a.a. são tratados como pós-fixados e replicam o percentual do CDI entregue no ' + periodoLabel() + '.',
-    'Os demais fundos partem do CDI (ou do IPCA, quando indexados à inflação) mais ' + (P.exc === 0 ? 'nenhum excesso' : fmtNum(P.exc * 100, 0) + '% do excesso histórico') + ', com a volatilidade histórica; a faixa mostra o intervalo de ' + P.conf + '% de um modelo lognormal.',
-    'Títulos do Tesouro combinam o carrego da taxa atual com o efeito de preço de uma variação de taxa (duration), e usam a volatilidade histórica do título.',
-    'Renda fixa sintética não tem marcação a mercado. Nada aqui considera imposto de renda, come-cotas, custódia ou spreads. Projeções não são previsões nem recomendação.',
-  ].forEach(t => ul.append(el('li', null, t)));
-  pt.append(ul);
-}
-
 // ------------------------------------------------------------------ COEs da XP: catálogo, payoff, histórico e cenários
 const ESTRUTURA_LBL = { call: 'Alta (call)', callspread: 'Alta limitada (call spread)', lookback: 'Taxa fixa ou retorno otimizado', digital: 'Digital', baixa: 'Baixa (put)', autocall: 'Autocall', bond: 'Bond repack (crédito)' };
 async function iniciarCOE() {
@@ -2520,6 +2448,194 @@ tr.tot td{font-weight:700;border-top:2px solid var(--line-2);border-bottom:0}
 // atualiza a lista de resgates quando a carteira muda
 const _renderCarteiraOrig = renderCarteira;
 renderCarteira = function () { _renderCarteiraOrig(); if (!$('card-cart').classList.contains('hidden')) renderRelLiq(); };
+
+// ------------------------------------------------------------------ simulador: caminhos de taxa (CDI, IPCA, juro real) e projeção dos ativos até 10 anos
+const SIM_MARCOS = [12, 24, 36, 120];
+S.sim = { h: 12, conf: 68, exc: 0.5, dImab: 7.5, cdi: [null, null, null, null, null], ipca: [null, null, null, null, null], real: [null, null, null, null, null],
+  realRef: null, realDoc: null, cenario: 'mediana', cenEm: 24, usouFocus: false, custom: { cdi: false, ipca: false } };
+const mensal = (aa) => Math.pow(1 + aa / 100, 1 / 12) - 1;
+// nível de uma taxa (% a.a.) no mês t, interpolando entre hoje, 12, 24 e 36 meses; depois de 36 vale o nível "depois"
+function nivelEm(arr, t) {
+  const a = [arr[0], arr[1] ?? arr[0], arr[2] ?? arr[1] ?? arr[0], arr[3] ?? arr[2] ?? arr[1] ?? arr[0], arr[4] ?? arr[3] ?? arr[2] ?? arr[1] ?? arr[0]];
+  if (t <= 0) return a[0]; if (t >= 36) return a[4];
+  const k = Math.floor(t / 12), f = (t - k * 12) / 12; return a[k] + (a[k + 1] - a[k]) * f;
+}
+function anoMes(iso, meses) { const d = new Date(iso + 'T00:00:00Z'); d.setUTCMonth(d.getUTCMonth() + meses); return { ano: d.getUTCFullYear(), mes: d.getUTCMonth() + 1 }; }
+// Focus: Selic de fim de ano interpolada mês a mês; IPCA do ano calendário em que cai o marco
+function nivelFocus(tipo, meses) {
+  const f = S.meta.focus; if (!f) return null; const ref = S.meta.referencia; const { ano, mes } = anoMes(ref, meses); const anos = Object.keys(f[tipo]).sort();
+  if (!anos.length) return null; const ultimo = anos[anos.length - 1];
+  if (tipo === 'ipca') return f.ipca[String(ano)] ?? f.ipca[ultimo];
+  const fimAno = (y) => y < +anos[0] ? S.sim.cdi[0] : (f.selic[String(y)] ?? f.selic[ultimo]);
+  const a = fimAno(ano - 1), b = fimAno(ano); return a + (b - a) * (mes / 12);
+}
+function simPadrao(forcar) {
+  const sm = S.sim; const cdi0 = S.prem.cdi, ipca0 = S.prem.ipca;
+  sm.cdi[0] = cdi0; sm.ipca[0] = ipca0;
+  const temFocus = !!(S.meta.focus && S.meta.focus.selic);
+  if (forcar || !sm.custom.cdi) { for (let i = 1; i <= 3; i++) sm.cdi[i] = temFocus ? r2(nivelFocus('selic', i * 12)) : cdi0; sm.cdi[4] = temFocus ? r2(nivelFocus('selic', 48)) : cdi0; sm.custom.cdi = false; }
+  if (forcar || !sm.custom.ipca) { for (let i = 1; i <= 3; i++) sm.ipca[i] = temFocus ? r2(nivelFocus('ipca', i * 12)) : ipca0; sm.ipca[4] = temFocus ? r2(nivelFocus('ipca', 48)) : ipca0; sm.custom.ipca = false; }
+  sm.usouFocus = temFocus;
+  if (forcar) { sm.cenario = 'mediana'; sm.cenEm = 24; }
+  aplicarCenario();
+}
+const r2 = (v) => v == null ? null : Math.round(v * 100) / 100;
+// juro real: alvo (mediana, mínima, máxima ou atual) atingido em cenEm meses e mantido depois
+function aplicarCenario() {
+  const sm = S.sim, d = sm.realDoc; if (!d) return;
+  sm.real[0] = r2(d.taxa); const h = d.taxa_hist || {};
+  if (sm.cenario === 'custom') return;
+  const alvo = sm.cenario === 'min' ? h.min : sm.cenario === 'max' ? h.max : sm.cenario === 'atual' ? d.taxa : (h.mediana ?? d.taxa);
+  for (let i = 1; i <= 3; i++) { const m = i * 12; sm.real[i] = r2(m >= sm.cenEm ? alvo : d.taxa + (alvo - d.taxa) * m / sm.cenEm); }
+  sm.real[4] = r2(alvo);
+}
+// título de referência do juro real: o Tesouro IPCA+ da comparação (o mais longo) ou, sem ele, o IPCA+ principal com vencimento mais perto de 10 anos
+async function garantirRealRef() {
+  const sm = S.sim;
+  const naSel = S.sel.filter(s => s.data && s.kind === 'tesouro' && s.data.indexador === 'IPCA' && /IPCA\+/.test(s.data.tipo || '')).sort((a, b) => b.data.venc.localeCompare(a.data.venc));
+  let id = naSel.length ? naSel[0].data.id : null;
+  if (!id) { const cands = (S.meta.tesouro || []).filter(t => t.indexador === 'IPCA' && /IPCA\+/.test(t.tipo || '') && !/juros/i.test(t.nome)); if (cands.length) { cands.sort((a, b) => Math.abs(anosAte(a.venc) - 10) - Math.abs(anosAte(b.venc) - 10)); id = cands[0].id; } }
+  if (!id) { sm.realRef = null; sm.realDoc = null; return; }
+  if (sm.realRef !== id) { sm.realRef = id; sm.realDoc = naSel.length ? naSel[0].data : await carregarTesouro(id); if (sm.cenario !== 'custom') aplicarCenario(); else sm.real[0] = r2(sm.realDoc.taxa); }
+}
+// beta e alfa de um fundo contra um benchmark, pelos retornos diários da janela selecionada
+function betaAlfa(doc, bdoc, J) {
+  const ini = Math.max(J.ini, doc.firstIdx || 0, bdoc.firstIdx || 0), fim = Math.min(J.fim, doc.ateIdx, bdoc.ateIdx); const xs = [], ys = [];
+  for (let i = ini + 1; i <= fim; i++) { const a = doc.qff[i - 1], b = doc.qff[i], c = bdoc.qff[i - 1], d = bdoc.qff[i]; if (a > 0 && b != null && c > 0 && d != null) { ys.push(b / a - 1); xs.push(d / c - 1); } }
+  const n = xs.length; if (n < 60) return null;
+  const mx = xs.reduce((s, v) => s + v, 0) / n, my = ys.reduce((s, v) => s + v, 0) / n; let sxx = 0, sxy = 0;
+  for (let i = 0; i < n; i++) { sxx += (xs[i] - mx) ** 2; sxy += (xs[i] - mx) * (ys[i] - my); }
+  const beta = sxx > 0 ? sxy / sxx : 0; const alfaD = my - beta * mx; return { beta, alfaAnual: Math.pow(1 + alfaD, 252) - 1, n, corr: sxx > 0 ? sxy / Math.sqrt(sxx * ys.reduce((s, v) => s + (v - my) ** 2, 0)) : 0 };
+}
+// modelo de cada ativo: devolve o índice acumulado mês a mês (med) e, quando há risco, a faixa; mais o texto das letras miúdas
+function simularAtivo(s, H, z, ipcaDoc, imabDoc) {
+  const sm = S.sim, f = s.data, J = janela(), mesesJ = periodoMeses(J);
+  const cdi = (t) => mensal(nivelEm(sm.cdi, t)), ipca = (t) => mensal(nivelEm(sm.ipca, t)), real = (t) => nivelEm(sm.real, t);
+  const out = { nome: f.nome, cor: s.cor, kind: s.kind, idx: [1], sigma: 0, texto: '', agio: {} };
+  const acum = (fn) => { for (let t = 1; t <= H; t++) out.idx[t] = out.idx[t - 1] * (1 + fn(t)); };
+  const nivTxt = (arr) => fmtNum(arr[0], 2) + '% → ' + [1, 2, 3].map((i, k) => fmtNum(arr[i], 2) + '% em ' + (k + 1) * 12 + ' m').join(', ') + (H > 36 ? ', depois ' + fmtNum(arr[4], 2) + '%' : '');
+  if (s.kind === 'rf') {
+    if (f.tipo === 'pcdi') { acum(t => f.taxa / 100 * cdi(t)); out.texto = fmtNum(f.taxa, 1) + '% do CDI, com o CDI indo de ' + nivTxt(sm.cdi) + '.'; }
+    else if (f.tipo === 'pre') { acum(() => mensal(f.taxa)); out.texto = 'Juro fixo de ' + fmtNum(f.taxa, 2) + '% a.a., sem marcação a mercado.'; }
+    else { acum(t => (1 + ipca(t)) * (1 + mensal(f.taxa)) - 1); out.texto = 'IPCA (' + nivTxt(sm.ipca) + ') mais ' + fmtNum(f.taxa, 2) + '% a.a.'; }
+    return out;
+  }
+  const mj = janelaBase(f); const j = mj ? mj.j : null;
+  if (s.kind === 'tesouro') {
+    const tx = f.taxa, M = Math.max(1, Math.round(anosAte(f.venc) * 12)); let D0 = f.duration; let dEst = false; if (D0 == null) { D0 = Math.min(25, Math.max(0.5, anosAte(f.venc))) * 0.85; dEst = true; }
+    out.sigma = j && j.vol != null ? j.vol : 0.05;
+    if (f.indexador === 'SELIC') { acum(t => (1 + cdi(t)) * (1 + mensal(tx)) - 1); out.texto = 'Tesouro Selic: CDI (' + nivTxt(sm.cdi) + ') mais ' + fmtNum(tx, 2) + '% a.a.'; return out; }
+    const ehIPCA = f.indexador === 'IPCA';
+    const y0 = ehIPCA ? sm.real[0] : sm.cdi[0]; const yT = (t) => ehIPCA ? real(t) : nivelEm(sm.cdi, t);
+    let carry = 1;
+    for (let t = 1; t <= H; t++) {
+      if (t <= M) { carry *= (1 + mensal(tx)) * (ehIPCA ? 1 + ipca(t) : 1); const Dt = Math.max(0, D0 * (1 - t / M)); const dy = (yT(t) - y0) / 100; out.idx[t] = carry * Math.max(0.05, 1 - Dt * dy); if (SIM_MARCOS.includes(t) || t === H) out.agio[t] = -Dt * dy; }
+      else { out.idx[t] = out.idx[t - 1] * (ehIPCA ? (1 + ipca(t)) * (1 + mensal(real(t))) : 1 + cdi(t)); }
+    }
+    const agioTxt = Object.entries(out.agio).filter(([t]) => +t <= Math.min(H, M)).map(([t, v]) => (v >= 0 ? 'ágio' : 'deságio') + ' de ' + pctSign(v) + ' em ' + t + ' m').join(', ');
+    out.texto = (ehIPCA ? 'Carrego de IPCA (' + nivTxt(sm.ipca) + ') mais ' + fmtNum(tx, 2) + '% a.a.' : 'Carrego prefixado de ' + fmtNum(tx, 2) + '% a.a.') + '; a taxa ' + (ehIPCA ? 'real' : 'nominal (seguindo o CDI)') + ' vai de ' + nivTxt(ehIPCA ? sm.real : sm.cdi)
+      + ', o que com duration de ' + fmtNum(D0, 1) + ' anos' + (dEst ? ' (estimada)' : '') + ' dá ' + (agioTxt || 'efeito nulo no preço') + '. ' + (M < H ? 'Vence no mês ' + M + '; depois reinveste ' + (ehIPCA ? 'em IPCA mais o juro real do momento' : 'no CDI') + '.' : 'A marcação a mercado some no vencimento.') + ' Vol. histórica de ' + pct(out.sigma) + '.';
+    return out;
+  }
+  // fundos
+  if (!j) { acum(t => cdi(t)); out.texto = 'Sem janela fechada: assume o CDI.'; return out; }
+  const aR = j.aR != null ? j.aR : anual(j.ret, mj.w), aC = j.aC != null ? j.aC : anual(j.cdi, mj.w); out.sigma = j.vol || 0;
+  const bm = (S.index.find(x => x.cnpj === s.key) || {}).bm || bmDoFundo({ xp_tipo: f.xp && f.xp.tipo, classe: f.classe, bm: null });
+  const posFixado = j.vol != null && j.vol < 0.01;
+  if (posFixado || bm === 'cdi' && j.vol < 0.03) { const rat = aC > 0 ? aR / aC : 1; acum(t => rat * cdi(t)); out.texto = 'Pós-fixado: replicou ' + fmtNum(rat * 100, 0) + '% do CDI nos últimos ' + mj.w + ' meses, aplicado ao CDI de ' + nivTxt(sm.cdi) + '.'; return out; }
+  if (bm === 'imab' && imabDoc) {
+    const ba = betaAlfa(f, imabDoc, J);
+    // só vale como NTN-B sintética quando o fundo de fato acompanha o IMA-B (correlação razoável e beta positivo)
+    if (ba && ba.corr >= 0.35 && ba.beta > 0.1) {
+      const D = sm.dImab; const alfaM = Math.pow(1 + ba.alfaAnual * sm.exc, 1 / 12) - 1;
+      acum(t => { const rImab = (1 + ipca(t)) * (1 + mensal(real(t))) - 1 - D * (real(t) - real(t - 1)) / 100; return alfaM + ba.beta * rImab; });
+      out.texto = 'Benchmark IMA-B: tratado como uma NTN-B sintética de duration ' + fmtNum(D, 1) + ' anos que paga IPCA mais o juro real (' + nivTxt(sm.real) + '), escalada pelo beta de ' + fmtNum(ba.beta, 2) + ' do fundo, mais ' + (sm.exc === 0 ? 'nada' : fmtNum(sm.exc * 100, 0) + '% do excesso histórico') + ' sobre o IMA-B (' + pctSign(ba.alfaAnual) + ' a.a.; correlação ' + fmtNum(ba.corr, 2) + ' em ' + ba.n + ' dias). Vol. de ' + pct(j.vol) + '.';
+      return out;
+    }
+  }
+  const cls = norm((f.anbima || '') + ' ' + (f.xp && f.xp.classe || '')), xpb = norm((f.xp && f.xp.benchmark) || '');
+  if ((bm === 'ipca' || /ipca|inflac|imab|ima-b/.test(xpb + ' ' + cls)) && ipcaDoc) {
+    const aI = anualDoc(ipcaDoc, J.ini, J.fim, mesesJ) ?? S.prem.ipca / 100; const spread = aR - aI; const spM = Math.pow(1 + spread * sm.exc, 1 / 12) - 1;
+    acum(t => (1 + ipca(t)) * (1 + spM) - 1);
+    out.texto = 'Indexado à inflação: IPCA (' + nivTxt(sm.ipca) + ') mais ' + (sm.exc === 0 ? 'nada' : fmtNum(sm.exc * 100, 0) + '% do excesso histórico sobre o IPCA (' + pctSign(spread) + ' a.a.)') + '. Vol. de ' + pct(j.vol) + '.';
+    return out;
+  }
+  const exc = aR - aC; const excM = Math.pow(1 + exc * sm.exc, 1 / 12) - 1;
+  acum(t => (1 + cdi(t)) * (1 + excM) - 1);
+  out.texto = 'Ativo de risco (' + (BM_LBL[bm] || 'CDI') + '): CDI (' + nivTxt(sm.cdi) + ') mais ' + (sm.exc === 0 ? 'nenhum excesso' : fmtNum(sm.exc * 100, 0) + '% do excesso histórico sobre o CDI (' + pctSign(exc) + ' a.a. em ' + mj.w + ' meses)') + '. Vol. de ' + pct(j.vol) + '.';
+  return out;
+}
+function faixa(idx, sigma, z) { const lo = [], hi = []; for (let t = 0; t < idx.length; t++) { const s = sigma * Math.sqrt(t / 12); lo.push(idx[t] * Math.exp(-z * s) - 1); hi.push(idx[t] * Math.exp(z * s) - 1); } return { lo, hi }; }
+let simPend = false;
+async function renderPersp() {
+  const prontos = S.sel.filter(s => s.data); if (!prontos.length || !S.persp) return;
+  const sm = S.sim;
+  if (simPend) return; simPend = true;
+  try {
+    if (!benchDoc('ipca')) await carregarBench('ipca').catch(() => null);
+    if (prontos.some(s => s.kind === 'fundo') && !benchDoc('imab') && S.benchmarks.some(b => b.id === 'imab')) await carregarBench('imab').catch(() => null);
+    await garantirRealRef();
+  } finally { simPend = false; }
+  if (sm.cdi[1] == null) simPadrao(false);
+  renderSimControles();
+  const H = sm.h, z = sm.conf === 95 ? 1.96 : 1, ipcaDoc = benchDoc('ipca'), imabDoc = benchDoc('imab');
+  const modelos = prontos.map(s => simularAtivo(s, H, z, ipcaDoc, imabDoc));
+  const series = modelos.map(m => { const vals = m.idx.map(v => v - 1); const fx = m.sigma > 0.002 ? faixa(m.idx, m.sigma, z) : null; return { nome: m.nome, cor: m.cor, vals, band: fx, m, fim: vals[H], lo: fx ? fx.lo[H] : vals[H], hi: fx ? fx.hi[H] : vals[H] }; });
+  const caminho = (arr) => { const v = [0]; let a = 1; for (let t = 1; t <= H; t++) { a *= 1 + mensal(nivelEm(arr, t)); v.push(a - 1); } return v; };
+  const refs = [{ nome: 'CDI', cor: COR_CDI, dash: true, vals: caminho(sm.cdi) }, { nome: 'IPCA', cor: CORES_BENCH.ipca, dash: true, vals: caminho(sm.ipca) }];
+  const ref = S.meta.referencia;
+  desenhar($('ch-persp'), { series: [...series, ...refs], ini: 0, fim: H, altura: 300, zero: true, fmt: (v, t) => t ? (v * 100).toFixed(0) + '%' : pctSign(v), endLabel: true,
+    xTicks: () => { const out = []; const step = H > 60 ? 12 : H > 24 ? 6 : 3; for (let t = 0; t <= H; t += step) out.push({ i: t, label: t === 0 ? 'hoje' : H > 60 ? (t / 12) + (t === 12 ? ' ano' : ' anos') : mesLbl(mesMais(ref, t)) }); return out; },
+    xLabel: (i) => i === 0 ? 'Hoje' : 'Mês ' + i + ' · ' + mesLbl(mesMais(ref, i)) });
+  legenda($('lg-persp'), [...series, ...refs]);
+  // tabela nos marcos (12, 24, 36 m e 10 anos até o horizonte) + faixa no horizonte
+  const marcos = SIM_MARCOS.filter(t => t <= H); const tb = $('tb-persp'); tb.innerHTML = '';
+  const th = el('tr'); th.append(el('th', null, 'Ativo')); marcos.forEach(t => th.append(el('th', null, t === 120 ? '10 anos' : t + ' m'))); th.append(el('th', null, 'Pessimista'), el('th', null, 'Otimista'), el('th', null, 'vs CDI')); { const _h = el('thead'); _h.append(th); tb.append(_h); }
+  const tbody = el('tbody'); const cdiH = refs[0].vals[H];
+  const escalas = marcos.map(t => heatEscala(series.map(s => s.vals[t])));
+  series.forEach(s => { const tr = el('tr'); const td0 = el('td'); const n = el('span', 'n'); const i = el('i'); i.style.background = s.cor; const sp = el('span', null, s.nome); sp.title = s.nome; n.append(i, sp); td0.append(n); tr.append(td0);
+    marcos.forEach((t, k) => { const td = el('td', 'ht' + (t === H ? ' hl' : '')); td.textContent = pctSign(s.vals[t]); td.style.background = heatBg(s.vals[t], escalas[k].maxPos, escalas[k].maxNeg); if (s.m.agio[t] != null && t <= H) td.append(el('span', 'sub2', (s.m.agio[t] >= 0 ? 'ágio ' : 'deságio ') + pctSign(s.m.agio[t]))); tr.append(td); });
+    tr.append(el('td', s.lo < 0 ? 'neg' : '', pctSign(s.lo)), el('td', null, pctSign(s.hi)));
+    const d = s.fim - cdiH; const tdv = el('td'); tdv.append(el('span', 'badge ' + (d < 0 ? 'neg' : 'pos'), (d < 0 ? '−' : '+') + fmtNum(Math.abs(d) * 100, 1) + ' p.p.')); tr.append(tdv); tbody.append(tr); });
+  refs.forEach(r => { const tr = el('tr', 'ref'); const td0 = el('td'); const n = el('span', 'n'); const i = el('i', 'dash'); i.style.borderTopColor = r.cor; n.append(i, el('span', null, r.nome)); td0.append(n); tr.append(td0); marcos.forEach(t => tr.append(el('td', null, pctSign(r.vals[t])))); tr.append(el('td', null, ''), el('td', null, ''), el('td', null, r.nome === 'CDI' ? '' : (r.vals[H] - cdiH < 0 ? '−' : '+') + fmtNum(Math.abs(r.vals[H] - cdiH) * 100, 1) + ' p.p.')); tbody.append(tr); });
+  tb.append(tbody);
+  // letras miúdas: por ativo e gerais
+  const pa = $('persp-ativos'); pa.innerHTML = ''; pa.append(el('div', null, 'Por que cada ativo foi para esse patamar:'));
+  const ula = el('ul'); series.forEach(s => { const li = el('li'); const b = el('b', null, s.nome + ': '); b.style.color = s.cor; li.append(b, document.createTextNode(s.m.texto)); ula.append(li); }); pa.append(ula);
+  const pt = $('persp-prem'); pt.innerHTML = ''; pt.append(el('div', null, 'Como a simulação é construída:'));
+  const ul = el('ul'); const fz = S.meta.focus; const d = sm.realDoc;
+  const med10 = (arr) => { let a = 1; for (let t = 1; t <= 120; t++) a *= 1 + mensal(nivelEm(arr, t)); return (Math.pow(a, 1 / 10) - 1) * 100; };
+  [
+    'Horizonte de ' + (H === 120 ? '10 anos' : H + ' meses') + ' a partir de ' + dBR(ref) + '. As taxas seguem os patamares da tabela, interpolados mês a mês (hoje → 12 → 24 → 36 meses) e mantidos no nível "depois" até 10 anos. Média implícita em 10 anos: CDI ' + fmtNum(med10(sm.cdi), 2) + '% a.a. e IPCA ' + fmtNum(med10(sm.ipca), 2) + '% a.a.',
+    (sm.usouFocus && fz ? 'CDI e IPCA partem das medianas do relatório Focus de ' + dBR(fz.data) + ' (Selic de fim de ano ' + Object.entries(fz.selic).map(([a, v]) => a + ': ' + fmtNum(v, 2) + '%').join(', ') + '; IPCA ' + Object.entries(fz.ipca).map(([a, v]) => a + ': ' + fmtNum(v, 2) + '%').join(', ') + ')' + (sm.custom.cdi || sm.custom.ipca ? ', com os patamares editados por você' : '') + '.' : 'Sem Focus disponível nesta base: CDI e IPCA partem dos valores atuais.'),
+    d ? 'Juro real de referência: ' + d.nome + ', hoje IPCA + ' + fmtNum(d.taxa, 2) + '%' + (d.taxa_hist ? '; desde ' + dBR(d.taxa_hist.desde) + ' a taxa variou entre ' + fmtNum(d.taxa_hist.min, 2) + '% e ' + fmtNum(d.taxa_hist.max, 2) + '%, com mediana de ' + fmtNum(d.taxa_hist.mediana, 2) + '%' : '') + '. Cenário: ' + ({ mediana: 'volta à mediana', min: 'cai à mínima', max: 'sobe à máxima', atual: 'fica como está', custom: 'patamares editados por você' })[sm.cenario] + (sm.cenario === 'custom' || sm.cenario === 'atual' ? '' : ' em ' + sm.cenEm + ' meses') + '.' : 'Sem título do Tesouro IPCA+ na base para servir de referência ao juro real.',
+    'Títulos do Tesouro: carrego da taxa contratada mais o efeito de preço da mudança de taxa (duration que encurta até o vencimento; no vencimento a marcação some). Fundos com benchmark IMA-B: NTN-B sintética de duration ' + fmtNum(sm.dImab, 1) + ' anos, escalada pelo beta do fundo e somada ao seu excesso histórico. Pós-fixados replicam o percentual do CDI entregue no ' + periodoLabel() + '. Demais fundos: CDI (ou IPCA) mais ' + (sm.exc === 0 ? 'nenhum excesso' : fmtNum(sm.exc * 100, 0) + '% do excesso histórico') + '.',
+    'A faixa mostra o intervalo de ' + sm.conf + '% de um modelo lognormal com a volatilidade histórica de cada ativo. Nada aqui considera imposto de renda, come-cotas, custódia ou spreads. Projeções não são previsões nem recomendação.',
+  ].forEach(t => ul.append(el('li', null, t)));
+  pt.append(ul);
+}
+// controles: grade de patamares + cenário do juro real
+function renderSimControles() {
+  const sm = S.sim; const d = sm.realDoc;
+  $('p-cdi0').textContent = fmtNum(sm.cdi[0], 2) + '%'; $('p-ipca0').textContent = fmtNum(sm.ipca[0], 2) + '%'; $('p-real0').textContent = d ? fmtNum(sm.real[0], 2) + '%' : 'n/d';
+  $('p-real-ref').textContent = d ? d.nome.replace('Tesouro ', '') : 'sem título';
+  document.querySelectorAll('#p-paths input').forEach(i => { const k = i.dataset.k, n = +i.dataset.i; const v = sm[k][n]; if (document.activeElement !== i) i.value = v == null ? '' : fmtNum(v, 2).replace(',', '.'); i.disabled = k === 'real' && !d; });
+  [...$('p-cen').children].forEach(b => b.setAttribute('aria-pressed', b.dataset.c === sm.cenario ? 'true' : 'false'));
+  [...$('p-cen-em').children].forEach(b => b.setAttribute('aria-pressed', +b.dataset.m === sm.cenEm ? 'true' : 'false'));
+  $('p-cen-em').classList.toggle('dim', sm.cenario === 'custom' || sm.cenario === 'atual');
+  const fz = S.meta.focus; $('p-focus').textContent = fz ? 'Focus de ' + dBR(fz.data) : 'Sem Focus'; $('p-focus').disabled = !fz;
+  $('p-focus').classList.toggle('on', sm.usouFocus && !sm.custom.cdi && !sm.custom.ipca);
+  if (d && d.taxa_hist) { const h = d.taxa_hist; $('p-cen').querySelector('[data-c="mediana"]').title = 'IPCA + ' + fmtNum(h.mediana, 2) + '%'; $('p-cen').querySelector('[data-c="min"]').title = 'IPCA + ' + fmtNum(h.min, 2) + '%'; $('p-cen').querySelector('[data-c="max"]').title = 'IPCA + ' + fmtNum(h.max, 2) + '%'; }
+}
+$('p-h').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.sim.h = +b.dataset.h; [...$('p-h').children].forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false')); renderPersp(); });
+$('p-conf').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.sim.conf = +b.dataset.c; [...$('p-conf').children].forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false')); renderPersp(); });
+$('p-exc').addEventListener('change', () => { S.sim.exc = +$('p-exc').value; renderPersp(); });
+$('p-focus').addEventListener('click', () => { S.sim.custom.cdi = false; S.sim.custom.ipca = false; simPadrao(false); renderPersp(); });
+$('p-reset').addEventListener('click', () => { simPadrao(true); renderPersp(); });
+$('p-cen').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.sim.cenario = b.dataset.c; aplicarCenario(); renderPersp(); });
+$('p-cen-em').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.sim.cenEm = +b.dataset.m; if (S.sim.cenario === 'custom') S.sim.cenario = 'mediana'; aplicarCenario(); renderPersp(); });
+$('p-paths').addEventListener('change', (e) => { const i = e.target.closest('input'); if (!i) return; const k = i.dataset.k, n = +i.dataset.i; const v = parseFloat(String(i.value).replace(',', '.')); if (!isFinite(v)) { renderSimControles(); return; }
+  S.sim[k][n] = Math.max(-5, Math.min(60, v)); if (k === 'real') S.sim.cenario = 'custom'; else S.sim.custom[k] = true; renderPersp(); });
 
 })();
 </script>
