@@ -950,6 +950,16 @@ const TD_FAMILIAS = [
   ['selic', 'Tesouro Selic', 'LFT', (t) => t.indexador === 'SELIC'],
   ['renda', 'Renda+ e Educa+', 'NTN-B1', (t) => /Renda\+|Educa\+/.test(t.tipo)],
 ];
+// ordem das famílias na busca: NTN-B principal, NTN-B com juros, prefixados, Selic, Educa+/Renda+, demais
+function famTD(t) {
+  const js = /juros/i.test(t.nome);
+  if (/Educa\+/.test(t.tipo)) return 5;
+  if (/Renda\+/.test(t.tipo)) return 6;
+  if (t.indexador === 'IPCA') return js ? 1 : 0;
+  if (t.indexador === 'PRE') return js ? 3 : 2;
+  if (t.indexador === 'SELIC') return 4;
+  return 7;
+}
 
 // ------------------------------------------------------------------ estado
 const S = { meta: null, index: null, sel: [], bench: [], cdi: true, periodo: 12, custom: { ini: null, fim: null }, cache: new Map(), persp: false,
@@ -989,8 +999,8 @@ async function carregar() {
     const c = idx.colunas;
     S.index = idx.fundos.map(r => { const o = {}; c.forEach((k, i) => o[k] = r[i]); o.busca = norm(o.nome) + ' ' + o.cnpj + ' ' + norm(o.gestor) + ' ' + norm(o.xp_classe); return o; });
     S.temRet2436 = c.includes('ret24'); S.temBm = c.includes('bm');
-    S.tesouro = (meta.tesouro || []).map(t => ({ ...t, busca: norm(t.nome + ' ' + t.tipo + ' tesouro direto titulo publico ' + t.venc.slice(0, 4) + ' ' +
-      (t.indexador === 'IPCA' ? 'ntnb ntn-b ntn b ipca+ ipca mais inflacao juro real ' + (/juros/i.test(t.nome) ? 'juros semestrais cupom' : 'principal sem cupom') : t.indexador === 'SELIC' ? 'lft selic pos-fixado' : 'ltn ntnf ntn-f prefixado prefixada')) }));
+    S.tesouro = (meta.tesouro || []).map(t => ({ ...t, fam: famTD(t), busca: norm(t.nome + ' ' + t.tipo + ' tesouro direto titulo publico ' + t.venc.slice(0, 4) + ' ' +
+      (t.indexador === 'IPCA' ? (famTD(t) >= 5 ? 'ipca inflacao juro real ntn-b1 aposentadoria' : 'ntnb ntn-b ntn b ipca+ ipca mais inflacao juro real ' + (/juros/i.test(t.nome) ? 'juros semestrais cupom' : 'principal sem cupom')) : t.indexador === 'SELIC' ? 'lft selic pos-fixado' : 'ltn ntnf ntn-f prefixado prefixada')) }));
     S.benchmarks = (meta.benchmarks || []).map(b => ({ ...b, busca: norm(b.nome + ' ' + b.desc + ' benchmark indice') }));
     const cdiA = meta.cdi_taxa && meta.cdi_taxa.length ? Math.pow(1 + meta.cdi_taxa[meta.cdi_taxa.length - 1], 252) - 1 : 0.12;
     S.cdiAtual = cdiA;
@@ -1107,14 +1117,14 @@ function buscar(t) {
     if (S.sel.some(s => s.key === f.cnpj)) continue;
     if (has(f.busca) || (digits.length >= 4 && f.cnpj.includes(digits))) { fundos.push(f); if (fundos.length >= 6) break; }
   }
-  const tesouro = toks.length ? S.tesouro.filter(x => !S.sel.some(s => s.key === 'td:' + x.id) && has(x.busca)).sort((a, b) => (/juros/i.test(a.nome) - /juros/i.test(b.nome)) || a.venc.localeCompare(b.venc)).slice(0, 10) : [];
-  // busca por título público (NTN-B, IPCA+, LTN, LFT...): o Tesouro vem antes dos fundos
-  const tituloPrimeiro = toks.length > 0 && tesouro.length > 0 && /^(tesouro|ntn|ntnb|ntnf|ltn|lft|ipca\+?|ipcamais|prefixad|selic|principal|juros|titulo)/.test(toks.join(''));
+  // busca por título público (NTN-B, IPCA+, LTN, LFT...): o Tesouro vem antes dos fundos, com a lista inteira da família
+  const tituloPrimeiro = toks.length > 0 && /^(tesouro|ntn|ntnb|ntnf|ltn|lft|ipca\+?|ipcamais|prefixad|selic|principal|juros|titulo)/.test(toks.join(''));
+  const tesouro = toks.length ? S.tesouro.filter(x => !S.sel.some(s => s.key === 'td:' + x.id) && has(x.busca)).sort((a, b) => (a.fam - b.fam) || a.venc.localeCompare(b.venc)).slice(0, tituloPrimeiro ? 16 : 10) : [];
   const bench = toks.length ? S.benchmarks.filter(x => !S.bench.includes(x.id) && has(x.busca)).slice(0, 5) : [];
   if (toks.length && 'cdi'.includes(toks[0]) && !S.cdi) bench.unshift({ id: 'cdi', nome: 'CDI', desc: 'Certificado de Depósito Interbancário', ret12: ret12CDI() });
   const rf = parseRF(t);
   const coe = /\bcoe\b/.test(norm(t));
-  return { fundos, tesouro, bench, rf, coe, tituloPrimeiro };
+  return { fundos, tesouro, bench, rf, coe, tituloPrimeiro: tituloPrimeiro && tesouro.length > 0 };
 }
 function ret12CDI() { const a = idxAte(subMeses(S.meta.referencia, 12)); return a >= 0 ? S.meta.cdi[S.meta.cdi.length - 1] / S.meta.cdi[a] - 1 : null; }
 function renderRes(r) {
@@ -1125,7 +1135,7 @@ function renderRes(r) {
   const item = (titulo, sub, k1, k2, fn) => { const b = el('button'); b.type = 'button'; b.setAttribute('role', 'option');
     const nm = el('div', 'nm'); nm.append(el('b', null, titulo), el('span', null, sub)); const kv = el('div', 'kv'); kv.append(k1 || '', el('small', null, k2 || '')); b.append(nm, kv); b.addEventListener('click', fn); res.append(b); };
   const blocoFundos = () => { if (r.fundos.length) { grupo('Fundos', 'i-fund'); r.fundos.forEach(f => item(f.nome, [f.xp_classe || f.classe, f.gestor].filter(Boolean).join(' · '), money(f.pl), f.ret12 != null ? pct(f.ret12) + ' em 12 m' : 'sem 12 meses', () => adicionar(f.cnpj, 'fundo'))); } };
-  const blocoTesouro = () => { if (r.tesouro.length) { grupo('Tesouro Direto', 'i-td'); r.tesouro.forEach(t => item(t.nome, (t.indexador === 'IPCA' ? (/juros/i.test(t.nome) ? 'Juros semestrais · ' : 'Principal · ') : '') + 'vencimento ' + dBR(t.venc) + ' · ' + taxaTD(t), t.ret12 != null ? pct(t.ret12) : '', 'em 12 m', () => adicionar('td:' + t.id, 'tesouro'))); } };
+  const blocoTesouro = () => { if (r.tesouro.length) { grupo('Tesouro Direto', 'i-td'); r.tesouro.forEach(t => item(t.nome, (t.fam === 1 ? 'Juros semestrais · ' : t.fam === 0 ? 'Principal · ' : '') + 'vencimento ' + dBR(t.venc) + ' · ' + taxaTD(t), t.ret12 != null ? pct(t.ret12) : '', 'em 12 m', () => adicionar('td:' + t.id, 'tesouro'))); } };
   if (r.tituloPrimeiro) { blocoTesouro(); blocoFundos(); } else { blocoFundos(); blocoTesouro(); }
   if (r.bench.length) { grupo('Benchmarks', 'i-bench'); r.bench.forEach(b => item(b.nome, b.desc, b.ret12 != null ? pct(b.ret12) : '', 'em 12 m', () => { ligarBench(b.id); fecharRes(); inp.value = ''; })); }
   if (r.rf) { grupo('Renda fixa', 'i-rf'); const tx = r.rf.taxa; const nome = tx != null ? RF_NOMES[r.rf.tipo](tx) : 'Renda fixa a % do CDI';
