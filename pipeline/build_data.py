@@ -332,10 +332,17 @@ def gestor_curto(nome_legal: str) -> str:
 
 # --------------------------------------------------------------------------- benchmark de referência de cada fundo
 
-def bench_do_fundo(xp: dict | None, classe_cvm: str) -> str:
-    """Escolhe o benchmark de comparação do fundo a partir do benchmark declarado na XP (ou da classe), entre os ids publicados."""
+RE_NOME_INFLACAO = re.compile(r"IPCA|INFLA|IMA ?-? ?B|JURO REAL|JUROS REAIS|INDEX", re.I)
+RE_NOME_ACOES = re.compile(r"\bACOES\b|\bIBOV|\bEQUIT|\bSMALL CAPS?\b|\bDIVIDEND", re.I)
+RE_NOME_CAMBIO = re.compile(r"\bDOLAR\b|\bCAMBIAL\b|\bUSD\b", re.I)
+
+
+def bench_do_fundo(xp: dict | None, classe_cvm: str, nome: str = "") -> str:
+    """Escolhe o benchmark de comparação do fundo a partir do benchmark declarado na XP, do nome (IPCA, inflação, IMA-B...)
+    ou da classe, entre os ids publicados."""
     b = _norm_gestor((xp or {}).get("benchmark", "")) if xp else ""
     tipo = _norm_gestor((xp or {}).get("tipo", "")) if xp else ""
+    n = _norm_gestor(nome or "")
     if b and b != "-":
         if "CDI" in b or "SELIC" in b:
             return "cdi"
@@ -357,6 +364,14 @@ def bench_do_fundo(xp: dict | None, classe_cvm: str) -> str:
         return "ibov"
     if "CAMBIAL" in tipo:
         return "dolar"
+    # sem benchmark declarado (fundo fora da planilha XP ou com "-"): o nome diz o índice (IPCA, inflação, IMA-B, juro real; dólar; ações)
+    if n:
+        if RE_NOME_INFLACAO.search(n):
+            return "imab"
+        if RE_NOME_CAMBIO.search(n):
+            return "dolar"
+        if RE_NOME_ACOES.search(n):
+            return "ibov"
     return "cdi"
 
 
@@ -832,7 +847,7 @@ def main() -> int:
             j12.get("ret"), j12.get("pcdi"), j12.get("sharpe"), j12.get("vol"),
             (xp or {}).get("tipo"), (xp or {}).get("classe"), (xp or {}).get("risco"),
             1 if (xp or {}).get("top") else 0, (xp or {}).get("estrelas"),
-            j24.get("ret"), j36.get("ret"), g_site, g_logo, bench_do_fundo(xp, info.get("classe", "")),
+            j24.get("ret"), j36.get("ret"), g_site, g_logo, bench_do_fundo(xp, info.get("classe", ""), nome),
         ])
         if xp:
             n_xp += 1
