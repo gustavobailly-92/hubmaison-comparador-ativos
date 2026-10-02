@@ -822,9 +822,15 @@ def processar_logo(raw: bytes, tamanho: int = 64) -> bytes | None:
 def baixar_logos(gestoras: list[dict], out_dir: str, cache_dir: str, log=print, dias_cache: int = 30) -> int:
     """Baixa o favicon de cada gestora com `logo` definido, remove o fundo e grava <out_dir>/<slug>.png.
     Marca g["logo_proc"] = True nas que deram certo. O resultado fica em cache por `dias_cache` dias."""
+    try:
+        from PIL import Image  # noqa: F401
+    except ImportError:
+        log("  ícones das gestoras: Pillow ausente, pulando (pip install pillow)")
+        return 0
     os.makedirs(out_dir, exist_ok=True)
     os.makedirs(cache_dir, exist_ok=True)
     ok = 0
+    motivos: dict[str, int] = {}
     for g in gestoras:
         modo, site = g.get("logo"), g.get("site")
         if not modo or not site or modo not in LOGO_FONTES:
@@ -832,7 +838,7 @@ def baixar_logos(gestoras: list[dict], out_dir: str, cache_dir: str, log=print, 
         slug = slug_site(site)
         alvo = os.path.join(out_dir, slug + ".png")
         cache = os.path.join(cache_dir, slug + ".png")
-        falha = os.path.join(cache_dir, slug + ".falhou")
+        falha = os.path.join(cache_dir, slug + ".sem-icone")
         agora = time.time()
         if os.path.exists(cache) and agora - os.path.getmtime(cache) < dias_cache * 86400:
             shutil.copyfile(cache, alvo)
@@ -841,11 +847,15 @@ def baixar_logos(gestoras: list[dict], out_dir: str, cache_dir: str, log=print, 
             continue
         if os.path.exists(falha) and agora - os.path.getmtime(falha) < dias_cache * 86400:
             continue
+        png = None
         try:
             raw = http_get(LOGO_FONTES[modo](site), tentativas=2, timeout=30)
             png = processar_logo(raw)
-        except Exception:
-            png = None
+            if not png:
+                motivos["imagem pequena ou ilegível"] = motivos.get("imagem pequena ou ilegível", 0) + 1
+        except Exception as e:
+            chave = type(e).__name__ + ": " + str(e)[:60]
+            motivos[chave] = motivos.get(chave, 0) + 1
         if png:
             with open(cache, "wb") as fh:
                 fh.write(png)
@@ -854,5 +864,6 @@ def baixar_logos(gestoras: list[dict], out_dir: str, cache_dir: str, log=print, 
             ok += 1
         else:
             open(falha, "w").close()
-    log(f"  ícones das gestoras: {ok} processados (fundo transparente)")
+    log(f"  ícones das gestoras: {ok} processados (fundo transparente)" + (
+        "; sem ícone: " + ", ".join(f"{k} ×{v}" for k, v in sorted(motivos.items(), key=lambda kv: -kv[1])[:4]) if motivos else ""))
     return ok
