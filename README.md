@@ -24,11 +24,11 @@ Saída do pipeline (`dist/data/`):
 
 | Arquivo | Conteúdo |
 |---|---|
-| `meta.json` | calendário de dias úteis, CDI acumulado e diário, semanas, data de referência, lista de benchmarks, títulos do Tesouro, históricos, tipos XP e expectativas do Focus (`focus`) |
+| `meta.json` | calendário de dias úteis, CDI acumulado e diário, semanas, data de referência, lista de benchmarks, títulos do Tesouro, históricos, tipos XP, expectativas do Focus (`focus`: Selic, IPCA e câmbio) e estatísticas de 15 anos (`hist15`: CDI, IPCA 12 m, juro real 10 anos) |
 | `index.json` | índice de busca: um registro compacto por fundo (CNPJ, nome, classe, gestora, PL, cotistas, 12/24/36 meses, campos XP, site e ícone da gestora) |
 | `fundos/<cnpj>.json` | cotas diárias, patrimônio e cotistas semanais, métricas por janela (12/24/36/48 meses), retornos mensais, dados XP |
 | `bench/<id>.json` | benchmarks alinhados ao calendário: ipca, ipca6 (IPCA + 6% a.a.), poupanca, dolar, ibov, ifix, imab, irfm, sp500, sp500brl, nasdaq, nasdaqbrl, msci, mscibrl, ouro, ourobrl, btc |
-| `tesouro/<id>.json` | títulos do Tesouro Direto: preço, taxa semanal, duration, histórico de taxa (mín., mediana, máx.) |
+| `tesouro/<id>.json` | títulos do Tesouro Direto: preço, taxa semanal, duration, histórico de taxa (mín., mediana, máx. desde a primeira oferta do título) |
 | `hist/<id>.json` | histórico longo dos ativos-objeto (GLD, AIQ, S&P 500, Nasdaq 100, Ibovespa, URTH) para cenários de COE |
 | `coes.json` | cópia do catálogo de COEs (estrutura, ativo-objeto, participação, proteção, prazo, links da lâmina e do DIE) |
 | `status.json` | contagens e avisos da execução |
@@ -53,15 +53,21 @@ A página ainda calcula no navegador: séries sintéticas de renda fixa (% do CD
 máximo (desde a primeira cota do ativo mais recente da comparação), a carteira de **Diversificação** (até 10 ativos com pesos, com ou sem rebalanceamento), o **Simulador** e a análise dos COEs da prateleira da XP (payoff, histórico do ativo-objeto,
 cenários e leitura de outras lâminas em PDF).
 
-**Simulador** (botão no cabeçalho do gráfico): horizontes de 12, 24, 36 meses e 10 anos. O usuário informa os **patamares** do CDI, do IPCA e do juro real
-(NTN-B) em 12, 24 e 36 meses e o nível "depois" (mantido até 10 anos); a página interpola mês a mês. Padrões: CDI e IPCA pelas medianas do relatório
-Focus do Banco Central (`meta.focus`, baixado pelo pipeline da API Olinda, `ExpectativasMercadoAnuais`, Selic de fim de ano interpolada e IPCA do ano) e
-juro real voltando à mediana histórica do Tesouro IPCA+ de referência (o IPCA+ da comparação ou o principal com vencimento mais perto de 10 anos) em 24 meses;
-botões "Voltar à mediana / Cair à mínima / Subir à máxima / Ficar como está" em 12, 24 ou 36 meses. Modelo por ativo: pós-fixados e % do CDI seguem o caminho do CDI;
-IPCA+ segue IPCA + taxa; títulos do Tesouro combinam o carrego com o efeito de preço (duration que encurta até o vencimento; depois reinvestem no juro do momento);
-fundos com benchmark IMA-B viram uma NTN-B sintética de duration 7,5 anos escalada pelo beta do fundo (regressão diária na janela; só quando a correlação
-passa de 0,35) mais o seu excesso histórico; os demais fundos seguem CDI (ou IPCA) mais parte do excesso histórico, com faixa lognormal de 68% ou 95%.
-A tabela mostra os marcos (12, 24, 36 m e 10 anos) com o ágio/deságio dos títulos, e as letras miúdas explicam o patamar de cada ativo.
+**Simulador** (botão no cabeçalho do gráfico): horizontes de 1, 2, 3, 5 e 10 anos. A tabela de **patamares** (% a.a., em hoje, 1, 2, 3, 5 e 10 anos, interpolados mês a mês)
+tem uma linha para o CDI, o IPCA e o juro real (NTN-B de referência: o Tesouro IPCA+ da comparação ou o principal com vencimento mais perto de 10 anos), uma linha derivada
+"CDI real" (CDI contra IPCA, só leitura) e uma linha por benchmark de risco em uso (Ibovespa, S&P 500 e MSCI em reais, IFIX, ouro, dólar). Cada linha tem o seu cenário:
+medianas do **Focus** (CDI e IPCA, padrão; dólar pelo câmbio de fim de ano do Focus), **mediana, mínima ou máxima de 15 anos** (CDI diário do BCB, IPCA de 12 meses e juro
+real de 10 anos construído com as NTN-Bs do histórico do Tesouro Direto; `meta.hist15`), "fica como está", ou base + prêmio para os benchmarks (padrão: Ibovespa, S&P e MSCI
+= CDI + 3 p.p.; IFIX = CDI + 1; ouro = IPCA + 2; dólar = IPCA − 2 sem Focus). Os cenários chegam ao alvo em 1, 2 ou 3 anos (padrão 3, linear) e ficam lá; qualquer célula
+editada (com os botões − e +, teclado ou digitando) vira "personalizado". Modelo por ativo: pós-fixados e % do CDI seguem o caminho do CDI; IPCA+ segue IPCA + taxa; títulos
+do Tesouro combinam o carrego com o efeito de preço (duration que encurta até o vencimento; depois reinvestem no juro do momento); fundos com benchmark IMA-B viram uma NTN-B
+sintética de duration 7,5 anos escalada pelo beta do fundo (regressão diária na janela; só quando a correlação passa de 0,35); fundos de risco seguem beta × caminho do seu
+benchmark; atrelados à inflação seguem o IPCA mais o spread; em todos os fundos entra metade do alfa (ou do excesso) histórico, com faixa lognormal de 68% ou 95%.
+A tabela mostra os marcos com o ágio/deságio dos títulos e a comparação com o benchmark de cada ativo (ao ano acima de 3 anos); as letras miúdas explicam cada patamar.
+
+Em toda a página a comparação de um fundo é feita com o **seu benchmark** (coluna `bm`): "148% CDI" para os referenciados, "Ibov +5,2 p.p." para ações, "IMA-B +x p.p."
+e "IPCA +x p.p." para os atrelados à inflação, "Dólar", "S&P 500", "MSCI" e "IFIX" nos demais; nos cards dos ativos, na tabela por período (barra com o marcador do
+benchmark), na ficha (cards de 12, 24 e 36 meses), no ranking e no relatório. Títulos do Tesouro IPCA+ e renda fixa IPCA+ comparam com o IPCA; os demais com o CDI.
 
 O catálogo `pipeline/coes.json` é mantido à mão: os COEs em oferta mudam a cada reserva e os termos vêm da lâmina (material publicitário)
 e do DIE de cada um, disponíveis em "Detalhes do ativo" no Hub XP.
