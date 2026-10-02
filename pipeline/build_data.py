@@ -309,6 +309,18 @@ def casar_gestora(nome_legal: str, catalogo: list[dict]) -> dict | None:
     return None
 
 
+def casar_gestora_xp(nome_xp: str, catalogo: list[dict]) -> dict | None:
+    """Casa o nome de gestora da planilha XP (já curto, ex.: "SPX Gestão de Recursos") com o catálogo: pelo nome curto ou pelos trechos."""
+    n = _norm_gestor(nome_xp)
+    if not n:
+        return None
+    for g in catalogo:
+        gn = _norm_gestor(g.get("nome", ""))
+        if gn and (gn == n or gn in n or n in gn):
+            return g
+    return casar_gestora(nome_xp, catalogo)
+
+
 def gestor_curto(nome_legal: str) -> str:
     """Nome curto derivado do nome legal quando não há catálogo: tira sufixos societários e termos genéricos."""
     n = titulo(nome_legal)
@@ -646,6 +658,11 @@ def main() -> int:
     xp_lista = fx.carregar_xp(args.xp)
     gestoras = carregar_gestoras(os.path.join(os.path.dirname(os.path.abspath(__file__)), "gestoras.json"))
     log(f"  catálogo de gestoras: {len(gestoras)} casas")
+    if not args.offline:
+        try:
+            fx.baixar_logos(gestoras, os.path.join(args.out, "logos"), os.path.join(args.cache, "logos"), log=log)
+        except Exception as e:  # ícones são acessórios: nunca derrubam a execução
+            log(f"  ícones das gestoras: falhou ({e})")
     xp_cnpjs = set(xp_lista)
     log(f"  lista XP: {len(xp_lista):,} CNPJs")
 
@@ -763,10 +780,18 @@ def main() -> int:
         j12 = m["janelas"].get("12") or {}
         xp = xp_lista.get(cnpj)
         gl = info.get("gestor", "")
-        gcat = casar_gestora(gl, gestoras) if gl else None
-        g_curto = (gcat or {}).get("nome") or (gestor_curto(gl) if gl else ((xp or {}).get("gestor") or ""))
+        g_xp = ((xp or {}).get("gestor") or "").strip()
+        # fundos de previdência: a planilha XP traz o gestor estratégico (SPX, Ibiuna...), que é quem o cliente reconhece;
+        # o gestor da CVM (muitas vezes a própria XP ou a seguradora) fica como nome legal na ficha
+        if g_xp and (eh_previdencia(nome) or (xp or {}).get("origem") == "previdencia"):
+            gcat = casar_gestora_xp(g_xp, gestoras) or (casar_gestora(gl, gestoras) if gl else None)
+            g_curto = (gcat or {}).get("nome") or gestor_curto(g_xp)
+        else:
+            gcat = (casar_gestora(gl, gestoras) if gl else None) or (casar_gestora_xp(g_xp, gestoras) if g_xp else None)
+            g_curto = (gcat or {}).get("nome") or (gestor_curto(gl) if gl else (gestor_curto(g_xp) if g_xp else ""))
         g_site = (gcat or {}).get("site") if gcat and gcat.get("logo") else None
-        g_logo = (gcat or {}).get("logo") if gcat and gcat.get("logo") else None
+        # "p": ícone processado pelo pipeline (fundo transparente) em data/logos/<slug>.png; senão o favicon direto
+        g_logo = ("p" if gcat.get("logo_proc") else gcat.get("logo")) if gcat and gcat.get("logo") else None
         taxa_adm = info.get("taxa_adm", "") or ((xp or {}).get("taxa_adm") if xp and xp.get("taxa_adm") is not None else "")
         doc = {
             "cnpj": cnpj,

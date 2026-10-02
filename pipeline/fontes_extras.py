@@ -11,6 +11,7 @@ import base64
 import csv
 import http.cookiejar
 import io
+import shutil
 import json
 import math
 import os
@@ -725,6 +726,7 @@ def carregar_xp(caminho: str) -> dict[str, dict]:
                 "publico": r.get("publico", ""), "aplic_min": _num(r.get("aplic_min")), "status": r.get("status", ""),
                 "benchmark": r.get("benchmark", ""), "pagina": r.get("pagina_xp", ""), "taxa_adm": _num(r.get("taxa_adm")),
                 "taxa_perf": _num(r.get("taxa_perf")), "liquidez_dias": _num(r.get("liquidez_dias")),
+                "gestor": (r.get("gestor") or "").strip(),
             }
             # o mesmo CNPJ pode aparecer em fundos e previdência: prefere o registro de fundos
             if cnpj in out and out[cnpj]["origem"] == "fundos":
@@ -740,3 +742,117 @@ def _num(v):
         return float(v)
     except Exception:  # noqa: BLE001
         return None
+
+
+# --------------------------------------------------------------------------- ícones das gestoras (favicons com o fundo branco removido)
+
+LOGO_FONTES = {
+    "g": lambda d: f"https://www.google.com/s2/favicons?domain={d}&sz=64",
+    "www": lambda d: f"https://www.google.com/s2/favicons?domain=www.{d}&sz=64",
+    "v2": lambda d: f"https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.{d}&size=128",
+}
+
+
+def slug_site(site: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "_", (site or "").lower()).strip("_")
+
+
+def processar_logo(raw: bytes, tamanho: int = 64) -> bytes | None:
+    """Converte o favicon em PNG quadrado com fundo transparente: pixels quase brancos ligados à borda viram transparentes
+    (os brancos internos, dentro das letras, ficam). Devolve None quando a imagem é pequena demais ou ilegível."""
+    try:
+        from PIL import Image
+    except ImportError:
+        return None
+    try:
+        im = Image.open(io.BytesIO(raw))
+        if getattr(im, "n_frames", 1) > 1:  # .ico com vários tamanhos: pega o maior
+            melhor = None
+            for k in range(im.n_frames):
+                im.seek(k)
+                if melhor is None or im.size[0] > melhor.size[0]:
+                    melhor = im.copy()
+            im = melhor
+        im = im.convert("RGBA")
+    except Exception:
+        return None
+    if min(im.size) < 24:
+        return None
+    w, h = im.size
+    px = im.load()
+    # remoção do fundo: busca em largura a partir das bordas pelos pixels quase brancos (ou já transparentes)
+    def fundo(p):
+        r, g, b, a = p
+        return a < 20 or (r > 232 and g > 232 and b > 232 and max(r, g, b) - min(r, g, b) < 18)
+    visit = bytearray(w * h)
+    fila = []
+    for x in range(w):
+        for y in (0, h - 1):
+            if fundo(px[x, y]):
+                fila.append((x, y))
+    for y in range(h):
+        for x in (0, w - 1):
+            if fundo(px[x, y]):
+                fila.append((x, y))
+    while fila:
+        x, y = fila.pop()
+        i = y * w + x
+        if visit[i]:
+            continue
+        visit[i] = 1
+        r, g, b, a = px[x, y]
+        px[x, y] = (r, g, b, 0)
+        for nx, ny in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
+            if 0 <= nx < w and 0 <= ny < h and not visit[ny * w + nx] and fundo(px[nx, ny]):
+                fila.append((nx, ny))
+    # recorta a área útil, enquadra num quadrado com margem e redimensiona
+    bbox = im.getchannel("A").getbbox()
+    if not bbox:
+        return None
+    im = im.crop(bbox)
+    lado = max(im.size)
+    quadro = Image.new("RGBA", (lado, lado), (0, 0, 0, 0))
+    quadro.paste(im, ((lado - im.size[0]) // 2, (lado - im.size[1]) // 2))
+    quadro = quadro.resize((tamanho, tamanho), Image.LANCZOS)
+    out = io.BytesIO()
+    quadro.save(out, format="PNG", optimize=True)
+    return out.getvalue()
+
+
+def baixar_logos(gestoras: list[dict], out_dir: str, cache_dir: str, log=print, dias_cache: int = 30) -> int:
+    """Baixa o favicon de cada gestora com `logo` definido, remove o fundo e grava <out_dir>/<slug>.png.
+    Marca g["logo_proc"] = True nas que deram certo. O resultado fica em cache por `dias_cache` dias."""
+    os.makedirs(out_dir, exist_ok=True)
+    os.makedirs(cache_dir, exist_ok=True)
+    ok = 0
+    for g in gestoras:
+        modo, site = g.get("logo"), g.get("site")
+        if not modo or not site or modo not in LOGO_FONTES:
+            continue
+        slug = slug_site(site)
+        alvo = os.path.join(out_dir, slug + ".png")
+        cache = os.path.join(cache_dir, slug + ".png")
+        falha = os.path.join(cache_dir, slug + ".falhou")
+        agora = time.time()
+        if os.path.exists(cache) and agora - os.path.getmtime(cache) < dias_cache * 86400:
+            shutil.copyfile(cache, alvo)
+            g["logo_proc"] = True
+            ok += 1
+            continue
+        if os.path.exists(falha) and agora - os.path.getmtime(falha) < dias_cache * 86400:
+            continue
+        try:
+            raw = http_get(LOGO_FONTES[modo](site), tentativas=2, timeout=30)
+            png = processar_logo(raw)
+        except Exception:
+            png = None
+        if png:
+            with open(cache, "wb") as fh:
+                fh.write(png)
+            shutil.copyfile(cache, alvo)
+            g["logo_proc"] = True
+            ok += 1
+        else:
+            open(falha, "w").close()
+    log(f"  ícones das gestoras: {ok} processados (fundo transparente)")
+    return ok

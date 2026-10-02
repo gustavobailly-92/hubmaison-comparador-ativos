@@ -69,7 +69,8 @@
    "site": "itauassetmanagement.com.br",
    "match": [
     "ITAU UNIBANCO ASSET",
-    "ITAU ASSET"
+    "ITAU ASSET",
+    "ITAU UNIBANCO"
    ],
    "logo": "v2"
   },
@@ -162,7 +163,8 @@
    "nome": "Tivio Capital",
    "site": "tiviocapital.com.br",
    "match": [
-    "TIVIO CAPITAL"
+    "TIVIO CAPITAL",
+    "TIVIO ASSET"
    ],
    "logo": false
   },
@@ -213,7 +215,8 @@
    "nome": "Verde Asset",
    "site": "verdeasset.com.br",
    "match": [
-    "VERDE ASSET"
+    "VERDE ASSET",
+    "VERDE AM"
    ],
    "logo": "v2"
   },
@@ -252,7 +255,8 @@
     "VINCI CG",
     "VINCI REAL ESTATE",
     "VINCI CAPITAL",
-    "VINCI EQUITIES"
+    "VINCI EQUITIES",
+    "VINCI GESTAO"
    ],
    "logo": "g"
   },
@@ -370,7 +374,8 @@
    "nome": "Daycoval Asset",
    "site": "daycoval.com.br",
    "match": [
-    "DAYCOVAL ASSET"
+    "DAYCOVAL ASSET",
+    "DAYCOVAL AM"
    ],
    "logo": false
   },
@@ -485,7 +490,8 @@
    "nome": "Brave Gestora",
    "site": "bravegestora.com.br",
    "match": [
-    "BRAVE GESTORA"
+    "BRAVE GESTORA",
+    "BRAVE ASSET"
    ],
    "logo": false
   },
@@ -590,7 +596,8 @@
    "nome": "M8 Partners",
    "site": "m8partners.com.br",
    "match": [
-    "M8 PARTNERS"
+    "M8 PARTNERS",
+    "M8 CAPITAL"
    ],
    "logo": "g"
   },
@@ -665,7 +672,8 @@
    "nome": "Távola Capital",
    "site": "tavolacapital.com.br",
    "match": [
-    "TAVOLA CAPITAL"
+    "TAVOLA CAPITAL",
+    "TAVOLA ASSET"
    ],
    "logo": "g"
   },
@@ -681,7 +689,8 @@
    "nome": "Asset1",
    "site": "asset1.com.br",
    "match": [
-    "ASSET1"
+    "ASSET1",
+    "ASSET 1"
    ],
    "logo": "g"
   },
@@ -1684,6 +1693,79 @@
    "site": "tmf-group.com",
    "match": [
     "TMF BRASIL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Alpha Key Capital",
+   "site": "alphakey.com.br",
+   "match": [
+    "ALPHA KEY"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Gávea Investimentos",
+   "site": "gaveainvest.com.br",
+   "match": [
+    "GAVEA INVESTIMENTOS",
+    "GAVEA GESTORA"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Panamby Capital",
+   "site": "panambycapital.com.br",
+   "match": [
+    "PANAMBY"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Athena Capital",
+   "site": "athenacapital.com.br",
+   "match": [
+    "ATHENA CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Tork Capital",
+   "site": "torkcapital.com.br",
+   "match": [
+    "TORK CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "P8 Investimentos",
+   "site": "p8investimentos.com.br",
+   "match": [
+    "P8 INVESTIMENTOS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Brasil Capital",
+   "site": "brasilcapital.com",
+   "match": [
+    "BRASIL CAPITAL"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Vintage Investimentos",
+   "site": "vintageinvestimentos.com.br",
+   "match": [
+    "VINTAGE INVESTIMENTOS"
+   ],
+   "logo": "g"
+  },
+  {
+   "nome": "Gauss Capital",
+   "site": "gausscapital.com.br",
+   "match": [
+    "GAUSS CAPITAL"
    ],
    "logo": "g"
   }
