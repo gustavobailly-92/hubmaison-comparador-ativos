@@ -1014,12 +1014,22 @@ def main() -> int:
             log(f"  Focus: falhou ({e})")
         if focus:
             meta["focus"] = focus
-            log(f"  Focus de {focus['data']}: Selic {focus['selic']} · IPCA {focus['ipca']}")
+            log(f"  Focus de {focus['data']}: Selic {focus['selic']} · IPCA {focus['ipca']} · câmbio {focus.get('cambio')}")
         else:
             log("  Focus: sem resposta da API do BCB; o simulador usa o CDI e o IPCA atuais")
     else:
         meta["focus"] = {"data": ref.isoformat(), "selic": {str(ref.year): 14.75, str(ref.year + 1): 12.25, str(ref.year + 2): 10.5, str(ref.year + 3): 10.0},
-                         "ipca": {str(ref.year): 4.8, str(ref.year + 1): 4.3, str(ref.year + 2): 3.9, str(ref.year + 3): 3.75}}
+                         "ipca": {str(ref.year): 4.8, str(ref.year + 1): 4.3, str(ref.year + 2): 3.9, str(ref.year + 3): 3.75},
+                         "cambio": {str(ref.year): 5.45, str(ref.year + 1): 5.5, str(ref.year + 2): 5.6, str(ref.year + 3): 5.7}}
+    # estatísticas de 15 anos (CDI, IPCA 12 m, juro real de 10 anos) para os cenários do simulador
+    if not args.sem_extras:
+        try:
+            h15 = fx.historico_15_anos(ref, args.offline, avisos)
+            meta["hist15"] = h15
+            res = " · ".join(f"{k} {v['min']}/{v['mediana']}/{v['max']} desde {v['desde'][:7]}" for k, v in h15.items() if isinstance(v, dict))
+            log(f"  15 anos (mín/mediana/máx): {res}")
+        except Exception as e:  # noqa: BLE001
+            avisos.append(f"estatísticas de 15 anos falharam: {e}")
     # catálogo de COEs da XP (mantido à mão em pipeline/coes.json, a partir das lâminas e DIEs)
     coes_src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "coes.json")
     if os.path.exists(coes_src):

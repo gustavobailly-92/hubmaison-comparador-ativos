@@ -591,6 +591,9 @@ INDEXADOR = {"Tesouro IPCA+": "IPCA", "Tesouro IPCA+ com Juros Semestrais": "IPC
              "Tesouro Renda+ Aposentadoria Extra": "IPCA", "Tesouro Educa+": "IPCA"}
 
 
+_TESOURO_DF = None  # histórico completo do CSV do Tesouro Transparente (preenchido por carregar_tesouro)
+
+
 def slug(s: str) -> str:
     import unicodedata
     s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode().lower()
@@ -647,6 +650,10 @@ def carregar_tesouro(datas: list[date], hoje: date, offline: str | None, cache: 
         df["PU"] = pd.to_numeric(df["PU Base Manha"].str.replace(".", "", regex=False).str.replace(",", "."), errors="coerce")
         df["Taxa"] = pd.to_numeric(df["Taxa Compra Manha"].str.replace(",", "."), errors="coerce")
         df = df.dropna(subset=["Data Base", "Data Vencimento", "PU"])
+        # o histórico completo (desde 2002) fica guardado para as estatísticas de 15 anos (juro real de 10 anos) e para o
+        # histórico de taxa de cada título; o calendário da página usa só a janela recente
+        global _TESOURO_DF
+        _TESOURO_DF = df
         df = df[df["Data Base"].dt.date >= datas[0] - timedelta(days=10)]
         ativos = df[df["Data Vencimento"].dt.date > hoje]
         log(f"  Tesouro: {len(df):,} linhas no período, {ativos.groupby(['Tipo Titulo', 'Data Vencimento']).ngroups} títulos ativos")
@@ -654,7 +661,9 @@ def carregar_tesouro(datas: list[date], hoje: date, offline: str | None, cache: 
         for (tipo, venc), g in ativos.groupby(["Tipo Titulo", "Data Vencimento"]):
             g = g.sort_values("Data Base")
             s = {d.date().isoformat(): float(v) for d, v in zip(g["Data Base"], g["PU"])}
-            tx = {d.date().isoformat(): float(v) for d, v in zip(g["Data Base"], g["Taxa"]) if pd.notna(v)}
+            # a taxa guarda o histórico inteiro do título (mínima, mediana e máxima desde a primeira oferta)
+            gf = _TESOURO_DF[(_TESOURO_DF["Tipo Titulo"] == tipo) & (_TESOURO_DF["Data Vencimento"] == venc)]
+            tx = {d.date().isoformat(): float(v) for d, v in zip(gf["Data Base"], gf["Taxa"]) if pd.notna(v)}
             titulos.append((tipo, venc.date(), s, tx))
     out = []
     for tipo, venc, s, tx in titulos:
@@ -872,13 +881,14 @@ def baixar_logos(gestoras: list[dict], out_dir: str, cache_dir: str, log=print, 
 # --------------------------------------------------------------------------- expectativas do mercado (relatório Focus, Banco Central)
 
 FOCUS_ANUAIS = ("https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoAnuais"
-                "?$top=400&$orderby=Data%20desc&$format=json&$select=Indicador,Data,DataReferencia,Mediana,baseCalculo"
-                "&$filter=(Indicador%20eq%20'Selic'%20or%20Indicador%20eq%20'IPCA')%20and%20baseCalculo%20eq%200")
+                "?$top=600&$orderby=Data%20desc&$format=json&$select=Indicador,Data,DataReferencia,Mediana,baseCalculo"
+                "&$filter=(Indicador%20eq%20'Selic'%20or%20Indicador%20eq%20'IPCA'%20or%20Indicador%20eq%20'C%C3%A2mbio')%20and%20baseCalculo%20eq%200")
+FOCUS_CHAVE = {"Selic": "selic", "IPCA": "ipca", "Câmbio": "cambio"}
 
 
 def focus_expectativas(anos: int = 5) -> dict | None:
-    """Medianas anuais do Focus (Selic de fim de ano e IPCA do ano) da pesquisa mais recente, para os próximos `anos` anos.
-    Devolve {"data": "aaaa-mm-dd", "selic": {"2026": 15.0, ...}, "ipca": {"2026": 4.8, ...}} ou None quando a API não responde."""
+    """Medianas anuais do Focus (Selic de fim de ano, IPCA do ano e câmbio de fim de ano) da pesquisa mais recente, para os próximos `anos` anos.
+    Devolve {"data": "aaaa-mm-dd", "selic": {"2026": 15.0, ...}, "ipca": {...}, "cambio": {"2026": 5.4, ...}} ou None quando a API não responde."""
     try:
         raw = http_get(FOCUS_ANUAIS, tentativas=2, timeout=60, headers={"Accept": "application/json"})
         dados = json.loads(raw.decode("utf-8")).get("value", [])
@@ -887,7 +897,7 @@ def focus_expectativas(anos: int = 5) -> dict | None:
     if not dados:
         return None
     ultima = max(d.get("Data", "") for d in dados)
-    out = {"data": ultima, "selic": {}, "ipca": {}}
+    out = {"data": ultima, "selic": {}, "ipca": {}, "cambio": {}}
     ano0 = int(ultima[:4])
     for d in dados:
         if d.get("Data") != ultima or d.get("Mediana") is None:
@@ -895,8 +905,89 @@ def focus_expectativas(anos: int = 5) -> dict | None:
         ano = str(d.get("DataReferencia", "")).strip()[:4]
         if not ano.isdigit() or not (ano0 <= int(ano) < ano0 + anos):
             continue
-        chave = "selic" if d.get("Indicador") == "Selic" else "ipca"
-        out[chave][ano] = round(float(d["Mediana"]), 2)
+        chave = FOCUS_CHAVE.get(d.get("Indicador"))
+        if chave:
+            out[chave][ano] = round(float(d["Mediana"]), 2)
     if not out["selic"] or not out["ipca"]:
         return None
+    if not out["cambio"]:
+        out.pop("cambio")
+    return out
+
+
+# --------------------------------------------------------------------------- estatísticas de 15 anos (cenários do simulador)
+
+SGS_CDI_ANUAL = 4389   # CDI anualizado, base 252, diário
+SGS_IPCA_12M = 13522   # IPCA acumulado em 12 meses, mensal
+
+
+def _estatisticas(serie: dict[str, float], desde: str | None = None) -> dict | None:
+    """Mínima, mediana e máxima da série (chaves ISO) mais a versão mensal (último valor de cada mês) para o gráfico."""
+    pts = sorted((k, v) for k, v in serie.items() if v is not None and math.isfinite(v) and (desde is None or k >= desde))
+    if len(pts) < 24:
+        return None
+    vals = np.array([v for _, v in pts])
+    mensal = {}
+    for k, v in pts:
+        mensal[k[:7]] = round(float(v), 2)
+    return {"min": round(float(vals.min()), 2), "mediana": round(float(np.median(vals)), 2), "max": round(float(vals.max()), 2),
+            "desde": pts[0][0], "ate": pts[-1][0], "serie": [[k, v] for k, v in mensal.items()]}
+
+
+def juro_real_10_anos(hoje: date, anos: int = 15) -> dict[str, float]:
+    """Taxa real de 10 anos construída dia a dia com as NTN-Bs (Tesouro IPCA+ com e sem juros semestrais) do histórico do Tesouro Direto:
+    interpolação linear pelo prazo entre os dois vencimentos que cercam 10 anos (ou o mais próximo quando só há um lado)."""
+    df = _TESOURO_DF
+    if df is None:
+        return {}
+    ini = pd.Timestamp(hoje - timedelta(days=int(anos * 365.25)))
+    b = df[(df["Tipo Titulo"].isin(["Tesouro IPCA+ com Juros Semestrais", "Tesouro IPCA+"])) & (df["Data Base"] >= ini)].dropna(subset=["Taxa"])
+    b = b[b["Taxa"] > 0]
+    b = b.assign(prazo=(b["Data Vencimento"] - b["Data Base"]).dt.days / 365.25)
+    out = {}
+    for dia, g in b.groupby("Data Base"):
+        g = g.sort_values("prazo")
+        pr = g["prazo"].to_numpy()
+        tx = g["Taxa"].to_numpy()
+        if len(pr) == 0:
+            continue
+        if pr[-1] <= 10:
+            v = tx[-1]
+        elif pr[0] >= 10:
+            v = tx[0]
+        else:
+            v = float(np.interp(10.0, pr, tx))
+        out[dia.date().isoformat()] = float(v)
+    return out
+
+
+def historico_15_anos(hoje: date, offline: str | None, avisos: list[str], anos: int = 15) -> dict:
+    """CDI, IPCA de 12 meses e juro real de 10 anos nos últimos `anos` anos: mínima, mediana, máxima e série mensal, para os cenários do simulador."""
+    ini = hoje - timedelta(days=int(anos * 365.25))
+    desde = ini.isoformat()
+    out = {"anos": anos}
+    if offline:
+        n = anos * 12
+        meses = [date(ini.year + (ini.month - 1 + k) // 12, (ini.month - 1 + k) % 12 + 1, 1) for k in range(n)]
+        cdi = {m.isoformat(): 9.5 + 4.5 * math.sin(k / 18) for k, m in enumerate(meses)}
+        ipca = {m.isoformat(): 5.0 + 2.5 * math.sin(k / 15 + 1) for k, m in enumerate(meses)}
+        real = {m.isoformat(): 5.8 + 1.4 * math.sin(k / 20 + 2) for k, m in enumerate(meses)}
+        out["cdi"], out["ipca12"], out["real10"] = _estatisticas(cdi), _estatisticas(ipca), _estatisticas(real)
+        return out
+    # CDI diário: a API do SGS limita séries diárias a 10 anos por chamada
+    try:
+        meio = ini + timedelta(days=int(anos * 365.25 / 2))
+        cdi = sgs(SGS_CDI_ANUAL, ini, meio)
+        cdi.update(sgs(SGS_CDI_ANUAL, meio + timedelta(days=1), hoje))
+        out["cdi"] = _estatisticas(cdi, desde)
+    except Exception as e:  # noqa: BLE001
+        avisos.append(f"CDI de {anos} anos (SGS {SGS_CDI_ANUAL}) indisponível: {e}")
+    try:
+        out["ipca12"] = _estatisticas(sgs(SGS_IPCA_12M, ini, hoje), desde)
+    except Exception as e:  # noqa: BLE001
+        avisos.append(f"IPCA 12 m de {anos} anos (SGS {SGS_IPCA_12M}) indisponível: {e}")
+    try:
+        out["real10"] = _estatisticas(juro_real_10_anos(hoje, anos), desde)
+    except Exception as e:  # noqa: BLE001
+        avisos.append(f"juro real de 10 anos indisponível: {e}")
     return out
