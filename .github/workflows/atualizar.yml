@@ -35,7 +35,7 @@ jobs:
           python-version: "3.12"
 
       - name: Dependências
-        run: pip install --quiet pandas numpy
+        run: pip install --quiet pandas numpy pillow
 
       - name: Cache dos informes mensais da CVM
         uses: actions/cache@v4
