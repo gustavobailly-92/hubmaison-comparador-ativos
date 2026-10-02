@@ -71,7 +71,7 @@ Na tabela de rentabilidade por período e no ranking, cada coluna (12, 24, 36 me
 O **ranking de fundos** e os **COEs** abrem em painéis sobrepostos (atalhos do topo; `?coe=<id>` abre o COE direto). No ranking, cada janela
 (12, 24 e 36 meses) mostra a rentabilidade absoluta e, abaixo, a comparação com o benchmark do próprio fundo: "% CDI" para os referenciados,
 "Ibov +x p.p." para ações, "IMA-B +x p.p." / "IPCA +x p.p." para os atrelados à inflação, e assim por diante (coluna `bm` do `index.json`,
-deduzida do benchmark informado pela XP ou da classe CVM).
+deduzida do benchmark informado pela XP; sem ele, do nome do fundo (IPCA, inflação, IMA-B, juro real; dólar; ações) ou da classe CVM). O Simulador usa a mesma coluna para escolher o modelo de cada fundo.
 
 Na **Diversificação**, mover o peso de um ativo redistribui o restante entre os outros na proporção que já tinham, de modo que a soma é sempre 100%;
 "Montar carteira" (atalho do topo e barra do ranking) leva direto a essa seção. O **relatório para o cliente** (bloco "Relatório para o cliente" na Diversificação) monta, só no navegador, um documento A4 com capa, carteira,
