@@ -425,6 +425,7 @@ body.sheet-open{overflow:hidden}
 /* ---------- perspectivas ---------- */
 .prem{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px 14px;margin:6px 0 14px}
 .prem label{display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--muted);letter-spacing:.02em}
+.prem .stp2 input{border:0;background:transparent;padding:8px 2px;text-align:center}
 .prem input,.prem select{background:var(--panel);border:1px solid var(--line-2);border-radius:8px;color:var(--text);padding:8px 10px;font-size:14px;width:100%;font-variant-numeric:tabular-nums;min-width:0}
 .prem input[type=range]{padding:0;height:28px;accent-color:var(--text-2);background:transparent;border:0}
 .prem .seg{align-self:flex-start}
@@ -437,18 +438,47 @@ body.sheet-open{overflow:hidden}
 .sim-acts{display:flex;gap:8px;margin-left:auto;align-self:flex-end}
 .sim-acts .mini.on{border-color:rgba(143,180,227,.6);color:var(--text)}
 .sim-acts .mini:disabled{opacity:.45;cursor:default}
-.paths table{width:auto;min-width:min(100%,560px)}
-.paths th{font-size:10.5px}
-.paths td{padding:5px 8px}
-.paths td:first-child{font-weight:500;color:var(--text);white-space:nowrap}
-.paths td:first-child small{display:block;font-weight:300;color:var(--muted);font-size:10.5px}
-.paths td.now{color:var(--text-2);font-variant-numeric:tabular-nums;text-align:right}
-.paths input{width:76px;background:var(--panel);border:1px solid var(--line-2);border-radius:8px;color:var(--text);padding:6px 8px;font-size:13px;text-align:right;font-variant-numeric:tabular-nums;font-family:var(--font)}
-.paths input:focus{outline:none;border-color:var(--s1)}
+.paths{overflow:auto;margin-bottom:14px}
+.paths table{width:auto;min-width:min(100%,640px)}
+.paths th{font-size:10.5px;white-space:nowrap}
+.paths th:not(:first-child){text-align:center}
+.paths td{padding:6px 6px;vertical-align:middle}
+.paths td.rl{padding-right:12px}
+.paths .rn{display:flex;align-items:baseline;gap:7px;white-space:nowrap}
+.paths .rn b{font-weight:500;color:var(--text);font-size:13px}
+.paths .rn small{font-weight:300;color:var(--muted);font-size:10.5px;overflow:hidden;text-overflow:ellipsis;max-width:170px}
+.paths .rl2{display:flex;align-items:center;gap:8px;margin-top:4px}
+.paths select.cen{background:rgba(7,14,28,.55);border:1px solid var(--line);border-radius:999px;color:var(--text-2);padding:3px 24px 3px 9px;font-size:11px;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%238FA6BF' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;font-family:var(--font);max-width:210px;text-overflow:ellipsis;cursor:pointer;transition:border-color .15s,color .15s}
+.paths select.cen:hover{border-color:rgba(143,180,227,.5);color:var(--text)}
+.paths select.cen:focus{outline:none;border-color:var(--s1)}
+.paths .sp15{width:62px;height:16px;flex:none;opacity:.85}
+.paths .sp15 .med{stroke:var(--muted);stroke-width:1;stroke-dasharray:2 2}
+.paths td.now{color:var(--text-2);font-variant-numeric:tabular-nums;text-align:center;white-space:nowrap}
+.paths tr.derived td{color:var(--muted);font-size:12px;border-bottom:1px dashed var(--line)}
+.paths tr.derived .rn b{color:var(--text-2);font-weight:400}
+.paths input{width:48px;background:transparent;border:0;color:var(--text);padding:5px 0;font-size:12.5px;text-align:center;font-variant-numeric:tabular-nums;font-family:var(--font);min-width:0}
+.paths .stp2 button{width:22px;height:28px}
+.paths td.rl{min-width:170px}
+.paths input:focus{outline:none}
 .paths input:disabled{opacity:.4}
-.sim-cen{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin:10px 0 14px}
-.sim-cen .lbl3{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.sim-cen .seg.dim{opacity:.45}
+.sim-top .seg.dim{opacity:.45}
+/* stepper: − campo + numa pílula só */
+.stp2{display:inline-flex;align-items:center;background:var(--panel);border:1px solid var(--line-2);border-radius:999px;overflow:hidden;transition:border-color .15s,box-shadow .15s}
+.stp2:focus-within{border-color:var(--s1);box-shadow:0 0 0 3px rgba(143,180,227,.14)}
+.stp2 button{position:relative;background:transparent;border:0;color:var(--muted);width:26px;height:30px;display:grid;place-items:center;cursor:pointer;transition:background .15s,color .15s;flex:none;touch-action:manipulation}
+.stp2 button::before{content:"";position:absolute;inset:-7px 0}
+.stp2 button:hover,.stp2 button.hold{background:rgba(178,203,230,.14);color:var(--text)}
+.stp2 button:active{background:rgba(178,203,230,.22)}
+.stp2 button svg{width:11px;height:11px}
+.stp2 input{border:0;background:transparent;text-align:center}
+.stp2.form{border-radius:8px;width:100%}
+.stp2.form input{flex:1;font-size:14px;text-align:center}
+.stp2.form button{width:30px;height:36px}
+.rfrow .stp2{width:160px}
+.rfrow .stp2 input{width:auto;flex:1;background:transparent;border:0;text-align:center}
+.stp2.lg{border-radius:12px}
+.stp2.lg button{width:34px;height:40px}
+.stp2.lg input{font-size:15px;font-weight:600;width:110px}
 .premtxt{font-size:12.5px;color:var(--muted);font-weight:300;line-height:1.55;margin:4px 0 0}
 .premtxt b{font-weight:500;color:var(--text-2)}
 .premtxt ul{margin:6px 0 0;padding-left:18px}
@@ -462,7 +492,31 @@ body.sheet-open{overflow:hidden}
 .more-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
 #more{display:none}
 #more.on{display:block}
-.ficha{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+
+/* barra fina com o marcador do benchmark (tabela por período, ficha) */
+.bb{width:100%;max-width:150px}
+.bb .tr{position:relative;height:4px;border-radius:999px;background:rgba(178,203,230,.12);box-shadow:inset 0 1px 1px rgba(0,0,0,.25);overflow:visible}
+.bb .tr i{position:absolute;top:0;bottom:0;border-radius:999px;background:var(--bc,var(--s1))}
+.bb .tr i.neg{background:var(--neg)}
+.bb .tr b{position:absolute;top:-3px;width:2px;height:10px;background:var(--text);border-radius:1px;transform:translateX(-1px);box-shadow:0 0 0 1px rgba(7,14,28,.7)}
+.bb .cap{display:flex;gap:5px;align-items:center;font-size:10.5px;color:var(--muted);margin-top:5px;white-space:nowrap;font-weight:400}
+.bb .cap .sw{width:10px;height:4px;border-radius:2px;background:var(--bc,var(--s1));flex:none}
+.bb .cap .mk{width:2px;height:9px;background:var(--text);border-radius:1px;flex:none;opacity:.9}
+.bb .cap .dot{color:var(--line-2)}
+.vb .bb{width:100%;min-width:118px;max-width:160px;margin:3px 0 1px}
+.vb .bb .cap{justify-content:flex-end}
+td .sub2.pos{color:#7DD6B6}td .sub2.neg{color:var(--neg)}
+.ficha .jan{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 12px}
+.ficha .jan .j{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:10px;padding:9px 10px;min-width:0}
+.ficha .jan .j .lb{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ficha .jan .j .v{display:block;font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.01em;margin:3px 0 7px;color:var(--text)}
+.ficha .jan .j .v.neg{color:var(--neg)}
+.ficha .jan .j .v.na{font-size:12px;font-weight:400;color:var(--muted)}
+.ficha .jan .j .bb{max-width:none}
+.ficha .jan .j .cap{white-space:normal;flex-wrap:wrap;row-gap:2px;line-height:1.2}
+.ficha .jan .j .cap .dot{display:none}
+.ficha .jan .j .cap .mk{margin-left:0}
+.ficha{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px}
 .ficha .f{background:var(--panel);border-radius:12px;padding:14px}
 .ficha .f h3{margin:0 0 8px;font-size:13.5px;font-weight:600;display:flex;gap:8px;align-items:center}
 .ficha .f h3 i{width:9px;height:9px;border-radius:50%;flex:none}
@@ -547,7 +601,7 @@ select{max-width:100%}
 .doclinks a svg{width:12px;height:12px}
 .small{font-size:12.5px;color:var(--muted)}
 .coeform .prem{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
-.coeform input[type=text]{grid-column:1/-1}
+.coeform label > input[type=text]{grid-column:1/-1}
 .cupons{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .cupons span{font-size:11.5px;border:1px solid var(--line);border-radius:6px;padding:2px 7px;color:var(--text-2);font-variant-numeric:tabular-nums}
 
@@ -606,6 +660,7 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
 <symbol id="i-dd" viewBox="0 0 24 24"><path d="M3 6l5 8 4-4 4 6 5-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
 <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+<symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
 <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
 <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M19 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -688,20 +743,12 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
             <div class="tools"><button class="linkbtn" id="persp-close" type="button">fechar</button></div>
           </div>
           <div class="sim-top">
-            <label>Horizonte<div class="seg" id="p-h" role="group"><button data-h="12" aria-pressed="true">12 m</button><button data-h="24" aria-pressed="false">24 m</button><button data-h="36" aria-pressed="false">36 m</button><button data-h="120" aria-pressed="false">10 anos</button></div></label>
+            <label>Horizonte<div class="seg" id="p-h" role="group"><button data-h="12" aria-pressed="true">1 ano</button><button data-h="24" aria-pressed="false">2 anos</button><button data-h="36" aria-pressed="false">3 anos</button><button data-h="60" aria-pressed="false">5 anos</button><button data-h="120" aria-pressed="false">10 anos</button></div></label>
             <label>Intervalo<div class="seg" id="p-conf" role="group"><button data-c="68" aria-pressed="true">68%</button><button data-c="95" aria-pressed="false">95%</button></div></label>
-            <label>Excesso dos ativos de risco<select id="p-exc"><option value="0.5">50% do histórico</option><option value="1">100% do histórico</option><option value="0">nenhum</option></select></label>
-            <div class="sim-acts"><button class="mini" type="button" id="p-focus" title="Preenche CDI e IPCA com as medianas do relatório Focus do Banco Central">Focus</button><button class="mini" type="button" id="p-reset" title="Volta ao padrão: Focus e juro real na mediana">Restaurar</button></div>
+            <label>Cenários chegam ao alvo em<div class="seg" id="p-cen-em" role="group"><button data-m="12" aria-pressed="false">1 ano</button><button data-m="24" aria-pressed="false">2 anos</button><button data-m="36" aria-pressed="true">3 anos</button></div></label>
+            <div class="sim-acts"><button class="mini" type="button" id="p-reset" title="Volta ao padrão: Focus para CDI, IPCA e câmbio; juro real na mediana de 15 anos em 3 anos; prêmios padrão">Restaurar</button></div>
           </div>
-          <div class="tbl paths"><table id="p-paths">
-            <thead><tr><th>Taxas (% a.a.)</th><th>hoje</th><th>12 m</th><th>24 m</th><th>36 m</th><th>depois</th></tr></thead>
-            <tbody>
-              <tr><td>CDI</td><td class="now" id="p-cdi0"></td><td><input data-k="cdi" data-i="1" inputmode="decimal"></td><td><input data-k="cdi" data-i="2" inputmode="decimal"></td><td><input data-k="cdi" data-i="3" inputmode="decimal"></td><td><input data-k="cdi" data-i="4" inputmode="decimal"></td></tr>
-              <tr><td>IPCA</td><td class="now" id="p-ipca0"></td><td><input data-k="ipca" data-i="1" inputmode="decimal"></td><td><input data-k="ipca" data-i="2" inputmode="decimal"></td><td><input data-k="ipca" data-i="3" inputmode="decimal"></td><td><input data-k="ipca" data-i="4" inputmode="decimal"></td></tr>
-              <tr><td>Juro real <small id="p-real-ref"></small></td><td class="now" id="p-real0"></td><td><input data-k="real" data-i="1" inputmode="decimal"></td><td><input data-k="real" data-i="2" inputmode="decimal"></td><td><input data-k="real" data-i="3" inputmode="decimal"></td><td><input data-k="real" data-i="4" inputmode="decimal"></td></tr>
-            </tbody>
-          </table></div>
-          <div class="sim-cen"><span class="lbl3">Juro real</span><div class="seg" id="p-cen" role="group"><button data-c="mediana" aria-pressed="true">Voltar à mediana</button><button data-c="min" aria-pressed="false">Cair à mínima</button><button data-c="max" aria-pressed="false">Subir à máxima</button><button data-c="atual" aria-pressed="false">Ficar como está</button></div><span class="lbl3">em</span><div class="seg" id="p-cen-em" role="group"><button data-m="12" aria-pressed="false">12 m</button><button data-m="24" aria-pressed="true">24 m</button><button data-m="36" aria-pressed="false">36 m</button></div></div>
+          <div class="tbl paths"><table id="p-paths"></table></div>
           <div class="chart" id="ch-persp"></div>
           <div class="legend" id="lg-persp"></div>
           <div class="tbl" style="margin-top:12px"><table id="tb-persp"></table></div>
@@ -863,12 +910,12 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
           <label style="grid-column:1/-1">Nome<input id="coe-nome" type="text" placeholder="Ex.: COE Alta do Ouro"></label>
           <label>Estrutura<select id="coe-tipo"><option value="call">Alta (call)</option><option value="callspread">Alta limitada (call spread)</option><option value="lookback">Taxa fixa ou retorno otimizado</option><option value="digital">Digital (cupom fixo)</option><option value="baixa">Baixa (put)</option></select></label>
           <label>Ativo-objeto<select id="coe-ativo"></select></label>
-          <label>Participação (%)<input id="coe-part" type="number" step="1" min="0" max="900" value="100"></label>
-          <label>Cap / cupom (%)<input id="coe-cap" type="number" step="1" min="0" max="500" placeholder="sem cap"></label>
-          <label>Taxa fixa mínima (%)<input id="coe-piso" type="number" step="1" min="0" max="500" value="0"></label>
-          <label>Capital protegido (%)<input id="coe-prot" type="number" step="1" min="0" max="100" value="100"></label>
-          <label>Prazo (meses)<input id="coe-prazo" type="number" step="1" min="1" max="120" value="36"></label>
-          <label>CDI no prazo (% a.a.)<input id="coe-cdi" type="number" step="0.25" min="0" max="40"></label>
+          <label>Participação (%)<input id="coe-part" type="text" inputmode="decimal" value="100"></label>
+          <label>Cap / cupom (%)<input id="coe-cap" type="text" inputmode="decimal" placeholder="sem cap"></label>
+          <label>Taxa fixa mínima (%)<input id="coe-piso" type="text" inputmode="decimal" value="0"></label>
+          <label>Capital protegido (%)<input id="coe-prot" type="text" inputmode="decimal" value="100"></label>
+          <label>Prazo (meses)<input id="coe-prazo" type="text" inputmode="decimal" value="36"></label>
+          <label>CDI no prazo (% a.a.)<input id="coe-cdi" type="text" inputmode="decimal"></label>
         </div>
         <button class="btn" id="coe-run" type="button">Recalcular cenários</button>
         <p class="small" id="coe-msg" style="margin:10px 0 0"></p>
@@ -916,7 +963,7 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
     <div class="chips" id="rf-tipos"></div>
     <div class="fam">Taxa</div>
     <div class="rfrow">
-      <input id="rf-taxa" type="number" step="0.1" min="0" max="500" value="110" aria-label="Taxa">
+      <input id="rf-taxa" type="text" inputmode="decimal" value="110" aria-label="Taxa">
       <span class="u" id="rf-un">% do CDI</span>
       <button class="btn" id="rf-add" type="button">Adicionar à comparação</button>
     </div>
@@ -1344,6 +1391,40 @@ function periodoLabel() { return S.periodo === 'max' ? 'período máximo' : S.pe
 function periodoCurto() { return S.periodo === 'max' ? 'máximo' : S.periodo === 'custom' ? 'datas' : S.periodo + ' meses'; }
 function periodoMeses(J) { return S.periodo === 'max' || S.periodo === 'custom' ? Math.max(1, Math.round((J.fim - J.ini) / 21)) : S.periodo; }
 
+// ------------------------------------------------------------------ stepper: campo numérico com − e + (clique, segurar para repetir, setas do teclado; Shift ou PageUp/Down dá o passo grande)
+function stepper(inp, o) {
+  const dec = o.dec == null ? 2 : o.dec, min = o.min == null ? -Infinity : o.min, max = o.max == null ? Infinity : o.max;
+  const stepDe = () => (typeof o.step === 'function' ? o.step() : o.step) || 1, bigDe = () => (typeof o.big === 'function' ? o.big() : o.big) || stepDe() * 4;
+  const fmt = o.fmt || ((v) => fmtNum(v, dec)), parse = o.parse || ((t) => parseFloat(String(t).replace(/\s/g, '').replace(/\./g, dec ? '.' : '').replace(',', '.')));
+  const wrap = el('div', 'stp2' + (o.cls ? ' ' + o.cls : '')); inp.replaceWith(wrap);
+  const mk = (cls, ic, lbl) => { const b = el('button', cls); b.type = 'button'; b.tabIndex = -1; b.setAttribute('aria-label', lbl); b.append(icon(ic, 11)); return b; };
+  const bDec = mk('dec', 'i-minus', 'Diminuir'), bInc = mk('inc', 'i-plus', 'Aumentar');
+  wrap.append(bDec, inp, bInc);
+  let ultimo = parse(inp.value);
+  const commit = (v, silencioso) => { if (!isFinite(v)) { inp.value = isFinite(ultimo) ? fmt(ultimo) : ''; return; } v = Math.max(min, Math.min(max, v)); const st = stepDe(); v = Math.round(v / st) * st; v = +v.toFixed(6); ultimo = v; inp.value = fmt(v); if (!silencioso) { if (o.onChange) o.onChange(v); inp.dispatchEvent(new Event('input', { bubbles: true })); } };
+  const bump = (dir, grande) => { let v = parse(inp.value); if (!isFinite(v)) v = isFinite(ultimo) ? ultimo : (o.base != null ? o.base : 0); commit(v + dir * (grande ? bigDe() : stepDe())); };
+  const segurar = (btn, dir) => {
+    let t1 = null, t2 = null; const parar = () => { clearTimeout(t1); clearInterval(t2); t1 = t2 = null; btn.classList.remove('hold'); };
+    btn.addEventListener('pointerdown', (e) => { if (e.button) return; e.preventDefault(); bump(dir, e.shiftKey); btn.classList.add('hold'); t1 = setTimeout(() => { t2 = setInterval(() => bump(dir, false), 70); }, 420); });
+    ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => btn.addEventListener(ev, parar));
+    btn.addEventListener('click', (e) => { if (e.detail === 0) bump(dir, e.shiftKey); });  // ativação pelo teclado
+  };
+  segurar(bDec, -1); segurar(bInc, 1);
+  inp.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); bump(e.key === 'ArrowUp' ? 1 : -1, e.shiftKey); }
+    else if (e.key === 'PageUp' || e.key === 'PageDown') { e.preventDefault(); bump(e.key === 'PageUp' ? 1 : -1, true); }
+    else if (e.key === 'Enter') { e.preventDefault(); inp.blur(); }
+  });
+  inp.addEventListener('change', () => commit(parse(inp.value)));
+  inp.addEventListener('focus', () => { setTimeout(() => inp.select(), 0); });
+  return { set: (v) => commit(v, true), el: wrap };
+}
+
+// steppers nos campos numéricos dos formulários (COE e renda fixa); o valor do relatório já tem o seu
+[['coe-part', 5, 25, 0, 900, 0], ['coe-cap', 5, 25, 0, 500, 0], ['coe-piso', 1, 5, 0, 500, 0], ['coe-prot', 5, 10, 0, 100, 0], ['coe-prazo', 6, 12, 1, 120, 0], ['coe-cdi', 0.25, 1, 0, 40, 2]]
+  .forEach(([id, step, big, min, max, dec]) => { const i = $(id); if (i) stepper(i, { step, big, min, max, dec, cls: 'form' }); });
+if ($('rf-taxa')) stepper($('rf-taxa'), { step: () => S.rf.tipo === 'pcdi' ? 5 : 0.25, big: () => S.rf.tipo === 'pcdi' ? 10 : 1, min: 0, max: 500, dec: 2, cls: 'form', fmt: (v) => fmtNum(v, v % 1 ? 2 : 0) });
+
 // ------------------------------------------------------------------ gráfico SVG genérico (linhas, área com gradiente, faixas, crosshair, marca d'água)
 let gradSeq = 0;
 function niceTicks(min, max, n) {
@@ -1483,6 +1564,32 @@ function refSeries(J) {
 }
 const cdiDoc = () => ({ qff: S.meta.cdi, ret: (() => { const r = new Array(S.meta.cdi.length).fill(null); for (let i = 1; i < r.length; i++) r[i] = S.meta.cdi[i] / S.meta.cdi[i - 1] - 1; return r; })(), nome: 'CDI' });
 
+
+// ------------------------------------------------------------------ comparação com o benchmark do próprio ativo (coluna bm): "148% CDI" ou "Ibov +5,2 p.p."
+// o: { w } para as janelas fechadas (12/24/36/48 m) ou { ini, fim } para um intervalo do calendário
+function compBm(s, ret, o) {
+  if (ret == null || !s || !s.data) return null;
+  const bm = bmDeSel(s); const lbl = BM_LBL[bm] || 'CDI';
+  let bret = null;
+  if (bm === 'cdi') { const a = o.w != null ? idxAte(subMeses(S.meta.referencia, o.w)) : o.ini, b = o.w != null ? idxAte(S.meta.referencia) : o.fim; if (a >= 0 && b > a) bret = S.meta.cdi[b] / S.meta.cdi[a] - 1; }
+  else { const d = benchDoc(bm); if (d) { if (o.w != null) { const j = d.janelas && d.janelas[String(o.w)]; bret = j ? j.ret : null; } else { const a = Math.max(o.ini, d.firstIdx || 0), b = Math.min(o.fim, d.ateIdx); if (b > a && d.qff[a] > 0 && d.qff[b] != null) bret = d.qff[b] / d.qff[a] - 1; } } }
+  if (bret == null) return null;
+  const diff = ret - bret;
+  if (bm === 'cdi') { if (!(bret > 0)) return null; const pcdi = ret > 0 ? ret / bret * 100 : null; return { bm, lbl, bret, ret, diff, pcdi, pos: ret >= bret, t: pcdi != null ? fmtNum(pcdi, 0) + '% CDI' : 'abaixo do CDI' }; }
+  return { bm, lbl, bret, ret, diff, pos: diff >= 0, t: lbl + ' ' + (diff >= 0 ? '+' : '−') + fmtNum(Math.abs(diff) * 100, 1) + ' p.p.' };
+}
+// barra fina do ativo com o marcador do benchmark na mesma escala, e a legenda "Fundo · | IPCA 4,2%"
+function barraBm(c, cor, quem) {
+  const w = el('div', 'bb'); const tr = el('div', 'tr');
+  const mx = Math.max(c.ret, c.bret, 0) * 1.12 + 1e-6, mn = Math.min(0, c.ret, c.bret) * 1.12; const span = mx - mn; const x = (v) => (v - mn) / span * 100; const zero = x(0);
+  const fill = el('i', c.ret >= 0 ? '' : 'neg'); fill.style.left = Math.min(zero, x(c.ret)).toFixed(2) + '%'; fill.style.width = Math.abs(x(c.ret) - zero).toFixed(2) + '%'; if (cor) fill.style.setProperty('--bc', cor);
+  const mk = el('b'); mk.style.left = x(c.bret).toFixed(2) + '%'; mk.title = c.lbl + ': ' + pctSign(c.bret);
+  tr.append(fill, mk); w.append(tr);
+  const cap = el('span', 'cap'); const sw = el('i', 'sw'); if (cor) sw.style.setProperty('--bc', cor); cap.append(sw, document.createTextNode(quem || 'Fundo'), el('span', 'dot', '·'), el('i', 'mk'), document.createTextNode(c.lbl + ' ' + pct(c.bret))); w.append(cap);
+  return w;
+}
+const quemE = (s) => s.kind === 'fundo' ? 'Fundo' : s.kind === 'tesouro' ? 'Título' : 'Ativo';
+
 // ------------------------------------------------------------------ render principal
 function render() {
   const prontos = S.sel.filter(s => s.data);
@@ -1503,7 +1610,8 @@ function render() {
     const big = el('div', 'big' + (m && m.ret < 0 ? ' neg' : ''), m ? pctSign(m.ret) : 'sem dados'); k.append(big);
     const row = el('div', 'row');
     if (m) {
-      const bd = el('span', 'badge ' + (m.pcdi == null ? 'neu' : m.pcdi >= 100 ? 'pos' : 'neg'), m.pcdi != null ? fmtNum(m.pcdi, 0) + '% CDI' : (m.ret <= 0 ? 'abaixo do CDI' : 'CDI n/d')); row.append(bd);
+      const c = compBm(s, m.ret, { ini: Math.max(J.ini, s.data.firstIdx), fim: Math.min(J.fim, s.data.ateIdx) });
+      const bd = el('span', 'badge ' + (c ? (c.pos ? 'pos' : 'neg') : 'neu'), c ? c.t : (m.ret <= 0 ? 'abaixo do CDI' : 'CDI n/d')); if (c) bd.title = c.lbl + ' no período: ' + pctSign(c.bret); row.append(bd);
       if (m.sharpe != null && !(m.vol != null && m.vol < 0.004)) row.append((() => { const x = el('span', 'sh'); x.title = 'Índice de Sharpe no período'; x.append(icon('i-gauge', 11), ' ', el('b', null, fmtNum(m.sharpe, 2))); return x; })());
     }
     k.append(row);
@@ -1531,17 +1639,20 @@ function render() {
   const tbody = el('tbody');
   // escala de cor própria de cada coluna (período selecionado, 12, 24, 36 m), só entre os ativos
   const escalas = [heatEscala(mp.map(({ m }) => m ? m.ret : null))]; JANELAS.forEach(w => escalas.push(heatEscala(mp.map(({ s }) => { const j = s.data.janelas[String(w)]; return j ? j.ret : null; }))));
-  const cellRet = (ret, pcdi, hl, esc) => { const td = el('td', 'ht' + (hl ? ' hl' : '')); if (ret == null) { td.className = 'na'; td.textContent = 'sem histórico'; return td; }
+  // cada célula: rentabilidade, barra com o marcador do benchmark do ativo e a comparação ("Ibov +5,2 p.p." ou "148% CDI")
+  const cellRet = (ret, c, hl, esc, cor, quem) => { const td = el('td', 'ht' + (hl ? ' hl' : '')); if (ret == null) { td.className = 'na'; td.textContent = 'sem histórico'; return td; }
     const vb = el('div', 'vb'); const v = el('span', 'v', pct(ret)); vb.append(v);
-    vb.append(el('span', 'sub2', ret > 0 && pcdi != null ? fmtNum(pcdi, 0) + '% CDI' : (ret <= 0 ? 'abaixo do CDI' : '')));
+    if (c && !c.semBarra) vb.append(barraBm(c, cor, quem));
+    vb.append(el('span', 'sub2' + (c ? (c.pos ? ' pos' : ' neg') : ''), c ? c.t : (ret <= 0 ? 'abaixo do CDI' : '')));
     if (esc) td.style.background = heatBg(ret, esc.maxPos, esc.maxNeg);
     td.append(vb); return td; };
-  mp.forEach(({ s, m }) => { const tr = el('tr'); tr.append(nomeCell(s), cellRet(m ? m.ret : null, m ? m.pcdi : null, true, escalas[0])); JANELAS.forEach((w, k) => { const j = s.data.janelas[String(w)]; tr.append(cellRet(j ? j.ret : null, j ? j.pcdi : null, false, escalas[k + 1])); }); tbody.append(tr); });
+  const pcdiTxt = (mr) => mr && mr.pcdi != null ? { t: fmtNum(mr.pcdi, 0) + '% CDI', pos: mr.pcdi >= 100, semBarra: true } : null;
+  mp.forEach(({ s, m }) => { const tr = el('tr'); const q = quemE(s); tr.append(nomeCell(s), cellRet(m ? m.ret : null, m ? compBm(s, m.ret, { ini: Math.max(J.ini, s.data.firstIdx), fim: Math.min(J.fim, s.data.ateIdx) }) : null, true, escalas[0], s.cor, q)); JANELAS.forEach((w, k) => { const j = s.data.janelas[String(w)]; tr.append(cellRet(j ? j.ret : null, j ? compBm(s, j.ret, { w }) : null, false, escalas[k + 1], s.cor, q)); }); tbody.append(tr); });
   refs.forEach(r => { const tr = el('tr', 'ref'); const td0 = el('td'); const n = el('span', 'n'); const i = el('i', 'dash'); i.style.borderTopColor = r.cor; n.append(i, el('span', null, r.nome)); td0.append(n); tr.append(td0);
-    const mr = r.id === 'cdi' ? mcdi : metricasJS(r.doc, J.ini, J.fim, mesesJ); tr.append(cellRet(mr ? mr.ret : null, r.id === 'cdi' ? null : (mr ? mr.pcdi : null), true)); if (r.id === 'cdi' && mr) tr.lastChild.querySelector('.sub2').textContent = 'referência';
-    JANELAS.forEach(w => { const a = idxAte(subMeses(S.meta.referencia, w)); let v = null, pcdi = null;
-      if (r.id === 'cdi') v = a >= 0 ? S.meta.cdi[J.fim] / S.meta.cdi[a] - 1 : null; else { const j = r.doc.janelas[String(w)]; v = j ? j.ret : null; pcdi = j ? j.pcdi : null; }
-      const td = cellRet(v, pcdi); if (r.id === 'cdi' && v != null) td.querySelector('.sub2').textContent = 'referência'; tr.append(td); }); tbody.append(tr); });
+    const mr = r.id === 'cdi' ? mcdi : metricasJS(r.doc, J.ini, J.fim, mesesJ); tr.append(cellRet(mr ? mr.ret : null, r.id === 'cdi' ? null : pcdiTxt(mr), true)); if (r.id === 'cdi' && mr) tr.lastChild.querySelector('.sub2').textContent = 'referência';
+    JANELAS.forEach(w => { const a = idxAte(subMeses(S.meta.referencia, w)); let v = null, j = null;
+      if (r.id === 'cdi') v = a >= 0 ? S.meta.cdi[J.fim] / S.meta.cdi[a] - 1 : null; else { j = r.doc.janelas[String(w)]; v = j ? j.ret : null; }
+      const td = cellRet(v, pcdiTxt(j)); if (r.id === 'cdi' && v != null) td.querySelector('.sub2').textContent = 'referência'; tr.append(td); }); tbody.append(tr); });
   tb.append(tbody);
 
   // 3. risco × retorno
@@ -1738,6 +1849,10 @@ function renderMais() {
   // ficha
   const fb = $('ficha'); fb.innerHTML = '';
   prontos.forEach(s => { const f = s.data; const d = el('div', 'f'); const h = el('h3'); const i = el('i'); i.style.background = s.cor; h.append(i, document.createTextNode(f.nome)); d.append(h);
+    // 12 / 24 / 36 meses: rentabilidade com a barra e o marcador do benchmark do ativo
+    { const jan = el('div', 'jan'); let temJ = false; ['12', '24', '36'].forEach(w => { const j = f.janelas && f.janelas[w]; const c = j ? compBm(s, j.ret, { w: +w }) : null; const box = el('div', 'j'); box.append(el('span', 'lb', w + ' meses'));
+        if (j && j.ret != null) { temJ = true; box.append(el('span', 'v' + (j.ret < 0 ? ' neg' : ''), pctSign(j.ret))); if (c) box.append(barraBm(c, s.cor, quemE(s))); else box.append(el('span', 'cap', 'sem benchmark na janela')); } else box.append(el('span', 'v na', 'sem histórico'));
+        jan.append(box); }); if (temJ) d.append(jan); }
     const dl = el('dl'); const add = (k, v, href) => { if (v == null || v === '' || v === '-') return; const dd = el('dd'); if (href) { const a = el('a', null, v); a.href = href; a.target = '_blank'; a.rel = 'noopener'; dd.append(a); } else dd.textContent = v; dl.append(el('dt', null, k), dd); };
     if (s.kind === 'fundo') {
       if (f.gestor || f.gestor_curto) { const g = el('div', 'gest'); const lg = logoGestora(f, 'xl'); if (lg) g.append(lg); const gt = el('div'); gt.append(el('b', null, f.gestor_curto || f.gestor), el('span', null, (f.gestor_curto && f.gestor && f.gestor_curto !== f.gestor ? f.gestor + ' · ' : '') + 'gestora do fundo' + (f.gestor_site ? ' · ' + f.gestor_site : ''))); g.append(gt); d.append(g); }
@@ -1766,7 +1881,7 @@ const RANK_COLS = [
   { id: 'sharpe12', t: 'Sharpe', val: (f) => (f.vol12 != null && f.vol12 < 0.004) ? null : f.sharpe12 },
   { id: 'pl', t: 'Patrimônio', val: (f) => f.pl },
 ];
-const BM_LBL = { cdi: 'CDI', ibov: 'Ibov', imab: 'IMA-B', ipca: 'IPCA', mscibrl: 'MSCI', sp500brl: 'S&P 500', ifix: 'IFIX', dolar: 'Dólar' };
+const BM_LBL = { cdi: 'CDI', ibov: 'Ibov', imab: 'IMA-B', ipca: 'IPCA', mscibrl: 'MSCI', sp500brl: 'S&P 500', nasdaqbrl: 'Nasdaq', ifix: 'IFIX', dolar: 'Dólar', ourobrl: 'Ouro' };
 function bmDoFundo(f) { return f.bm || ((f.xp_tipo === 'Ações' || /a[cç][oõ]es/i.test(f.classe || '')) ? 'ibov' : f.xp_tipo === 'Cambial' ? 'dolar' : 'cdi'); }
 // comparativo com o benchmark do próprio fundo na janela: "148% CDI" ou "Ibov +5,2 p.p."
 function relTexto(f, w, ret) {
@@ -2313,7 +2428,7 @@ function gerarRelatorio() {
   const cal = S.meta.calendario, ref = idxAte(S.meta.referencia), J12 = janela12();
   const itens = pesosAtuais(); const soma = itens.reduce((a, x) => a + (x.w || 0), 0) || 1;
   const linhas = itens.map(({ s, w }) => { const share = w / soma; const j = s.data.janelas && s.data.janelas['12']; const m12 = metricasJS(s.data, Math.max(J12.ini, s.data.firstIdx), Math.min(J12.fim, s.data.ateIdx), 12);
-    const idx = s.kind === 'fundo' ? S.index.find(f => f.cnpj === s.key) : null; const rel = idx ? relTexto(idx, 12, m12 ? m12.ret : null) : (m12 && m12.pcdi != null ? { t: fmtNum(m12.pcdi, 0) + '% CDI', pos: m12.pcdi >= 100 } : null);
+    const rel = compBm(s, m12 ? m12.ret : null, { w: 12 });
     return { s, share, valor: total * share, m12, rel, liq: S.rel.liq[s.key] == null ? liqPadrao(s) : S.rel.liq[s.key], gest: s.kind === 'fundo' ? (s.data.gestor_curto || s.data.gestor) : (s.kind === 'tesouro' ? 'Tesouro Nacional' : 'Série sintética') }; });
   // carteira (12 meses, pesos constantes) para rentabilidade estimada
   const pesos = linhas.map(l => l.share); const ini = Math.max(J12.ini, ...prontos.map(s => s.data.firstIdx)), fim = Math.min(J12.fim, ...prontos.map(s => s.data.ateIdx));
@@ -2459,46 +2574,91 @@ tr.tot td{font-weight:700;border-top:2px solid var(--line-2);border-bottom:0}
 const _renderCarteiraOrig = renderCarteira;
 renderCarteira = function () { _renderCarteiraOrig(); if (!$('card-cart').classList.contains('hidden')) renderRelLiq(); };
 
-// ------------------------------------------------------------------ simulador: caminhos de taxa (CDI, IPCA, juro real) e projeção dos ativos até 10 anos
-const SIM_MARCOS = [12, 24, 36, 120];
-S.sim = { h: 12, conf: 68, exc: 0.5, dImab: 7.5, cdi: [null, null, null, null, null], ipca: [null, null, null, null, null], real: [null, null, null, null, null],
-  realRef: null, realDoc: null, cenario: 'mediana', cenEm: 24, usouFocus: false, custom: { cdi: false, ipca: false } };
+// ------------------------------------------------------------------ simulador: patamares de taxa (CDI, IPCA, juro real, benchmarks) e projeção dos ativos até 10 anos
+const SIM_KNOTS = [0, 12, 24, 36, 60, 120];            // hoje, 1, 2, 3, 5 e 10 anos
+const SIM_MARCOS = SIM_KNOTS.slice(1);
+const SIM_COLS = ['hoje', '1 ano', '2 anos', '3 anos', '5 anos', '10 anos'];
+const simLbl = (t) => t === 12 ? '1 ano' : (t / 12) + ' anos';
+// benchmarks de risco projetados: base (cdi ou ipca) e prêmio padrão em pontos percentuais ao ano
+const SIM_PREMIO = { ibov: ['cdi', 3], sp500brl: ['cdi', 3], mscibrl: ['cdi', 3], nasdaqbrl: ['cdi', 3], ifix: ['cdi', 1], ourobrl: ['ipca', 2], dolar: ['ipca', -2] };
+const SIM_NOMES = { cdi: 'CDI', ipca: 'IPCA', real: 'Juro real', ibov: 'Ibovespa', sp500brl: 'S&P 500 em reais', mscibrl: 'MSCI World em reais', nasdaqbrl: 'Nasdaq 100 em reais', ifix: 'IFIX', ourobrl: 'Ouro em reais', dolar: 'Dólar' };
+const SIM_ALFA = 0.5;   // fração do alfa (ou do excesso) histórico que os fundos carregam para a projeção
+S.sim = { h: 12, conf: 68, dImab: 7.5, cenEm: 36, realRef: null, realDoc: null, dolar0: null, rows: {} };
 const mensal = (aa) => Math.pow(1 + aa / 100, 1 / 12) - 1;
-// nível de uma taxa (% a.a.) no mês t, interpolando entre hoje, 12, 24 e 36 meses; depois de 36 vale o nível "depois"
+const r2 = (v) => v == null || !isFinite(v) ? null : Math.round(v * 100) / 100;
+function simRow(k) {
+  const sm = S.sim;
+  if (!sm.rows[k]) { const p = SIM_PREMIO[k]; sm.rows[k] = { v: [null, null, null, null, null, null], cen: simCenPadrao(k), base: p ? p[0] : null, premio: p ? p[1] : null }; }
+  return sm.rows[k];
+}
+function simCenPadrao(k) {
+  const fz = S.meta.focus;
+  if (k === 'cdi' || k === 'ipca') return fz && fz.selic ? 'focus' : 'atual';
+  if (k === 'real') return 'mediana';
+  if (k === 'dolar') return fz && fz.cambio ? 'focus' : 'premio';
+  return 'premio';
+}
+// estatísticas de 15 anos (pipeline, meta.hist15); o juro real cai para o histórico do próprio título quando a base é antiga
+function hist15De(k) {
+  const h = S.meta.hist15 || {};
+  if (k === 'cdi') return h.cdi || null;
+  if (k === 'ipca') return h.ipca12 || null;
+  if (k === 'real') return h.real10 || (S.sim.realDoc && S.sim.realDoc.taxa_hist) || null;
+  return null;
+}
+// nível de uma taxa (% a.a.) no mês t: linear entre os marcos; depois de 10 anos vale o último
 function nivelEm(arr, t) {
-  const a = [arr[0], arr[1] ?? arr[0], arr[2] ?? arr[1] ?? arr[0], arr[3] ?? arr[2] ?? arr[1] ?? arr[0], arr[4] ?? arr[3] ?? arr[2] ?? arr[1] ?? arr[0]];
-  if (t <= 0) return a[0]; if (t >= 36) return a[4];
-  const k = Math.floor(t / 12), f = (t - k * 12) / 12; return a[k] + (a[k + 1] - a[k]) * f;
+  const a = []; let last = arr[0] ?? 0; for (let i = 0; i < SIM_KNOTS.length; i++) { if (arr[i] != null) last = arr[i]; a[i] = last; }
+  if (t <= 0) return a[0]; if (t >= 120) return a[5];
+  let i = 0; while (SIM_KNOTS[i + 1] < t) i++;
+  const t0 = SIM_KNOTS[i], t1 = SIM_KNOTS[i + 1]; return a[i] + (a[i + 1] - a[i]) * (t - t0) / (t1 - t0);
 }
 function anoMes(iso, meses) { const d = new Date(iso + 'T00:00:00Z'); d.setUTCMonth(d.getUTCMonth() + meses); return { ano: d.getUTCFullYear(), mes: d.getUTCMonth() + 1 }; }
 // Focus: Selic de fim de ano interpolada mês a mês; IPCA do ano calendário em que cai o marco
 function nivelFocus(tipo, meses) {
-  const f = S.meta.focus; if (!f) return null; const ref = S.meta.referencia; const { ano, mes } = anoMes(ref, meses); const anos = Object.keys(f[tipo]).sort();
+  const f = S.meta.focus; if (!f || !f[tipo]) return null; const ref = S.meta.referencia; const { ano, mes } = anoMes(ref, meses); const anos = Object.keys(f[tipo]).sort();
   if (!anos.length) return null; const ultimo = anos[anos.length - 1];
   if (tipo === 'ipca') return f.ipca[String(ano)] ?? f.ipca[ultimo];
-  const fimAno = (y) => y < +anos[0] ? S.sim.cdi[0] : (f.selic[String(y)] ?? f.selic[ultimo]);
+  const fimAno = (y) => y < +anos[0] ? simRow('cdi').v[0] : (f.selic[String(y)] ?? f.selic[ultimo]);
   const a = fimAno(ano - 1), b = fimAno(ano); return a + (b - a) * (mes / 12);
 }
+// nível de uma variável de fim de ano (câmbio do Focus) no mês m, partindo do valor de hoje
+function caminhoAnual(P0, porAno, ref, m) {
+  const anos = Object.keys(porAno).sort(); if (!anos.length) return P0; const ultimo = anos[anos.length - 1];
+  const mes0 = +ref.slice(5, 7), ano0 = +ref.slice(0, 4); const mFim0 = 12 - mes0 + 0.5;  // meses até o fim do ano corrente
+  const nivel = (y) => y < ano0 ? P0 : (porAno[String(y)] ?? porAno[ultimo]);
+  if (m <= mFim0) return P0 + (nivel(ano0) - P0) * m / mFim0;
+  const resto = m - mFim0; const k = Math.floor(resto / 12), f = (resto - k * 12) / 12; const y = ano0 + k;
+  return nivel(y) + (nivel(y + 1) - nivel(y)) * f;
+}
+// preenche uma linha a partir do seu cenário (Focus, mediana/mínima/máxima de 15 anos, como está, base + prêmio); 'custom' é mantido
+function aplicarLinha(k) {
+  const sm = S.sim, r = simRow(k), v = r.v;
+  if (r.cen === 'custom' || v[0] == null && k !== 'dolar' && !r.base) return;
+  if (r.cen === 'focus') {
+    const temFocus = !!(S.meta.focus && S.meta.focus.selic);
+    if (k === 'cdi' || k === 'ipca') { if (temFocus) { for (let i = 1; i < 6; i++) v[i] = r2(nivelFocus(k === 'cdi' ? 'selic' : 'ipca', SIM_KNOTS[i])); return; } r.cen = 'atual'; }
+    if (k === 'dolar') {
+      const P0 = sm.dolar0, C = S.meta.focus && S.meta.focus.cambio;
+      if (P0 && C) { const P = (m) => caminhoAnual(P0, C, S.meta.referencia, m); for (let i = 1; i < 6; i++) { const a = SIM_KNOTS[i - 1], b = SIM_KNOTS[i]; v[i] = r2((Math.pow(P(b) / P(a), 12 / (b - a)) - 1) * 100); } v[0] = v[1]; return; }
+      r.cen = 'premio';
+    }
+  }
+  if (r.cen === 'premio' && r.base) { const b = simRow(r.base).v; for (let i = 0; i < 6; i++) v[i] = r2(nivelEm(b, SIM_KNOTS[i]) + r.premio); return; }
+  if (r.cen === 'atual' || v[0] == null) { for (let i = 1; i < 6; i++) v[i] = v[0]; return; }
+  const h = hist15De(k); const alvo = h ? h[r.cen === 'mediana' ? 'mediana' : r.cen] : null;
+  if (alvo == null) { r.cen = 'atual'; return aplicarLinha(k); }
+  for (let i = 1; i < 6; i++) { const m = SIM_KNOTS[i]; v[i] = r2(m >= sm.cenEm ? alvo : v[0] + (alvo - v[0]) * m / sm.cenEm); }
+}
+function aplicarTudo() { const sm = S.sim; ['cdi', 'ipca', 'real'].forEach(aplicarLinha); Object.keys(sm.rows).filter(k => !['cdi', 'ipca', 'real'].includes(k)).forEach(aplicarLinha); }
 function simPadrao(forcar) {
-  const sm = S.sim; const cdi0 = S.prem.cdi, ipca0 = S.prem.ipca;
-  sm.cdi[0] = cdi0; sm.ipca[0] = ipca0;
-  const temFocus = !!(S.meta.focus && S.meta.focus.selic);
-  if (forcar || !sm.custom.cdi) { for (let i = 1; i <= 3; i++) sm.cdi[i] = temFocus ? r2(nivelFocus('selic', i * 12)) : cdi0; sm.cdi[4] = temFocus ? r2(nivelFocus('selic', 48)) : cdi0; sm.custom.cdi = false; }
-  if (forcar || !sm.custom.ipca) { for (let i = 1; i <= 3; i++) sm.ipca[i] = temFocus ? r2(nivelFocus('ipca', i * 12)) : ipca0; sm.ipca[4] = temFocus ? r2(nivelFocus('ipca', 48)) : ipca0; sm.custom.ipca = false; }
-  sm.usouFocus = temFocus;
-  if (forcar) { sm.cenario = 'mediana'; sm.cenEm = 24; }
-  aplicarCenario();
+  const sm = S.sim; const rc = simRow('cdi'), ri = simRow('ipca'), rr = simRow('real');
+  rc.v[0] = S.prem.cdi; ri.v[0] = S.prem.ipca; rr.v[0] = sm.realDoc ? r2(sm.realDoc.taxa) : null;
+  if (forcar) { Object.keys(sm.rows).forEach(k => { sm.rows[k].cen = simCenPadrao(k); if (SIM_PREMIO[k]) sm.rows[k].premio = SIM_PREMIO[k][1]; }); sm.cenEm = 36; }
+  aplicarTudo();
 }
-const r2 = (v) => v == null ? null : Math.round(v * 100) / 100;
-// juro real: alvo (mediana, mínima, máxima ou atual) atingido em cenEm meses e mantido depois
-function aplicarCenario() {
-  const sm = S.sim, d = sm.realDoc; if (!d) return;
-  sm.real[0] = r2(d.taxa); const h = d.taxa_hist || {};
-  if (sm.cenario === 'custom') return;
-  const alvo = sm.cenario === 'min' ? h.min : sm.cenario === 'max' ? h.max : sm.cenario === 'atual' ? d.taxa : (h.mediana ?? d.taxa);
-  for (let i = 1; i <= 3; i++) { const m = i * 12; sm.real[i] = r2(m >= sm.cenEm ? alvo : d.taxa + (alvo - d.taxa) * m / sm.cenEm); }
-  sm.real[4] = r2(alvo);
-}
+// juro real derivado: (1 + CDI) / (1 + IPCA) − 1, por coluna
+function cdiReal(i) { const c = nivelEm(simRow('cdi').v, SIM_KNOTS[i]), p = nivelEm(simRow('ipca').v, SIM_KNOTS[i]); return c == null || p == null ? null : ((1 + c / 100) / (1 + p / 100) - 1) * 100; }
 // título de referência do juro real: o Tesouro IPCA+ da comparação (o mais longo) ou, sem ele, o IPCA+ principal com vencimento mais perto de 10 anos
 async function garantirRealRef() {
   const sm = S.sim;
@@ -2506,7 +2666,21 @@ async function garantirRealRef() {
   let id = naSel.length ? naSel[0].data.id : null;
   if (!id) { const cands = (S.meta.tesouro || []).filter(t => t.indexador === 'IPCA' && /IPCA\+/.test(t.tipo || '') && !/juros/i.test(t.nome)); if (cands.length) { cands.sort((a, b) => Math.abs(anosAte(a.venc) - 10) - Math.abs(anosAte(b.venc) - 10)); id = cands[0].id; } }
   if (!id) { sm.realRef = null; sm.realDoc = null; return; }
-  if (sm.realRef !== id) { sm.realRef = id; sm.realDoc = naSel.length ? naSel[0].data : await carregarTesouro(id); if (sm.cenario !== 'custom') aplicarCenario(); else sm.real[0] = r2(sm.realDoc.taxa); }
+  if (sm.realRef !== id) { sm.realRef = id; sm.realDoc = naSel.length ? naSel[0].data : await carregarTesouro(id); const rr = simRow('real'); rr.v[0] = r2(sm.realDoc.taxa); aplicarLinha('real'); }
+}
+// benchmark de risco de cada ativo da comparação (fundos pela coluna bm; Tesouro e renda fixa pelo indexador)
+function bmDeSel(s) {
+  if (!s || !s.data) return 'cdi';
+  if (s.kind === 'fundo') { const ix = S.index.find(x => x.cnpj === s.key); return (ix && ix.bm) || bmDoFundo({ xp_tipo: s.data.xp && s.data.xp.tipo, classe: s.data.classe, bm: null }); }
+  if (s.kind === 'tesouro') return s.data.indexador === 'IPCA' ? 'ipca' : 'cdi';
+  if (s.kind === 'rf') return s.data.tipo === 'ipca' ? 'ipca' : 'cdi';
+  return 'cdi';
+}
+function benchRowsEmUso(prontos) {
+  const set = new Set();
+  prontos.forEach(s => { const bm = bmDeSel(s); if (SIM_PREMIO[bm]) set.add(bm); });
+  S.bench.forEach(id => { if (SIM_PREMIO[id]) set.add(id); });
+  return [...set];
 }
 // beta e alfa de um fundo contra um benchmark, pelos retornos diários da janela selecionada
 function betaAlfa(doc, bdoc, J) {
@@ -2517,62 +2691,76 @@ function betaAlfa(doc, bdoc, J) {
   for (let i = 0; i < n; i++) { sxx += (xs[i] - mx) ** 2; sxy += (xs[i] - mx) * (ys[i] - my); }
   const beta = sxx > 0 ? sxy / sxx : 0; const alfaD = my - beta * mx; return { beta, alfaAnual: Math.pow(1 + alfaD, 252) - 1, n, corr: sxx > 0 ? sxy / Math.sqrt(sxx * ys.reduce((s, v) => s + (v - my) ** 2, 0)) : 0 };
 }
+const nivTxt = (arr, H) => fmtNum(arr[0], 2) + '% → ' + SIM_MARCOS.filter(t => t <= Math.max(36, H)).map(t => fmtNum(nivelEm(arr, t), 2) + '% em ' + simLbl(t)).join(', ');
+// caminho acumulado de uma linha de taxa até H meses
+function caminho(arr, H) { const v = [0]; let a = 1; for (let t = 1; t <= H; t++) { a *= 1 + mensal(nivelEm(arr, t)); v.push(a - 1); } return v; }
+// IMA-B sintético: IPCA mais o juro real, com o efeito de preço da mudança do juro real numa duration fixa
+function caminhoImab(H) { const sm = S.sim, D = sm.dImab, real = simRow('real').v, ipca = simRow('ipca').v; const v = [0]; let a = 1; for (let t = 1; t <= H; t++) { a *= 1 + ((1 + mensal(nivelEm(ipca, t))) * (1 + mensal(nivelEm(real, t))) - 1 - D * (nivelEm(real, t) - nivelEm(real, t - 1)) / 100); v.push(a - 1); } return v; }
 // modelo de cada ativo: devolve o índice acumulado mês a mês (med) e, quando há risco, a faixa; mais o texto das letras miúdas
-function simularAtivo(s, H, z, ipcaDoc, imabDoc) {
+function simularAtivo(s, H, ipcaDoc, imabDoc) {
   const sm = S.sim, f = s.data, J = janela(), mesesJ = periodoMeses(J);
-  const cdi = (t) => mensal(nivelEm(sm.cdi, t)), ipca = (t) => mensal(nivelEm(sm.ipca, t)), real = (t) => nivelEm(sm.real, t);
-  const out = { nome: f.nome, cor: s.cor, kind: s.kind, idx: [1], sigma: 0, texto: '', agio: {} };
+  const rc = simRow('cdi').v, ri = simRow('ipca').v, rr = simRow('real').v;
+  const cdi = (t) => mensal(nivelEm(rc, t)), ipca = (t) => mensal(nivelEm(ri, t)), real = (t) => nivelEm(rr, t);
+  const out = { nome: f.nome, cor: s.cor, kind: s.kind, bm: bmDeSel(s), idx: [1], sigma: 0, texto: '', agio: {} };
   const acum = (fn) => { for (let t = 1; t <= H; t++) out.idx[t] = out.idx[t - 1] * (1 + fn(t)); };
-  const nivTxt = (arr) => fmtNum(arr[0], 2) + '% → ' + [1, 2, 3].map((i, k) => fmtNum(arr[i], 2) + '% em ' + (k + 1) * 12 + ' m').join(', ') + (H > 36 ? ', depois ' + fmtNum(arr[4], 2) + '%' : '');
   if (s.kind === 'rf') {
-    if (f.tipo === 'pcdi') { acum(t => f.taxa / 100 * cdi(t)); out.texto = fmtNum(f.taxa, 1) + '% do CDI, com o CDI indo de ' + nivTxt(sm.cdi) + '.'; }
+    if (f.tipo === 'pcdi') { acum(t => f.taxa / 100 * cdi(t)); out.texto = fmtNum(f.taxa, 1) + '% do CDI, com o CDI indo de ' + nivTxt(rc, H) + '.'; }
     else if (f.tipo === 'pre') { acum(() => mensal(f.taxa)); out.texto = 'Juro fixo de ' + fmtNum(f.taxa, 2) + '% a.a., sem marcação a mercado.'; }
-    else { acum(t => (1 + ipca(t)) * (1 + mensal(f.taxa)) - 1); out.texto = 'IPCA (' + nivTxt(sm.ipca) + ') mais ' + fmtNum(f.taxa, 2) + '% a.a.'; }
+    else { acum(t => (1 + ipca(t)) * (1 + mensal(f.taxa)) - 1); out.texto = 'IPCA (' + nivTxt(ri, H) + ') mais ' + fmtNum(f.taxa, 2) + '% a.a.'; }
     return out;
   }
   const mj = janelaBase(f); const j = mj ? mj.j : null;
   if (s.kind === 'tesouro') {
     const tx = f.taxa, M = Math.max(1, Math.round(anosAte(f.venc) * 12)); let D0 = f.duration; let dEst = false; if (D0 == null) { D0 = Math.min(25, Math.max(0.5, anosAte(f.venc))) * 0.85; dEst = true; }
     out.sigma = j && j.vol != null ? j.vol : 0.05;
-    if (f.indexador === 'SELIC') { acum(t => (1 + cdi(t)) * (1 + mensal(tx)) - 1); out.texto = 'Tesouro Selic: CDI (' + nivTxt(sm.cdi) + ') mais ' + fmtNum(tx, 2) + '% a.a.'; return out; }
+    if (f.indexador === 'SELIC') { acum(t => (1 + cdi(t)) * (1 + mensal(tx)) - 1); out.texto = 'Tesouro Selic: CDI (' + nivTxt(rc, H) + ') mais ' + fmtNum(tx, 2) + '% a.a.'; return out; }
     const ehIPCA = f.indexador === 'IPCA';
-    const y0 = ehIPCA ? sm.real[0] : sm.cdi[0]; const yT = (t) => ehIPCA ? real(t) : nivelEm(sm.cdi, t);
+    const y0 = ehIPCA ? rr[0] : rc[0]; const yT = (t) => ehIPCA ? real(t) : nivelEm(rc, t);
     let carry = 1;
     for (let t = 1; t <= H; t++) {
       if (t <= M) { carry *= (1 + mensal(tx)) * (ehIPCA ? 1 + ipca(t) : 1); const Dt = Math.max(0, D0 * (1 - t / M)); const dy = (yT(t) - y0) / 100; out.idx[t] = carry * Math.max(0.05, 1 - Dt * dy); if (SIM_MARCOS.includes(t) || t === H) out.agio[t] = -Dt * dy; }
       else { out.idx[t] = out.idx[t - 1] * (ehIPCA ? (1 + ipca(t)) * (1 + mensal(real(t))) : 1 + cdi(t)); }
     }
-    const agioTxt = Object.entries(out.agio).filter(([t]) => +t <= Math.min(H, M)).map(([t, v]) => (v >= 0 ? 'ágio' : 'deságio') + ' de ' + pctSign(v) + ' em ' + t + ' m').join(', ');
-    out.texto = (ehIPCA ? 'Carrego de IPCA (' + nivTxt(sm.ipca) + ') mais ' + fmtNum(tx, 2) + '% a.a.' : 'Carrego prefixado de ' + fmtNum(tx, 2) + '% a.a.') + '; a taxa ' + (ehIPCA ? 'real' : 'nominal (seguindo o CDI)') + ' vai de ' + nivTxt(ehIPCA ? sm.real : sm.cdi)
+    const agioTxt = Object.entries(out.agio).filter(([t]) => +t <= Math.min(H, M)).map(([t, v]) => (v >= 0 ? 'ágio' : 'deságio') + ' de ' + pctSign(v) + ' em ' + simLbl(+t)).join(', ');
+    out.texto = (ehIPCA ? 'Carrego de IPCA (' + nivTxt(ri, H) + ') mais ' + fmtNum(tx, 2) + '% a.a.' : 'Carrego prefixado de ' + fmtNum(tx, 2) + '% a.a.') + '; a taxa ' + (ehIPCA ? 'real' : 'nominal (seguindo o CDI)') + ' vai de ' + nivTxt(ehIPCA ? rr : rc, H)
       + ', o que com duration de ' + fmtNum(D0, 1) + ' anos' + (dEst ? ' (estimada)' : '') + ' dá ' + (agioTxt || 'efeito nulo no preço') + '. ' + (M < H ? 'Vence no mês ' + M + '; depois reinveste ' + (ehIPCA ? 'em IPCA mais o juro real do momento' : 'no CDI') + '.' : 'A marcação a mercado some no vencimento.') + ' Vol. histórica de ' + pct(out.sigma) + '.';
     return out;
   }
   // fundos
   if (!j) { acum(t => cdi(t)); out.texto = 'Sem janela fechada: assume o CDI.'; return out; }
   const aR = j.aR != null ? j.aR : anual(j.ret, mj.w), aC = j.aC != null ? j.aC : anual(j.cdi, mj.w); out.sigma = j.vol || 0;
-  const bm = (S.index.find(x => x.cnpj === s.key) || {}).bm || bmDoFundo({ xp_tipo: f.xp && f.xp.tipo, classe: f.classe, bm: null });
+  const bm = out.bm;
   const posFixado = j.vol != null && j.vol < 0.01;
-  if (posFixado || bm === 'cdi' && j.vol < 0.03) { const rat = aC > 0 ? aR / aC : 1; acum(t => rat * cdi(t)); out.texto = 'Pós-fixado: replicou ' + fmtNum(rat * 100, 0) + '% do CDI nos últimos ' + mj.w + ' meses, aplicado ao CDI de ' + nivTxt(sm.cdi) + '.'; return out; }
+  if (posFixado || bm === 'cdi' && j.vol < 0.03) { const rat = aC > 0 ? aR / aC : 1; acum(t => rat * cdi(t)); out.texto = 'Pós-fixado: replicou ' + fmtNum(rat * 100, 0) + '% do CDI nos últimos ' + mj.w + ' meses, aplicado ao CDI de ' + nivTxt(rc, H) + '.'; return out; }
+  const metade = (a) => Math.pow(1 + a * SIM_ALFA, 1 / 12) - 1;
   if (bm === 'imab' && imabDoc) {
     const ba = betaAlfa(f, imabDoc, J);
     // só vale como NTN-B sintética quando o fundo de fato acompanha o IMA-B (correlação razoável e beta positivo)
     if (ba && ba.corr >= 0.35 && ba.beta > 0.1) {
-      const D = sm.dImab; const alfaM = Math.pow(1 + ba.alfaAnual * sm.exc, 1 / 12) - 1;
-      acum(t => { const rImab = (1 + ipca(t)) * (1 + mensal(real(t))) - 1 - D * (real(t) - real(t - 1)) / 100; return alfaM + ba.beta * rImab; });
-      out.texto = 'Benchmark IMA-B: tratado como uma NTN-B sintética de duration ' + fmtNum(D, 1) + ' anos que paga IPCA mais o juro real (' + nivTxt(sm.real) + '), escalada pelo beta de ' + fmtNum(ba.beta, 2) + ' do fundo, mais ' + (sm.exc === 0 ? 'nada' : fmtNum(sm.exc * 100, 0) + '% do excesso histórico') + ' sobre o IMA-B (' + pctSign(ba.alfaAnual) + ' a.a.; correlação ' + fmtNum(ba.corr, 2) + ' em ' + ba.n + ' dias). Vol. de ' + pct(j.vol) + '.';
+      const D = sm.dImab; const betaB = Math.min(2, ba.beta), alfaB = Math.max(-0.15, Math.min(0.15, ba.alfaAnual)); const alfaM = metade(alfaB);
+      acum(t => { const rImab = (1 + ipca(t)) * (1 + mensal(real(t))) - 1 - D * (real(t) - real(t - 1)) / 100; return alfaM + betaB * rImab; });
+      out.texto = 'Benchmark IMA-B: tratado como uma NTN-B sintética de duration ' + fmtNum(D, 1) + ' anos que paga IPCA mais o juro real (' + nivTxt(rr, H) + '), escalada pelo beta de ' + fmtNum(betaB, 2) + ' do fundo, mais metade do seu alfa histórico sobre o IMA-B (' + pctSign(alfaB) + ' a.a.; correlação ' + fmtNum(ba.corr, 2) + ' em ' + ba.n + ' dias). Vol. de ' + pct(j.vol) + '.';
       return out;
     }
   }
   const cls = norm((f.anbima || '') + ' ' + (f.xp && f.xp.classe || '')), xpb = norm((f.xp && f.xp.benchmark) || '');
-  if ((bm === 'ipca' || /ipca|inflac|imab|ima-b/.test(xpb + ' ' + cls)) && ipcaDoc) {
-    const aI = anualDoc(ipcaDoc, J.ini, J.fim, mesesJ) ?? S.prem.ipca / 100; const spread = aR - aI; const spM = Math.pow(1 + spread * sm.exc, 1 / 12) - 1;
+  if ((bm === 'ipca' || bm === 'imab' || /ipca|inflac|imab|ima-b/.test(xpb + ' ' + cls)) && ipcaDoc) {
+    const aI = anualDoc(ipcaDoc, J.ini, J.fim, mesesJ) ?? S.prem.ipca / 100; const spread = aR - aI; const spM = metade(spread);
     acum(t => (1 + ipca(t)) * (1 + spM) - 1);
-    out.texto = 'Indexado à inflação: IPCA (' + nivTxt(sm.ipca) + ') mais ' + (sm.exc === 0 ? 'nada' : fmtNum(sm.exc * 100, 0) + '% do excesso histórico sobre o IPCA (' + pctSign(spread) + ' a.a.)') + '. Vol. de ' + pct(j.vol) + '.';
+    out.texto = 'Indexado à inflação: IPCA (' + nivTxt(ri, H) + ') mais metade do excesso histórico sobre o IPCA (' + pctSign(spread) + ' a.a. em ' + mj.w + ' meses). Vol. de ' + pct(j.vol) + '.';
     return out;
   }
-  const exc = aR - aC; const excM = Math.pow(1 + exc * sm.exc, 1 / 12) - 1;
+  const bdoc = SIM_PREMIO[bm] ? benchDoc(bm) : null;
+  if (bdoc) {
+    const row = simRow(bm); const ba = betaAlfa(f, bdoc, J); const aB = anualDoc(bdoc, Math.max(J.ini, bdoc.firstIdx || 0), Math.min(J.fim, bdoc.ateIdx), mesesJ);
+    const beta = Math.max(0, Math.min(2.5, ba ? ba.beta : 1)), alfa = Math.max(-0.15, Math.min(0.15, ba ? ba.alfaAnual : (aB != null ? aR - aB : 0))); const alfaM = metade(alfa);
+    acum(t => alfaM + beta * mensal(nivelEm(row.v, t)));
+    out.texto = 'Benchmark ' + SIM_NOMES[bm] + ' (' + nivTxt(row.v, H) + (row.cen === 'premio' ? ', ' + (row.base === 'cdi' ? 'CDI' : 'IPCA') + ' ' + (row.premio >= 0 ? '+ ' : '− ') + fmtNum(Math.abs(row.premio), 1) + ' p.p.' : row.cen === 'focus' ? ', câmbio do Focus' : ', patamares editados') + '): beta de ' + fmtNum(beta, 2) + (ba ? ' (' + ba.n + ' dias; correlação ' + fmtNum(ba.corr, 2) + ')' : ' (histórico curto, assumido)') + ' mais metade do alfa histórico (' + pctSign(alfa) + ' a.a.). Vol. de ' + pct(j.vol) + '.';
+    return out;
+  }
+  const exc = aR - aC; const excM = metade(exc);
   acum(t => (1 + cdi(t)) * (1 + excM) - 1);
-  out.texto = 'Ativo de risco (' + (BM_LBL[bm] || 'CDI') + '): CDI (' + nivTxt(sm.cdi) + ') mais ' + (sm.exc === 0 ? 'nenhum excesso' : fmtNum(sm.exc * 100, 0) + '% do excesso histórico sobre o CDI (' + pctSign(exc) + ' a.a. em ' + mj.w + ' meses)') + '. Vol. de ' + pct(j.vol) + '.';
+  out.texto = 'Ativo de risco (' + (BM_LBL[bm] || 'CDI') + '): CDI (' + nivTxt(rc, H) + ') mais metade do excesso histórico sobre o CDI (' + pctSign(exc) + ' a.a. em ' + mj.w + ' meses). Vol. de ' + pct(j.vol) + '.';
   return out;
 }
 function faixa(idx, sigma, z) { const lo = [], hi = []; for (let t = 0; t < idx.length; t++) { const s = sigma * Math.sqrt(t / 12); lo.push(idx[t] * Math.exp(-z * s) - 1); hi.push(idx[t] * Math.exp(z * s) - 1); } return { lo, hi }; }
@@ -2584,68 +2772,109 @@ async function renderPersp() {
   try {
     if (!benchDoc('ipca')) await carregarBench('ipca').catch(() => null);
     if (prontos.some(s => s.kind === 'fundo') && !benchDoc('imab') && S.benchmarks.some(b => b.id === 'imab')) await carregarBench('imab').catch(() => null);
+    const emUso = benchRowsEmUso(prontos);
+    await Promise.all(emUso.filter(k => !benchDoc(k) && S.benchmarks.some(b => b.id === k)).map(k => carregarBench(k).catch(() => null)));
+    if (emUso.includes('dolar') && !benchDoc('dolar') && S.benchmarks.some(b => b.id === 'dolar')) await carregarBench('dolar').catch(() => null);
     await garantirRealRef();
   } finally { simPend = false; }
-  if (sm.cdi[1] == null) simPadrao(false);
-  renderSimControles();
+  const dd = benchDoc('dolar'); sm.dolar0 = dd && dd.qff ? dd.qff[Math.min(dd.ateIdx, dd.qff.length - 1)] : null;
+  if (simRow('cdi').v[1] == null) simPadrao(false); else aplicarTudo();
+  const emUso = benchRowsEmUso(prontos); emUso.forEach(k => { simRow(k); aplicarLinha(k); });
+  renderSimControles(emUso);
   const H = sm.h, z = sm.conf === 95 ? 1.96 : 1, ipcaDoc = benchDoc('ipca'), imabDoc = benchDoc('imab');
-  const modelos = prontos.map(s => simularAtivo(s, H, z, ipcaDoc, imabDoc));
+  const modelos = prontos.map(s => simularAtivo(s, H, ipcaDoc, imabDoc));
   const series = modelos.map(m => { const vals = m.idx.map(v => v - 1); const fx = m.sigma > 0.002 ? faixa(m.idx, m.sigma, z) : null; return { nome: m.nome, cor: m.cor, vals, band: fx, m, fim: vals[H], lo: fx ? fx.lo[H] : vals[H], hi: fx ? fx.hi[H] : vals[H] }; });
-  const caminho = (arr) => { const v = [0]; let a = 1; for (let t = 1; t <= H; t++) { a *= 1 + mensal(nivelEm(arr, t)); v.push(a - 1); } return v; };
-  const refs = [{ nome: 'CDI', cor: COR_CDI, dash: true, vals: caminho(sm.cdi) }, { nome: 'IPCA', cor: CORES_BENCH.ipca, dash: true, vals: caminho(sm.ipca) }];
+  const refs = [{ id: 'cdi', nome: 'CDI', cor: COR_CDI, dash: true, vals: caminho(simRow('cdi').v, H) }, { id: 'ipca', nome: 'IPCA', cor: CORES_BENCH.ipca, dash: true, vals: caminho(simRow('ipca').v, H) }];
+  emUso.forEach(k => refs.push({ id: k, nome: SIM_NOMES[k] || k, cor: CORES_BENCH[k] || COR_CDI, dash: true, vals: caminho(simRow(k).v, H) }));
+  const caminhoDe = (bm) => { const r = refs.find(x => x.id === bm); if (r) return r.vals; if (bm === 'imab') return caminhoImab(H); return refs[0].vals; };
   const ref = S.meta.referencia;
   desenhar($('ch-persp'), { series: [...series, ...refs], ini: 0, fim: H, altura: 300, zero: true, fmt: (v, t) => t ? (v * 100).toFixed(0) + '%' : pctSign(v), endLabel: true,
     xTicks: () => { const out = []; const step = H > 60 ? 12 : H > 24 ? 6 : 3; for (let t = 0; t <= H; t += step) out.push({ i: t, label: t === 0 ? 'hoje' : H > 60 ? (t / 12) + (t === 12 ? ' ano' : ' anos') : mesLbl(mesMais(ref, t)) }); return out; },
     xLabel: (i) => i === 0 ? 'Hoje' : 'Mês ' + i + ' · ' + mesLbl(mesMais(ref, i)) });
   legenda($('lg-persp'), [...series, ...refs]);
-  // tabela nos marcos (12, 24, 36 m e 10 anos até o horizonte) + faixa no horizonte
+  // tabela nos marcos (1, 2, 3, 5 e 10 anos até o horizonte) + faixa no horizonte + comparação com o benchmark do ativo
   const marcos = SIM_MARCOS.filter(t => t <= H); const tb = $('tb-persp'); tb.innerHTML = '';
-  const th = el('tr'); th.append(el('th', null, 'Ativo')); marcos.forEach(t => th.append(el('th', null, t === 120 ? '10 anos' : t + ' m'))); th.append(el('th', null, 'Pessimista'), el('th', null, 'Otimista'), el('th', null, 'vs CDI')); { const _h = el('thead'); _h.append(th); tb.append(_h); }
-  const tbody = el('tbody'); const cdiH = refs[0].vals[H];
+  const th = el('tr'); th.append(el('th', null, 'Ativo')); marcos.forEach(t => th.append(el('th', null, simLbl(t)))); th.append(el('th', null, 'Pessimista'), el('th', null, 'Otimista'), el('th', null, 'vs benchmark')); { const _h = el('thead'); _h.append(th); tb.append(_h); }
+  const tbody = el('tbody');
+  // acima de 3 anos a diferença vira ao ano, para continuar legível
+  const aa = H > 36; const sufAA = aa ? ' a.a.' : ''; const difAA = (x, y) => aa ? Math.pow(1 + x, 12 / H) - Math.pow(1 + y, 12 / H) : x - y;
   const escalas = marcos.map(t => heatEscala(series.map(s => s.vals[t])));
   series.forEach(s => { const tr = el('tr'); const td0 = el('td'); const n = el('span', 'n'); const i = el('i'); i.style.background = s.cor; const sp = el('span', null, s.nome); sp.title = s.nome; n.append(i, sp); td0.append(n); tr.append(td0);
     marcos.forEach((t, k) => { const td = el('td', 'ht' + (t === H ? ' hl' : '')); td.textContent = pctSign(s.vals[t]); td.style.background = heatBg(s.vals[t], escalas[k].maxPos, escalas[k].maxNeg); if (s.m.agio[t] != null && t <= H) td.append(el('span', 'sub2', (s.m.agio[t] >= 0 ? 'ágio ' : 'deságio ') + pctSign(s.m.agio[t]))); tr.append(td); });
     tr.append(el('td', s.lo < 0 ? 'neg' : '', pctSign(s.lo)), el('td', null, pctSign(s.hi)));
-    const d = s.fim - cdiH; const tdv = el('td'); tdv.append(el('span', 'badge ' + (d < 0 ? 'neg' : 'pos'), (d < 0 ? '−' : '+') + fmtNum(Math.abs(d) * 100, 1) + ' p.p.')); tr.append(tdv); tbody.append(tr); });
-  refs.forEach(r => { const tr = el('tr', 'ref'); const td0 = el('td'); const n = el('span', 'n'); const i = el('i', 'dash'); i.style.borderTopColor = r.cor; n.append(i, el('span', null, r.nome)); td0.append(n); tr.append(td0); marcos.forEach(t => tr.append(el('td', null, pctSign(r.vals[t])))); tr.append(el('td', null, ''), el('td', null, ''), el('td', null, r.nome === 'CDI' ? '' : (r.vals[H] - cdiH < 0 ? '−' : '+') + fmtNum(Math.abs(r.vals[H] - cdiH) * 100, 1) + ' p.p.')); tbody.append(tr); });
+    const bm = s.m.bm; const bv = caminhoDe(bm)[H]; const d = difAA(s.fim, bv); const tdv = el('td'); tdv.append(el('span', 'badge ' + (d < 0 ? 'neg' : 'pos'), (BM_LBL[bm] || 'CDI') + ' ' + (d < 0 ? '−' : '+') + fmtNum(Math.abs(d) * 100, 1) + ' p.p.' + sufAA)); tr.append(tdv); tbody.append(tr); });
+  const cdiH = refs[0].vals[H];
+  refs.forEach(r => { const tr = el('tr', 'ref'); const td0 = el('td'); const n = el('span', 'n'); const i = el('i', 'dash'); i.style.borderTopColor = r.cor; n.append(i, el('span', null, r.nome)); td0.append(n); tr.append(td0); marcos.forEach(t => tr.append(el('td', null, pctSign(r.vals[t])))); const dr = difAA(r.vals[H], cdiH); tr.append(el('td', null, ''), el('td', null, ''), el('td', null, r.id === 'cdi' ? '' : 'CDI ' + (dr < 0 ? '−' : '+') + fmtNum(Math.abs(dr) * 100, 1) + ' p.p.' + sufAA)); tbody.append(tr); });
   tb.append(tbody);
   // letras miúdas: por ativo e gerais
   const pa = $('persp-ativos'); pa.innerHTML = ''; pa.append(el('div', null, 'Por que cada ativo foi para esse patamar:'));
   const ula = el('ul'); series.forEach(s => { const li = el('li'); const b = el('b', null, s.nome + ': '); b.style.color = s.cor; li.append(b, document.createTextNode(s.m.texto)); ula.append(li); }); pa.append(ula);
   const pt = $('persp-prem'); pt.innerHTML = ''; pt.append(el('div', null, 'Como a simulação é construída:'));
-  const ul = el('ul'); const fz = S.meta.focus; const d = sm.realDoc;
+  const ul = el('ul'); const fz = S.meta.focus; const d = sm.realDoc; const anos15 = (S.meta.hist15 && S.meta.hist15.anos) || 15;
   const med10 = (arr) => { let a = 1; for (let t = 1; t <= 120; t++) a *= 1 + mensal(nivelEm(arr, t)); return (Math.pow(a, 1 / 10) - 1) * 100; };
+  const cenTxt = (k) => { const r = simRow(k), h = hist15De(k); const em = ' em ' + simLbl(sm.cenEm); return ({ focus: 'medianas do relatório Focus', mediana: 'volta à mediana de ' + anos15 + ' anos' + (h ? ' (' + fmtNum(h.mediana, 2) + '%)' : '') + em, min: 'cai à mínima de ' + anos15 + ' anos' + (h ? ' (' + fmtNum(h.min, 2) + '%)' : '') + em, max: 'sobe à máxima de ' + anos15 + ' anos' + (h ? ' (' + fmtNum(h.max, 2) + '%)' : '') + em, atual: 'fica como está', custom: 'patamares editados por você', premio: (r.base === 'cdi' ? 'CDI' : 'IPCA') + ' ' + (r.premio >= 0 ? '+ ' : '− ') + fmtNum(Math.abs(r.premio), 1) + ' p.p.' })[r.cen] || r.cen; };
+  const hc = hist15De('cdi'), hr = hist15De('real');
   [
-    'Horizonte de ' + (H === 120 ? '10 anos' : H + ' meses') + ' a partir de ' + dBR(ref) + '. As taxas seguem os patamares da tabela, interpolados mês a mês (hoje → 12 → 24 → 36 meses) e mantidos no nível "depois" até 10 anos. Média implícita em 10 anos: CDI ' + fmtNum(med10(sm.cdi), 2) + '% a.a. e IPCA ' + fmtNum(med10(sm.ipca), 2) + '% a.a.',
-    (sm.usouFocus && fz ? 'CDI e IPCA partem das medianas do relatório Focus de ' + dBR(fz.data) + ' (Selic de fim de ano ' + Object.entries(fz.selic).map(([a, v]) => a + ': ' + fmtNum(v, 2) + '%').join(', ') + '; IPCA ' + Object.entries(fz.ipca).map(([a, v]) => a + ': ' + fmtNum(v, 2) + '%').join(', ') + ')' + (sm.custom.cdi || sm.custom.ipca ? ', com os patamares editados por você' : '') + '.' : 'Sem Focus disponível nesta base: CDI e IPCA partem dos valores atuais.'),
-    d ? 'Juro real de referência: ' + d.nome + ', hoje IPCA + ' + fmtNum(d.taxa, 2) + '%' + (d.taxa_hist ? '; desde ' + dBR(d.taxa_hist.desde) + ' a taxa variou entre ' + fmtNum(d.taxa_hist.min, 2) + '% e ' + fmtNum(d.taxa_hist.max, 2) + '%, com mediana de ' + fmtNum(d.taxa_hist.mediana, 2) + '%' : '') + '. Cenário: ' + ({ mediana: 'volta à mediana', min: 'cai à mínima', max: 'sobe à máxima', atual: 'fica como está', custom: 'patamares editados por você' })[sm.cenario] + (sm.cenario === 'custom' || sm.cenario === 'atual' ? '' : ' em ' + sm.cenEm + ' meses') + '.' : 'Sem título do Tesouro IPCA+ na base para servir de referência ao juro real.',
-    'Títulos do Tesouro: carrego da taxa contratada mais o efeito de preço da mudança de taxa (duration que encurta até o vencimento; no vencimento a marcação some). Fundos com benchmark IMA-B: NTN-B sintética de duration ' + fmtNum(sm.dImab, 1) + ' anos, escalada pelo beta do fundo e somada ao seu excesso histórico. Pós-fixados replicam o percentual do CDI entregue no ' + periodoLabel() + '. Demais fundos: CDI (ou IPCA) mais ' + (sm.exc === 0 ? 'nenhum excesso' : fmtNum(sm.exc * 100, 0) + '% do excesso histórico') + '.',
+    'Horizonte de ' + simLbl(H) + ' a partir de ' + dBR(ref) + '. As taxas seguem os patamares da tabela, interpolados mês a mês entre hoje, 1, 2, 3, 5 e 10 anos. Média implícita em 10 anos: CDI ' + fmtNum(med10(simRow('cdi').v), 2) + '% a.a. e IPCA ' + fmtNum(med10(simRow('ipca').v), 2) + '% a.a. Juro real derivado (CDI contra IPCA): ' + fmtNum(cdiReal(0), 2) + '% hoje, ' + fmtNum(cdiReal(3), 2) + '% em 3 anos.',
+    'CDI: ' + cenTxt('cdi') + (simRow('cdi').cen === 'focus' && fz ? ' de ' + dBR(fz.data) + ' (Selic de fim de ano ' + Object.entries(fz.selic).map(([a, v]) => a + ': ' + fmtNum(v, 2) + '%').join(', ') + ')' : '') + '. IPCA: ' + cenTxt('ipca') + (simRow('ipca').cen === 'focus' && fz ? ' (' + Object.entries(fz.ipca).map(([a, v]) => a + ': ' + fmtNum(v, 2) + '%').join(', ') + ')' : '') + '.' + (hc ? ' Nos últimos ' + anos15 + ' anos (desde ' + dBR(hc.desde) + ') o CDI ficou entre ' + fmtNum(hc.min, 2) + '% e ' + fmtNum(hc.max, 2) + '%, com mediana de ' + fmtNum(hc.mediana, 2) + '%.' : ''),
+    d ? 'Juro real: referência ' + d.nome + ', hoje IPCA + ' + fmtNum(d.taxa, 2) + '%; ' + cenTxt('real') + '.' + (hr ? ' O juro real de 10 anos (NTN-B) ficou entre ' + fmtNum(hr.min, 2) + '% e ' + fmtNum(hr.max, 2) + '% nos últimos ' + anos15 + ' anos (desde ' + dBR(hr.desde) + '), com mediana de ' + fmtNum(hr.mediana, 2) + '%.' : '') + ' A taxa da NTN-B é o juro real longo, que já embute os cortes esperados; por isso não é igual à conta CDI contra IPCA, que é o juro real de curto prazo.' : 'Sem título do Tesouro IPCA+ na base para servir de referência ao juro real.',
+    emUso.length ? 'Benchmarks de risco: ' + emUso.map(k => SIM_NOMES[k] + ' (' + cenTxt(k) + (k === 'dolar' && simRow(k).cen === 'focus' && fz && fz.cambio ? ': câmbio de fim de ano ' + Object.entries(fz.cambio).map(([a, v]) => a + ' R$ ' + fmtNum(v, 2)).join(', ') + (sm.dolar0 ? ', hoje R$ ' + fmtNum(sm.dolar0, 2) : '') : '') + ')').join('; ') + '. Edite os patamares para colocar a sua visão.' : null,
+    'Títulos do Tesouro: carrego da taxa contratada mais o efeito de preço da mudança de taxa (duration que encurta até o vencimento; no vencimento a marcação some). Fundos com benchmark IMA-B: NTN-B sintética de duration ' + fmtNum(sm.dImab, 1) + ' anos, escalada pelo beta do fundo. Fundos de risco: beta contra o seu benchmark ' + (S.periodo === 'max' || S.periodo === 'custom' ? 'no ' : 'nos ') + periodoLabel() + ' mais metade do alfa histórico (o alfa tende a diminuir com o tempo). Pós-fixados replicam o percentual do CDI entregue; atrelados à inflação seguem o IPCA mais metade do excesso histórico.',
     'A faixa mostra o intervalo de ' + sm.conf + '% de um modelo lognormal com a volatilidade histórica de cada ativo. Nada aqui considera imposto de renda, come-cotas, custódia ou spreads. Projeções não são previsões nem recomendação.',
-  ].forEach(t => ul.append(el('li', null, t)));
+  ].filter(Boolean).forEach(t => ul.append(el('li', null, t)));
   pt.append(ul);
 }
-// controles: grade de patamares + cenário do juro real
-function renderSimControles() {
-  const sm = S.sim; const d = sm.realDoc;
-  $('p-cdi0').textContent = fmtNum(sm.cdi[0], 2) + '%'; $('p-ipca0').textContent = fmtNum(sm.ipca[0], 2) + '%'; $('p-real0').textContent = d ? fmtNum(sm.real[0], 2) + '%' : 'n/d';
-  $('p-real-ref').textContent = d ? d.nome.replace('Tesouro ', '') : 'sem título';
-  document.querySelectorAll('#p-paths input').forEach(i => { const k = i.dataset.k, n = +i.dataset.i; const v = sm[k][n]; if (document.activeElement !== i) i.value = v == null ? '' : fmtNum(v, 2).replace(',', '.'); i.disabled = k === 'real' && !d; });
-  [...$('p-cen').children].forEach(b => b.setAttribute('aria-pressed', b.dataset.c === sm.cenario ? 'true' : 'false'));
+// mini-gráfico de 15 anos de uma taxa, com a mediana tracejada
+function spark15(h, cor) {
+  const w = 92, ht = 20; const svg = svgEl('svg', { viewBox: '0 0 ' + w + ' ' + ht, class: 'sp15', 'aria-hidden': 'true' });
+  const pts = h.serie || []; if (pts.length < 2) return svg;
+  const vals = pts.map(p => p[1]); const mn = Math.min(...vals), mx = Math.max(...vals); const sy = (v) => mx === mn ? ht / 2 : ht - 2 - (v - mn) / (mx - mn) * (ht - 4);
+  const d = vals.map((v, i) => (i ? 'L' : 'M') + (i / (vals.length - 1) * w).toFixed(1) + ' ' + sy(v).toFixed(1)).join(' ');
+  svg.append(svgEl('line', { x1: 0, x2: w, y1: sy(h.mediana).toFixed(1), y2: sy(h.mediana).toFixed(1), class: 'med' }));
+  svg.append(svgEl('path', { d, fill: 'none', stroke: cor, 'stroke-width': 1.2 }));
+  return svg;
+}
+// controles: tabela de patamares (uma linha por taxa, seletor de cenário em cada uma) + horizonte dos cenários
+function renderSimControles(emUso) {
+  const sm = S.sim; const d = sm.realDoc; const fz = S.meta.focus; const anos15 = (S.meta.hist15 && S.meta.hist15.anos) || 15;
+  const tb = $('p-paths'); tb.innerHTML = '';
+  const th = el('tr'); th.append(el('th', null, 'Taxas (% a.a.)')); SIM_COLS.forEach(c => th.append(el('th', null, c))); { const _h = el('thead'); _h.append(th); tb.append(_h); }
+  const tbody = el('tbody');
+  const optsDe = (k) => {
+    const r = simRow(k), h = hist15De(k); const o = [];
+    if (k === 'cdi' || k === 'ipca') { if (fz && fz.selic) o.push(['focus', 'Focus de ' + dBR(fz.data)]); }
+    if (k === 'dolar' && fz && fz.cambio && sm.dolar0) o.push(['focus', 'Câmbio do Focus']);
+    if (['cdi', 'ipca', 'real'].includes(k)) { if (h) { o.push(['mediana', 'Mediana de ' + anos15 + ' anos · ' + fmtNum(h.mediana, 2) + '%'], ['min', 'Mínima de ' + anos15 + ' anos · ' + fmtNum(h.min, 2) + '%'], ['max', 'Máxima de ' + anos15 + ' anos · ' + fmtNum(h.max, 2) + '%']); } o.push(['atual', 'Fica como está']); }
+    if (r.base) { const b = r.base === 'cdi' ? 'CDI' : 'IPCA'; const ps = r.base === 'cdi' ? [0, 1, 3, 5] : k === 'dolar' ? [-2, 0, 2] : [0, 2, 4]; if (r.cen === 'premio' && !ps.includes(r.premio)) ps.push(r.premio); ps.sort((a, b2) => a - b2).forEach(p => o.push(['premio:' + p, b + ' ' + (p >= 0 ? '+ ' : '− ') + Math.abs(p) + ' p.p.'])); }
+    if (r.cen === 'custom') o.push(['custom', 'Personalizado']);
+    return o;
+  };
+  const linha = (k, nome, sub, cor) => {
+    const r = simRow(k); const tr = el('tr'); tr.dataset.k = k;
+    const td0 = el('td', 'rl'); const rn = el('div', 'rn'); const nm = el('b', null, nome); rn.append(nm); if (sub) rn.append(el('small', null, sub));
+    const sel = el('select', 'cen'); sel.title = 'Cenário'; const opts = optsDe(k); opts.forEach(([v, t]) => sel.append(new Option(t, v))); sel.value = r.cen === 'premio' ? 'premio:' + r.premio : r.cen; if (sel.value !== (r.cen === 'premio' ? 'premio:' + r.premio : r.cen) && opts.length) sel.value = opts[0][0];
+    sel.addEventListener('change', () => { const v = sel.value; if (v.startsWith('premio:')) { r.cen = 'premio'; r.premio = +v.slice(7); } else r.cen = v; aplicarTudo(); renderPersp(); });
+    const h = hist15De(k); const wrap = el('div', 'rl2'); wrap.append(sel); if (h && h.serie) { const sp = spark15(h, cor || 'var(--text-2)'); sp.setAttribute('title', anos15 + ' anos: mínima ' + fmtNum(h.min, 2) + '%, mediana ' + fmtNum(h.mediana, 2) + '%, máxima ' + fmtNum(h.max, 2) + '%'); wrap.append(sp); }
+    td0.append(rn, wrap); tr.append(td0);
+    const now = el('td', 'now', r.v[0] == null ? 'n/d' : fmtNum(r.v[0], 2) + '%'); if (k === 'dolar' && sm.dolar0) now.title = 'Dólar hoje: R$ ' + fmtNum(sm.dolar0, 2); tr.append(now);
+    for (let i = 1; i < 6; i++) { const td = el('td'); const inp = el('input'); inp.type = 'text'; inp.inputMode = 'decimal'; inp.setAttribute('aria-label', nome + ' em ' + SIM_COLS[i]); inp.value = r.v[i] == null ? '' : fmtNum(r.v[i], 2); inp.disabled = r.v[0] == null && !r.base; td.append(inp); tr.append(td);
+      stepper(inp, { step: 0.25, big: 1, min: -5, max: 60, dec: 2, onChange: (v) => { r.v[i] = r2(v); r.cen = 'custom'; aplicarTudo(); renderPersp(); } }); }
+    return tr;
+  };
+  tbody.append(linha('cdi', 'CDI', null, COR_CDI));
+  tbody.append(linha('ipca', 'IPCA', null, CORES_BENCH.ipca));
+  // juro real derivado (só leitura)
+  { const tr = el('tr', 'derived'); const td0 = el('td', 'rl'); const rn = el('div', 'rn'); rn.append(el('b', null, 'CDI real'), el('small', null, 'CDI contra IPCA, derivado')); td0.append(rn); tr.append(td0); for (let i = 0; i < 6; i++) { const v = cdiReal(i); tr.append(el('td', 'now', v == null ? '' : fmtNum(v, 2) + '%')); } tbody.append(tr); }
+  tbody.append(linha('real', 'Juro real', d ? 'NTN-B: ' + d.nome.replace('Tesouro ', '') : 'sem título de referência', CORES_BENCH.imab));
+  (emUso || []).forEach(k => tbody.append(linha(k, SIM_NOMES[k] || k, k === 'dolar' ? 'variação anual' : 'retorno anual esperado', CORES_BENCH[k])));
+  tb.append(tbody);
   [...$('p-cen-em').children].forEach(b => b.setAttribute('aria-pressed', +b.dataset.m === sm.cenEm ? 'true' : 'false'));
-  $('p-cen-em').classList.toggle('dim', sm.cenario === 'custom' || sm.cenario === 'atual');
-  const fz = S.meta.focus; $('p-focus').textContent = fz ? 'Focus de ' + dBR(fz.data) : 'Sem Focus'; $('p-focus').disabled = !fz;
-  $('p-focus').classList.toggle('on', sm.usouFocus && !sm.custom.cdi && !sm.custom.ipca);
-  if (d && d.taxa_hist) { const h = d.taxa_hist; $('p-cen').querySelector('[data-c="mediana"]').title = 'IPCA + ' + fmtNum(h.mediana, 2) + '%'; $('p-cen').querySelector('[data-c="min"]').title = 'IPCA + ' + fmtNum(h.min, 2) + '%'; $('p-cen').querySelector('[data-c="max"]').title = 'IPCA + ' + fmtNum(h.max, 2) + '%'; }
+  const temCen = Object.values(sm.rows).some(r => ['mediana', 'min', 'max'].includes(r.cen)); $('p-cen-em').classList.toggle('dim', !temCen);
 }
 $('p-h').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.sim.h = +b.dataset.h; [...$('p-h').children].forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false')); renderPersp(); });
 $('p-conf').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.sim.conf = +b.dataset.c; [...$('p-conf').children].forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false')); renderPersp(); });
-$('p-exc').addEventListener('change', () => { S.sim.exc = +$('p-exc').value; renderPersp(); });
-$('p-focus').addEventListener('click', () => { S.sim.custom.cdi = false; S.sim.custom.ipca = false; simPadrao(false); renderPersp(); });
 $('p-reset').addEventListener('click', () => { simPadrao(true); renderPersp(); });
-$('p-cen').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.sim.cenario = b.dataset.c; aplicarCenario(); renderPersp(); });
-$('p-cen-em').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.sim.cenEm = +b.dataset.m; if (S.sim.cenario === 'custom') S.sim.cenario = 'mediana'; aplicarCenario(); renderPersp(); });
-$('p-paths').addEventListener('change', (e) => { const i = e.target.closest('input'); if (!i) return; const k = i.dataset.k, n = +i.dataset.i; const v = parseFloat(String(i.value).replace(',', '.')); if (!isFinite(v)) { renderSimControles(); return; }
-  S.sim[k][n] = Math.max(-5, Math.min(60, v)); if (k === 'real') S.sim.cenario = 'custom'; else S.sim.custom[k] = true; renderPersp(); });
+$('p-cen-em').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.sim.cenEm = +b.dataset.m; aplicarTudo(); renderPersp(); });
 
 })();
 </script>
