@@ -24,7 +24,7 @@ Saída do pipeline (`dist/data/`):
 
 | Arquivo | Conteúdo |
 |---|---|
-| `meta.json` | calendário de dias úteis, CDI acumulado e diário, semanas, data de referência, lista de benchmarks, títulos do Tesouro, históricos e tipos XP |
+| `meta.json` | calendário de dias úteis, CDI acumulado e diário, semanas, data de referência, lista de benchmarks, títulos do Tesouro, históricos, tipos XP e expectativas do Focus (`focus`) |
 | `index.json` | índice de busca: um registro compacto por fundo (CNPJ, nome, classe, gestora, PL, cotistas, 12/24/36 meses, campos XP, site e ícone da gestora) |
 | `fundos/<cnpj>.json` | cotas diárias, patrimônio e cotistas semanais, métricas por janela (12/24/36/48 meses), retornos mensais, dados XP |
 | `bench/<id>.json` | benchmarks alinhados ao calendário: ipca, ipca6 (IPCA + 6% a.a.), poupanca, dolar, ibov, ifix, imab, irfm, sp500, sp500brl, nasdaq, nasdaqbrl, msci, mscibrl, ouro, ourobrl, btc |
@@ -40,11 +40,9 @@ consistência (% de meses fechados acima do CDI), meses positivos, melhor e pior
 Universo publicado: fundos em funcionamento normal, não exclusivos, com pelo menos 10 cotistas e informe recente. Os fundos da plataforma XP
 e os fundos de previdência (nome com PREV, FIE, VGBL ou PGBL; os FIEs têm a seguradora como único cotista) entram sem a regra de cotistas.
 
-Gestora e administrador vêm de `registro_fundo.csv` (RCVM 175), cruzado com `registro_classe.csv` por `ID_Registro_Fundo`;
+Gestora e administrador vêm de `registro_fundo.csv` (RCVM 175), cruzado com `registro_classe.csv` por `ID_Registro_Fundo`; o nome curto e o site da gestora vêm de `pipeline/gestoras.json` (com um nome curto derivado do nome legal quando a casa não está no catálogo). A taxa de administração não existe no cadastro novo da CVM; quando o fundo está na planilha da XP, usa-se a taxa de lá.
 Nos fundos de previdência (FIEs dos planos XP Seguros, Icatu etc.) a gestora exibida é o **gestor estratégico** da planilha XP (SPX, Ibiuna...), e o gestor da CVM fica como nome legal.
 Os ícones das gestoras são baixados pelo pipeline (favicons dos sites oficiais), têm o fundo branco removido e vão para `data/logos/<slug>.png` (coluna `gestor_logo = "p"`); quando o processamento falha, a página usa o favicon direto ou um monograma.
-o nome curto e o site da gestora vêm de `pipeline/gestoras.json` (com um nome curto derivado do nome legal quando a casa não está no catálogo).
-A taxa de administração não existe no cadastro novo da CVM; quando o fundo está na planilha da XP, usa-se a taxa de lá.
 
 **IMA-B e IRF-M** não têm fonte aberta com histórico (as séries do BCB pararam em maio/2023 e a ANBIMA publica em aberto só o dia corrente).
 São replicados pela cota dos fundos passivos Caixa Brasil IMA-B e IRF-M Títulos Públicos, com a taxa de administração (0,20% a.a.) devolvida.
@@ -52,9 +50,18 @@ A cada execução o pipeline lê `ima_completo.txt` da ANBIMA e acumula o númer
 a série passa a seguir o número da ANBIMA a partir do primeiro dia disponível (emendada ao proxy).
 
 A página ainda calcula no navegador: séries sintéticas de renda fixa (% do CDI, prefixado, IPCA+), períodos personalizados e o período
-máximo (desde a primeira cota do ativo mais recente da comparação), a carteira de **Diversificação** (até 10 ativos com pesos, com ou sem rebalanceamento), a aba **Perspectivas** (projeções lognormais com premissas de CDI,
-IPCA, excesso de retorno e variação de taxa do Tesouro) e a análise dos COEs da prateleira da XP (payoff, histórico do ativo-objeto,
+máximo (desde a primeira cota do ativo mais recente da comparação), a carteira de **Diversificação** (até 10 ativos com pesos, com ou sem rebalanceamento), o **Simulador** e a análise dos COEs da prateleira da XP (payoff, histórico do ativo-objeto,
 cenários e leitura de outras lâminas em PDF).
+
+**Simulador** (botão no cabeçalho do gráfico): horizontes de 12, 24, 36 meses e 10 anos. O usuário informa os **patamares** do CDI, do IPCA e do juro real
+(NTN-B) em 12, 24 e 36 meses e o nível "depois" (mantido até 10 anos); a página interpola mês a mês. Padrões: CDI e IPCA pelas medianas do relatório
+Focus do Banco Central (`meta.focus`, baixado pelo pipeline da API Olinda, `ExpectativasMercadoAnuais`, Selic de fim de ano interpolada e IPCA do ano) e
+juro real voltando à mediana histórica do Tesouro IPCA+ de referência (o IPCA+ da comparação ou o principal com vencimento mais perto de 10 anos) em 24 meses;
+botões "Voltar à mediana / Cair à mínima / Subir à máxima / Ficar como está" em 12, 24 ou 36 meses. Modelo por ativo: pós-fixados e % do CDI seguem o caminho do CDI;
+IPCA+ segue IPCA + taxa; títulos do Tesouro combinam o carrego com o efeito de preço (duration que encurta até o vencimento; depois reinvestem no juro do momento);
+fundos com benchmark IMA-B viram uma NTN-B sintética de duration 7,5 anos escalada pelo beta do fundo (regressão diária na janela; só quando a correlação
+passa de 0,35) mais o seu excesso histórico; os demais fundos seguem CDI (ou IPCA) mais parte do excesso histórico, com faixa lognormal de 68% ou 95%.
+A tabela mostra os marcos (12, 24, 36 m e 10 anos) com o ágio/deságio dos títulos, e as letras miúdas explicam o patamar de cada ativo.
 
 O catálogo `pipeline/coes.json` é mantido à mão: os COEs em oferta mudam a cada reserva e os termos vêm da lâmina (material publicitário)
 e do DIE de cada um, disponíveis em "Detalhes do ativo" no Hub XP.
