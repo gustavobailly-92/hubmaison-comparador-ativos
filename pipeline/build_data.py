@@ -990,6 +990,21 @@ def main() -> int:
             "indices": "B3 (Ibovespa, IFIX), Nasdaq (Nasdaq 100, SPY, URTH, GLD, AIQ), Coinbase (Bitcoin em dólar, convertido pela PTAX); reservas CoinGecko, Yahoo, Stooq e FRED",
         },
     }
+    # expectativas do Focus (medianas anuais de Selic e IPCA) para as premissas do simulador; fica em cache por 1 dia
+    if not args.offline:
+        focus = None
+        try:
+            focus = fx.focus_expectativas()
+        except Exception as e:
+            log(f"  Focus: falhou ({e})")
+        if focus:
+            meta["focus"] = focus
+            log(f"  Focus de {focus['data']}: Selic {focus['selic']} · IPCA {focus['ipca']}")
+        else:
+            log("  Focus: sem resposta da API do BCB; o simulador usa o CDI e o IPCA atuais")
+    else:
+        meta["focus"] = {"data": ref.isoformat(), "selic": {str(ref.year): 14.75, str(ref.year + 1): 12.25, str(ref.year + 2): 10.5, str(ref.year + 3): 10.0},
+                         "ipca": {str(ref.year): 4.8, str(ref.year + 1): 4.3, str(ref.year + 2): 3.9, str(ref.year + 3): 3.75}}
     # catálogo de COEs da XP (mantido à mão em pipeline/coes.json, a partir das lâminas e DIEs)
     coes_src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "coes.json")
     if os.path.exists(coes_src):

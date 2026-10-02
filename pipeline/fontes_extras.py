@@ -867,3 +867,36 @@ def baixar_logos(gestoras: list[dict], out_dir: str, cache_dir: str, log=print, 
     log(f"  ícones das gestoras: {ok} processados (fundo transparente)" + (
         "; sem ícone: " + ", ".join(f"{k} ×{v}" for k, v in sorted(motivos.items(), key=lambda kv: -kv[1])[:4]) if motivos else ""))
     return ok
+
+
+# --------------------------------------------------------------------------- expectativas do mercado (relatório Focus, Banco Central)
+
+FOCUS_ANUAIS = ("https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoAnuais"
+                "?$top=400&$orderby=Data%20desc&$format=json&$select=Indicador,Data,DataReferencia,Mediana,baseCalculo"
+                "&$filter=(Indicador%20eq%20'Selic'%20or%20Indicador%20eq%20'IPCA')%20and%20baseCalculo%20eq%200")
+
+
+def focus_expectativas(anos: int = 5) -> dict | None:
+    """Medianas anuais do Focus (Selic de fim de ano e IPCA do ano) da pesquisa mais recente, para os próximos `anos` anos.
+    Devolve {"data": "aaaa-mm-dd", "selic": {"2026": 15.0, ...}, "ipca": {"2026": 4.8, ...}} ou None quando a API não responde."""
+    try:
+        raw = http_get(FOCUS_ANUAIS, tentativas=2, timeout=60, headers={"Accept": "application/json"})
+        dados = json.loads(raw.decode("utf-8")).get("value", [])
+    except Exception:
+        return None
+    if not dados:
+        return None
+    ultima = max(d.get("Data", "") for d in dados)
+    out = {"data": ultima, "selic": {}, "ipca": {}}
+    ano0 = int(ultima[:4])
+    for d in dados:
+        if d.get("Data") != ultima or d.get("Mediana") is None:
+            continue
+        ano = str(d.get("DataReferencia", "")).strip()[:4]
+        if not ano.isdigit() or not (ano0 <= int(ano) < ano0 + anos):
+            continue
+        chave = "selic" if d.get("Indicador") == "Selic" else "ipca"
+        out[chave][ano] = round(float(d["Mediana"]), 2)
+    if not out["selic"] or not out["ipca"]:
+        return None
+    return out
