@@ -819,6 +819,7 @@ def processar_logo(raw: bytes, tamanho: int = 64) -> bytes | None:
     if not bbox:
         return None
     im = im.crop(bbox)
+    im = clarear_logo_escura(im)
     lado = max(im.size)
     quadro = Image.new("RGBA", (lado, lado), (0, 0, 0, 0))
     quadro.paste(im, ((lado - im.size[0]) // 2, (lado - im.size[1]) // 2))
@@ -826,6 +827,36 @@ def processar_logo(raw: bytes, tamanho: int = 64) -> bytes | None:
     out = io.BytesIO()
     quadro.save(out, format="PNG", optimize=True)
     return out.getvalue()
+
+
+LOGO_VERSAO = "v2"  # muda quando o processamento muda, para ignorar o cache antigo
+
+
+def clarear_logo_escura(im, limite: float = 0.34):
+    """Logos pretas ou de cor escura somem sobre o fundo escuro do site: quando a luminância média dos pixels
+    visíveis fica abaixo do limite, a cor é descartada e a luminância invertida (preto vira branco, cinza escuro
+    vira cinza claro), preservando a transparência e as bordas suavizadas."""
+    px = im.load()
+    w, h = im.size
+    soma = 0.0
+    peso = 0
+    for y in range(h):
+        for x in range(w):
+            r, g, b, a = px[x, y]
+            if a < 30:
+                continue
+            soma += (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255 * a
+            peso += a
+    if not peso or soma / peso > limite:
+        return im
+    for y in range(h):
+        for x in range(w):
+            r, g, b, a = px[x, y]
+            if a == 0:
+                continue
+            v = 255 - int(round(0.2126 * r + 0.7152 * g + 0.0722 * b))
+            px[x, y] = (v, v, v, a)
+    return im
 
 
 def baixar_logos(gestoras: list[dict], out_dir: str, cache_dir: str, log=print, dias_cache: int = 30) -> int:
@@ -846,7 +877,7 @@ def baixar_logos(gestoras: list[dict], out_dir: str, cache_dir: str, log=print, 
             continue
         slug = slug_site(site)
         alvo = os.path.join(out_dir, slug + ".png")
-        cache = os.path.join(cache_dir, slug + ".png")
+        cache = os.path.join(cache_dir, slug + "." + LOGO_VERSAO + ".png")
         falha = os.path.join(cache_dir, slug + ".sem-icone")
         agora = time.time()
         if os.path.exists(cache) and agora - os.path.getmtime(cache) < dias_cache * 86400:
@@ -873,7 +904,7 @@ def baixar_logos(gestoras: list[dict], out_dir: str, cache_dir: str, log=print, 
             ok += 1
         else:
             open(falha, "w").close()
-    log(f"  ícones das gestoras: {ok} processados (fundo transparente)" + (
+    log(f"  ícones das gestoras: {ok} processados (fundo transparente, escuras clareadas)" + (
         "; sem ícone: " + ", ".join(f"{k} ×{v}" for k, v in sorted(motivos.items(), key=lambda kv: -kv[1])[:4]) if motivos else ""))
     return ok
 
