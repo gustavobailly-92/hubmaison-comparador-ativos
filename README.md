@@ -42,7 +42,7 @@ e os fundos de previdência (nome com PREV, FIE, VGBL ou PGBL; os FIEs têm a se
 
 Gestora e administrador vêm de `registro_fundo.csv` (RCVM 175), cruzado com `registro_classe.csv` por `ID_Registro_Fundo`; o nome curto e o site da gestora vêm de `pipeline/gestoras.json` (com um nome curto derivado do nome legal quando a casa não está no catálogo). A taxa de administração não existe no cadastro novo da CVM; quando o fundo está na planilha da XP, usa-se a taxa de lá.
 Nos fundos de previdência (FIEs dos planos XP Seguros, Icatu etc.) a gestora exibida é o **gestor estratégico** da planilha XP (SPX, Ibiuna...), e o gestor da CVM fica como nome legal.
-Os ícones das gestoras são baixados pelo pipeline (favicons dos sites oficiais), têm o fundo branco removido e vão para `data/logos/<slug>.png` (coluna `gestor_logo = "p"`); quando o processamento falha, a página usa o favicon direto ou um monograma.
+Os ícones das gestoras são baixados pelo pipeline (favicons dos sites oficiais), têm o fundo branco removido e, quando são pretos ou de cor escura (luminância média abaixo de 0,34), têm a luminância invertida para ficarem claros sobre o fundo escuro do site; vão para `data/logos/<slug>.png` (coluna `gestor_logo = "p"`; cache de 30 dias em `cache/logos/<slug>.v2.png`). Quando o processamento falha, a página usa o favicon direto ou um monograma.
 
 **IMA-B e IRF-M** não têm fonte aberta com histórico (as séries do BCB pararam em maio/2023 e a ANBIMA publica em aberto só o dia corrente).
 São replicados pela cota dos fundos passivos Caixa Brasil IMA-B e IRF-M Títulos Públicos, com a taxa de administração (0,20% a.a.) devolvida.
@@ -53,17 +53,27 @@ A página ainda calcula no navegador: séries sintéticas de renda fixa (% do CD
 máximo (desde a primeira cota do ativo mais recente da comparação), a carteira de **Diversificação** (até 10 ativos com pesos, com ou sem rebalanceamento), o **Simulador** e a análise dos COEs da prateleira da XP (payoff, histórico do ativo-objeto,
 cenários e leitura de outras lâminas em PDF).
 
-**Simulador** (botão no cabeçalho do gráfico): horizontes de 1, 2, 3, 5 e 10 anos. A tabela de **patamares** (% a.a., em hoje, 1, 2, 3, 5 e 10 anos, interpolados mês a mês)
-tem uma linha para o CDI, o IPCA e o juro real (NTN-B de referência: o Tesouro IPCA+ da comparação ou o principal com vencimento mais perto de 10 anos), uma linha derivada
-"CDI real" (CDI contra IPCA, só leitura) e uma linha por benchmark de risco em uso (Ibovespa, S&P 500 e MSCI em reais, IFIX, ouro, dólar). Cada linha tem o seu cenário:
-medianas do **Focus** (CDI e IPCA, padrão; dólar pelo câmbio de fim de ano do Focus), **mediana, mínima ou máxima de 15 anos** (CDI diário do BCB, IPCA de 12 meses e juro
-real de 10 anos construído com as NTN-Bs do histórico do Tesouro Direto; `meta.hist15`), "fica como está", ou base + prêmio para os benchmarks (padrão: Ibovespa, S&P e MSCI
-= CDI + 3 p.p.; IFIX = CDI + 1; ouro = IPCA + 2; dólar = IPCA − 2 sem Focus). Os cenários chegam ao alvo em 1, 2 ou 3 anos (padrão 3, linear) e ficam lá; qualquer célula
-editada (com os botões − e +, teclado ou digitando) vira "personalizado". Modelo por ativo: pós-fixados e % do CDI seguem o caminho do CDI; IPCA+ segue IPCA + taxa; títulos
-do Tesouro combinam o carrego com o efeito de preço (duration que encurta até o vencimento; depois reinvestem no juro do momento); fundos com benchmark IMA-B viram uma NTN-B
-sintética de duration 7,5 anos escalada pelo beta do fundo (regressão diária na janela; só quando a correlação passa de 0,35); fundos de risco seguem beta × caminho do seu
-benchmark; atrelados à inflação seguem o IPCA mais o spread; em todos os fundos entra metade do alfa (ou do excesso) histórico, com faixa lognormal de 68% ou 95%.
-A tabela mostra os marcos com o ágio/deságio dos títulos e a comparação com o benchmark de cada ativo (ao ano acima de 3 anos); as letras miúdas explicam cada patamar.
+**Simulador** (botão no cabeçalho do gráfico): o horizonte (1, 2, 3, 5 e 10 anos) fica acima do gráfico; abaixo dele, **Opções avançadas** (recolhidas por padrão) guardam
+a tabela de **patamares** (% a.a., em hoje, 1, 2, 3, 5 e 10 anos, interpolados mês a mês), o prazo em que os cenários chegam ao alvo e o intervalo da faixa (68% ou 95%).
+A tabela tem uma linha para o CDI, uma para o IPCA e uma por benchmark de risco em uso (Ibovespa, S&P 500 e MSCI em reais, IFIX, ouro, dólar). O **juro real** (NTN-B de
+referência: o Tesouro IPCA+ da comparação ou o principal com vencimento mais perto de 10 anos) é **derivado** do CDI e do IPCA pela hipótese das expectativas: em cada marco,
+a média do juro real ex-ante (Fisher, CDI contra IPCA) dos 10 anos seguintes mais o prêmio a termo de hoje (taxa da NTN-B menos essa média); "Adicionar juro real" mostra a
+linha para quem quiser editar ou escolher um cenário próprio. Cada linha tem um menu de cenário com ícone: medianas do **Focus** (CDI e IPCA, padrão; dólar pelo câmbio de fim
+de ano do Focus), **mediana, mínima ou máxima de 15 anos** (CDI diário do BCB, IPCA de 12 meses e juro real de 10 anos construído com as NTN-Bs do histórico do Tesouro
+Direto; `meta.hist15`), "fica como está", ou base + prêmio para os benchmarks (padrão: Ibovespa, S&P e MSCI = CDI + 3 p.p.; IFIX = CDI + 1; ouro = IPCA + 2; dólar = IPCA − 2
+sem Focus). Os cenários chegam ao alvo em 1, 2 ou 3 anos (padrão 3, linear) e ficam lá; qualquer célula editada (com os botões − e +, teclado ou digitando) vira "personalizado".
+Modelo por ativo: pós-fixados e % do CDI seguem o caminho do CDI; IPCA+ segue IPCA + taxa; títulos do Tesouro combinam o carrego com o efeito de preço (duration que encurta
+até o vencimento; depois reinvestem no juro do momento); fundos com benchmark IMA-B viram uma NTN-B sintética de duration 7,5 anos escalada pelo beta do fundo (regressão diária
+na janela; só quando a correlação passa de 0,35); fundos de risco seguem beta × caminho do seu benchmark; atrelados à inflação seguem o IPCA mais o spread; em todos os fundos
+entra metade do alfa (ou do excesso) histórico, com faixa lognormal de 68% ou 95%. O gráfico traz o CDI e os benchmarks ligados no trilho como linhas tracejadas.
+A tabela de resultados mostra os marcos com o ágio/deságio dos títulos, a faixa pessimista/otimista, uma coluna **"vs"** por referência do trilho (vs CDI sempre; vs Ibov, vs S&P
+etc. quando o benchmark está ligado), em pontos percentuais acumulados no horizonte, o Sharpe no período e a correlação com o Ibovespa; em cada linha, dois seletores
+(classificação XP tipo · classe, Tesouro por família ou renda fixa sintética, e o ativo) trocam o ativo na comparação inteira mantendo cor e peso, e a linha "Adicionar ativo"
+acrescenta outro. As letras miúdas ("Como a simulação é construída") ficam recolhidas no fim do card. Os campos numéricos do site (patamares, COE, renda fixa) usam o mesmo
+stepper (− e +, segurar para repetir, setas; o valor digitado entra como está).
+
+A renda fixa hipotética aceita um **emissor** (CDB BMG, LCI Banco Original...), que vira o nome do ativo e vai na chave `rf:tipo:taxa:emissor`; a busca também
+entende "CDB Pine 110% do CDI".
 
 Em toda a página a comparação de um fundo é feita com o **seu benchmark** (coluna `bm`): "148% CDI" para os referenciados, "Ibov +5,2 p.p." para ações, "IMA-B +x p.p."
 e "IPCA +x p.p." para os atrelados à inflação, "Dólar", "S&P 500", "MSCI" e "IFIX" nos demais; nos cards dos ativos, na tabela por período (barra com o marcador do
@@ -72,7 +82,7 @@ benchmark), na ficha (cards de 12, 24 e 36 meses), no ranking e no relatório. T
 O catálogo `pipeline/coes.json` é mantido à mão: os COEs em oferta mudam a cada reserva e os termos vêm da lâmina (material publicitário)
 e do DIE de cada um, disponíveis em "Detalhes do ativo" no Hub XP.
 
-Na tabela de rentabilidade por período e no ranking, cada coluna (12, 24, 36 meses) tem a sua própria escala de tons: verde mais forte para as maiores rentabilidades, vermelho para as negativas. O ranking tem a aba "Todos" (sem filtro de tipo).
+Na tabela de rentabilidade por período e no ranking, cada coluna (12, 24, 36 meses) tem a sua própria escala de tons, discreta: azul da marca mais presente nas maiores rentabilidades, vermelho suave nas negativas. O CDI e os benchmarks ligados ficam só no trilho lateral e nos gráficos (não aparecem como card nem como linha nas tabelas de ativos). O ranking tem a aba "Todos" (sem filtro de tipo).
 
 O **ranking de fundos** e os **COEs** abrem em painéis sobrepostos (atalhos do topo; `?coe=<id>` abre o COE direto). No ranking, cada janela
 (12, 24 e 36 meses) mostra a rentabilidade absoluta e, abaixo, a comparação com o benchmark do próprio fundo: "% CDI" para os referenciados,
@@ -82,7 +92,9 @@ deduzida do benchmark informado pela XP; sem ele, do nome do fundo (IPCA, infla�
 Na **Diversificação**, mover o peso de um ativo redistribui o restante entre os outros na proporção que já tinham, de modo que a soma é sempre 100%;
 "Montar carteira" (atalho do topo e barra do ranking) leva direto a essa seção. O **relatório para o cliente** (bloco "Relatório para o cliente" na Diversificação) monta, só no navegador, um documento A4 com capa, carteira,
 rentabilidade estimada dos últimos 12 meses, projeção de 10 anos, liquidez (resgate por prazo, com o D+ da XP editável), uma página por ativo
-e as gestoras da carteira. Abre numa nova aba com tema escuro ou claro; o PDF sai por "Imprimir → Salvar como PDF".
+e as gestoras da carteira. Abre numa nova aba com tema escuro ou claro; o PDF sai por "Imprimir → Salvar como PDF". A projeção de 10 anos usa o simulador (soma ponderada dos caminhos
+de cada ativo pelos patamares atuais; faixa pela volatilidade histórica da carteira; marcos de 1, 3, 5 e 10 anos); nas páginas por ativo (duas por página),
+os fundos mostram os últimos 12 meses e os títulos do Tesouro e a renda fixa mostram a perspectiva (caminho esperado até 10 anos com a faixa, CDI e IPCA).
 
 ## Rodar localmente
 
