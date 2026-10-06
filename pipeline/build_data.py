@@ -33,6 +33,7 @@ import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fontes_extras as fx  # noqa: E402
+import acoes as ac  # noqa: E402
 
 CVM_INF = "https://dados.cvm.gov.br/dados/FI/DOC/INF_DIARIO/DADOS/"
 CVM_CAD = "https://dados.cvm.gov.br/dados/FI/CAD/DADOS/cad_fi.csv"
@@ -700,7 +701,7 @@ def main() -> int:
 
     hoje = date.fromisoformat(args.hoje) if args.hoje else date.today()
     os.makedirs(args.out, exist_ok=True)
-    for sub in ("fundos", "bench", "tesouro", "hist"):
+    for sub in ("fundos", "bench", "tesouro", "hist", "acoes"):
         os.makedirs(os.path.join(args.out, sub), exist_ok=True)
     os.makedirs(args.cache, exist_ok=True)
     avisos: list[str] = []
@@ -937,6 +938,7 @@ def main() -> int:
         return d
 
     bench_meta, tesouro_meta, hist_meta = [], [], []
+    acoes_rows, acoes_info, n_bdr = [], {}, 0
     if not args.sem_extras:
         log("4b/5 benchmarks")
         try:
@@ -996,11 +998,13 @@ def main() -> int:
                     fonte = "ANBIMA (oficial) + fundo indexado"
             bench.append({"id": id_, "nome": nome_b, "moeda": "BRL", "fonte": fonte, "desc": desc, "q": qg})
             log(f"  {nome_b}: proxy pelo fundo {nome_f}" + (" com emenda oficial" if len(ofi) >= 20 else ""))
+        bench_docs = {}
         for b in bench:
             d = doc_serie(b["q"], {k: v for k, v in b.items() if k != "q"})
             if not d:
                 avisos.append(f"benchmark {b['nome']} sem dados suficientes")
                 continue
+            bench_docs[b["id"]] = d
             with open(os.path.join(args.out, "bench", f"{b['id']}.json"), "w", encoding="utf-8") as fh:
                 json.dump(d, fh, ensure_ascii=False, separators=(",", ":"))
             j12 = d["janelas"].get("12") or {}
@@ -1031,8 +1035,40 @@ def main() -> int:
             j12 = d["janelas"].get("12") or {}
             tesouro_meta.append({"id": t["id"], "nome": t["nome"], "tipo": t["tipo"], "indexador": t["indexador"], "venc": t["venc"],
                                  "taxa": t["taxa"], "duration": None if t["duration"] is None else round(t["duration"], 2),
-                                 "cupom": t["cupom"], "ret12": j12.get("ret"), "vol12": j12.get("vol"), "ate": d["ate"]})
+                                 "cupom": t["cupom"], "ret12": j12.get("ret"), "vol12": j12.get("vol"), "sharpe12": j12.get("sharpe"),
+                                 "ret24": (d["janelas"].get("24") or {}).get("ret"), "ret36": (d["janelas"].get("36") or {}).get("ret"), "ate": d["ate"]})
         tesouro_meta.sort(key=lambda x: (x["tipo"], x["venc"]))
+
+        log("4d/5 ações e BDRs")
+        acoes_rows = []
+        acoes_info = {}
+        try:
+            papeis, acoes_info = ac.carregar_acoes(datas, hoje, args.offline, args.cache, avisos)
+        except Exception as e:  # noqa: BLE001
+            avisos.append(f"ações e BDRs falharam: {e}")
+            papeis = []
+        n_bdr = 0
+        for p in papeis:
+            extra = {k: v for k, v in p.items() if k not in ("q", "sessoes", "possiveis")}
+            d = doc_serie(p["q"], extra)
+            if not d:
+                continue
+            jb = (bench_docs.get(p["bm"]) or {}).get("janelas")
+            d["premio"], d["premio_w"] = ac.premio_sobre(d["janelas"], jb)
+            with open(os.path.join(args.out, "acoes", f"{p['ticker']}.json"), "w", encoding="utf-8") as fh:
+                json.dump(d, fh, ensure_ascii=False, separators=(",", ":"))
+            j12 = d["janelas"].get("12") or {}
+            j24 = d["janelas"].get("24") or {}
+            j36 = d["janelas"].get("36") or {}
+            acoes_rows.append([p["ticker"], p["nome"], p["tipo"], p["especi"], j12.get("ret"), j12.get("pcdi"), j12.get("sharpe"), j12.get("vol"),
+                               j24.get("ret"), j36.get("ret"), d["premio"], d["premio_w"], p["bm"], round(p["liq"]), round(p["preco"], 2), d["ate"]])
+            if p["tipo"] == "bdr":
+                n_bdr += 1
+        with open(os.path.join(args.out, "acoes.json"), "w", encoding="utf-8") as fh:
+            json.dump({"colunas": ["ticker", "nome", "tipo", "especi", "ret12", "pcdi12", "sharpe12", "vol12", "ret24", "ret36",
+                                   "premio", "premio_w", "bm", "liq", "preco", "ate"],
+                       "acoes": acoes_rows, "info": acoes_info}, fh, ensure_ascii=False, separators=(",", ":"))
+        log(f"  {len(acoes_rows)} papéis publicados ({len(acoes_rows) - n_bdr} ações, {n_bdr} BDRs)")
 
     log("5/5 índice e metadados")
     index_rows.sort(key=lambda x: -(x[4] or 0))
@@ -1055,6 +1091,7 @@ def main() -> int:
         "benchmarks": bench_meta,
         "tesouro": tesouro_meta,
         "historicos": hist_meta,
+        "acoes": {"n": len(acoes_rows), "bdrs": n_bdr, **{k: v for k, v in acoes_info.items() if k != "papeis_no_arquivo"}},
         "xp_tipos": [t for t, _ in fx.TIPO_XP],
         "janelas": list(JANELAS),
         "min_cotistas": args.min_cotistas,
@@ -1124,7 +1161,7 @@ def main() -> int:
     status = {
         "referencia": ref.isoformat(), "gerado": meta["gerado"], "fundos_publicados": n_ok,
         "fundos_na_matriz": len(cnpjs), "fundos_xp": n_xp, "benchmarks": [b["id"] for b in bench_meta],
-        "tesouro_titulos": len(tesouro_meta), "historicos": [h["simbolo"] for h in hist_meta], "descartados_parados": n_parado,
+        "tesouro_titulos": len(tesouro_meta), "historicos": [h["simbolo"] for h in hist_meta], "acoes": len(acoes_rows), "bdrs": n_bdr, "descartados_parados": n_parado,
         "descartados_poucos_cotistas": n_poucos, "descartados_historico_curto": n_hist,
         "dias_calendario": len(datas), "meses_processados": meses, "avisos": avisos,
         "duracao_s": round(time.time() - t_ini),
