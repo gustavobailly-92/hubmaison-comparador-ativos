@@ -1,8 +1,8 @@
 # Comparador de Ativos · Maison Hub
 
-Comparador de fundos de investimento, títulos do Tesouro Direto, renda fixa e benchmarks, publicado em **hubmaison.com/comparadordeativos**.
+Comparador de fundos de investimento, ações e BDRs da B3, títulos do Tesouro Nacional, renda fixa e benchmarks, publicado em **hubmaison.com/comparadordeativos**.
 Os dados vêm dos dados abertos da CVM (informe diário e cadastro de fundos), do Banco Central (CDI, IPCA, poupança e PTAX pelo SGS),
-do Tesouro Transparente (preços e taxas do Tesouro Direto), da B3 (Ibovespa e IFIX), da Nasdaq (Nasdaq 100, S&P 500 via ETF SPY, MSCI World via URTH,
+do Tesouro Transparente (preços e taxas do Tesouro Nacional), da B3 (Ibovespa, IFIX e o arquivo COTAHIST, que define o universo e a liquidez das ações e BDRs), do Yahoo Finance (cotação ajustada das ações), da Nasdaq (Nasdaq 100, S&P 500 via ETF SPY, MSCI World via URTH,
 ouro via GLD e inteligência artificial via AIQ) e da Coinbase (bitcoin em dólar, convertido pela PTAX), com CoinGecko, Yahoo Finance, Stooq e FRED como reservas,
 e são regenerados **de terça a sábado às 10:07 (Brasília)** por este repositório, logo após a publicação da CVM (08:00).
 Os últimos 12 meses de informes da CVM são baixados de novo a cada execução, para absorver as retificações.
@@ -11,7 +11,8 @@ Os últimos 12 meses de informes da CVM são baixados de novo a cada execução,
 
 ```
 pipeline/build_data.py     baixa CVM + BCB, calcula as métricas e grava dist/data/
-pipeline/fontes_extras.py  benchmarks (BCB, B3, Nasdaq, Coinbase), Tesouro Direto e a lista de fundos da XP
+pipeline/fontes_extras.py  benchmarks (BCB, B3, Nasdaq, Coinbase), Tesouro Nacional e a lista de fundos da XP
+pipeline/acoes.py          ações e BDRs: universo e liquidez pelo COTAHIST anual da B3, cotação ajustada do Yahoo (com cache por papel)
 pipeline/coes.json         catálogo dos COEs da prateleira da XP (termos lidos das lâminas e dos DIEs)
 pipeline/gestoras.json     casas gestoras: nome curto, site (ícone) e trechos do nome legal da CVM para o casamento
 pipeline/emissores.json    emissores de renda fixa (bancos, financeiras, securitizadoras) e o Tesouro, com site para o ícone
@@ -31,7 +32,9 @@ Saída do pipeline (`dist/data/`):
 | `index.json` | índice de busca: um registro compacto por fundo (CNPJ, nome, classe, gestora, PL, cotistas, 12/24/36 meses, campos XP, prazo de resgate `xp_liq`, site e ícone da gestora, `pf`/`pg` = tem perfil de fundo / id da gestora no Guia) |
 | `fundos/<cnpj>.json` | cotas diárias, patrimônio e cotistas semanais, métricas por janela (12/24/36/48 meses), retornos mensais, dados XP |
 | `bench/<id>.json` | benchmarks alinhados ao calendário: ipca, ipca6 (IPCA + 6% a.a.), poupanca, dolar, ibov, ifix, imab, irfm, sp500, sp500brl, nasdaq, nasdaqbrl, msci, mscibrl, ouro, ourobrl, btc |
-| `tesouro/<id>.json` | títulos do Tesouro Direto: preço, taxa semanal, duration, histórico de taxa (mín., mediana, máx. desde a primeira oferta do título) |
+| `tesouro/<id>.json` | títulos do Tesouro Nacional: preço, taxa semanal, duration, histórico de taxa (mín., mediana, máx. desde a primeira oferta do título) |
+| `acoes.json` | índice das ações e BDRs: ticker, nome, tipo (acao/bdr), espécie, 12/24/36 meses, % do CDI, Sharpe, volatilidade, prêmio histórico sobre o índice (`premio`, p.p. ao ano, na janela `premio_w`), benchmark (`bm`: ibov ou sp500brl), volume médio diário e último preço |
+| `acoes/<ticker>.json` | série ajustada alinhada ao calendário, métricas por janela, retornos mensais e o prêmio histórico |
 | `hist/<id>.json` | histórico longo dos ativos-objeto (GLD, AIQ, S&P 500, Nasdaq 100, Ibovespa, URTH) para cenários de COE |
 | `coes.json` | cópia do catálogo de COEs (estrutura, ativo-objeto, participação, proteção, prazo, links da lâmina e do DIE) |
 | `perfis/gestoras.json` | gestoras do Guia de Fundos (descrição, principais executivos) e a carreira dos gestores |
@@ -42,6 +45,8 @@ Saída do pipeline (`dist/data/`):
 Métricas por janela: rentabilidade acumulada, CDI no mesmo período e % do CDI, volatilidade anualizada,
 índice de Sharpe (retorno anualizado menos CDI, dividido pela volatilidade), drawdown máximo e atual,
 consistência (% de meses fechados acima do CDI), meses positivos, melhor e pior mês.
+
+**Ações e BDRs**: o universo é o mercado à vista em lote padrão do COTAHIST anual da B3 (ações ON, PN e units; BDRs patrocinados e não patrocinados), mantendo os papéis com negócios em pelo menos 60% dos pregões dos últimos 12 meses (mínimo de 20 pregões). A série de preços é a cotação ajustada do Yahoo Finance (proventos reinvestidos e desdobramentos incorporados, comparável à cota de um fundo); cada papel fica em cache (`cache/acoes/<ticker>.json`) e, quando o Yahoo falha numa execução, vale a série da execução anterior (aviso em `status.json`). O prêmio histórico é o excesso anualizado sobre o Ibovespa (BDRs: sobre o S&P 500 em reais) na maior janela fechada disponível (36, 24 ou 12 meses); no simulador, a projeção de cada ação é o caminho do índice mais esse prêmio, editável na própria linha. O arquivo do ano corrente (~50 MB) é baixado a cada execução; os anos anteriores ficam no cache.
 
 Universo publicado: fundos em funcionamento normal, não exclusivos, com pelo menos 10 cotistas e informe recente. Os fundos da plataforma XP
 e os fundos de previdência (nome com PREV, FIE, VGBL ou PGBL; os FIEs têm a seguradora como único cotista) entram sem a regra de cotistas.
@@ -74,7 +79,7 @@ na janela; só quando a correlação passa de 0,35); fundos de risco seguem beta
 entra metade do alfa (ou do excesso) histórico, com faixa lognormal de 68% ou 95%. O gráfico traz o CDI e os benchmarks ligados no trilho como linhas tracejadas.
 A tabela de resultados mostra os marcos com o ágio/deságio dos títulos, a faixa pessimista/otimista, uma coluna **"vs"** por referência do trilho (vs CDI sempre; vs Ibov, vs S&P
 etc. quando o benchmark está ligado), em pontos percentuais acumulados no horizonte, o Sharpe no período e a correlação com o Ibovespa; em cada linha, o botão "Trocar"
-(e a linha "Adicionar ativo") abre o **seletor de ativos**: um painel com as seções Renda fixa, Tesouro Direto, Fundos XP (por tipo e classe XP), Previdência XP (por classe)
+(e a linha "Adicionar ativo") abre o **seletor de ativos**: um painel com as seções Renda fixa, Tesouro Nacional, Fundos XP (por tipo e classe XP), Previdência XP (por classe)
 e Outros fundos (por classe CVM), busca, filtro de prazo de resgate (livre, até D+0, D+1, D+5, D+30, D+60, D+90) e, em cada fundo, o retorno de 12 meses, a volatilidade
 e o Sharpe com barras, em ordem decrescente de retorno (as contagens das fichas acompanham o filtro e a busca); a troca mantém cor e peso na comparação inteira. Na tabela
 de resultados, cada linha tem o × para tirar o ativo da comparação, e os valores vêm com barras finas: retorno por marco na cor do ativo, volatilidade em vermelho e Sharpe
@@ -101,7 +106,7 @@ benchmark), na ficha (cards de 12, 24 e 36 meses), no ranking e no relatório. T
 O catálogo `pipeline/coes.json` é mantido à mão: os COEs em oferta mudam a cada reserva e os termos vêm da lâmina (material publicitário)
 e do DIE de cada um, disponíveis em "Detalhes do ativo" no Hub XP.
 
-Na tabela de rentabilidade por período e no ranking, cada coluna (12, 24, 36 meses) tem a sua própria escala de tons, discreta: azul da marca mais presente nas maiores rentabilidades, vermelho suave nas negativas. O CDI e os benchmarks ligados ficam só no trilho lateral e nos gráficos (não aparecem como card nem como linha nas tabelas de ativos). O ranking tem a aba "Todos" (sem filtro de tipo).
+Na tabela de rentabilidade por período e no ranking, cada coluna (12, 24, 36 meses) tem a sua própria escala de tons, discreta: azul da marca mais presente nas maiores rentabilidades, vermelho suave nas negativas. O CDI e os benchmarks ligados ficam só no trilho lateral e nos gráficos (não aparecem como card nem como linha nas tabelas de ativos). O ranking tem a aba "Todos" (sem filtro de tipo). No seletor do simulador, cada linha mostra 12, 24 e 36 meses com o selo contra o próprio benchmark ("112% CDI", "Ibov +3,2", "IPCA +4,1", "IMA-B +1,2"), volatilidade e Sharpe centralizados com barras em gradiente, e os ativos já na comparação podem ser retirados ali mesmo (×). A tabela de resultados do simulador usa "Vol", "Co Ibov" e "CDI +x p.p.", com pessimista e otimista em pastilhas coloridas.
 
 O **ranking de fundos** e os **COEs** abrem em painéis sobrepostos (atalhos do topo; `?coe=<id>` abre o COE direto). No ranking, cada janela
 (12, 24 e 36 meses) mostra a rentabilidade absoluta e, abaixo, a comparação com o benchmark do próprio fundo: "% CDI" para os referenciados,
@@ -116,7 +121,7 @@ e as gestoras da carteira. Abre numa nova aba com tema escuro ou claro; o PDF sa
 em pontos com os padrões de localização arredondados (pré-renderizado com `segno`, legível pelos leitores do celular) que abre o WhatsApp da Maison com mensagem pronta. A tabela da carteira tem a coluna "Gestora/emissor" e a "Perspectiva" (retorno esperado em 1 ano pelo simulador, em vez de uma
 comparação com o CDI que não vale para um prefixado); os gráficos de alocação usam tons da marca. A projeção é opcional e tem horizonte escolhido no formulário
 (10, 5 ou 3 anos, ou sem projeção), usa o simulador (soma ponderada dos caminhos de cada ativo; faixa pela volatilidade histórica da carteira) e leva as premissas para o
-rodapé da página. Cada ativo tem a sua página: ícone da gestora, do emissor ou do Tesouro, indicadores, gráfico de área (últimos 12 meses nos fundos; perspectiva no Tesouro
+rodapé da página. O relatório leva o lockup oficial Maison Invest + XP (negativo no tema escuro, cor no claro) com o descritivo "Private", a página "Portfólio" e as rosquinhas com o número de ativos e a parcela em renda fixa no miolo; a alocação por tipo divide em prefixado, pós-fixado, inflação+, multimercados, renda variável, exterior e alternativos. Cada ativo tem a sua página: ícone da gestora, do emissor ou do Tesouro (ticker nas ações), indicadores, gráfico de área (últimos 12 meses nos fundos e nas ações, contra o CDI ou o índice; perspectiva no Tesouro
 e na renda fixa), a leitura do modelo e os textos do perfil (gestora e equipe, estratégia e posicionamento do fundo; tipo do título do Tesouro; papel e emissor da renda
 fixa). A última página, "Gestoras e emissores", resume cada casa, a trajetória dos gestores, cada banco emissor e o Tesouro Nacional.
 
