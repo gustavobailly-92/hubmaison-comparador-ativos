@@ -14,6 +14,9 @@ pipeline/build_data.py     baixa CVM + BCB, calcula as métricas e grava dist/da
 pipeline/fontes_extras.py  benchmarks (BCB, B3, Nasdaq, Coinbase), Tesouro Direto e a lista de fundos da XP
 pipeline/coes.json         catálogo dos COEs da prateleira da XP (termos lidos das lâminas e dos DIEs)
 pipeline/gestoras.json     casas gestoras: nome curto, site (ícone) e trechos do nome legal da CVM para o casamento
+pipeline/emissores.json    emissores de renda fixa (bancos, financeiras, securitizadoras) e o Tesouro, com site para o ícone
+pipeline/extrair_guia.py   lê o Guia de Fundos da XP (.xlsx): refaz a lista de fundos locais e extrai os perfis (abas ocultas)
+pipeline/perfis.json       perfis do Guia: 126 gestoras (descrição, equipe), 452 gestores (carreira), 1.137 fundos (estratégia, equipe, posicionamento)
 status/ima.csv             número diário dos índices IMA da ANBIMA, acumulado a cada execução (público só o dia corrente)
 pipeline/xp_fundos.csv     fundos da plataforma XP (tipo, classe, risco, benchmark, taxas, liquidez)
 site/index.html            a página (autocontida), lê dist/data/ ou o GitHub Pages deste repositório
@@ -25,12 +28,15 @@ Saída do pipeline (`dist/data/`):
 | Arquivo | Conteúdo |
 |---|---|
 | `meta.json` | calendário de dias úteis, CDI acumulado e diário, semanas, data de referência, lista de benchmarks, títulos do Tesouro, históricos, tipos XP, expectativas do Focus (`focus`: Selic, IPCA e câmbio) e estatísticas de 15 anos (`hist15`: CDI, IPCA 12 m, juro real 10 anos) |
-| `index.json` | índice de busca: um registro compacto por fundo (CNPJ, nome, classe, gestora, PL, cotistas, 12/24/36 meses, campos XP, site e ícone da gestora) |
+| `index.json` | índice de busca: um registro compacto por fundo (CNPJ, nome, classe, gestora, PL, cotistas, 12/24/36 meses, campos XP, prazo de resgate `xp_liq`, site e ícone da gestora, `pf`/`pg` = tem perfil de fundo / id da gestora no Guia) |
 | `fundos/<cnpj>.json` | cotas diárias, patrimônio e cotistas semanais, métricas por janela (12/24/36/48 meses), retornos mensais, dados XP |
 | `bench/<id>.json` | benchmarks alinhados ao calendário: ipca, ipca6 (IPCA + 6% a.a.), poupanca, dolar, ibov, ifix, imab, irfm, sp500, sp500brl, nasdaq, nasdaqbrl, msci, mscibrl, ouro, ourobrl, btc |
 | `tesouro/<id>.json` | títulos do Tesouro Direto: preço, taxa semanal, duration, histórico de taxa (mín., mediana, máx. desde a primeira oferta do título) |
 | `hist/<id>.json` | histórico longo dos ativos-objeto (GLD, AIQ, S&P 500, Nasdaq 100, Ibovespa, URTH) para cenários de COE |
 | `coes.json` | cópia do catálogo de COEs (estrutura, ativo-objeto, participação, proteção, prazo, links da lâmina e do DIE) |
+| `perfis/gestoras.json` | gestoras do Guia de Fundos (descrição, principais executivos) e a carreira dos gestores |
+| `perfis/fundos/<cnpj>.json` | por fundo: estratégia, equipe, gestores, categorias, vídeo, atribuição de performance e posicionamento atual |
+| `emissores.json` | catálogo de emissores de renda fixa com o slug do ícone em `logos/` |
 | `status.json` | contagens e avisos da execução |
 
 Métricas por janela: rentabilidade acumulada, CDI no mesmo período e % do CDI, volatilidade anualizada,
@@ -67,13 +73,24 @@ até o vencimento; depois reinvestem no juro do momento); fundos com benchmark I
 na janela; só quando a correlação passa de 0,35); fundos de risco seguem beta × caminho do seu benchmark; atrelados à inflação seguem o IPCA mais o spread; em todos os fundos
 entra metade do alfa (ou do excesso) histórico, com faixa lognormal de 68% ou 95%. O gráfico traz o CDI e os benchmarks ligados no trilho como linhas tracejadas.
 A tabela de resultados mostra os marcos com o ágio/deságio dos títulos, a faixa pessimista/otimista, uma coluna **"vs"** por referência do trilho (vs CDI sempre; vs Ibov, vs S&P
-etc. quando o benchmark está ligado), em pontos percentuais acumulados no horizonte, o Sharpe no período e a correlação com o Ibovespa; em cada linha, dois seletores
-(classificação XP tipo · classe, Tesouro por família ou renda fixa sintética, e o ativo) trocam o ativo na comparação inteira mantendo cor e peso, e a linha "Adicionar ativo"
-acrescenta outro. As letras miúdas ("Como a simulação é construída") ficam recolhidas no fim do card. Os campos numéricos do site (patamares, COE, renda fixa) usam o mesmo
+etc. quando o benchmark está ligado), em pontos percentuais acumulados no horizonte, o Sharpe no período e a correlação com o Ibovespa; em cada linha, o botão "Trocar"
+(e a linha "Adicionar ativo") abre o **seletor de ativos**: um painel com as seções Renda fixa, Tesouro Direto, Fundos XP (por tipo e classe XP), Previdência XP (por classe)
+e Outros fundos (por classe CVM), busca, filtro de prazo de resgate (livre, até D+0, D+1, D+5, D+30, D+60, D+90) e, em cada fundo, o retorno de 12 meses, a volatilidade
+e o Sharpe com barras, em ordem decrescente de retorno; a troca mantém cor e peso na comparação inteira. Com o simulador aberto, a tabela de rentabilidade por período
+some (volta ao fechar). As letras miúdas ("Como a simulação é construída") ficam recolhidas no fim do card. Os campos numéricos do site (patamares, COE, renda fixa) usam o mesmo
 stepper (− e +, segurar para repetir, setas; o valor digitado entra como está).
 
-A renda fixa hipotética aceita um **emissor** (CDB BMG, LCI Banco Original...), que vira o nome do ativo e vai na chave `rf:tipo:taxa:emissor`; a busca também
-entende "CDB Pine 110% do CDI".
+A renda fixa hipotética aceita o **papel** (CDB, LCI, LCA, LC, LF, LIG, CRI, CRA, debênture, RDB), o **emissor** escolhido num catálogo de bancos, financeiras e
+securitizadoras com ícone (`pipeline/emissores.json`, texto livre também vale) e o **vencimento**; a chave fica `rf:tipo:taxa:emissor[:AAAA-MM-DD]`. O card mostra só o
+nome ("CDB BMG"), a taxa contratada ("14,35% a.a.", "110% do CDI", "IPCA + 7,25% a.a.") e o indexador (prefixado, atrelado ao CDI, atrelado ao IPCA), sem comparação com o
+CDI, porque um prefixado não se mede em % do CDI; renda fixa e Tesouro usam duas casas decimais em toda a página e no relatório. O vencimento vira o prazo de resgate no
+relatório (dias úteis até o vencimento); sem vencimento, liquidez diária. Títulos do Tesouro contam como D+0. A busca também entende "CDB Pine 110% do CDI".
+
+**Perfis** (botão "Sobre" na ficha, ou clique no nome): card com a descrição da gestora e seus principais executivos, a trajetória dos gestores (empresa a empresa),
+a estratégia e a equipe do fundo, o posicionamento atual e a atribuição de performance escritos pelo gestor, com links para a página e o material do fundo na XP; para
+títulos do Tesouro, a explicação de cada tipo (IPCA+, com juros semestrais, Prefixado, Selic, Renda+, Educa+) com os dados do título; para a renda fixa, o emissor e o
+papel (o que é, FGC, imposto, liquidez). Fonte: abas ocultas "Base Assets", "Base Gestores", "Base Fundos" e "Base Comentários" do Guia de Fundos da XP, extraídas com
+`python pipeline/extrair_guia.py <Guia.xlsx>` (que também refaz a lista de fundos locais e mantém a de previdência) e publicadas em `data/perfis/`.
 
 Em toda a página a comparação de um fundo é feita com o **seu benchmark** (coluna `bm`): "148% CDI" para os referenciados, "Ibov +5,2 p.p." para ações, "IMA-B +x p.p."
 e "IPCA +x p.p." para os atrelados à inflação, "Dólar", "S&P 500", "MSCI" e "IFIX" nos demais; nos cards dos ativos, na tabela por período (barra com o marcador do
@@ -89,12 +106,17 @@ O **ranking de fundos** e os **COEs** abrem em painéis sobrepostos (atalhos do 
 "Ibov +x p.p." para ações, "IMA-B +x p.p." / "IPCA +x p.p." para os atrelados à inflação, e assim por diante (coluna `bm` do `index.json`,
 deduzida do benchmark informado pela XP; sem ele, do nome do fundo (IPCA, inflação, IMA-B, juro real; dólar; ações) ou da classe CVM). O Simulador usa a mesma coluna para escolher o modelo de cada fundo.
 
-Na **Diversificação**, mover o peso de um ativo redistribui o restante entre os outros na proporção que já tinham, de modo que a soma é sempre 100%;
-"Montar carteira" (atalho do topo e barra do ranking) leva direto a essa seção. O **relatório para o cliente** (bloco "Relatório para o cliente" na Diversificação) monta, só no navegador, um documento A4 com capa, carteira,
+Na **Diversificação** (que vem logo depois do gráfico de rentabilidade acumulada), mover o peso de um ativo redistribui o restante entre os outros na proporção que já tinham,
+de modo que a soma é sempre 100%; a carteira entra **sem rebalanceamento** por padrão, com a opção "com pesos constantes" discreta abaixo da legenda. "Montar carteira"
+(botão no trilho, abaixo das referências, e barra do ranking) leva direto a essa seção; os cards dos ativos têm largura fixa e cada um tem o seu × para remover. O **relatório para o cliente** (bloco "Relatório para o cliente" na Diversificação) monta, só no navegador, um documento A4 com capa, carteira,
 rentabilidade estimada dos últimos 12 meses, projeção de 10 anos, liquidez (resgate por prazo, com o D+ da XP editável), uma página por ativo
-e as gestoras da carteira. Abre numa nova aba com tema escuro ou claro; o PDF sai por "Imprimir → Salvar como PDF". A projeção de 10 anos usa o simulador (soma ponderada dos caminhos
-de cada ativo pelos patamares atuais; faixa pela volatilidade histórica da carteira; marcos de 1, 3, 5 e 10 anos); nas páginas por ativo (duas por página),
-os fundos mostram os últimos 12 meses e os títulos do Tesouro e a renda fixa mostram a perspectiva (caminho esperado até 10 anos com a faixa, CDI e IPCA).
+e as gestoras da carteira. Abre numa nova aba com tema escuro ou claro; o PDF sai por "Imprimir → Salvar como PDF". A capa traz o valor, o horizonte e um QR code centralizado que abre o
+WhatsApp da Maison com mensagem pronta. A tabela da carteira tem a coluna "Gestora/emissor" e a "Perspectiva" (retorno esperado em 1 ano pelo simulador, em vez de uma
+comparação com o CDI que não vale para um prefixado); os gráficos de alocação usam tons da marca. A projeção é opcional e tem horizonte escolhido no formulário
+(10, 5 ou 3 anos, ou sem projeção), usa o simulador (soma ponderada dos caminhos de cada ativo; faixa pela volatilidade histórica da carteira) e leva as premissas para o
+rodapé da página. Cada ativo tem a sua página: ícone da gestora, do emissor ou do Tesouro, indicadores, gráfico de área (últimos 12 meses nos fundos; perspectiva no Tesouro
+e na renda fixa), a leitura do modelo e os textos do perfil (gestora e equipe, estratégia e posicionamento do fundo; tipo do título do Tesouro; papel e emissor da renda
+fixa). A última página, "Gestoras e emissores", resume cada casa, a trajetória dos gestores, cada banco emissor e o Tesouro Nacional.
 
 ## Rodar localmente
 
