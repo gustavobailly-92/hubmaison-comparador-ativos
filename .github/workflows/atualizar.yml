@@ -26,7 +26,7 @@ jobs:
   gerar:
     name: Gerar dados (CVM + BCB)
     runs-on: ubuntu-latest
-    timeout-minutes: 150
+    timeout-minutes: 200
     steps:
       - uses: actions/checkout@v4
 
@@ -37,7 +37,7 @@ jobs:
       - name: Dependências
         run: pip install --quiet pandas numpy pillow
 
-      - name: Cache dos informes mensais da CVM
+      - name: Cache dos informes da CVM (mensais e anuais), ícones e séries das ações
         uses: actions/cache@v4
         with:
           path: cache
