@@ -1,18 +1,18 @@
 # Comparador de Ativos · Maison Hub
 
-Comparador de fundos de investimento, ações e BDRs da B3, títulos do Tesouro Nacional, renda fixa e benchmarks, publicado em **hubmaison.com/comparadordeativos**.
+Comparador de fundos de investimento, ações, FIIs e BDRs da B3, títulos do Tesouro Nacional, renda fixa e benchmarks, com **10 anos de histórico**, publicado em **hubmaison.com/comparadordeativos**.
 Os dados vêm dos dados abertos da CVM (informe diário e cadastro de fundos), do Banco Central (CDI, IPCA, poupança e PTAX pelo SGS),
-do Tesouro Transparente (preços e taxas do Tesouro Nacional), da B3 (Ibovespa, IFIX e o arquivo COTAHIST, que define o universo e a liquidez das ações e BDRs), do Yahoo Finance (cotação ajustada das ações), da Nasdaq (Nasdaq 100, S&P 500 via ETF SPY, MSCI World via URTH,
+do Tesouro Transparente (preços e taxas do Tesouro Nacional), da B3 (Ibovespa, IFIX, os arquivos COTAHIST com as cotações de ações, FIIs e BDRs e a API de empresas e fundos listados com os eventos societários), da CVM (informe mensal dos FIIs, com o rendimento de cada mês), da Nasdaq (Nasdaq 100, S&P 500 via ETF SPY, MSCI World via URTH,
 ouro via GLD e inteligência artificial via AIQ) e da Coinbase (bitcoin em dólar, convertido pela PTAX), com CoinGecko, Yahoo Finance, Stooq e FRED como reservas,
 e são regenerados **de terça a sábado às 10:07 (Brasília)** por este repositório, logo após a publicação da CVM (08:00).
-Os últimos 12 meses de informes da CVM são baixados de novo a cada execução, para absorver as retificações.
+Os últimos 12 meses de informes da CVM são baixados de novo a cada execução, para absorver as retificações; os meses até 2020 vêm dos ZIPs anuais da pasta HIST da CVM e ficam no cache do Actions, assim como os COTAHIST de anos fechados.
 
 ## Como funciona
 
 ```
 pipeline/build_data.py     baixa CVM + BCB, calcula as métricas e grava dist/data/
 pipeline/fontes_extras.py  benchmarks (BCB, B3, Nasdaq, Coinbase), Tesouro Nacional e a lista de fundos da XP
-pipeline/acoes.py          ações e BDRs: universo e liquidez pelo COTAHIST anual da B3, cotação ajustada do Yahoo (com cache por papel)
+pipeline/acoes.py          ações, FIIs e BDRs: universo, liquidez e preços pelo COTAHIST da B3; proventos e desdobramentos pela API da B3 e pela CVM
 pipeline/coes.json         catálogo dos COEs da prateleira da XP (termos lidos das lâminas e dos DIEs)
 pipeline/gestoras.json     casas gestoras: nome curto, site (ícone) e trechos do nome legal da CVM para o casamento
 pipeline/emissores.json    emissores de renda fixa (bancos, financeiras, securitizadoras) e o Tesouro, com site para o ícone
@@ -30,11 +30,11 @@ Saída do pipeline (`dist/data/`):
 |---|---|
 | `meta.json` | calendário de dias úteis, CDI acumulado e diário, semanas, data de referência, lista de benchmarks, títulos do Tesouro, históricos, tipos XP, expectativas do Focus (`focus`: Selic, IPCA e câmbio) e estatísticas de 15 anos (`hist15`: CDI, IPCA 12 m, juro real 10 anos) |
 | `index.json` | índice de busca: um registro compacto por fundo (CNPJ, nome, classe, gestora, PL, cotistas, 12/24/36 meses, campos XP, prazo de resgate `xp_liq`, site e ícone da gestora, `pf`/`pg` = tem perfil de fundo / id da gestora no Guia) |
-| `fundos/<cnpj>.json` | cotas diárias, patrimônio e cotistas semanais, métricas por janela (12/24/36/48 meses), retornos mensais, dados XP |
+| `fundos/<cnpj>.json` | cotas diárias (até 10 anos), patrimônio e cotistas semanais, métricas por janela (12/24/36/60/120 meses), retornos mensais, dados XP |
 | `bench/<id>.json` | benchmarks alinhados ao calendário: ipca, ipca6 (IPCA + 6% a.a.), poupanca, dolar, ibov, ifix, imab, irfm, sp500, sp500brl, nasdaq, nasdaqbrl, msci, mscibrl, ouro, ourobrl, btc |
 | `tesouro/<id>.json` | títulos do Tesouro Nacional: preço, taxa semanal, duration, histórico de taxa (mín., mediana, máx. desde a primeira oferta do título) |
-| `acoes.json` | índice das ações e BDRs: ticker, nome, tipo (acao/bdr), espécie, 12/24/36 meses, % do CDI, Sharpe, volatilidade, prêmio histórico sobre o índice (`premio`, p.p. ao ano, na janela `premio_w`), benchmark (`bm`: ibov ou sp500brl), volume médio diário e último preço |
-| `acoes/<ticker>.json` | série ajustada alinhada ao calendário, métricas por janela, retornos mensais e o prêmio histórico |
+| `acoes.json` | índice das ações, FIIs e BDRs: ticker, nome, tipo (acao/fii/bdr), espécie, 12/24/36 meses, % do CDI, Sharpe, volatilidade, prêmio histórico sobre o índice (`premio`, p.p. ao ano, na janela `premio_w`), benchmark (`bm`: ibov, ifix ou sp500brl), volume médio diário, último preço e `ajuste` (completo ou sem proventos) |
+| `acoes/<ticker>.json` | duas séries alinhadas ao calendário: `q` (proventos reinvestidos) e `qp` (só preço), métricas por janela (12/24/36/60/120 meses), retornos mensais e o prêmio histórico |
 | `hist/<id>.json` | histórico longo dos ativos-objeto (GLD, AIQ, S&P 500, Nasdaq 100, Ibovespa, URTH) para cenários de COE |
 | `coes.json` | cópia do catálogo de COEs (estrutura, ativo-objeto, participação, proteção, prazo, links da lâmina e do DIE) |
 | `perfis/gestoras.json` | gestoras do Guia de Fundos (descrição, principais executivos) e a carreira dos gestores |
@@ -46,7 +46,7 @@ Métricas por janela: rentabilidade acumulada, CDI no mesmo período e % do CDI,
 índice de Sharpe (retorno anualizado menos CDI, dividido pela volatilidade), drawdown máximo e atual,
 consistência (% de meses fechados acima do CDI), meses positivos, melhor e pior mês.
 
-**Ações e BDRs**: o universo é o mercado à vista em lote padrão do COTAHIST anual da B3 (ações ON, PN e units; BDRs patrocinados e não patrocinados), mantendo os papéis com negócios em pelo menos 60% dos pregões dos últimos 12 meses (mínimo de 20 pregões). A série de preços é a cotação ajustada do Yahoo Finance (proventos reinvestidos e desdobramentos incorporados, comparável à cota de um fundo); cada papel fica em cache (`cache/acoes/<ticker>.json`) e, quando o Yahoo falha numa execução, vale a série da execução anterior (aviso em `status.json`). O prêmio histórico é o excesso anualizado sobre o Ibovespa (BDRs: sobre o S&P 500 em reais) na maior janela fechada disponível (36, 24 ou 12 meses); no simulador, a projeção de cada ação é o caminho do índice mais esse prêmio, editável na própria linha. O arquivo do ano corrente (~50 MB) é baixado a cada execução; os anos anteriores ficam no cache.
+**Ações, FIIs e BDRs**: o universo é o mercado à vista do COTAHIST anual da B3 (ações ON, PN e units em lote padrão; BDRs patrocinados e não patrocinados; cotas de fundos imobiliários), mantendo os papéis com negócios em pelo menos 60% dos pregões dos últimos 12 meses (mínimo de 20 pregões). Os preços são os fechamentos oficiais do COTAHIST de cada ano (o ano corrente baixado a cada execução; os fechados em cache). Cada papel ganha duas séries: `qp`, só de preço, com desdobramentos, grupamentos e bonificações incorporados (eventos da API de empresas e fundos listados da B3; nos BDRs, sem fonte, o desdobramento é detectado pelo salto de preço de razão inteira), e `q`, com os proventos reinvestidos (dividendos e JCP brutos pela API de dividendos da B3, com o fechamento na data com; rendimentos mensais dos FIIs pelo campo `Percentual_Dividend_Yield_Mes` do informe mensal da CVM). BDRs ficam só com o preço (`ajuste = sem proventos`). O Yahoo Finance foi descartado: devolve 429 para os IPs do GitHub Actions. O prêmio histórico é o excesso anualizado sobre o Ibovespa (FIIs: IFIX; BDRs: S&P 500 em reais) na maior janela fechada disponível (36, 24 ou 12 meses); no simulador, a projeção de cada papel é o caminho do índice mais esse prêmio, editável na própria linha. Na página, a opção "Proventos de ações e FIIs" (Opções avançadas do bloco Carteira) alterna entre as duas séries em toda a comparação; o padrão é reinvestidos.
 
 Universo publicado: fundos em funcionamento normal, não exclusivos, com pelo menos 10 cotistas e informe recente. Os fundos da plataforma XP
 e os fundos de previdência (nome com PREV, FIE, VGBL ou PGBL; os FIEs têm a seguradora como único cotista) entram sem a regra de cotistas.
@@ -106,7 +106,7 @@ benchmark), na ficha (cards de 12, 24 e 36 meses), no ranking e no relatório. T
 O catálogo `pipeline/coes.json` é mantido à mão: os COEs em oferta mudam a cada reserva e os termos vêm da lâmina (material publicitário)
 e do DIE de cada um, disponíveis em "Detalhes do ativo" no Hub XP.
 
-Na tabela de rentabilidade por período e no ranking, cada coluna (12, 24, 36 meses) tem a sua própria escala de tons, discreta: azul da marca mais presente nas maiores rentabilidades, vermelho suave nas negativas. O CDI e os benchmarks ligados ficam só no trilho lateral e nos gráficos (não aparecem como card nem como linha nas tabelas de ativos). O ranking tem a aba "Todos" (sem filtro de tipo). No seletor do simulador, cada linha mostra 12, 24 e 36 meses com o selo contra o próprio benchmark ("112% CDI", "Ibov +3,2", "IPCA +4,1", "IMA-B +1,2"), volatilidade e Sharpe centralizados com barras em gradiente, e os ativos já na comparação podem ser retirados ali mesmo (×). A tabela de resultados do simulador usa "Vol", "Co Ibov" e "CDI +x p.p.", com pessimista e otimista em pastilhas coloridas.
+Na tabela de rentabilidade por período e no ranking, cada coluna (12, 24, 36 meses) tem a sua própria escala de tons, discreta: azul da marca mais presente nas maiores rentabilidades, vermelho suave nas negativas. O CDI e os benchmarks ligados ficam só no trilho lateral e nos gráficos (não aparecem como card nem como linha nas tabelas de ativos). O ranking tem a aba "Todos" (sem filtro de tipo). O bloco **Carteira e simulador** (botão "Carteira" no gráfico ou "Montar carteira" no trilho) reúne, num lugar só, os pesos de cada ativo (anel, controle deslizante e % na primeira coluna da tabela de resultados), a projeção por patamares com a linha "Carteira" ao fim da tabela, o histórico da carteira no período escolhido (com ou sem rebalanceamento) e o formulário do relatório; a tabela por período fica escondida enquanto ele está aberto. Os períodos da comparação são 1, 2, 3 e 5 anos, Máx. (desde o início do ativo mais recente) e Datas. No seletor do simulador, cada linha mostra 12, 24 e 36 meses com o selo contra o próprio benchmark ("112% CDI", "Ibov +3,2", "IPCA +4,1", "IMA-B +1,2"), volatilidade e Sharpe centralizados com barras em gradiente, e os ativos já na comparação podem ser retirados ali mesmo (×). A tabela de resultados do simulador usa "Vol", "Co Ibov" e "CDI +x p.p.", com pessimista e otimista em pastilhas coloridas.
 
 O **ranking de fundos** e os **COEs** abrem em painéis sobrepostos (atalhos do topo; `?coe=<id>` abre o COE direto). No ranking, cada janela
 (12, 24 e 36 meses) mostra a rentabilidade absoluta e, abaixo, a comparação com o benchmark do próprio fundo: "% CDI" para os referenciados,
@@ -128,8 +128,8 @@ fixa). A última página, "Gestoras e emissores", resume cada casa, a trajetóri
 ## Rodar localmente
 
 ```bash
-pip install pandas numpy
-python pipeline/build_data.py --out dist/data --cache cache      # ~15 min na primeira vez
+pip install pandas numpy pillow
+python pipeline/build_data.py --out dist/data --cache cache      # ~40 min na primeira vez (10 anos de informes); depois ~20 min com o cache
 cp -r site/. dist/ && cd dist && python -m http.server 8000      # http://localhost:8000
 ```
 
