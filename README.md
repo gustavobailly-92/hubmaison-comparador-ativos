@@ -76,14 +76,16 @@ A tabela de resultados mostra os marcos com o ágio/deságio dos títulos, a fai
 etc. quando o benchmark está ligado), em pontos percentuais acumulados no horizonte, o Sharpe no período e a correlação com o Ibovespa; em cada linha, o botão "Trocar"
 (e a linha "Adicionar ativo") abre o **seletor de ativos**: um painel com as seções Renda fixa, Tesouro Direto, Fundos XP (por tipo e classe XP), Previdência XP (por classe)
 e Outros fundos (por classe CVM), busca, filtro de prazo de resgate (livre, até D+0, D+1, D+5, D+30, D+60, D+90) e, em cada fundo, o retorno de 12 meses, a volatilidade
-e o Sharpe com barras, em ordem decrescente de retorno; a troca mantém cor e peso na comparação inteira. Com o simulador aberto, a tabela de rentabilidade por período
-some (volta ao fechar). As letras miúdas ("Como a simulação é construída") ficam recolhidas no fim do card. Os campos numéricos do site (patamares, COE, renda fixa) usam o mesmo
+e o Sharpe com barras, em ordem decrescente de retorno (as contagens das fichas acompanham o filtro e a busca); a troca mantém cor e peso na comparação inteira. Na tabela
+de resultados, cada linha tem o × para tirar o ativo da comparação, e os valores vêm com barras finas: retorno por marco na cor do ativo, volatilidade em vermelho e Sharpe
+em azul, na escala da coluna. Com o simulador aberto, a tabela de rentabilidade por período some (volta ao fechar). As letras miúdas ("Como a simulação é construída") ficam recolhidas no fim do card. Os campos numéricos do site (patamares, COE, renda fixa) usam o mesmo
 stepper (− e +, segurar para repetir, setas; o valor digitado entra como está).
 
 A renda fixa hipotética aceita o **papel** (CDB, LCI, LCA, LC, LF, LIG, CRI, CRA, debênture, RDB), o **emissor** escolhido num catálogo de bancos, financeiras e
 securitizadoras com ícone (`pipeline/emissores.json`, texto livre também vale) e o **vencimento**; a chave fica `rf:tipo:taxa:emissor[:AAAA-MM-DD]`. O card mostra só o
 nome ("CDB BMG"), a taxa contratada ("14,35% a.a.", "110% do CDI", "IPCA + 7,25% a.a.") e o indexador (prefixado, atrelado ao CDI, atrelado ao IPCA), sem comparação com o
-CDI, porque um prefixado não se mede em % do CDI; renda fixa e Tesouro usam duas casas decimais em toda a página e no relatório. O vencimento vira o prazo de resgate no
+CDI, porque um prefixado não se mede em % do CDI (o Tesouro Prefixado segue a mesma regra: etiqueta "prefixado" com a taxa, sem % do CDI); renda fixa e Tesouro usam
+duas casas decimais em toda a página e no relatório. Na página, a família chama-se **Tesouro Nacional** (atalho, busca, seletor e relatório). O vencimento vira o prazo de resgate no
 relatório (dias úteis até o vencimento); sem vencimento, liquidez diária. Títulos do Tesouro contam como D+0. A busca também entende "CDB Pine 110% do CDI".
 
 **Perfis** (botão "Sobre" na ficha, ou clique no nome): card com a descrição da gestora e seus principais executivos, a trajetória dos gestores (empresa a empresa),
@@ -110,8 +112,8 @@ Na **Diversificação** (que vem logo depois do gráfico de rentabilidade acumul
 de modo que a soma é sempre 100%; a carteira entra **sem rebalanceamento** por padrão, com a opção "com pesos constantes" discreta abaixo da legenda. "Montar carteira"
 (botão no trilho, abaixo das referências, e barra do ranking) leva direto a essa seção; os cards dos ativos têm largura fixa e cada um tem o seu × para remover. O **relatório para o cliente** (bloco "Relatório para o cliente" na Diversificação) monta, só no navegador, um documento A4 com capa, carteira,
 rentabilidade estimada dos últimos 12 meses, projeção de 10 anos, liquidez (resgate por prazo, com o D+ da XP editável), uma página por ativo
-e as gestoras da carteira. Abre numa nova aba com tema escuro ou claro; o PDF sai por "Imprimir → Salvar como PDF". A capa traz o valor, o horizonte e um QR code centralizado que abre o
-WhatsApp da Maison com mensagem pronta. A tabela da carteira tem a coluna "Gestora/emissor" e a "Perspectiva" (retorno esperado em 1 ano pelo simulador, em vez de uma
+e as gestoras da carteira. Abre numa nova aba com tema escuro ou claro; o PDF sai por "Imprimir → Salvar como PDF". A capa traz o valor, o horizonte e, no canto inferior direito, um QR code
+em pontos com os padrões de localização arredondados (pré-renderizado com `segno`, legível pelos leitores do celular) que abre o WhatsApp da Maison com mensagem pronta. A tabela da carteira tem a coluna "Gestora/emissor" e a "Perspectiva" (retorno esperado em 1 ano pelo simulador, em vez de uma
 comparação com o CDI que não vale para um prefixado); os gráficos de alocação usam tons da marca. A projeção é opcional e tem horizonte escolhido no formulário
 (10, 5 ou 3 anos, ou sem projeção), usa o simulador (soma ponderada dos caminhos de cada ativo; faixa pela volatilidade histórica da carteira) e leva as premissas para o
 rodapé da página. Cada ativo tem a sua página: ícone da gestora, do emissor ou do Tesouro, indicadores, gráfico de área (últimos 12 meses nos fundos; perspectiva no Tesouro
