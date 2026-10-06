@@ -69,6 +69,11 @@ header .row{display:flex;align-items:center;justify-content:space-between;gap:16
 .qbtn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.35)}
 .qbtn .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;flex:none;background:radial-gradient(circle at 30% 25%,rgba(178,203,230,.30),rgba(91,152,230,.10) 72%);color:#B2CBE6;box-shadow:inset 0 0 0 1px rgba(178,203,230,.18),0 1px 0 rgba(255,255,255,.04)}
 .qbtn .ic svg{width:14px;height:14px}
+/* cor por atalho: um tom da marca em cada ícone, discreto no fundo e mais presente no traço */
+.qbtn.q-td .ic{background:radial-gradient(circle at 30% 25%,rgba(212,162,74,.34),rgba(212,162,74,.08) 72%);color:#E8C77A;box-shadow:inset 0 0 0 1px rgba(212,162,74,.28),0 1px 0 rgba(255,255,255,.04)}
+.qbtn.q-rf .ic{background:radial-gradient(circle at 30% 25%,rgba(110,211,230,.30),rgba(110,211,230,.07) 72%);color:#8FE0EE;box-shadow:inset 0 0 0 1px rgba(110,211,230,.26),0 1px 0 rgba(255,255,255,.04)}
+.qbtn.q-ac .ic{background:radial-gradient(circle at 30% 25%,rgba(67,184,147,.32),rgba(67,184,147,.07) 72%);color:#7DD6B6;box-shadow:inset 0 0 0 1px rgba(67,184,147,.28),0 1px 0 rgba(255,255,255,.04)}
+.qbtn.q-xp .ic{background:radial-gradient(circle at 30% 25%,rgba(176,140,240,.32),rgba(176,140,240,.07) 72%);color:#C9B0F5;box-shadow:inset 0 0 0 1px rgba(176,140,240,.28),0 1px 0 rgba(255,255,255,.04)}
 .qbtn .go{margin-left:auto;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;color:var(--text-2);background:rgba(178,203,230,.10);opacity:0;transform:translateX(-6px);transition:opacity .2s,transform .2s var(--ease);flex:none}
 .qbtn .go svg{width:11px;height:11px;transform:rotate(-90deg)}
 .qbtn:hover .go{opacity:1;transform:none}
@@ -321,7 +326,25 @@ th.sortable[aria-sort="ascending"] .arr{transform:rotate(180deg);opacity:1}
 th.sortable[aria-sort="descending"] .arr{opacity:1}
 
 /* ---------- carteira (diversificação) ---------- */
-.cart{display:grid;grid-template-columns:minmax(260px,.9fr) minmax(320px,1.4fr);gap:18px;align-items:start}
+.cart{display:grid;grid-template-columns:minmax(320px,1.4fr) minmax(260px,.9fr);gap:18px;align-items:start;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.cart .rel-box{margin-top:0}
+.cart-hist.hidden{display:none}
+.cart.so-rel{grid-template-columns:1fr}
+.lbl3{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.tbl-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px}
+/* primeira coluna da tabela: anel de peso, nome, ×, controle de peso e a troca do ativo */
+.swapcell .wrow{display:grid;grid-template-columns:minmax(0,1fr) 66px;gap:4px 8px;align-items:center;padding:4px 0 0;border-bottom:0}
+.swapcell .wrow input[type=range]{height:18px}
+.swapcell .wrow .pct input{width:54px;padding:3px 4px;font-size:12px;text-align:center}
+.swapcell .n .ring{width:16px;height:16px;border-radius:50%;background:conic-gradient(var(--c) calc(var(--p) * 1%),rgba(255,255,255,.08) 0);display:grid;place-items:center;flex:none}
+.swapcell .n .ring::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--surface)}
+.swapcell .n .dir{font-size:10px;font-weight:700;opacity:0;transition:opacity .2s}
+.swapcell .n .dir.up{color:#7DD6B6;opacity:1}
+.swapcell .n .dir.down{color:var(--neg);opacity:1}
+.swapcell.dim{opacity:.5}
+#tb-persp tr.cartrow td{border-top:1px solid var(--line-2);background:rgba(212,162,74,.04)}
+#tb-persp tr.cartrow .n span{font-weight:600;color:var(--text)}
+#tb-persp tr.cartrow .n i{background:var(--gold)}
 @media (max-width:900px){.cart{grid-template-columns:1fr}}
 .cart > *{min-width:0}
 .wrow{display:grid;grid-template-columns:22px minmax(0,1fr) 92px 64px;gap:8px 10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);transition:opacity .2s}
@@ -917,10 +940,10 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
     </div>
     <div class="lbl">Atalhos</div>
     <div class="quick" id="quick">
-      <button class="qbtn" type="button" data-act="tesouro"><span class="ic"><svg><use href="#i-td"/></svg></span><div><b>Tesouro Nacional</b><small id="q-td">todos os títulos à venda</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
-      <button class="qbtn" type="button" data-act="rf"><span class="ic"><svg><use href="#i-rf"/></svg></span><div><b>Renda fixa</b><small>% do CDI, prefixado ou IPCA+</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
-      <button class="qbtn" type="button" data-act="acoes"><span class="ic"><svg><use href="#i-stock"/></svg></span><div><b>Ações e BDRs</b><small id="q-ac">papéis negociados na B3</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
-      <button class="qbtn" type="button" data-act="ranking"><span class="ic"><svg><use href="#i-trophy"/></svg></span><div><b>Ranking XP</b><small id="q-xp">fundos da plataforma XP</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
+      <button class="qbtn q-td" type="button" data-act="tesouro"><span class="ic"><svg><use href="#i-td"/></svg></span><div><b>Tesouro Nacional</b><small id="q-td">todos os títulos à venda</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
+      <button class="qbtn q-rf" type="button" data-act="rf"><span class="ic"><svg><use href="#i-rf"/></svg></span><div><b>Renda fixa</b><small>% CDI | Pré | Inflação</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
+      <button class="qbtn q-ac" type="button" data-act="acoes"><span class="ic"><svg><use href="#i-stock"/></svg></span><div><b>Ações, FIIs e BDRs</b><small id="q-ac">papéis negociados na B3</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
+      <button class="qbtn q-xp" type="button" data-act="ranking"><span class="ic"><svg><use href="#i-trophy"/></svg></span><div><b>Ranking XP</b><small id="q-xp">fundos XP</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
           </div>
   </section>
 
@@ -929,7 +952,7 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
       <div class="card" id="rail-bench">
         <div class="blist" id="blist"></div>
       </div>
-      <button class="rail-cta hidden" type="button" id="go-cart"><svg><use href="#i-alloc"/></svg><span>Montar carteira</span><small>pesos, diversificação e relatório</small></button>
+      <button class="rail-cta hidden" type="button" id="go-cart"><svg><use href="#i-alloc"/></svg><span>Montar carteira</span><small>pesos, projeção, histórico e relatório</small></button>
     </aside>
 
     <section class="content">
@@ -941,10 +964,10 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
             <div><h2><svg><use href="#i-chart"/></svg>Rentabilidade acumulada</h2><p class="sub" id="acum-sub"></p></div>
             <div class="tools ptools">
               <div class="seg" id="periodo" role="group" aria-label="Período de análise">
-                <button data-p="12" aria-pressed="true">12<span class="long"> m</span><span class="short">m</span></button>
-                <button data-p="24" aria-pressed="false">24<span class="long"> m</span><span class="short">m</span></button>
-                <button data-p="36" aria-pressed="false">36<span class="long"> m</span><span class="short">m</span></button>
-                <button data-p="48" aria-pressed="false">48<span class="long"> m</span><span class="short">m</span></button>
+                <button data-p="12" aria-pressed="true">1<span class="long"> ano</span><span class="short">a</span></button>
+                <button data-p="24" aria-pressed="false">2<span class="long"> anos</span><span class="short">a</span></button>
+                <button data-p="36" aria-pressed="false">3<span class="long"> anos</span><span class="short">a</span></button>
+                <button data-p="60" aria-pressed="false">5<span class="long"> anos</span><span class="short">a</span></button>
                 <button data-p="max" aria-pressed="false">Máx.</button>
                 <button data-p="custom" aria-pressed="false">Datas</button>
               </div>
@@ -952,17 +975,16 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
                 <label>De<input type="date" id="d-ini"></label>
                 <label>Até<input type="date" id="d-fim"></label>
               </div>
-              <button class="iconbtn sim" id="persp-btn" aria-pressed="false" aria-controls="persp" type="button" title="Simulador: patamares de juros e inflação e o que cada ativo faria até 10 anos"><svg><use href="#i-alloc"/></svg><span>Simulador</span></button>
+              <button class="iconbtn sim" id="persp-btn" aria-pressed="false" aria-controls="persp" type="button" title="Carteira e simulador: pesos, projeção até 10 anos, histórico da carteira e relatório"><svg><use href="#i-alloc"/></svg><span>Carteira</span></button>
             </div>
           </div>
-          <p class="pinfo" id="pinfo"></p>
           <div class="chart" id="ch-acum"></div>
           <div class="legend" id="lg-acum"></div>
         </div>
 
         <div class="card hidden" id="persp">
           <div class="head">
-            <div><h2><svg><use href="#i-alloc"/></svg>Simulador</h2><p class="sub">Onde as taxas estarão e o que cada ativo faria; não é previsão.</p></div>
+            <div><h2><svg><use href="#i-alloc"/></svg>Carteira e simulador</h2><p class="sub">Pesos de cada ativo, o que a carteira faria nos patamares escolhidos (não é previsão), o histórico e o relatório para o cliente.</p></div>
             <div class="tools"><button class="linkbtn" id="persp-close" type="button">fechar</button></div>
           </div>
           <div class="sim-top">
@@ -977,25 +999,21 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
               <div class="adv-row">
                 <label>Cenários chegam ao alvo em<div class="seg" id="p-cen-em" role="group"><button data-m="12" aria-pressed="false">1 ano</button><button data-m="24" aria-pressed="false">2 anos</button><button data-m="36" aria-pressed="true">3 anos</button></div></label>
                 <label>Intervalo da faixa<div class="seg" id="p-conf" role="group"><button data-c="68" aria-pressed="true">68%</button><button data-c="95" aria-pressed="false">95%</button></div></label>
+                <label title="Histórico das ações, BDRs e FIIs: com os proventos reinvestidos no próprio papel (comparável à cota de um fundo) ou só o preço">Proventos de ações e FIIs<div class="seg" id="p-div" role="group"><button data-d="1" aria-pressed="true">reinvestidos</button><button data-d="0" aria-pressed="false">sem reinvestir</button></div></label>
                 <div class="sim-acts"><button class="mini" type="button" id="p-real-add">Adicionar juro real</button><button class="mini" type="button" id="p-reset" title="Volta ao padrão: Focus para CDI, IPCA e câmbio; juro real derivado; prêmios padrão">Restaurar</button></div>
               </div>
             </div>
           </details>
-          <div class="tbl" style="margin-top:12px"><table id="tb-persp"></table></div>
-          <details class="fine" id="p-fine">
-            <summary><svg><use href="#i-info"/></svg>Como a simulação é construída<svg class="chev"><use href="#i-chev"/></svg></summary>
-            <div class="premtxt" id="persp-ativos"></div>
-            <div class="premtxt" id="persp-prem"></div>
-          </details>
-        </div>
-
-        <div class="card hidden" id="card-cart">
-          <div class="head"><div><h2><svg><use href="#i-pie"/></svg>Diversificação</h2></div></div>
-          <div class="cart">
-            <div>
-              <div id="cart-rows"></div>
-              <div class="wtot"><button class="mini hidden" type="button" id="cart-eq">Pesos iguais</button></div>
-              <div class="rel-box" id="rel-box">
+          <div class="tbl-head"><span class="lbl3">Ativos e pesos</span><button class="mini hidden" type="button" id="cart-eq">Pesos iguais</button></div>
+          <div class="tbl" style="margin-top:6px"><table id="tb-persp"></table></div>
+          <div class="cart" id="cart-grid">
+            <div class="cart-hist" id="cart-hist"><div class="lbl3" style="margin-bottom:8px">Histórico da carteira <span class="hint" id="cart-hist-p"></span></div><div class="cart-top"><div class="stats" id="cart-kpis"></div></div>
+              <div class="chart" id="ch-cart"></div>
+              <div class="cart-leg" id="lg-cart"></div>
+              <div class="cart-mode" id="cart-mode" role="group" aria-label="Rebalanceamento"><span>Carteira</span><button data-m="bh" aria-pressed="true" title="Compra no início e nunca rebalanceia">sem rebalanceamento</button><button data-m="rebal" aria-pressed="false" title="Pesos mantidos constantes (rebalanceamento diário)">com pesos constantes</button></div>
+              <p class="note" id="cart-note"></p>
+            </div>
+            <div><div class="rel-box" id="rel-box">
                 <div class="rel-h"><b><svg><use href="#i-file"/></svg>Relatório para o cliente</b><label class="switch" title="Tema do relatório"><input type="checkbox" id="rel-tema-ck"><span class="track"><i></i></span><span id="rel-tema-t">Escuro</span></label></div>
                 <div class="rel-form">
                   <div><span class="lbl2">Cliente</span><input id="rel-cliente" type="text" placeholder="Nome do cliente" autocomplete="off"></div>
@@ -1006,14 +1024,12 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
                 <div class="rel-row" style="margin-top:12px"><button class="btn" type="button" id="rel-gerar"><svg width="14" height="14" style="margin-right:6px"><use href="#i-file"/></svg>Gerar relatório</button><span class="small">Abre em nova aba; salve em PDF pela impressão.</span></div>
               </div>
             </div>
-            <div>
-              <div class="cart-top"><div class="stats" id="cart-kpis"></div></div>
-              <div class="chart" id="ch-cart"></div>
-              <div class="cart-leg" id="lg-cart"></div>
-              <div class="cart-mode" id="cart-mode" role="group" aria-label="Rebalanceamento"><span>Carteira</span><button data-m="bh" aria-pressed="true" title="Compra no início e nunca rebalanceia">sem rebalanceamento</button><button data-m="rebal" aria-pressed="false" title="Pesos mantidos constantes (rebalanceamento diário)">com pesos constantes</button></div>
-              <p class="note" id="cart-note"></p>
-            </div>
           </div>
+          <details class="fine" id="p-fine">
+            <summary><svg><use href="#i-info"/></svg>Como a simulação é construída<svg class="chev"><use href="#i-chev"/></svg></summary>
+            <div class="premtxt" id="persp-ativos"></div>
+            <div class="premtxt" id="persp-prem"></div>
+          </details>
         </div>
 
         <div class="card" id="card-ret">
@@ -1236,7 +1252,7 @@ const GRUPOS_BENCH = [
   ['Alternativos', ['ouro', 'ourobrl', 'btc'], 'Outros índices de referência'],
 ];
 const MAX = 10, MAX_BENCH = 3;
-const JANELAS = [12, 24, 36, 48];
+const JANELAS = [12, 24, 36, 60];
 const RF_NOMES = { pcdi: (t) => 'Renda fixa ' + fmtNum(t, t % 1 ? 1 : 0) + '% do CDI', pre: (t) => 'Prefixado ' + fmtNum(t, t % 1 ? 2 : 0) + '% a.a.', ipca: (t) => 'IPCA+ ' + fmtNum(t, t % 1 ? 2 : 0) + '% a.a.' };
 const RF_TAXA = { pcdi: (t) => fmtNum(t, t % 1 ? 1 : 0) + '% do CDI', pre: (t) => 'prefixado ' + fmtNum(t, t % 1 ? 2 : 0) + '% a.a.', ipca: (t) => 'IPCA+ ' + fmtNum(t, t % 1 ? 2 : 0) + '% a.a.' };
 // taxa contratada como aparece no card ("14,35% a.a.", "110% do CDI", "IPCA + 7,25% a.a.") e o indexador ("prefixado", "atrelado ao CDI", "inflação")
@@ -1268,7 +1284,7 @@ function famTD(t) {
 }
 
 // ------------------------------------------------------------------ estado
-const S = { meta: null, index: null, acoes: [], sel: [], bench: [], cdi: true, periodo: 12, custom: { ini: null, fim: null }, cache: new Map(), persp: false,
+const S = { meta: null, index: null, acoes: [], divReinv: true, sel: [], bench: [], cdi: true, periodo: 12, custom: { ini: null, fim: null }, cache: new Map(), persp: false,
   prem: { h: 12, cdi: null, ipca: null, exc: 0.5, dy: 0, conf: 68 }, rank: { tipo: null, classe: '', ord: 'ret12', todos: false }, td: { fam: 'ipca', fmt: 'principal' }, rf: { tipo: 'pcdi', papel: 'CDB' }, coeSel: null, corrExtra: [], cart: { pesos: {}, modo: 'bh', focus: null } };
 const $ = (id) => document.getElementById(id);
 const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
@@ -1302,7 +1318,7 @@ async function carregar() {
     const [meta, idx, acj] = await Promise.all([getJSON('meta.json'), getJSON('index.json'), getJSON('acoes.json').catch(() => null)]);
     S.meta = meta;
     // ações e BDRs da B3 (cotação ajustada): ticker, nome, janelas, prêmio histórico sobre o benchmark
-    S.acoes = acj && acj.acoes ? acj.acoes.map(r => { const o = {}; acj.colunas.forEach((k, i) => o[k] = r[i]); o.busca = norm(o.ticker + ' ' + o.nome + ' ' + (o.tipo === 'bdr' ? 'bdr' : 'acao acoes bolsa b3')); return o; }) : [];
+    S.acoes = acj && acj.acoes ? acj.acoes.map(r => { const o = {}; acj.colunas.forEach((k, i) => o[k] = r[i]); o.busca = norm(o.ticker + ' ' + o.nome + ' ' + (o.tipo === 'bdr' ? 'bdr' : o.tipo === 'fii' ? 'fii fundo imobiliario imobiliarios' : 'acao acoes bolsa b3')); return o; }) : [];
     S.calIdx = new Map(meta.calendario.map((d, i) => [d, i]));
     const c = idx.colunas;
     S.index = idx.fundos.map(r => { const o = {}; c.forEach((k, i) => o[k] = r[i]); o.busca = norm(o.nome) + ' ' + o.cnpj + ' ' + norm(o.gestor) + ' ' + norm(o.xp_classe); return o; });
@@ -1315,9 +1331,9 @@ async function carregar() {
     S.prem.cdi = Math.round(cdiA * 400) / 4; S.prem.ipca = (() => { const b = S.benchmarks.find(x => x.id === 'ipca'); return b && b.ret12 != null ? Math.round(b.ret12 * 400) / 4 : 4.5; })();
     $('coe-cdi').value = S.prem.cdi;
     $('status').innerHTML = '';
-    const pill = el('span', 'pill'); pill.append(el('i'), document.createTextNode('até '), el('b', null, dBR(meta.referencia))); pill.title = inteiro(meta.n_fundos) + ' fundos · ' + (S.acoes.length ? inteiro(S.acoes.length) + ' ações e BDRs · ' : '') + (meta.tesouro || []).length + ' títulos · ' + (S.benchmarks.length + 1) + ' benchmarks' + (meta.n_coes ? ' · ' + meta.n_coes + ' COEs' : '') + ' · atualizado de terça a sábado'; $('status').append(pill);
+    const pill = el('span', 'pill'); pill.append(el('i'), document.createTextNode('até '), el('b', null, dBR(meta.referencia))); pill.title = inteiro(meta.n_fundos) + ' fundos · ' + (S.acoes.length ? inteiro(S.acoes.length) + ' ações, FIIs e BDRs · ' : '') + (meta.tesouro || []).length + ' títulos · ' + (S.benchmarks.length + 1) + ' benchmarks' + (meta.n_coes ? ' · ' + meta.n_coes + ' COEs' : '') + ' · atualizado de terça a sábado'; $('status').append(pill);
     $('ft-min').textContent = meta.min_cotistas;
-    $('q-td').textContent = (meta.tesouro || []).length + ' títulos à venda'; $('q-xp').textContent = inteiro(meta.n_xp || 0) + ' fundos da plataforma'; if ($('q-ac')) $('q-ac').textContent = S.acoes.length ? inteiro(S.acoes.filter(a => a.tipo !== 'bdr').length) + ' ações e ' + inteiro(S.acoes.filter(a => a.tipo === 'bdr').length) + ' BDRs da B3' : 'em breve'; if (meta.n_coes && $('ft-coe')) $('ft-coe').textContent = meta.n_coes + ' COEs da prateleira XP';
+    $('q-td').textContent = (meta.tesouro || []).length + ' títulos à venda'; $('q-xp').textContent = inteiro(meta.n_xp || 0) + ' fundos XP'; if ($('q-ac')) $('q-ac').textContent = S.acoes.length ? inteiro(S.acoes.filter(a => a.tipo === 'acao').length) + ' ações, ' + inteiro(S.acoes.filter(a => a.tipo === 'fii').length) + ' FIIs e ' + inteiro(S.acoes.filter(a => a.tipo === 'bdr').length) + ' BDRs' : 'em breve'; if (meta.n_coes && $('ft-coe')) $('ft-coe').textContent = meta.n_coes + ' COEs da prateleira XP';
     $('q').disabled = false;
     $('d-ini').min = meta.calendario[0]; $('d-ini').max = meta.referencia; $('d-fim').min = meta.calendario[0]; $('d-fim').max = meta.referencia; $('d-fim').value = meta.referencia; $('d-ini').value = subMeses(meta.referencia, 12);
     renderBench(); renderChips(); renderPeriodoInfo(); renderRanking(); montarTesouro(); montarRF(); iniciarCOE();
@@ -1335,6 +1351,8 @@ async function carregar() {
 
 // séries alinhadas ao calendário global, com preenchimento dos dias sem informe
 function prep(f) {
+  // ações, BDRs e FIIs trazem duas séries: q (proventos reinvestidos) e qp (só preço); a opção do simulador escolhe qual vale
+  if (f.kind === 'acao') { if (!f.qAdj) { f.qAdj = f.q; f.qPrecos = f.qp || null; } f.q = S.divReinv || !f.qPrecos ? f.qAdj : f.qPrecos; }
   const n = S.meta.calendario.length;
   const q = new Array(n).fill(null), raw = new Array(n).fill(null);
   let last = null, first = null;
@@ -1352,6 +1370,8 @@ function cached(key, loader) { if (S.cache.has(key)) return S.cache.get(key); co
 const carregarFundo = (cnpj) => cached('f:' + cnpj, () => getJSON('fundos/' + cnpj + '.json').then(f => ({ ...f, kind: 'fundo', key: cnpj })));
 const carregarTesouro = (id) => cached('td:' + id, () => getJSON('tesouro/' + id + '.json').then(f => ({ ...f, kind: 'tesouro', key: 'td:' + id })));
 const carregarAcao = (tk) => cached('ac:' + tk, () => getJSON('acoes/' + tk + '.json').then(f => ({ ...f, kind: 'acao', key: 'ac:' + tk })));
+// troca o histórico das ações entre "proventos reinvestidos" e "só preço" e redesenha tudo
+function setDivReinv(on) { S.divReinv = !!on; S.cache.forEach((p, k) => { if (k.startsWith('ac:') && p.__v) prep(p.__v); }); $('p-div') && [...$('p-div').querySelectorAll('button')].forEach(b => b.setAttribute('aria-pressed', (b.dataset.d === '1') === S.divReinv ? 'true' : 'false')); gravarURL(); render(); if (S.persp) renderPersp(); }
 const carregarBench = (id) => cached('b:' + id, () => getJSON('bench/' + id + '.json').then(f => ({ ...f, kind: 'bench', key: 'b:' + id })));
 const benchDoc = (id) => { const p = S.cache.get('b:' + id); return p && p.__v ? p.__v : null; };
 
@@ -1452,7 +1472,7 @@ function renderRes(r) {
     const nm = el('div', 'nm'); nm.append(el('b', null, titulo), el('span', null, sub)); const kv = el('div', 'kv'); kv.append(k1 || '', el('small', null, k2 || '')); b.append(nm, kv); b.addEventListener('click', fn); res.append(b); };
   const blocoFundos = () => { if (r.fundos.length) { grupo('Fundos', 'i-fund'); r.fundos.forEach(f => item(f.nome, [f.xp_classe || f.classe, f.gestor].filter(Boolean).join(' · '), money(f.pl), f.ret12 != null ? pct(f.ret12) + ' em 12 m' : 'sem 12 meses', () => adicionar(f.cnpj, 'fundo'))); } };
   const blocoTesouro = () => { if (r.tesouro.length) { grupo('Tesouro Nacional', 'i-td'); r.tesouro.forEach(t => item(t.nome, (t.fam === 1 ? 'Juros semestrais · ' : t.fam === 0 ? 'Principal · ' : '') + 'vencimento ' + dBR(t.venc) + ' · ' + taxaTD(t), t.ret12 != null ? pct(t.ret12) : '', 'em 12 m', () => adicionar('td:' + t.id, 'tesouro'))); } };
-  const blocoAcoes = () => { if (r.acoes && r.acoes.length) { grupo('Ações e BDRs', 'i-stock'); r.acoes.forEach(a => item(a.ticker + ' · ' + a.nome, (a.tipo === 'bdr' ? 'BDR' : 'Ação ' + a.especi) + ' · B3' + (a.preco != null ? ' · R$ ' + fmtNum(a.preco, 2) : ''), a.ret12 != null ? pct(a.ret12) : '', a.ret12 != null ? 'em 12 m' : 'sem 12 meses', () => adicionar('ac:' + a.ticker, 'acao'))); } };
+  const blocoAcoes = () => { if (r.acoes && r.acoes.length) { grupo('Ações, FIIs e BDRs', 'i-stock'); r.acoes.forEach(a => item(a.ticker + ' · ' + a.nome, (a.tipo === 'bdr' ? 'BDR' : a.tipo === 'fii' ? 'FII' : 'Ação ' + a.especi) + ' · B3' + (a.preco != null ? ' · R$ ' + fmtNum(a.preco, 2) : ''), a.ret12 != null ? pct(a.ret12) : '', a.ret12 != null ? 'em 12 m' : 'sem 12 meses', () => adicionar('ac:' + a.ticker, 'acao'))); } };
   if (r.acaoPrimeiro) { blocoAcoes(); if (r.tituloPrimeiro) { blocoTesouro(); blocoFundos(); } else { blocoFundos(); blocoTesouro(); } }
   else if (r.tituloPrimeiro) { blocoTesouro(); blocoFundos(); blocoAcoes(); } else { blocoFundos(); blocoTesouro(); blocoAcoes(); }
   if (r.bench.length) { grupo('Benchmarks', 'i-bench'); r.bench.forEach(b => item(b.nome, b.desc, b.ret12 != null ? pct(b.ret12) : '', 'em 12 m', () => { ligarBench(b.id); fecharRes(); inp.value = ''; })); }
@@ -1479,7 +1499,7 @@ document.querySelectorAll('[data-act]').forEach(b => b.addEventListener('click',
 function irParaCarteira() {
   const prontos = S.sel.filter(s => s.data);
   if (prontos.length < 2) { abrirSheet('ranking'); const t = $('rank-bar-t'); $('rank-bar').classList.remove('hidden'); t.textContent = prontos.length ? '1 ativo na comparação: escolha mais um para montar a carteira' : 'Escolha pelo menos dois fundos para montar a carteira'; return; }
-  fecharSheets(); const c = $('card-cart'); if (c.classList.contains('hidden')) renderCarteira(); setTimeout(() => c.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+  fecharSheets(); if (!S.persp) togglePersp(true); else setTimeout(() => $('persp').scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
 }
 function abrirSheet(qual) { fecharModais(); const sh = $('sh-' + qual); sh.classList.add('on'); document.body.classList.add('sheet-open'); sh.scrollTop = 0; if (qual === 'ranking') { renderRanking(); } if (qual === 'coe' && S.coeSel) { setTimeout(() => { if (S.coeSel) selecionarCOE(S.coeSel, false); }, 50); } }
 function fecharSheets() { document.querySelectorAll('.sheet.on').forEach(s => s.classList.remove('on')); document.body.classList.remove('sheet-open'); }
@@ -1490,7 +1510,7 @@ $('rank-bar-cart').addEventListener('click', () => irParaCarteira());
 // ------------------------------------------------------------------ seleção de ativos
 function nomeDe(s) { if (s.data) return s.data.nome; if (s.kind === 'rf') { const { tipo, taxa, emissor } = rfPartes(s.key); return RF_NOMES[tipo] ? rfNome(tipo, taxa, emissor) : s.key; } if (s.kind === 'fundo') { const m = S.index.find(f => f.cnpj === s.key); return m ? m.nome : s.key; } if (s.kind === 'tesouro') { const m = S.tesouro.find(t => 'td:' + t.id === s.key); return m ? m.nome : s.key; } if (s.kind === 'acao') { const m = S.acoes.find(a => 'ac:' + a.ticker === s.key); return m ? m.nome : s.key.slice(3); } return s.key; }
 const TIPO_LBL = { fundo: 'Fundo', tesouro: 'Tesouro Nacional', rf: 'Renda fixa', acao: 'Ação' };
-const tipoLbl = (s) => s.kind === 'acao' && s.data && s.data.tipo === 'bdr' ? 'BDR' : TIPO_LBL[s.kind] || '';
+const tipoLbl = (s) => s.kind === 'acao' && s.data ? (s.data.tipo === 'bdr' ? 'BDR' : s.data.tipo === 'fii' ? 'FII' : 'Ação') : TIPO_LBL[s.kind] || '';
 async function adicionar(key, kind) {
   if (S.sel.length >= MAX || S.sel.some(s => s.key === key)) return;
   fecharRes(); inp.value = ''; fecharModais();
@@ -1505,7 +1525,7 @@ function remover(key) { S.sel = S.sel.filter(s => s.key !== key); delete S.cart.
 function renderChips() {
   const n = S.sel.length;
   $('go-cart').classList.toggle('hidden', S.sel.filter(s => s.data).length < 2);
-  inp.placeholder = n >= MAX ? 'Limite de ' + MAX + ' ativos na comparação' : n ? 'Adicionar outro ativo (fundo, ação, Tesouro, benchmark ou renda fixa)' : 'Fundo, CNPJ, ação (ex.: PETR4), título do Tesouro, benchmark ou renda fixa';
+  inp.placeholder = n >= MAX ? 'Limite de ' + MAX + ' ativos na comparação' : n ? 'Adicionar outro ativo (fundo, ação, FII, Tesouro, benchmark ou renda fixa)' : 'Fundo, CNPJ, ação ou FII (ex.: PETR4, HGLG11), título do Tesouro, benchmark ou renda fixa';
   inp.disabled = n >= MAX;
 }
 $('go-cart').addEventListener('click', () => irParaCarteira());
@@ -1610,14 +1630,15 @@ function setPeriodo(p) {
 }
 ['d-ini', 'd-fim'].forEach(id => $(id).addEventListener('change', () => { if (S.periodo !== 'custom') return; S.custom.ini = $('d-ini').value; S.custom.fim = $('d-fim').value; if (S.custom.ini && S.custom.fim && S.custom.ini > S.custom.fim) { const t = S.custom.ini; S.custom.ini = S.custom.fim; S.custom.fim = t; $('d-ini').value = S.custom.ini; $('d-fim').value = S.custom.fim; } renderPeriodoInfo(); gravarURL(); render(); }));
 function renderPeriodoInfo() {
-  const J = janela(); const cal = S.meta.calendario; const p = $('pinfo'); p.innerHTML = '';
-  if (J.fim - J.ini < 5) { p.textContent = 'Período muito curto: escolha pelo menos uma semana de dados.'; return; }
-  p.append('De ', el('b', null, dBR(cal[J.ini])), ' a ', el('b', null, dBR(cal[J.fim])), S.periodo === 'max' ? ' · desde o início do ativo mais recente' : '');
+  // o intervalo do período fica só no título do gráfico (tooltip) e nos subtítulos; sem a linha "De ... a ..." (pedido da v15)
+  const J = janela(); const cal = S.meta.calendario; const h = document.querySelector('#card-acum h2'); if (!h) return;
+  h.title = J.fim - J.ini < 5 ? 'Período muito curto: escolha pelo menos uma semana de dados.' : 'De ' + dBR(cal[J.ini]) + ' a ' + dBR(cal[J.fim]) + (S.periodo === 'max' ? ' (desde o início do ativo mais recente)' : '');
 }
 $('more-btn').addEventListener('click', () => { const on = $('more').classList.toggle('on'); $('more-btn').setAttribute('aria-expanded', on ? 'true' : 'false'); if (on) renderMais(); });
 $('persp-btn').addEventListener('click', () => togglePersp(!S.persp));
 $('persp-close').addEventListener('click', () => togglePersp(false));
-function togglePersp(on) { S.persp = on; $('persp').classList.toggle('hidden', !on); $('card-ret').classList.toggle('hidden', on || !S.sel.some(x => x.data)); $('persp-btn').setAttribute('aria-pressed', on ? 'true' : 'false'); gravarURL(); if (on) { renderPersp(); $('persp').scrollIntoView({ behavior: 'smooth', block: 'start' }); } }
+if ($('p-div')) $('p-div').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; setDivReinv(b.dataset.d === '1'); });
+function togglePersp(on) { S.persp = on; $('persp').classList.toggle('hidden', !on); $('card-ret').classList.toggle('hidden', on || !S.sel.some(x => x.data)); $('persp-btn').setAttribute('aria-pressed', on ? 'true' : 'false'); gravarURL(); if (on) { renderPersp(); renderCarteira(); $('persp').scrollIntoView({ behavior: 'smooth', block: 'start' }); } }
 
 // ------------------------------------------------------------------ URL
 function gravarURL() {
@@ -1628,6 +1649,7 @@ function gravarURL() {
   if (!S.cdi) u.searchParams.set('nocdi', '1'); else u.searchParams.delete('nocdi');
   if (S.periodo === 'custom' && S.custom.ini && S.custom.fim) u.searchParams.set('p', S.custom.ini + '_' + S.custom.fim); else if (S.periodo !== 12) u.searchParams.set('p', S.periodo); else u.searchParams.delete('p');
   if (S.persp) u.searchParams.set('persp', '1'); else u.searchParams.delete('persp');
+  if (!S.divReinv) u.searchParams.set('div', '0'); else u.searchParams.delete('div');
   if (S.corrExtra.length) u.searchParams.set('c', S.corrExtra.join(',')); else u.searchParams.delete('c');
   const pesos = S.sel.map(s => S.cart.pesos[s.key]).filter(v => v != null);
   if (pesos.length === S.sel.length && S.sel.length > 1 && !pesosIguais()) u.searchParams.set('w', S.sel.map(s => +(+S.cart.pesos[s.key]).toFixed(1)).join(',')); else u.searchParams.delete('w');
@@ -1640,6 +1662,7 @@ async function lerURL() {
   if (/^\d{4}-\d{2}-\d{2}_\d{4}-\d{2}-\d{2}$/.test(p)) { const [a, b] = p.split('_'); $('d-ini').value = a; $('d-fim').value = b; setPeriodo('custom'); }
   else if (p === 'max' || JANELAS.includes(+p)) setPeriodo(p);
   if (u.searchParams.get('nocdi') === '1') S.cdi = false;
+  if (u.searchParams.get('div') === '0') { S.divReinv = false; if ($('p-div')) [...$('p-div').querySelectorAll('button')].forEach(b => b.setAttribute('aria-pressed', b.dataset.d === '0' ? 'true' : 'false')); }
   S.bench = (u.searchParams.get('b') || '').split(',').filter(id => S.benchmarks.some(b => b.id === id)).slice(0, MAX_BENCH);
   await Promise.all(S.bench.map(id => carregarBench(id).catch(e => { console.error(e); S.bench = S.bench.filter(b => b !== id); })));
   renderBench();
@@ -1678,8 +1701,8 @@ function janela() {
   }
   return { ini: Math.max(idxAte(subMeses(S.meta.referencia, S.periodo)), 0), fim: fimRef };
 }
-function periodoLabel() { return S.periodo === 'max' ? 'período máximo' : S.periodo === 'custom' ? 'período escolhido' : 'últimos ' + S.periodo + ' meses'; }
-function periodoCurto() { return S.periodo === 'max' ? 'máximo' : S.periodo === 'custom' ? 'datas' : S.periodo + ' meses'; }
+function periodoLabel() { return S.periodo === 'max' ? 'período máximo' : S.periodo === 'custom' ? 'período escolhido' : S.periodo === 12 ? 'último ano' : 'últimos ' + (S.periodo / 12) + ' anos'; }
+function periodoCurto() { return S.periodo === 'max' ? 'máximo' : S.periodo === 'custom' ? 'datas' : S.periodo === 12 ? '1 ano' : (S.periodo / 12) + ' anos'; }
 function periodoMeses(J) { return S.periodo === 'max' || S.periodo === 'custom' ? Math.max(1, Math.round((J.fim - J.ini) / 21)) : S.periodo; }
 
 // ------------------------------------------------------------------ stepper: campo numérico com − e + (clique, segurar para repetir, setas do teclado; Shift ou PageUp/Down dá o passo grande)
@@ -1888,7 +1911,7 @@ function barraBm2(c, cor) {
   const mk = el('b'); mk.style.left = x(c.bret).toFixed(2) + '%'; mk.title = c.lbl + ': ' + pctSign(c.bret);
   tr.append(fill, mk); w.append(tr); return w;
 }
-const quemE = (s) => s.kind === 'fundo' ? 'Fundo' : s.kind === 'tesouro' ? 'Título' : s.kind === 'acao' ? (s.data && s.data.tipo === 'bdr' ? 'BDR' : 'Ação') : 'Ativo';
+const quemE = (s) => s.kind === 'fundo' ? 'Fundo' : s.kind === 'tesouro' ? 'Título' : s.kind === 'acao' ? (s.data && s.data.tipo === 'bdr' ? 'BDR' : s.data && s.data.tipo === 'fii' ? 'FII' : 'Ação') : 'Ativo';
 // monograma do ticker para ações e BDRs (sem logo): as letras do código numa pastilha
 function logoAcao(f, cls) { const m = el('span', 'glogo mono tk' + (cls ? ' ' + cls : '')); m.textContent = /xl|lg/.test(cls || '') ? String(f.ticker || '') : String(f.ticker || '').slice(0, 4); m.title = f.ticker; return m; }
 // ativos cuja rentabilidade não se mede contra um benchmark: renda fixa e Tesouro prefixado (o juro foi contratado na compra)
@@ -1901,7 +1924,7 @@ function render() {
   const temAtivo = prontos.length > 0;
   renderPeriodoInfo();
   ['card-ret', 'card-rr', 'grid-corr', 'more-btn'].forEach(id => $(id).classList.toggle('hidden', !temAtivo || (id === 'card-ret' && S.persp)));
-  if (!temAtivo) { $('more').classList.remove('on'); $('more-btn').setAttribute('aria-expanded', 'false'); $('card-pl').classList.add('hidden'); $('card-cart').classList.add('hidden'); if (S.persp) togglePersp(false); }
+  if (!temAtivo) { $('more').classList.remove('on'); $('more-btn').setAttribute('aria-expanded', 'false'); $('card-pl').classList.add('hidden'); if (S.persp) togglePersp(false); }
   const J = janela(), cal = S.meta.calendario, mesesJ = periodoMeses(J);
   const refs = refSeries(J);
   const mp = prontos.map(s => ({ s, m: metricasJS(s.data, Math.max(J.ini, s.data.firstIdx), Math.min(J.fim, s.data.ateIdx), mesesJ) }));
@@ -1911,7 +1934,7 @@ function render() {
   const kb = $('kpis'); kb.innerHTML = '';
   mp.forEach(({ s, m }) => {
     const k = el('div', 'kpi'); k.style.setProperty('--c', s.cor);
-    const nm = el('div', 'nm'); if (s.kind === 'fundo') { const lg = logoGestora(s.data, ''); if (lg) nm.append(lg); } else if (s.kind === 'acao') { const tk = el('span', 'tk-chip', s.data.ticker); tk.title = (s.data.tipo === 'bdr' ? 'BDR' : 'Ação') + ' negociada na B3; cotação ajustada por proventos e desdobramentos'; nm.append(tk); } else if (s.kind === 'rf') { const lg = logoEmissor(s.data.emissor, ''); if (lg) nm.append(lg); } else if (s.kind === 'tesouro') { const lg = logoTesouro(''); if (lg) nm.append(lg); }
+    const nm = el('div', 'nm'); if (s.kind === 'fundo') { const lg = logoGestora(s.data, ''); if (lg) nm.append(lg); } else if (s.kind === 'acao') { const tk = el('span', 'tk-chip', s.data.ticker); tk.title = (s.data.tipo === 'bdr' ? 'BDR' : s.data.tipo === 'fii' ? 'FII' : 'Ação') + ' negociada na B3; ' + (S.divReinv && s.data.qPrecos ? 'cotação com proventos reinvestidos' : s.data.ajuste === 'sem proventos' ? 'cotação só de preço (sem fonte de proventos)' : 'cotação só de preço'); nm.append(tk); } else if (s.kind === 'rf') { const lg = logoEmissor(s.data.emissor, ''); if (lg) nm.append(lg); } else if (s.kind === 'tesouro') { const lg = logoTesouro(''); if (lg) nm.append(lg); }
     nm.append(el('span', null, s.data.nome)); nm.title = (s.data.nomeLongo || s.data.nome) + (s.data.gestor_curto ? ' · ' + s.data.gestor_curto : ''); k.append(nm);
     const row = el('div', 'row');
     if (s.kind === 'rf') {
@@ -1942,7 +1965,6 @@ function render() {
   const seriesAcum = [...acum, ...refs];
   if (!seriesAcum.length) { const cdiVals = new Array(cal.length).fill(null); const c0 = S.meta.cdi[J.ini]; for (let i = J.ini; i <= J.fim; i++) cdiVals[i] = S.meta.cdi[i] / c0 - 1; seriesAcum.push({ id: 'cdi', nome: 'CDI', cor: COR_CDI, dash: true, vals: cdiVals }); }
   desenhar($('ch-acum'), { series: seriesAcum, ini: J.ini, fim: J.fim, altura: temAtivo ? 330 : 280, fmt: (v, t) => t ? (v * 100).toFixed(0) + '%' : pctSign(v), zero: true, area: prontos.length === 1 || !temAtivo });
-  if (!temAtivo) { const h = el('div', 'chart-hint'); h.append(el('b', null, 'Adicione um ativo para comparar.'), document.createTextNode('Busque acima ou use os atalhos.')); $('ch-acum').append(h); }
   legenda($('lg-acum'), seriesAcum);
   const tardios = acum.filter(a => a.baseI != null && a.baseI > J.ini + 5);
   setSub('acum-sub', ((tardios.length ? tardios.map(a => a.nome + ' começa em ' + dBR(cal[a.baseI])).join('; ') + '.' : '') +
@@ -2176,10 +2198,10 @@ function renderMais() {
       add('Patrimônio líquido', money(f.pl)); add('Cotistas', inteiro(f.cotistas)); add('Última cota', dBR(f.ate));
       if (f.xp) { add('Na XP', [f.xp.tipo, f.xp.classe].filter(Boolean).join(' · ')); add('Benchmark (XP)', f.xp.benchmark); add('Risco (XP)', f.xp.risco != null ? fmtNum(f.xp.risco, 0) + ' de 100' : null); add('Aplicação mínima', f.xp.aplic_min != null ? money(f.xp.aplic_min) : null); add('Resgate', f.xp.liquidez_dias != null ? 'D+' + fmtNum(f.xp.liquidez_dias, 0) : null); add('Status na XP', f.xp.status); if (f.xp.pagina) add('Página na XP', 'abrir', f.xp.pagina); }
     } else if (s.kind === 'acao') {
-      { const g = el('div', 'gest'); g.append(logoAcao(f, 'xl')); const gt = el('div'); gt.append(el('b', null, f.ticker), el('span', null, (f.tipo === 'bdr' ? 'BDR' : 'Ação ' + (f.especi || '')) + ' negociada na B3' + (f.nome_longo && f.nome_longo !== f.nome ? ' · ' + f.nome_longo : ''))); g.append(gt); d.append(g); }
-      add('Tipo', f.tipo === 'bdr' ? 'BDR (recibo de ação estrangeira)' : 'Ação ' + (f.especi || '')); add('Último preço', f.preco != null ? 'R$ ' + fmtNum(f.preco, 2) : null); add('Volume médio diário', f.liq ? 'R$ ' + compactR(f.liq) + ' (mediana de 12 meses)' : null);
-      add('Índice de referência', f.bm === 'sp500brl' ? 'S&P 500 em reais' : 'Ibovespa'); add('Excesso histórico', f.premio != null ? (f.premio >= 0 ? '+' : '−') + fmtNum(Math.abs(f.premio), 1) + ' p.p. a.a. sobre o índice em ' + (f.premio_w || 36) + ' meses' : null);
-      add('Estreia na série', f.estreia ? dBR(f.estreia) : null); add('Última cotação', dBR(f.ate)); add('Fonte', 'B3 (universo e liquidez) e Yahoo Finance (cotação ajustada por proventos e desdobramentos)'); add('Observação', 'Série de preços antes de custos e imposto de renda; proventos reinvestidos.');
+      { const g = el('div', 'gest'); g.append(logoAcao(f, 'xl')); const gt = el('div'); gt.append(el('b', null, f.ticker), el('span', null, (f.tipo === 'bdr' ? 'BDR' : f.tipo === 'fii' ? 'FII' : 'Ação ' + (f.especi || '')) + ' negociada na B3' + (f.nome_longo && f.nome_longo !== f.nome ? ' · ' + f.nome_longo : ''))); g.append(gt); d.append(g); }
+      add('Tipo', f.tipo === 'bdr' ? 'BDR (recibo de ação estrangeira)' : f.tipo === 'fii' ? 'Fundo imobiliário (cota negociada em bolsa)' : 'Ação ' + (f.especi || '')); add('Proventos', f.ajuste === 'sem proventos' ? 'sem fonte aberta de proventos: a série é só de preço' : (S.divReinv ? 'reinvestidos no próprio papel (' + (f.n_proventos || 0) + ' pagamentos na série)' : 'não reinvestidos nesta visão (só preço)')); add('Último preço', f.preco != null ? 'R$ ' + fmtNum(f.preco, 2) : null); add('Volume médio diário', f.liq ? 'R$ ' + compactR(f.liq) + ' (mediana de 12 meses)' : null);
+      add('Índice de referência', f.bm === 'sp500brl' ? 'S&P 500 em reais' : f.bm === 'ifix' ? 'IFIX' : 'Ibovespa'); add('Excesso histórico', f.premio != null ? (f.premio >= 0 ? '+' : '−') + fmtNum(Math.abs(f.premio), 1) + ' p.p. a.a. sobre o índice em ' + (f.premio_w || 36) + ' meses' : null);
+      add('Estreia na série', f.estreia ? dBR(f.estreia) : null); add('Última cotação', dBR(f.ate)); add('Fonte', 'B3 (cotações históricas e eventos societários)' + (f.tipo === 'fii' ? ' e CVM (rendimentos mensais do informe de FII)' : '')); add('Observação', 'Série de preços antes de custos e imposto de renda; proventos brutos.');
     } else if (s.kind === 'tesouro') {
       add('Título', f.tipo); add('Vencimento', dBR(f.venc)); add('Indexador', f.indexador === 'PRE' ? 'Prefixado' : f.indexador === 'SELIC' ? 'Selic' : 'IPCA'); add('Taxa atual', taxaTD(f));
       if (f.taxa_hist) add('Taxa desde ' + dBR(f.taxa_hist.desde), 'mín. ' + fmtNum(f.taxa_hist.min, 2) + '% · mediana ' + fmtNum(f.taxa_hist.mediana, 2) + '% · máx. ' + fmtNum(f.taxa_hist.max, 2) + '%');
@@ -2588,25 +2610,19 @@ function definirPeso(key, v) {
 function pesosIguais() { const ps = S.sel.filter(s => s.data).map(s => S.cart.pesos[s.key]); if (!ps.length) return true; const alvo = 100 / ps.length; return ps.every(p => p != null && Math.abs(p - alvo) < 0.6); }
 let cartAnterior = {};
 const cartUI = { chaves: '', linhas: {} };
-// cria as linhas de peso só quando o conjunto de ativos muda; os valores são atualizados no lugar (o arrasto do controle não é interrompido)
-function construirLinhas(itens) {
-  const chaves = itens.map(x => x.s.key).join('|'); if (chaves === cartUI.chaves) return;
-  cartUI.chaves = chaves; cartUI.linhas = {};
-  const rows = $('cart-rows'); rows.innerHTML = '';
-  itens.forEach(({ s }) => {
-    const r = el('div', 'wrow'); r.dataset.key = s.key; r.style.setProperty('--c', s.cor);
-    const ring = el('span', 'ring');
-    const nm = el('div', 'nm'); const dir = el('span', 'dir'); nm.append(document.createTextNode(s.data.nome), dir); nm.title = s.data.nome;
-    const rg = document.createElement('input'); rg.type = 'range'; rg.min = 0; rg.max = 100; rg.step = 0.5; rg.setAttribute('aria-label', 'Peso de ' + s.data.nome);
-    const pc = el('div', 'pct'); const num = document.createElement('input'); num.type = 'number'; num.min = 0; num.max = 100; num.step = 0.5; num.setAttribute('aria-label', 'Peso em % de ' + s.data.nome); pc.append(num, el('span', null, '%'));
-    let arrastando = false;
-    const aplicar = (v, final) => { if (!arrastando) cartAnterior = sharesAtuais(); definirPeso(s.key, v); if (final) { arrastando = false; gravarURL(); } else arrastando = true; renderCarteira(); };
-    rg.addEventListener('input', () => aplicar(rg.value, false)); rg.addEventListener('change', () => aplicar(rg.value, true));
-    num.addEventListener('change', () => aplicar(num.value, true));
-    r.append(ring, nm, rg, pc);
-    r.addEventListener('pointerenter', () => focarCarteira(s.key)); r.addEventListener('pointerleave', () => focarCarteira(null));
-    rows.append(r); cartUI.linhas[s.key] = { r, ring, dir, rg, num };
-  });
+// controle de peso de um ativo, montado dentro da primeira coluna da tabela do simulador (anel, seta de direção, controle deslizante e %)
+function linhaPeso(s, anel) {
+  const r = el('div', 'wrow'); r.dataset.key = s.key; r.style.setProperty('--c', s.cor);
+  const ring = anel || el('span', 'ring'); const dir = el('span', 'dir');
+  const rg = document.createElement('input'); rg.type = 'range'; rg.min = 0; rg.max = 100; rg.step = 0.5; rg.setAttribute('aria-label', 'Peso de ' + s.data.nome + ' na carteira');
+  const pc = el('div', 'pct'); const num = document.createElement('input'); num.type = 'number'; num.min = 0; num.max = 100; num.step = 0.5; num.setAttribute('aria-label', 'Peso em % de ' + s.data.nome); pc.append(num, el('span', null, '%'));
+  let arrastando = false;
+  const aplicar = (v, final) => { if (!arrastando) cartAnterior = sharesAtuais(); definirPeso(s.key, v); if (final) { arrastando = false; gravarURL(); } else arrastando = true; renderCarteira(); if (typeof atualizarCarteiraSim === 'function') atualizarCarteiraSim(); };
+  rg.addEventListener('input', () => aplicar(rg.value, false)); rg.addEventListener('change', () => aplicar(rg.value, true));
+  num.addEventListener('change', () => aplicar(num.value, true));
+  r.append(rg, pc);
+  cartUI.linhas[s.key] = { r, ring, dir, rg, num };
+  return { r, ring, dir };
 }
 function atualizarLinhas(itens) {
   const ativo = document.activeElement;
@@ -2621,13 +2637,16 @@ function atualizarLinhas(itens) {
 }
 function renderCarteira() {
   [...$('cart-mode').querySelectorAll('button')].forEach(x => x.setAttribute('aria-pressed', x.dataset.m === S.cart.modo ? 'true' : 'false'));
-  const card = $('card-cart'); const itens = pesosAtuais();
-  if (itens.length < 2) { card.classList.add('hidden'); cartUI.chaves = ''; return; }
-  card.classList.remove('hidden');
+  const itens = pesosAtuais();
+  // o histórico da carteira vive no bloco "Carteira e simulador": com menos de 2 ativos fica só o relatório
+  const hist = $('cart-hist'); const grid = $('cart-grid');
+  $('cart-eq').classList.toggle('hidden', itens.length < 2 || pesosIguais());
+  if (itens.length < 2) { if (hist) hist.classList.add('hidden'); if (grid) grid.classList.add('so-rel'); S.cart.volHist = null; return; }
+  if (hist) hist.classList.remove('hidden'); if (grid) grid.classList.remove('so-rel');
   const J = janela(), cal = S.meta.calendario, mesesJ = periodoMeses(J);
   const soma = 100;
-  construirLinhas(itens); atualizarLinhas(itens);
-  $('cart-eq').classList.toggle('hidden', pesosIguais());
+  atualizarLinhas(itens);
+  if ($('cart-hist-p')) $('cart-hist-p').textContent = periodoLabel();
   // série da carteira
   const n = cal.length, ini = Math.max(J.ini, ...itens.map(x => x.s.data.firstIdx)), fim = Math.min(J.fim, ...itens.map(x => x.s.data.ateIdx));
   const pesos = itens.map(x => soma > 0 ? x.w / soma : 1 / itens.length);
@@ -2638,6 +2657,7 @@ function renderCarteira() {
   }
   const doc = { qff: vals.map(v => v == null ? null : 1 + v), ret: retD, nome: 'Carteira' };
   const m = fim - ini >= 5 ? metricasJS(doc, ini, fim, mesesJ) : null;
+  S.cart.volHist = m && m.vol != null ? m.vol : null; S.cart.sharpeHist = m && m.sharpe != null ? m.sharpe : null;
   // KPIs da carteira
   // faixa compacta: resultado no período, % do CDI, volatilidade e Sharpe (ícones pequenos, sem cards)
   const kb = $('cart-kpis'); kb.innerHTML = '';
@@ -2663,7 +2683,7 @@ function focarCarteira(key, fixo) {
   if (fixo) S.cart.focus = key; else if (S.cart.focus && key == null) key = S.cart.focus;
   const svg = $('ch-cart').querySelector('svg'); if (!svg) return;
   svg.querySelectorAll('.ln[data-sid]').forEach(p => { const sid = p.dataset.sid; p.classList.toggle('focus', key != null && sid === key); if (sid !== '__cart') { p.classList.toggle('faint', !(key != null && sid === key)); p.style.opacity = key != null && sid !== key && sid !== '__cart' ? '.14' : ''; } });
-  $('cart-rows').querySelectorAll('.wrow').forEach(r => r.classList.toggle('dim', key != null && key !== '__cart' && r.dataset.key !== key));
+  document.querySelectorAll('#tb-persp .swapcell[data-key]').forEach(r => r.classList.toggle('dim', key != null && key !== '__cart' && r.dataset.key !== key));
   $('lg-cart').querySelectorAll('button').forEach((b, i) => b.classList.toggle('focus', key != null && ((i < S.sel.filter(s => s.data).length && S.sel.filter(s => s.data)[i].key === key) || (key === '__cart' && b.textContent === 'Carteira'))));
 }
 $('cart-mode').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.cart.modo = b.dataset.m; [...$('cart-mode').querySelectorAll('button')].forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false')); gravarURL(); renderCarteira(); });
@@ -2699,7 +2719,7 @@ function tipoAloc(s) {
   const f = s.data || {};
   if (s.kind === 'rf') return f.tipo === 'pre' ? 'pre' : f.tipo === 'ipca' ? 'infl' : 'pos';
   if (s.kind === 'tesouro') return f.indexador === 'PRE' ? 'pre' : f.indexador === 'IPCA' ? 'infl' : 'pos';
-  if (s.kind === 'acao') return f.tipo === 'bdr' ? 'ext' : 'rv';
+  if (s.kind === 'acao') return f.tipo === 'bdr' ? 'ext' : f.tipo === 'fii' ? 'alt' : 'rv';
   if (s.kind === 'coe') return 'alt';
   const xp = f.xp || {}; const cls = norm(xp.classe || ''), tipo = norm(xp.tipo || ''), cvm = norm(f.classe || ''), bm = (S.index.find(x => x.cnpj === s.key) || {}).bm || 'cdi';
   if (/internacional|cambial/.test(tipo) || /internacional/.test(cls) || ['dolar', 'sp500brl', 'mscibrl', 'nasdaqbrl'].includes(bm)) return 'ext';
@@ -2879,12 +2899,13 @@ h3{font-size:13px;font-weight:600;margin:14px 0 4px;color:var(--text-2)}
 .capa .capa-stats div{padding-inline-end:34px;border-inline-end:1px solid var(--line)}.capa .capa-stats div:last-child{border-inline-end:0;padding-inline-end:0}
 .capa .capa-stats .t{display:block;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
 .capa .capa-stats b{font-size:19px;font-weight:600;letter-spacing:-.01em;font-variant-numeric:tabular-nums}.capa .capa-stats b small{font-size:12px;font-weight:600;color:var(--text-2);margin-right:3px}
-.capa .capa-qr{position:absolute;right:20mm;bottom:34mm;display:flex;flex-direction:column;align-items:flex-end;gap:9px;text-align:right}
+.capa .capa-qr{position:absolute;right:20mm;bottom:34mm;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;width:30mm}
 .capa .qr{width:30mm;height:30mm;padding:2.6mm;border-radius:12px;background:#FBFCFE;box-shadow:0 0 0 1px rgba(212,162,74,.6),0 0 0 5px rgba(212,162,74,.07),0 16px 36px rgba(0,0,0,.35);color:#0B1730;flex:none}
 :root.claro .capa .qr{box-shadow:0 0 0 1px rgba(212,162,74,.7),0 0 0 5px rgba(212,162,74,.08),0 10px 24px rgba(20,40,70,.14)}
 .capa .qr svg{display:block;width:100%;height:100%}
-.capa .qr-t{padding-right:1mm}
-.capa .qr-t b{display:block;font-size:11.5px;font-weight:600;letter-spacing:.02em}
+.capa .qr-t{display:flex;align-items:center;justify-content:center;gap:7px;width:max-content;margin:0 auto;white-space:nowrap}
+.capa .qr-t .qr-m{width:19px;height:13px;color:var(--gold);flex:none}
+.capa .qr-t b{display:block;font-size:11.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--text)}
 .capa .qr-t span{display:block;font-size:11px;color:var(--text-2);margin-top:2px;font-variant-numeric:tabular-nums}
 .capa .qr-t small{display:block;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:5px}
 .capa .capa-foot{position:absolute;left:20mm;right:20mm;bottom:14mm;display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:10px;letter-spacing:.03em;border-top:1px solid var(--line);padding-top:10px}
@@ -2947,7 +2968,7 @@ tr.tot td{font-weight:700;border-top:2px solid var(--line-2);border-bottom:0}
   html.push(`<section class="pg capa"><svg class="capa-m" viewBox="0 0 660 446" aria-hidden="true"><use href="#wm"/></svg><div class="capa-top">${logoMaison}<span>Private</span></div>
     <div class="capa-body"><div class="eyebrow">Planejamento de investimentos</div><h1>${esc(cliente || 'Proposta de carteira')}</h1><div class="data">${dataHoje}</div><hr class="gold">
     <div class="capa-stats"><div><span class="t">Valor</span><b>${kv(total)}</b></div>${temProj ? `<div><span class="t">Horizonte</span><b>${hLbl}</b></div>` : ''}</div></div>
-    <div class="capa-qr"><div class="qr"><svg viewBox="-2.5 -2.5 ${QR_WA.n + 5} ${QR_WA.n + 5}" aria-label="QR code do WhatsApp da Maison"><path d="${QR_WA.d}" stroke="currentColor" stroke-width="0.95" stroke-linecap="round" fill="none"/><path d="${QR_WA.fin}" fill="currentColor" fill-rule="evenodd"/></svg></div><div class="qr-t"><b>Equipe Maison</b></div></div>
+    <div class="capa-qr"><div class="qr"><svg viewBox="-2.5 -2.5 ${QR_WA.n + 5} ${QR_WA.n + 5}" aria-label="QR code do WhatsApp da Maison"><path d="${QR_WA.d}" stroke="currentColor" stroke-width="0.95" stroke-linecap="round" fill="none"/><path d="${QR_WA.fin}" fill="currentColor" fill-rule="evenodd"/></svg></div><div class="qr-t"><svg class="qr-m" viewBox="0 -1 660 446" aria-hidden="true"><use href="#wm"/></svg><b>Equipe Maison</b></div></div>
     <div class="capa-foot"><span>Gustavo Bailly Develly Rocha · gustavo.bailly@maisoninvest.com.br</span><span>Niterói/RJ · hubmaison.com</span></div></section>`);
   // resumo
   const persp1 = (k) => sims[k] && sims[k].idx[12] != null ? sims[k].idx[12] - 1 : null; const cart1 = cartIdx(12) - 1;
@@ -2986,14 +3007,14 @@ tr.tot td{font-weight:700;border-top:2px solid var(--line-2);border-bottom:0}
   const para = (txt, cls) => String(txt || '').split(/\n+/).map(t => t.trim()).filter(Boolean).map(t => `<p class="${cls || 'txt'}">${esc(t)}</p>`).join('');
   const corta = (txt, n) => { const t = String(txt || '').trim(); if (t.length <= n) return t; const c = t.slice(0, n); const i = c.lastIndexOf('. '); return (i > n * 0.6 ? c.slice(0, i + 1) : c.replace(/\s+\S*$/, '') + '…'); };
   linhas.forEach((l, k) => { const f = l.s.data; const x = f.xp || {}; const pa = porAtivo[k]; const sim = sims[k]; const pf = perfis[k];
-    const classe = l.s.kind === 'fundo' ? [f.xp ? 'Fundo · ' + [f.xp.tipo, f.xp.classe].filter(Boolean).join(' · ') : 'Fundo · ' + (f.classe || ''), f.anbima].filter(Boolean).join(' · ') : l.s.kind === 'acao' ? (f.tipo === 'bdr' ? 'BDR · ' : 'Ação ' + (f.especi || '') + ' · ') + f.ticker + ' · B3' + (f.nome_longo && f.nome_longo !== f.nome ? ' · ' + f.nome_longo : '') : l.s.kind === 'tesouro' ? 'Tesouro Nacional · ' + f.tipo + ' · vencimento ' + dBR(f.venc) : 'Renda fixa · ' + f.indexador + (l.em ? ' · ' + l.em.tipo : '') + (f.venc ? ' · vence em ' + dBR(f.venc) : '');
+    const classe = l.s.kind === 'fundo' ? [f.xp ? 'Fundo · ' + [f.xp.tipo, f.xp.classe].filter(Boolean).join(' · ') : 'Fundo · ' + (f.classe || ''), f.anbima].filter(Boolean).join(' · ') : l.s.kind === 'acao' ? (f.tipo === 'bdr' ? 'BDR · ' : f.tipo === 'fii' ? 'FII · ' : 'Ação ' + (f.especi || '') + ' · ') + f.ticker + ' · B3' + (f.nome_longo && f.nome_longo !== f.nome ? ' · ' + f.nome_longo : '') : l.s.kind === 'tesouro' ? 'Tesouro Nacional · ' + f.tipo + ' · vencimento ' + dBR(f.venc) : 'Renda fixa · ' + f.indexador + (l.em ? ' · ' + l.em.tipo : '') + (f.venc ? ' · vence em ' + dBR(f.venc) : '');
     let tiles, leitura, textos = '';
     const logoTopo = l.s.kind === 'fundo' ? logoImg({ nome: l.gest || '', site: f.gestor_site, logo: f.gestor_logo }, 'sm') : l.s.kind === 'acao' ? `<span class="glogo mono sm tk">${esc(String(f.ticker || '').slice(0, 4))}</span>` : l.s.kind === 'rf' ? logoEm(l.em, 'sm') : logoEm(tdEm, 'sm');
     if (l.s.kind === 'acao') {
       const pr = sim && sim.premio != null ? sim.premio : f.premio;
       tiles = [tile('12 meses', l.m12 ? pctSign(l.m12.ret) : 'n/d', 'até ' + dBR(S.meta.referencia)), tile('vs ' + (BM_LBL[f.bm] || 'Ibov'), l.rel ? `<span class="badge ${l.rel.pos ? 'pos' : 'neg'}">${esc(l.rel.t2 || l.rel.t)}</span>` : 'n/d', l.rel ? BM_LBL[l.rel.bm] + ' ' + pctSign(l.rel.bret) + ' no período' : ''), tile('Perspectiva 1 ano', persp1(k) != null ? pctSign(persp1(k)) : 'n/d', pr != null ? (BM_LBL[f.bm] || 'Ibov') + ' ' + (pr >= 0 ? '+ ' : '− ') + fmtNum(Math.abs(pr), 1) + ' p.p.' : 'pelo simulador'), tile('Liquidez', 'D+2', f.liq ? 'R$ ' + compactR(f.liq) + ' por dia' : 'liquidação na B3')];
       leitura = [f.preco != null ? 'Último preço: R$ ' + fmtNum(f.preco, 2) : null, f.premio != null ? 'Excesso histórico sobre o ' + (SIM_NOMES[f.bm] || 'Ibovespa') + ': ' + (f.premio >= 0 ? '+' : '−') + fmtNum(Math.abs(f.premio), 1) + ' p.p. a.a. em ' + (f.premio_w || 36) + ' meses' : null, l.m12 && l.m12.vol != null ? 'Volatilidade 12 m: ' + pct(l.m12.vol) + (l.m12.sharpe != null ? ' (Sharpe ' + fmtNum(l.m12.sharpe, 2) + ')' : '') : null].filter(Boolean).map(t => '<span>' + esc(t) + '</span>').join('');
-      textos += `<h4>${esc(f.tipo === 'bdr' ? 'BDR' : 'Ação')}</h4>` + para(f.tipo === 'bdr' ? 'Certificado negociado na B3 que representa ações de uma empresa estrangeira, em reais; a cotação acompanha o preço da ação no exterior e o câmbio. Na projeção, segue o S&P 500 em reais mais o prêmio indicado.' : 'Ação negociada na B3, com a cotação ajustada por proventos e desdobramentos para ficar comparável à cota de um fundo. Na projeção, segue o Ibovespa mais o prêmio indicado, que parte do excesso histórico do papel sobre o índice.');
+      textos += `<h4>${esc(f.tipo === 'bdr' ? 'BDR' : f.tipo === 'fii' ? 'Fundo imobiliário' : 'Ação')}</h4>` + para(f.tipo === 'bdr' ? 'Certificado negociado na B3 que representa ações de uma empresa estrangeira, em reais; a cotação acompanha o preço da ação no exterior e o câmbio. Na projeção, segue o S&P 500 em reais mais o prêmio indicado.' : f.tipo === 'fii' ? 'Cota de fundo imobiliário negociada na B3, com os rendimentos mensais reinvestidos na série (dados do informe mensal da CVM) e os desdobramentos incorporados. Na projeção, segue o IFIX mais o prêmio indicado, que parte do excesso histórico do fundo sobre o índice.' : 'Ação negociada na B3, com a cotação ajustada por proventos e desdobramentos para ficar comparável à cota de um fundo. Na projeção, segue o Ibovespa mais o prêmio indicado, que parte do excesso histórico do papel sobre o índice.');
     } else if (l.s.kind === 'fundo') {
       tiles = [tile('12 meses', l.m12 ? pctSign(l.m12.ret) : 'n/d', 'até ' + dBR(S.meta.referencia)), tile('vs benchmark', l.rel ? `<span class="badge ${l.rel.pos ? 'pos' : 'neg'}">${esc(l.rel.t)}</span>` : 'n/d', l.rel ? BM_LBL[l.rel.bm] + ' ' + pctSign(l.rel.bret) + ' no período' : ''), tile('Perspectiva 1 ano', persp1(k) != null ? pctSign(persp1(k)) : 'n/d', 'pelo simulador'), tile('Resgate', l.liq != null ? 'D+' + l.liq : 'n/d', x.aplic_min != null ? 'mínimo ' + money(x.aplic_min) : '')];
       leitura = [l.gest ? 'Gestora: ' + l.gest : null, f.pl != null ? 'Patrimônio: ' + money(f.pl) : null, f.cotistas != null ? 'Cotistas: ' + inteiro(f.cotistas) : null, x.risco != null ? 'Risco XP: ' + fmtNum(x.risco, 0) + ' de 100' : null, l.m12 && l.m12.vol != null ? 'Volatilidade 12 m: ' + pct(l.m12.vol) + (l.m12.sharpe != null ? ' (Sharpe ' + fmtNum(l.m12.sharpe, 2) + ')' : '') : null].filter(Boolean).map(t => '<span>' + esc(t) + '</span>').join('');
@@ -3019,7 +3040,7 @@ tr.tot td{font-weight:700;border-top:2px solid var(--line-2);border-bottom:0}
     gest.forEach(g => { const p = g.perfil; blocos.push(`<div class="gest">${logoImg(g)}<div style="flex:1;min-width:0"><div class="t"><b>${esc(g.nome)}</b><span>${esc(g.legal && g.legal !== g.nome ? g.legal : '')}${g.site ? (g.legal && g.legal !== g.nome ? ' · ' : '') + esc(g.site) : ''}</span></div>${p ? para(corta(p.descricao, 520)) : ''}${g.gestores && g.gestores.length ? `<div class="socios">${g.gestores.slice(0, 4).map(m => `<div class="socio"><div><b>${esc(m.nome)}</b><span>${esc((m.carreira || []).slice(0, 3).map(c => c.empresa + (c.de ? ' (' + c.de + (c.ate ? ' a ' + (c.ate === 'atual' ? 'hoje' : c.ate) : '') + ')' : '')).join(' · '))}</span></div></div>`).join('')}</div>` : ''}<p style="color:var(--muted)">Na carteira: ${esc(g.fundos.join('; '))}</p></div></div>`); });
     emis.forEach(e => { blocos.push(`<div class="gest">${logoEm(e)}<div style="flex:1;min-width:0"><div class="t"><b>${esc(e.nome)}</b><span>${esc(e.tipo)} · emissor de renda fixa</span></div><p>${esc((PAPEL_TEXTOS[papelDe(e.papeis[0])] || '').split('. ')[0])}${(PAPEL_TEXTOS[papelDe(e.papeis[0])] || '') ? '.' : ''}</p><p style="color:var(--muted)">Na carteira: ${esc(e.papeis.join('; '))}</p></div></div>`); });
     if (temTD) blocos.push(`<div class="gest">${logoEm(tdEm)}<div style="flex:1;min-width:0"><div class="t"><b>Tesouro Nacional</b><span>Títulos públicos federais</span></div><p>Os títulos são emitidos pelo Tesouro Nacional e têm a garantia da União, com recompra diária pelo próprio Tesouro. São a referência de menor risco de crédito do mercado brasileiro.</p><p style="color:var(--muted)">Na carteira: ${esc(linhas.filter(l => l.s.kind === 'tesouro').map(l => l.s.data.nome).join('; '))}</p></div></div>`);
-    if (acoesCart.length) blocos.push(`<div class="gest"><span class="glogo mono">B3</span><div style="flex:1;min-width:0"><div class="t"><b>B3</b><span>Bolsa brasileira · ações e BDRs</span></div><p>Papéis negociados na B3, com liquidação em D+2. A cotação usada é ajustada por proventos (dividendos e juros sobre capital próprio reinvestidos) e por desdobramentos, o que a torna comparável à cota de um fundo. Os BDRs representam ações estrangeiras e carregam também a variação do câmbio.</p><p style="color:var(--muted)">Na carteira: ${esc(acoesCart.map(l => l.s.data.ticker + ' (' + l.s.data.nome + ')').join('; '))}</p></div></div>`);
+    if (acoesCart.length) blocos.push(`<div class="gest"><span class="glogo mono">B3</span><div style="flex:1;min-width:0"><div class="t"><b>B3</b><span>Bolsa brasileira · ações, FIIs e BDRs</span></div><p>Papéis negociados na B3, com liquidação em D+2. A cotação usada é ajustada por proventos (dividendos, JCP e rendimentos de FII reinvestidos) e por desdobramentos, o que a torna comparável à cota de um fundo. Os BDRs representam ações estrangeiras, carregam também a variação do câmbio e entram só pelo preço.</p><p style="color:var(--muted)">Na carteira: ${esc(acoesCart.map(l => l.s.data.ticker + ' (' + l.s.data.nome + ')').join('; '))}</p></div></div>`);
     html.push(P(`<h2>Gestoras e emissores</h2><p class="sub">Quem gere cada fundo e quem emite cada papel da carteira, com o histórico da casa e da equipe quando disponível.</p>` + blocos.join(''), 'Gestoras e emissores'));
   }
   const doc = `<!DOCTYPE html><html lang="pt-BR" class="${tema === 'claro' ? 'claro' : ''}"><head><meta charset="utf-8"><title>${esc('Planejamento de investimentos' + (cliente ? ' · ' + cliente : ''))}</title><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"><style>${css}</style></head><body>${sprite}<div class="noprint"><button class="ghost" onclick="document.documentElement.classList.toggle('claro')">Claro / escuro</button><button onclick="window.print()">Salvar como PDF</button></div>${html.join('')}</body></html>`;
@@ -3027,7 +3048,7 @@ tr.tot td{font-weight:700;border-top:2px solid var(--line-2);border-bottom:0}
 }
 // atualiza a lista de resgates quando a carteira muda
 const _renderCarteiraOrig = renderCarteira;
-renderCarteira = function () { _renderCarteiraOrig(); if (!$('card-cart').classList.contains('hidden')) renderRelLiq(); };
+renderCarteira = function () { _renderCarteiraOrig(); if (!$('persp').classList.contains('hidden')) renderRelLiq(); };
 
 // ------------------------------------------------------------------ simulador: patamares de taxa (CDI, IPCA, juro real, benchmarks) e projeção dos ativos até 10 anos
 const SIM_KNOTS = [0, 12, 24, 36, 60, 120];            // hoje, 1, 2, 3, 5 e 10 anos
@@ -3204,7 +3225,7 @@ function simularAtivo(s, H, ipcaDoc, imabDoc) {
     // ação ou BDR: o índice de referência (Ibovespa; S&P 500 em reais para BDR) mais o prêmio editável, que parte do excesso histórico
     const bm = out.bm; const row = simRow(bm); const pr = premioAcao(s); const pM = Math.pow(1 + pr / 100, 1 / 12) - 1;
     out.sigma = j && j.vol != null ? j.vol : 0.3; out.premio = pr;
-    if (row && row.v && row.v[0] != null) { acum(t => (1 + mensal(nivelEm(row.v, t))) * (1 + pM) - 1); out.texto = (f.tipo === 'bdr' ? 'BDR: ' : 'Ação: ') + SIM_NOMES[bm] + ' (' + nivTxt(row.v, H) + ') mais prêmio de ' + (pr >= 0 ? '+' : '−') + fmtNum(Math.abs(pr), 1) + ' p.p. a.a.' + (f.premio != null && Math.abs(f.premio - pr) < 1e-9 ? ' (excesso histórico sobre o índice em ' + (f.premio_w || 36) + ' meses; edite na linha)' : ' (editado; o histórico de ' + (f.premio_w || 36) + ' meses dava ' + (f.premio != null ? (f.premio >= 0 ? '+' : '−') + fmtNum(Math.abs(f.premio), 1) : '0') + ' p.p.)') + '. Vol. de ' + pct(out.sigma) + '.'; }
+    if (row && row.v && row.v[0] != null) { acum(t => (1 + mensal(nivelEm(row.v, t))) * (1 + pM) - 1); out.texto = (f.tipo === 'bdr' ? 'BDR: ' : f.tipo === 'fii' ? 'FII: ' : 'Ação: ') + SIM_NOMES[bm] + ' (' + nivTxt(row.v, H) + ') mais prêmio de ' + (pr >= 0 ? '+' : '−') + fmtNum(Math.abs(pr), 1) + ' p.p. a.a.' + (f.premio != null && Math.abs(f.premio - pr) < 1e-9 ? ' (excesso histórico sobre o índice em ' + (f.premio_w || 36) + ' meses; edite na linha)' : ' (editado; o histórico de ' + (f.premio_w || 36) + ' meses dava ' + (f.premio != null ? (f.premio >= 0 ? '+' : '−') + fmtNum(Math.abs(f.premio), 1) : '0') + ' p.p.)') + '. Vol. de ' + pct(out.sigma) + '.'; }
     else { acum(t => (1 + cdi(t)) * (1 + pM) - 1); out.texto = 'Sem patamar para ' + (SIM_NOMES[bm] || bm) + ': CDI mais o prêmio de ' + fmtNum(pr, 1) + ' p.p.'; }
     return out;
   }
@@ -3296,9 +3317,15 @@ async function renderPersp() {
   const faixaTd = (v) => { const td = el('td', 'num'); const h = el('span', 'heat', pctSign(v)); h.style.background = corHeat(v, escFx); td.append(h); return td; };
   const barra = (v, max, cor, neg) => { const w = el('div', 'mb'); const i = el('i'); i.style.width = (v == null || !(max > 0) ? 0 : Math.min(100, Math.abs(v) / max * 100)).toFixed(1) + '%'; i.style.background = v != null && v < 0 ? 'var(--neg)' : cor; if (neg) i.classList.add('neg'); w.append(i); return w; };
   const celula = (txt, v, max, cor, cls, sub) => { const td = el('td', 'vc' + (cls ? ' ' + cls : '')); const b = el('b', null, txt == null ? '–' : txt); td.append(b); if (sub) td.append(el('span', 'sub2', sub)); td.append(barra(v, max, cor)); return td; };
-  series.forEach((s, k) => { const sel = prontos[k]; const tr = el('tr'); const td0 = el('td', 'swapcell'); const n = el('span', 'n'); const i = el('i'); i.style.background = s.cor; const sp = el('span', null, s.nome); sp.title = s.nome; n.append(i, sp);
+  // pesos da carteira: o anel, a seta de direção e o controle de peso ficam na primeira coluna (bloco único carteira + simulador)
+  cartUI.linhas = {}; pesosAtuais(); const temPesos = prontos.length >= 2;
+  series.forEach((s, k) => { const sel = prontos[k]; const tr = el('tr'); const td0 = el('td', 'swapcell'); td0.dataset.key = sel.key; td0.style.setProperty('--c', s.cor); const n = el('span', 'n');
+    const sp = el('span', null, s.nome); sp.title = s.nome;
+    if (temPesos) { const ring = el('span', 'ring'); ring.style.setProperty('--p', String(S.cart.pesos[sel.key] || 0)); const lp = linhaPeso(sel, ring); n.append(ring, sp, lp.dir); td0.append(n, lp.r); }
+    else { const i = el('i'); i.style.background = s.cor; n.append(i, sp); td0.append(n); }
     const x = el('button', 'xrm'); x.type = 'button'; x.title = 'Remover da comparação'; x.setAttribute('aria-label', 'Remover ' + s.nome); x.append(icon('i-x', 10)); x.addEventListener('click', () => remover(sel.key)); n.append(x);
-    td0.append(n, trocaAtivo(sel)); if (sel.kind === 'acao') td0.append(editorPremio(sel)); tr.append(td0);
+    td0.addEventListener('pointerenter', () => focarCarteira(sel.key)); td0.addEventListener('pointerleave', () => focarCarteira(null));
+    td0.append(trocaAtivo(sel)); if (sel.kind === 'acao') td0.append(editorPremio(sel)); tr.append(td0);
     marcos.forEach((t, k2) => tr.append(celula(pctSign(s.vals[t]), s.vals[t], maxCol[k2], s.cor, t === H ? 'hl' : '', s.m.agio[t] != null && t <= H ? (s.m.agio[t] >= 0 ? 'ágio ' : 'deságio ') + pctSign(s.m.agio[t]) : null)));
     tr.append(faixaTd(s.lo), faixaTd(s.hi));
     vsCols.forEach(c => { const d = s.fim - c.vals[H]; const tdv = el('td', 'num'); tdv.append(el('span', 'badge ' + (d < 0 ? 'neg' : 'pos'), c.nome + ' ' + (d < 0 ? '−' : '+') + fmtNum(Math.abs(d) * 100, 1) + ' p.p.')); tdv.title = c.nome + ' no período: ' + pctSign(c.vals[H]); tr.append(tdv); });
@@ -3306,8 +3333,26 @@ async function renderPersp() {
     { const td = celula(st.vol == null ? null : pct(st.vol), st.vol, maxVol, 'var(--neg)', 'ctr'); td.title = 'Volatilidade anualizada ' + periodoLabel(); tr.append(td); }
     { const td = celula(st.sh == null ? null : fmtNum(st.sh, 2), st.sh, maxSh, 'var(--accent)', 'ctr'); td.title = 'Índice de Sharpe ' + periodoLabel(); tr.append(td); }
     const co = ibovDoc && sel.data.ret ? pearson(sel.data.ret, ibovDoc.ret, { ini: Math.max(J.ini, sel.data.firstIdx || 0, ibovDoc.firstIdx || 0), fim: Math.min(J.fim, sel.data.ateIdx, ibovDoc.ateIdx) }) : null; const tdc = el('td', 'num'); if (co != null) { tdc.append(el('span', 'badge ' + (Math.abs(co) >= 0.5 ? 'neg' : 'neu'), fmtNum(co * 100, 0) + '%')); tdc.title = 'Correlação dos retornos diários com o Ibovespa ' + (S.periodo === 'max' || S.periodo === 'custom' ? 'no ' : 'nos ') + periodoLabel(); } tr.append(tdc); tbody.append(tr); });
+  // linha da carteira: soma ponderada dos caminhos de cada ativo (pesos da Diversificação), faixa pela volatilidade histórica da carteira
+  if (temPesos) {
+    const trc = el('tr', 'cartrow'); tbody.append(trc);
+    const desenharCart = () => {
+      trc.innerHTML = ''; const ws = prontos.map(p => (S.cart.pesos[p.key] || 0) / 100); const idx = []; for (let t = 0; t <= H; t++) idx[t] = series.reduce((a, s2, k) => a + ws[k] * s2.m.idx[t], 0);
+      const vals = idx.map(v => v - 1); const sig = S.cart.volHist != null ? S.cart.volHist : series.reduce((a, s2, k) => a + ws[k] * s2.m.sigma, 0) * 0.85; const fx2 = sig > 0.002 ? faixa(idx, sig, z) : null;
+      const td0 = el('td', 'swapcell'); const n = el('span', 'n'); const i = el('i'); const sp = el('span', null, 'Carteira'); n.append(i, sp); td0.append(n); const sm = el('small', 'hint', 'pesos acima · ' + (S.cart.modo === 'rebal' ? 'pesos constantes' : 'sem rebalanceamento')); td0.append(sm); trc.append(td0);
+      marcos.forEach((t, k2) => trc.append(celula(pctSign(vals[t]), vals[t], Math.max(maxCol[k2], Math.abs(vals[t] || 0)), 'var(--gold)', t === H ? 'hl' : '')));
+      trc.append(faixaTd(fx2 ? fx2.lo[H] : vals[H]), faixaTd(fx2 ? fx2.hi[H] : vals[H]));
+      vsCols.forEach(c => { const d = vals[H] - c.vals[H]; const tdv = el('td', 'num'); tdv.append(el('span', 'badge ' + (d < 0 ? 'neg' : 'pos'), c.nome + ' ' + (d < 0 ? '−' : '+') + fmtNum(Math.abs(d) * 100, 1) + ' p.p.')); trc.append(tdv); });
+      { const td = celula(S.cart.volHist != null ? pct(S.cart.volHist) : null, S.cart.volHist, maxVol, 'var(--neg)', 'ctr'); td.title = 'Volatilidade histórica da carteira ' + periodoLabel(); trc.append(td); }
+      { const td = celula(S.cart.sharpeHist != null ? fmtNum(S.cart.sharpeHist, 2) : null, S.cart.sharpeHist, maxSh, 'var(--accent)', 'ctr'); td.title = 'Sharpe histórico da carteira'; trc.append(td); }
+      trc.append(el('td', 'num', '–'));
+    };
+    S.sim.cartRow = desenharCart; desenharCart();
+  } else S.sim.cartRow = null;
   if (S.sel.length < MAX) { const tr = el('tr', 'addrow'); const td = el('td'); td.colSpan = marcos.length + 6 + vsCols.length; td.append(trocaAtivo(null)); tr.append(td); tbody.append(tr); }
   tb.append(tbody);
+  // histórico da carteira e relatório, no mesmo bloco; a linha "Carteira" usa a volatilidade histórica calculada ali
+  renderCarteira(); if (S.sim.cartRow) S.sim.cartRow();
   // letras miúdas: por ativo e gerais
   const pa = $('persp-ativos'); pa.innerHTML = ''; pa.append(el('div', null, 'Por que cada ativo foi para esse patamar:'));
   const ula = el('ul'); series.forEach(s => { const li = el('li'); const b = el('b', null, s.nome + ': '); b.style.color = s.cor; li.append(b, document.createTextNode(s.m.texto)); ula.append(li); }); pa.append(ula);
@@ -3451,14 +3496,14 @@ function opcoesDoGrupo(id, atual) {
 // ------------------------------------------------------------------ seletor de ativos do simulador: popover com seções (renda fixa, Tesouro, fundos XP comuns, previdência, outros fundos),
 // classificação em fichas, busca, filtro de liquidez e, em cada linha, barras de retorno (azul), volatilidade (vermelha) e Sharpe (azul-claro)
 const PICK = { el: null, atual: null, sec: 'xp', sub: null, cls: null, liq: null, q: '', anchor: null, onPick: null };
-const PICK_SECS = [['rf', 'Renda fixa', 'i-rf'], ['td', 'Tesouro Nacional', 'i-td'], ['ac', 'Ações e BDRs', 'i-stock'], ['xp', 'Fundos XP', 'i-star'], ['prev', 'Previdência XP', 'i-umbrella'], ['cvm', 'Outros fundos', 'i-layers']];
+const PICK_SECS = [['rf', 'Renda fixa', 'i-rf'], ['td', 'Tesouro Nacional', 'i-td'], ['ac', 'Ações, FIIs e BDRs', 'i-stock'], ['xp', 'Fundos XP', 'i-star'], ['prev', 'Previdência XP', 'i-umbrella'], ['cvm', 'Outros fundos', 'i-layers']];
 const PICK_LIQ = [[null, 'liquidez livre'], [0, 'até D+0'], [1, 'até D+1'], [5, 'até D+5'], [30, 'até D+30'], [60, 'até D+60'], [90, 'até D+90']];
 const ehPrev = (f) => f.xp_tipo === 'Previdência';
 // filtro comum (prazo de resgate e busca) para a contagem das fichas e a lista
 const pickOk = (f) => { const { liq, q } = PICK; if (liq != null && !(f.xp_liq != null && f.xp_liq <= liq)) return false; const nq = norm(q || ''); return !nq || norm(f.nome + ' ' + (f.gestor || '')).includes(nq); };
 function pickSubs(sec) {
   if (sec === 'rf') return [['pcdi', '% do CDI'], ['pre', 'Prefixado'], ['ipca', 'IPCA+']].map(([id, lbl]) => ({ id, lbl }));
-  if (sec === 'ac') { const nq = norm(PICK.q || ''); const n = { acao: 0, bdr: 0 }; S.acoes.forEach(a => { if (!nq || a.busca.includes(nq)) n[a.tipo === 'bdr' ? 'bdr' : 'acao']++; }); return [['acao', 'Ações'], ['bdr', 'BDRs']].map(([id, lbl]) => ({ id, lbl, n: n[id] })).filter(x => x.n || x.id === PICK.sub); }
+  if (sec === 'ac') { const nq = norm(PICK.q || ''); const n = { acao: 0, fii: 0, bdr: 0 }; S.acoes.forEach(a => { if (!nq || a.busca.includes(nq)) n[a.tipo === 'bdr' ? 'bdr' : a.tipo === 'fii' ? 'fii' : 'acao']++; }); return [['acao', 'Ações'], ['fii', 'FIIs'], ['bdr', 'BDRs']].map(([id, lbl]) => ({ id, lbl, n: n[id] })).filter(x => x.n || x.id === PICK.sub); }
   if (sec === 'td') { const fams = new Map(); (S.tesouro || []).forEach(t => fams.set(t.fam, (fams.get(t.fam) || 0) + 1)); return [...fams.keys()].sort((a, b) => a - b).map(f => ({ id: String(f), lbl: TD_FAM_LBL[f], n: fams.get(f) })); }
   if (sec === 'xp') { const ordem = (S.meta.xp_tipos || []).filter(t => t !== 'Previdência'); const n = new Map(); S.index.forEach(f => { if (f.xp_tipo && !ehPrev(f) && pickOk(f)) n.set(f.xp_tipo, (n.get(f.xp_tipo) || 0) + 1); }); return ordem.map(t => ({ id: t, lbl: t, n: n.get(t) || 0 })).filter(x => x.n || x.id === PICK.sub); }
   if (sec === 'prev') { const n = new Map(); S.index.forEach(f => { if (ehPrev(f) && pickOk(f)) { const c = f.xp_classe || 'sem classe'; n.set(c, (n.get(c) || 0) + 1); } }); return [...n.keys()].sort((a, b) => a.localeCompare(b, 'pt-BR')).map(c => ({ id: c, lbl: c, n: n.get(c) })); }
@@ -3472,7 +3517,7 @@ function pickClasses(sec, sub) {
 function pickItens() {
   const { sec, sub, cls, liq, q } = PICK; const nq = norm(q || ''); const out = [];
   if (sec === 'rf') { const tp = sub || 'pcdi'; RF_TAXAS[tp].forEach(tx => out.push({ key: 'rf:' + rfId(tp, tx, ''), kind: 'rf', nome: RF_NOMES[tp](tx), sub: RF_IDX[tp], liq: 0 })); if (PICK.atual && PICK.atual.kind === 'rf' && PICK.atual.data && !out.some(o => o.key === PICK.atual.key)) out.unshift({ key: PICK.atual.key, kind: 'rf', nome: PICK.atual.data.nomeLongo || PICK.atual.data.nome, sub: PICK.atual.data.indexador, liq: 0 }); return out.filter(o => !nq || norm(o.nome).includes(nq)); }
-  if (sec === 'ac') { const tp = sub || 'acao'; S.acoes.forEach(a => { if ((a.tipo === 'bdr' ? 'bdr' : 'acao') !== tp) return; if (nq && !a.busca.includes(nq)) return; out.push({ key: 'ac:' + a.ticker, kind: 'acao', nome: a.ticker + ' · ' + a.nome, sub: (a.tipo === 'bdr' ? 'BDR' : 'Ação ' + (a.especi || '')) + (a.liq ? ' · R$ ' + compactR(a.liq) + '/dia' : '') + (a.premio != null ? ' · ' + (BM_LBL[a.bm] || 'Ibov') + ' ' + (a.premio >= 0 ? '+' : '−') + fmtNum(Math.abs(a.premio), 1) + ' p.p.' : ''), ret: a.ret12, r: { 12: a.ret12, 24: a.ret24, 36: a.ret36 }, vol: a.vol12, sharpe: a.sharpe12, bm: a.bm, liq: null }); }); out.sort((x, y) => (y.ret == null ? -1e9 : y.ret) - (x.ret == null ? -1e9 : x.ret)); return out; }
+  if (sec === 'ac') { const tp = sub || 'acao'; S.acoes.forEach(a => { if ((a.tipo === 'bdr' ? 'bdr' : a.tipo === 'fii' ? 'fii' : 'acao') !== tp) return; if (nq && !a.busca.includes(nq)) return; out.push({ key: 'ac:' + a.ticker, kind: 'acao', nome: a.ticker + ' · ' + a.nome, sub: (a.tipo === 'bdr' ? 'BDR' : a.tipo === 'fii' ? 'FII' : 'Ação ' + (a.especi || '')) + (a.liq ? ' · R$ ' + compactR(a.liq) + '/dia' : '') + (a.premio != null ? ' · ' + (BM_LBL[a.bm] || 'Ibov') + ' ' + (a.premio >= 0 ? '+' : '−') + fmtNum(Math.abs(a.premio), 1) + ' p.p.' : ''), ret: a.ret12, r: { 12: a.ret12, 24: a.ret24, 36: a.ret36 }, vol: a.vol12, sharpe: a.sharpe12, bm: a.bm, liq: null }); }); out.sort((x, y) => (y.ret == null ? -1e9 : y.ret) - (x.ret == null ? -1e9 : x.ret)); return out; }
   if (sec === 'td') { (S.tesouro || []).filter(t => !sub || String(t.fam) === sub).sort((x, y) => x.venc.localeCompare(y.venc)).forEach(t => { if (nq && !t.busca.includes(nq)) return; out.push({ key: 'td:' + t.id, kind: 'tesouro', nome: t.nome, sub: taxaTD(t) + ' · vence ' + t.venc.slice(0, 4), ret: t.ret12, r: { 12: t.ret12, 24: t.ret24, 36: t.ret36 }, vol: t.vol12, sharpe: t.sharpe12, bm: t.indexador === 'PRE' ? null : t.indexador === 'IPCA' ? 'ipca' : 'cdi', liq: 0 }); }); return out; }
   S.index.forEach(f => {
     if (sec === 'xp') { if (!f.xp_tipo || ehPrev(f)) return; if (sub && f.xp_tipo !== sub) return; if (cls && (f.xp_classe || 'sem classe') !== cls) return; }
@@ -3581,10 +3626,11 @@ function editorPremio(sel) {
   const rs = el('button', 'reset'); rs.type = 'button'; rs.title = 'Voltar ao histórico'; rs.setAttribute('aria-label', 'Voltar ao prêmio histórico'); rs.append(icon('i-hold', 10)); rs.addEventListener('click', () => { delete sm.premios[sel.key]; renderPersp(); }); rs.classList.toggle('hidden', sm.premios[sel.key] == null);
   box.append(lb, inp, el('span', null, ' p.p.'), rs); return box;
 }
+function atualizarCarteiraSim() { if (S.sim.cartRow) S.sim.cartRow(); }
 function trocaAtivo(atual) {
   const box = el('div', 'swap'); const b = el('button', 'swapbtn' + (atual ? '' : ' add')); b.type = 'button';
   b.append(icon(atual ? 'i-swap' : 'i-plus', 12), el('span', null, atual ? 'Trocar' : 'Adicionar ativo'));
-  if (atual) { const cid = classeDe(atual); const g = cid ? gruposClasse().find(x => x.id === cid) : null; if (g) { const sm = el('small', null, g.lbl.replace(/^Fundos CVM · /, '')); sm.title = g.lbl; b.append(sm); } else if (atual.kind === 'acao' && atual.data) { const sm = el('small', null, (atual.data.tipo === 'bdr' ? 'BDR' : 'Ação') + ' · ' + atual.data.ticker); b.append(sm); } }
+  if (atual) { const cid = classeDe(atual); const g = cid ? gruposClasse().find(x => x.id === cid) : null; if (g) { const sm = el('small', null, g.lbl.replace(/^Fundos CVM · /, '')); sm.title = g.lbl; b.append(sm); } else if (atual.kind === 'acao' && atual.data) { const sm = el('small', null, (atual.data.tipo === 'bdr' ? 'BDR' : atual.data.tipo === 'fii' ? 'FII' : 'Ação') + ' · ' + atual.data.ticker); b.append(sm); } }
   b.setAttribute('aria-haspopup', 'dialog'); b.addEventListener('click', () => abrirPicker(atual, b));
   box.append(b); return box;
 }
@@ -3655,9 +3701,9 @@ async function abrirPerfil(s) {
   const sec = (titulo, ic) => { const d = el('section', 'pf-sec'); const h = el('h3'); if (ic) h.append(icon(ic, 13)); h.append(document.createTextNode(titulo)); d.append(h); box.append(d); return d; };
   if (P.td) { const d = sec(P.td.nome, 'i-td'); paras(d, P.td.txt); const dl = el('div', 'pf-facts'); [['Taxa atual', taxaTD(f)], ['Vencimento', dBR(f.venc)], ['Duration', f.duration != null ? fmtNum(f.duration, 1) + ' anos' : null], ['Cupom', f.cupom ? fmtNum(f.cupom * 100, 0) + '% a.a., semestral' : 'não paga cupom'], ['Liquidez', 'diária (D+0), recompra pelo Tesouro'], ['Imposto', 'regressivo, de 22,5% a 15%']].forEach(([k, v]) => { if (v) { const it = el('div'); it.append(el('b', null, v), el('span', null, k)); dl.append(it); } }); d.append(dl); }
   if (s.kind === 'acao') {
-    const d = sec(f.tipo === 'bdr' ? 'BDR' : 'Ação', 'i-stock');
-    paras(d, f.tipo === 'bdr' ? 'Brazilian Depositary Receipt: certificado negociado na B3 que representa ações de uma empresa estrangeira, em reais. A cotação acompanha o preço da ação no exterior e o câmbio; por isso a referência na comparação e na projeção é o S&P 500 em reais.' : 'Ação negociada na B3. A série de preços é a cotação ajustada por proventos (dividendos e juros sobre capital próprio reinvestidos) e por desdobramentos e grupamentos, para ficar comparável à cota de um fundo. A referência na comparação e na projeção é o Ibovespa.');
-    const dl = el('div', 'pf-facts'); [['Último preço', f.preco != null ? 'R$ ' + fmtNum(f.preco, 2) : null], ['Volume médio', f.liq ? 'R$ ' + compactR(f.liq) + '/dia' : null], ['Excesso sobre o índice', f.premio != null ? (f.premio >= 0 ? '+' : '−') + fmtNum(Math.abs(f.premio), 1) + ' p.p. a.a. em ' + (f.premio_w || 36) + ' meses' : null], ['Liquidez', 'D+2 (liquidação na B3)'], ['Imposto', '15% sobre o ganho (20% em day trade); isenção até R$ 20 mil vendidos no mês para ações']].forEach(([k, v]) => { if (v) { const it = el('div'); it.append(el('b', null, v), el('span', null, k)); dl.append(it); } }); d.append(dl);
+    const d = sec(f.tipo === 'bdr' ? 'BDR' : f.tipo === 'fii' ? 'Fundo imobiliário' : 'Ação', 'i-stock');
+    paras(d, f.tipo === 'fii' ? 'Cota de fundo de investimento imobiliário negociada na B3. A série usa a cotação com os rendimentos mensais reinvestidos (informe mensal da CVM) e os desdobramentos incorporados; a referência na comparação e na projeção é o IFIX. Rendimentos isentos de imposto de renda para pessoa física nas condições da lei.' : f.tipo === 'bdr' ? 'Brazilian Depositary Receipt: certificado negociado na B3 que representa ações de uma empresa estrangeira, em reais. A cotação acompanha o preço da ação no exterior e o câmbio; por isso a referência na comparação e na projeção é o S&P 500 em reais.' : 'Ação negociada na B3. A série de preços é a cotação ajustada por proventos (dividendos e juros sobre capital próprio reinvestidos) e por desdobramentos e grupamentos, para ficar comparável à cota de um fundo. A referência na comparação e na projeção é o Ibovespa.');
+    const dl = el('div', 'pf-facts'); [['Último preço', f.preco != null ? 'R$ ' + fmtNum(f.preco, 2) : null], ['Volume médio', f.liq ? 'R$ ' + compactR(f.liq) + '/dia' : null], ['Excesso sobre o índice', f.premio != null ? (f.premio >= 0 ? '+' : '−') + fmtNum(Math.abs(f.premio), 1) + ' p.p. a.a. em ' + (f.premio_w || 36) + ' meses' : null], ['Liquidez', 'D+2 (liquidação na B3)'], ['Imposto', f.tipo === 'fii' ? '20% sobre o ganho na venda; rendimentos isentos para pessoa física' : '15% sobre o ganho (20% em day trade); isenção até R$ 20 mil vendidos no mês para ações']].forEach(([k, v]) => { if (v) { const it = el('div'); it.append(el('b', null, v), el('span', null, k)); dl.append(it); } }); d.append(dl);
   }
   if (s.kind === 'rf') {
     if (P.emissor) { const d = sec(P.emissor.nome, null); paras(d, P.emissor.tipo + '. Emissor do papel informado por você; a rentabilidade mostrada é a taxa contratada, sem marcação a mercado.'); }
