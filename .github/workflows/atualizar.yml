@@ -77,6 +77,7 @@ jobs:
           print(f"- Data de referência: **{s['referencia']}**")
           print(f"- Fundos publicados: **{s['fundos_publicados']:,}** (na matriz: {s['fundos_na_matriz']:,})")
           print(f"- Descartados: parados {s['descartados_parados']:,} · poucos cotistas {s['descartados_poucos_cotistas']:,} · histórico curto {s['descartados_historico_curto']:,}")
+          print(f"- Ações e BDRs: **{s.get('acoes', 0):,}** ({s.get('bdrs', 0):,} BDRs)")
           print(f"- Duração: {s['duracao_s']}s")
           for a in s.get("avisos", []):
               print(f"- Aviso: {a}")
@@ -88,6 +89,7 @@ jobs:
           touch dist/.nojekyll
           du -sh dist dist/data
           ls dist/data/fundos | wc -l
+          ls dist/data/acoes | wc -l
 
       - uses: actions/upload-pages-artifact@v3
         with:
