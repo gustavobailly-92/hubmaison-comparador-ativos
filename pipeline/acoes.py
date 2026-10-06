@@ -40,6 +40,8 @@ PAUSA_B3 = 0.2          # segundos entre chamadas à API da B3
 ESPECIES_ACAO = ("ON", "PN", "PNA", "PNB", "PNC", "PND", "PNE", "PNF", "UNT")
 ESPECIES_BDR = ("DRN", "DR1", "DR2", "DR3", "DRE")
 CODBDI_BDR = ("34", "35", "36")   # no COTAHIST os BDRs não vêm em lote padrão (02): 34 não patrocinado, 35 patrocinado, 36 ETF
+CASH_PAGINA = 100       # proventos em dinheiro por página na API da B3 (acima de ~120 a API devolve vazio)
+EVENTOS_VERSAO = 2      # formato do cache de eventos; muda quando a leitura da API muda (invalida caches antigos)
 RAZOES_SPLIT = (2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30, 40, 50, 100)
 
 log = fx.log
@@ -226,7 +228,7 @@ def eventos_empresa(emissor: str, cache_dir: str, hoje: date) -> dict | None:
     dividendos/JCP por tipo de ação (histórico completo), pela API de empresas listadas da B3. Cache de 7 dias."""
     arq = os.path.join(cache_dir, f"eventos_{emissor}.json")
     g = _ler_json(arq)
-    if g and (date.today() - date.fromisoformat(g.get("atualizado", "2000-01-01"))).days < 7:
+    if g and g.get("versao") == EVENTOS_VERSAO and (date.today() - date.fromisoformat(g.get("atualizado", "2000-01-01"))).days < 7:
         return g
     try:
         sup = _b3_json(B3_EMPRESAS, "GetListedSupplementCompany", {"issuingCompany": emissor, "language": "pt-br"})
@@ -234,7 +236,7 @@ def eventos_empresa(emissor: str, cache_dir: str, hoje: date) -> dict | None:
         return g if g else {"erro": str(e)[:200]}
     sup = sup[0] if isinstance(sup, list) and sup else (sup if isinstance(sup, dict) else None)
     if not sup:
-        out = {"atualizado": hoje.isoformat(), "nome": None, "stock": [], "cash": []}
+        out = {"versao": EVENTOS_VERSAO, "atualizado": hoje.isoformat(), "nome": None, "stock": [], "cash": []}
         with open(arq, "w", encoding="utf-8") as fh:
             json.dump(out, fh, ensure_ascii=False)
         return out
@@ -242,29 +244,43 @@ def eventos_empresa(emissor: str, cache_dir: str, hoje: date) -> dict | None:
     stock = _eventos_stock(sup.get("stockDividends"))
     cash: list | None = []
     if nome:
-        pagina = 1
-        while pagina <= 10:
-            try:
-                time.sleep(PAUSA_B3)
-                r = _b3_json(B3_EMPRESAS, "GetListedCashDividends", {"language": "pt-br", "pageNumber": pagina, "pageSize": 500, "tradingName": nome})
-            except Exception:  # noqa: BLE001
+        # a API aceita no máximo ~120 registros por página (com 500 devolve vazio) e não encontra nomes com barra
+        # ("AMBEV S/A" só responde como "AMBEV SA"); espaços não atrapalham
+        nomes = [nome]
+        limpo = re.sub(r"[^A-Z0-9 ]", "", nome.upper()).strip()
+        if limpo and limpo != nome:
+            nomes.append(limpo)
+        for tentativa, nm in enumerate(nomes):
+            cash = []
+            pagina = 1
+            erro = False
+            while pagina <= 40:
+                try:
+                    time.sleep(PAUSA_B3)
+                    r = _b3_json(B3_EMPRESAS, "GetListedCashDividends", {"language": "pt-br", "pageNumber": pagina, "pageSize": CASH_PAGINA, "tradingName": nm})
+                except Exception:  # noqa: BLE001
+                    erro = True
+                    break
+                for ev in (r or {}).get("results") or []:
+                    v = _num_br(ev.get("valueCash"))
+                    por = _num_br(ev.get("quotedPerShares")) or 1
+                    d = _data_br(ev.get("lastDatePriorEx"))
+                    if v is None or not d or v <= 0:
+                        continue
+                    cash.append({"tipo_acao": (ev.get("typeStock") or "").strip().upper(), "data_com": d, "valor": v / (por or 1),
+                                 "fecho_com": _num_br(ev.get("closingPricePriorExDate")), "evento": ev.get("corporateAction")})
+                tp = ((r or {}).get("page") or {}).get("totalPages") or 1
+                if pagina >= tp:
+                    break
+                pagina += 1
+            if erro:
                 if g:
                     return g
                 cash = None
                 break
-            for ev in (r or {}).get("results") or []:
-                v = _num_br(ev.get("valueCash"))
-                por = _num_br(ev.get("quotedPerShares")) or 1
-                d = _data_br(ev.get("lastDatePriorEx"))
-                if v is None or not d or v <= 0:
-                    continue
-                cash.append({"tipo_acao": (ev.get("typeStock") or "").strip().upper(), "data_com": d, "valor": v / (por or 1),
-                             "fecho_com": _num_br(ev.get("closingPricePriorExDate")), "evento": ev.get("corporateAction")})
-            tp = ((r or {}).get("page") or {}).get("totalPages") or 1
-            if pagina >= tp:
+            if cash:
                 break
-            pagina += 1
-    out = {"atualizado": hoje.isoformat(), "nome": nome, "stock": stock, "cash": cash}
+    out = {"versao": EVENTOS_VERSAO, "atualizado": hoje.isoformat(), "nome": nome, "stock": stock, "cash": cash}
     with open(arq, "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False)
     return out
@@ -478,11 +494,27 @@ def carregar_acoes(datas: list[date], hoje: date, offline: str | None, cache: st
             for s in ev.get("stock") or []:
                 if not p["isin"] or s.get("isin") == p["isin"]:
                     splits.append((s["data_com"], s["m"]))
-            for c in ev.get("cash") or []:
-                ta = ((c.get("tipo_acao") or "").split() or [""])[0]
-                if ta == p["especi"] or not ta:
-                    proventos.append((c["data_com"], c["valor"], c.get("fecho_com")))
-            if not ev.get("stock") and not ev.get("cash"):
+            cash = ev.get("cash") or []
+            if p["especi"] == "UNT":
+                # units (1 ON + n PN) não aparecem na API; aplico o rendimento percentual da ON (ou da PN) sobre o preço da unit
+                base_tipo = "ON" if any(((c.get("tipo_acao") or "").split() or [""])[0] == "ON" for c in cash) else "PN"
+                dias_serie = sorted(serie)
+                for c in cash:
+                    ta = ((c.get("tipo_acao") or "").split() or [""])[0]
+                    fecho = c.get("fecho_com")
+                    if ta != base_tipo or not fecho or fecho <= 0:
+                        continue
+                    i = bisect.bisect_right(dias_serie, c["data_com"]) - 1
+                    if i < 0:
+                        continue
+                    preco_unit = serie[dias_serie[i]]
+                    proventos.append((c["data_com"], c["valor"] / fecho * preco_unit, preco_unit))
+            else:
+                for c in cash:
+                    ta = ((c.get("tipo_acao") or "").split() or [""])[0]
+                    if ta == p["especi"] or not ta:
+                        proventos.append((c["data_com"], c["valor"], c.get("fecho_com")))
+            if not ev.get("stock") and not cash:
                 splits = _detectar_splits(serie)
         elif p["tipo"] == "fii":
             if cod not in fiis:
@@ -507,7 +539,7 @@ def carregar_acoes(datas: list[date], hoje: date, offline: str | None, cache: st
         if np.isnan(q).all():
             continue
         out.append({**{k2: v for k2, v in p.items() if k2 != "isin"}, "nome_longo": None, "fonte": "B3 COTAHIST",
-                    "nome": _nome_bonito(p["nome"], p["especi"], None), "ajuste": ajuste,
+                    "nome": _nome_bonito(p["nome"], p["especi"], None), "ajuste": ajuste, "estreia": min(serie),
                     "n_splits": inf.get("splits", 0), "n_proventos": inf.get("proventos", 0),
                     "bm": "sp500brl" if p["tipo"] == "bdr" else "ifix" if p["tipo"] == "fii" else "ibov",
                     "q": q, "qp": fx.alinhar(qp_d, datas)})
