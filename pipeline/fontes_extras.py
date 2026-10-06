@@ -132,17 +132,24 @@ def json_com_retentativa(url: str, tentativas: int = 6, espera: int = 25):
     raise RuntimeError(f"{url}: {ultimo}")
 
 
+SGS_BLOCO_DIAS = 3000  # a API do BCB recusa (406) séries diárias com mais de 10 anos num pedido: busca em blocos de ~8 anos
+
+
 def sgs(codigo: int, inicio: date, fim: date) -> dict[str, float]:
-    url = (f"https://api.bcb.gov.br/dados/serie/bcdata.sgs.{codigo}/dados?formato=json"
-           f"&dataInicial={inicio.strftime('%d/%m/%Y')}&dataFinal={fim.strftime('%d/%m/%Y')}")
-    dados = json_com_retentativa(url)
     out = {}
-    for d in dados:
-        try:
-            dt = datetime.strptime(d["data"], "%d/%m/%Y").date().isoformat()
-            out[dt] = float(str(d["valor"]).replace(",", "."))
-        except Exception:  # noqa: BLE001
-            continue
+    ini = inicio
+    while ini <= fim:
+        fim_bloco = min(fim, ini + timedelta(days=SGS_BLOCO_DIAS))
+        url = (f"https://api.bcb.gov.br/dados/serie/bcdata.sgs.{codigo}/dados?formato=json"
+               f"&dataInicial={ini.strftime('%d/%m/%Y')}&dataFinal={fim_bloco.strftime('%d/%m/%Y')}")
+        dados = json_com_retentativa(url)
+        for d in dados:
+            try:
+                dt = datetime.strptime(d["data"], "%d/%m/%Y").date().isoformat()
+                out[dt] = float(str(d["valor"]).replace(",", "."))
+            except Exception:  # noqa: BLE001
+                continue
+        ini = fim_bloco + timedelta(days=1)
     return out
 
 

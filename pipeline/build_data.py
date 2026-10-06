@@ -460,9 +460,8 @@ def carregar_cdi(inicio: date, fim: date, offline: str | None) -> dict[str, floa
     if offline:
         dados = json.load(open(os.path.join(offline, "cdi.json"), encoding="utf-8"))
     else:
-        url = (f"{BCB_CDI}?formato=json&dataInicial={inicio.strftime('%d/%m/%Y')}"
-               f"&dataFinal={fim.strftime('%d/%m/%Y')}")
-        dados = fx.json_com_retentativa(url, tentativas=6, espera=25)
+        # em blocos: a API recusa séries diárias com mais de 10 anos num pedido só
+        dados = [{"data": datetime.strptime(k, "%Y-%m-%d").strftime("%d/%m/%Y"), "valor": v} for k, v in fx.sgs(12, inicio, fim).items()]
     out = {}
     for d in dados:
         try:
