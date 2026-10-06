@@ -321,6 +321,47 @@ def casar_gestora_xp(nome_xp: str, catalogo: list[dict]) -> dict | None:
     return casar_gestora(nome_xp, catalogo)
 
 
+def carregar_perfis(caminho: str) -> dict:
+    """Perfis extraídos do Guia de Fundos da XP (pipeline/extrair_guia.py): gestoras, gestores e fundos."""
+    if not os.path.exists(caminho):
+        return {"gestoras": {}, "gestores": {}, "fundos": {}}
+    try:
+        with open(caminho, encoding="utf-8") as fh:
+            return json.load(fh)
+    except Exception as e:  # noqa: BLE001
+        log(f"aviso: perfis.json ignorado ({e})")
+        return {"gestoras": {}, "gestores": {}, "fundos": {}}
+
+
+def _norm_perfil(s: str) -> str:
+    s = unicodedata.normalize("NFKD", str(s or "")).encode("ascii", "ignore").decode().lower()
+    s = re.sub(r"\b(gestao|gestora|de|do|da|recursos|investimentos|investimento|asset|management|ltda|s/?a|capital|partners)\b", " ", s)
+    return re.sub(r"[^a-z0-9]+", " ", s).strip()
+
+
+def casar_perfil_gestora(nomes: list[str], perfis: dict) -> str | None:
+    """Liga o gestor (nome da planilha XP ou nome curto) a uma gestora do Guia: nome igual, ou um contido no outro (mínimo 4 letras)."""
+    idx = getattr(casar_perfil_gestora, "_idx", None)
+    if idx is None:
+        idx = {aid: _norm_perfil(g.get("nome", "")) for aid, g in perfis.get("gestoras", {}).items()}
+        casar_perfil_gestora._idx = idx
+    for nome in nomes:
+        n = _norm_perfil(nome)
+        if len(n) < 3:
+            continue
+        for aid, gn in idx.items():
+            if gn and gn == n:
+                return aid
+        melhor = None
+        for aid, gn in idx.items():
+            if len(gn) >= 4 and (n.startswith(gn + " ") or n == gn or gn.startswith(n + " ")):
+                if melhor is None or len(gn) > len(idx[melhor]):
+                    melhor = aid
+        if melhor:
+            return melhor
+    return None
+
+
 def gestor_curto(nome_legal: str) -> str:
     """Nome curto derivado do nome legal quando não há catálogo: tira sufixos societários e termos genéricos."""
     n = titulo(nome_legal)
@@ -678,6 +719,24 @@ def main() -> int:
             fx.baixar_logos(gestoras, os.path.join(args.out, "logos"), os.path.join(args.cache, "logos"), log=log)
         except Exception as e:  # ícones são acessórios: nunca derrubam a execução
             log(f"  ícones das gestoras: falhou ({e})")
+    perfis = carregar_perfis(os.path.join(os.path.dirname(os.path.abspath(__file__)), "perfis.json"))
+    log(f"  perfis do Guia de Fundos: {len(perfis.get('gestoras', {}))} gestoras, {len(perfis.get('fundos', {}))} fundos")
+    # emissores de renda fixa (bancos, financeiras, securitizadoras) e o Tesouro: ícones pelo mesmo caminho das gestoras
+    emissores = []
+    try:
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "emissores.json"), encoding="utf-8") as fh:
+            emissores = json.load(fh).get("emissores", [])
+        for e in emissores:
+            e["logo"] = "g"
+        if not args.offline:
+            fx.baixar_logos(emissores, os.path.join(args.out, "logos"), os.path.join(args.cache, "logos"), log=log)
+        with open(os.path.join(args.out, "emissores.json"), "w", encoding="utf-8") as fh:
+            json.dump({"emissores": [{"nome": e["nome"], "tipo": e.get("tipo", ""), "aliases": e.get("aliases", []),
+                                      "slug": fx.slug_site(e["site"]), "logo": "p" if e.get("logo_proc") else None} for e in emissores]},
+                      fh, ensure_ascii=False, separators=(",", ":"))
+        log(f"  emissores de renda fixa: {len(emissores)} no catálogo")
+    except Exception as e:  # noqa: BLE001
+        log(f"  emissores: falhou ({e})")
     xp_cnpjs = set(xp_lista)
     log(f"  lista XP: {len(xp_lista):,} CNPJs")
 
@@ -808,12 +867,15 @@ def main() -> int:
         # "p": ícone processado pelo pipeline (fundo transparente) em data/logos/<slug>.png; senão o favicon direto
         g_logo = ("p" if gcat.get("logo_proc") else gcat.get("logo")) if gcat and gcat.get("logo") else None
         taxa_adm = info.get("taxa_adm", "") or ((xp or {}).get("taxa_adm") if xp and xp.get("taxa_adm") is not None else "")
+        pf = perfis.get("fundos", {}).get(cnpj)
+        pg = (pf or {}).get("gestora") or casar_perfil_gestora([g_xp, g_curto, gl], perfis)
         doc = {
             "cnpj": cnpj,
             "xp": xp,
             "gestor_curto": g_curto,
             "gestor_site": g_site,
             "gestor_logo": g_logo,
+            "perfil": {"f": 1 if pf else 0, "g": pg},
             "cnpj_fmt": f"{cnpj[:2]}.{cnpj[2:5]}.{cnpj[5:8]}/{cnpj[8:12]}-{cnpj[12:]}",
             "nome": nome,
             "classe": info.get("classe", ""),
@@ -848,6 +910,7 @@ def main() -> int:
             (xp or {}).get("tipo"), (xp or {}).get("classe"), (xp or {}).get("risco"),
             1 if (xp or {}).get("top") else 0, (xp or {}).get("estrelas"),
             j24.get("ret"), j36.get("ret"), g_site, g_logo, bench_do_fundo(xp, info.get("classe", ""), nome),
+            (xp or {}).get("liquidez_dias"), 1 if pf else 0, pg,
         ])
         if xp:
             n_xp += 1
@@ -975,7 +1038,8 @@ def main() -> int:
     index_rows.sort(key=lambda x: -(x[4] or 0))
     with open(os.path.join(args.out, "index.json"), "w", encoding="utf-8") as fh:
         json.dump({"colunas": ["cnpj", "nome", "classe", "gestor", "pl", "cotistas", "ret12", "pcdi12", "sharpe12", "vol12",
-                               "xp_tipo", "xp_classe", "xp_risco", "xp_top", "xp_estrelas", "ret24", "ret36", "gestor_site", "gestor_logo", "bm"],
+                               "xp_tipo", "xp_classe", "xp_risco", "xp_top", "xp_estrelas", "ret24", "ret36", "gestor_site", "gestor_logo", "bm",
+                               "xp_liq", "pf", "pg"],
                    "fundos": index_rows}, fh, ensure_ascii=False, separators=(",", ":"))
     meta = {
         "referencia": ref.isoformat(),
@@ -1030,6 +1094,21 @@ def main() -> int:
             log(f"  15 anos (mín/mediana/máx): {res}")
         except Exception as e:  # noqa: BLE001
             avisos.append(f"estatísticas de 15 anos falharam: {e}")
+    # perfis do Guia de Fundos: gestoras (com gestores) num arquivo só e um arquivo por fundo (estratégia, equipe, comentários)
+    if perfis.get("gestoras"):
+        os.makedirs(os.path.join(args.out, "perfis", "fundos"), exist_ok=True)
+        with open(os.path.join(args.out, "perfis", "gestoras.json"), "w", encoding="utf-8") as fh:
+            json.dump({"gestoras": perfis["gestoras"], "gestores": perfis.get("gestores", {}), "fonte": perfis.get("fonte"), "gerado": perfis.get("gerado")},
+                      fh, ensure_ascii=False, separators=(",", ":"))
+        n_pf = 0
+        for c, f in perfis.get("fundos", {}).items():
+            if not (f.get("estrategia") or f.get("comentario")):
+                continue
+            with open(os.path.join(args.out, "perfis", "fundos", f"{c}.json"), "w", encoding="utf-8") as fh:
+                json.dump(f, fh, ensure_ascii=False, separators=(",", ":"))
+            n_pf += 1
+        meta["perfis"] = {"gestoras": len(perfis["gestoras"]), "fundos": n_pf, "fonte": perfis.get("fonte")}
+        log(f"  perfis publicados: {len(perfis['gestoras'])} gestoras, {n_pf} fundos")
     # catálogo de COEs da XP (mantido à mão em pipeline/coes.json, a partir das lâminas e DIEs)
     coes_src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "coes.json")
     if os.path.exists(coes_src):
