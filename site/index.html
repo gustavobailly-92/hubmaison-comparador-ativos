@@ -61,7 +61,8 @@ header .row{display:flex;align-items:center;justify-content:space-between;gap:16
 .search input:focus{border-color:rgba(143,180,227,.6);box-shadow:0 0 0 4px rgba(91,152,230,.10),var(--shadow)}
 .search svg.ico{position:absolute;left:22px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--accent)}
 .search .kbd{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted);border:1px solid var(--line-2);border-radius:6px;padding:2px 7px;letter-spacing:.06em}
-.hero .lbl{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:12px 0 6px;font-weight:600}
+.hero .lbl{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:2px 0 6px;font-weight:600}
+.hero .quick + .search{margin-top:14px}
 .quick{display:grid;grid-template-columns:repeat(4,minmax(0,max-content));gap:10px;margin:0}
 @media (max-width:640px){.quick{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .qbtn{position:relative;display:flex;align-items:center;gap:10px;text-align:left;background:linear-gradient(155deg,rgba(178,203,230,.07),rgba(178,203,230,0) 55%),var(--surface);border:1px solid transparent;border-radius:12px;padding:8px 12px;cursor:pointer;color:var(--text);transition:transform .2s var(--ease),box-shadow .2s;box-shadow:var(--shadow);isolation:isolate}
@@ -73,7 +74,8 @@ header .row{display:flex;align-items:center;justify-content:space-between;gap:16
 .qbtn.q-td .ic{background:radial-gradient(circle at 30% 25%,rgba(212,162,74,.34),rgba(212,162,74,.08) 72%);color:#E8C77A;box-shadow:inset 0 0 0 1px rgba(212,162,74,.28),0 1px 0 rgba(255,255,255,.04)}
 .qbtn.q-rf .ic{background:radial-gradient(circle at 30% 25%,rgba(110,211,230,.30),rgba(110,211,230,.07) 72%);color:#8FE0EE;box-shadow:inset 0 0 0 1px rgba(110,211,230,.26),0 1px 0 rgba(255,255,255,.04)}
 .qbtn.q-ac .ic{background:radial-gradient(circle at 30% 25%,rgba(67,184,147,.32),rgba(67,184,147,.07) 72%);color:#7DD6B6;box-shadow:inset 0 0 0 1px rgba(67,184,147,.28),0 1px 0 rgba(255,255,255,.04)}
-.qbtn.q-xp .ic{background:radial-gradient(circle at 30% 25%,rgba(176,140,240,.32),rgba(176,140,240,.07) 72%);color:#C9B0F5;box-shadow:inset 0 0 0 1px rgba(176,140,240,.28),0 1px 0 rgba(255,255,255,.04)}
+.qbtn.q-xp .ic{background:radial-gradient(circle at 30% 25%,rgba(176,140,240,.32),rgba(176,140,240,.07) 72%);color:#E9E1FA;box-shadow:inset 0 0 0 1px rgba(176,140,240,.28),0 1px 0 rgba(255,255,255,.04)}
+.qbtn.q-xp .ic svg{width:18px;height:16px}
 .qbtn .go{margin-left:auto;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;color:var(--text-2);background:rgba(178,203,230,.10);opacity:0;transform:translateX(-6px);transition:opacity .2s,transform .2s var(--ease);flex:none}
 .qbtn .go svg{width:11px;height:11px;transform:rotate(-90deg)}
 .qbtn:hover .go{opacity:1;transform:none}
@@ -326,44 +328,56 @@ th.sortable[aria-sort="ascending"] .arr{transform:rotate(180deg);opacity:1}
 th.sortable[aria-sort="descending"] .arr{opacity:1}
 
 /* ---------- carteira (diversificação) ---------- */
-.cart{display:grid;grid-template-columns:minmax(320px,1.4fr) minmax(260px,.9fr);gap:18px;align-items:start;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
-.cart .rel-box{margin-top:0}
-.cart-hist.hidden{display:none}
-.cart.so-rel{grid-template-columns:1fr}
 .lbl3{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500}
 .tbl-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px}
+.tbl-head .hint{font-size:11.5px;color:var(--muted)}
 /* primeira coluna da tabela: anel de peso, nome, ×, controle de peso e a troca do ativo */
-.swapcell .wrow{display:grid;grid-template-columns:minmax(0,1fr) 66px;gap:4px 8px;align-items:center;padding:4px 0 0;border-bottom:0}
+.swapcell .wrow{display:grid;grid-template-columns:minmax(0,1fr) 90px;gap:4px 8px;align-items:center;padding:4px 0 0;border-bottom:0}
 .swapcell .wrow input[type=range]{height:18px}
 .swapcell .wrow .pct input{width:54px;padding:3px 4px;font-size:12px;text-align:center}
 .swapcell .n .ring{width:16px;height:16px;border-radius:50%;background:conic-gradient(var(--c) calc(var(--p) * 1%),rgba(255,255,255,.08) 0);display:grid;place-items:center;flex:none}
 .swapcell .n .ring::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--surface)}
-.swapcell .n .dir{font-size:10px;font-weight:700;opacity:0;transition:opacity .2s}
-.swapcell .n .dir.up{color:#7DD6B6;opacity:1}
-.swapcell .n .dir.down{color:var(--neg);opacity:1}
 .swapcell.dim{opacity:.5}
-#tb-persp tr.cartrow td{border-top:1px solid var(--line-2);background:rgba(212,162,74,.04)}
-#tb-persp tr.cartrow .n span{font-weight:600;color:var(--text)}
-#tb-persp tr.cartrow .n i{background:var(--gold)}
-@media (max-width:900px){.cart{grid-template-columns:1fr}}
-.cart > *{min-width:0}
+#tb-persp tr.cartrow td,#tb-cart tr.cartrow td{border-top:1px solid var(--line-2);background:rgba(255,255,255,.035)}
+#tb-persp tr.cartrow .n span,#tb-cart tr.cartrow .n span{font-weight:600;color:var(--text)}
+#tb-persp tr.cartrow .n i,#tb-cart tr.cartrow .n i{background:#fff}
+#ch-acum .ln.cart,#ch-persp .ln.cart{stroke-width:3;filter:drop-shadow(0 0 3px rgba(255,255,255,.35))}
+#ch-acum .ln.focus{stroke-width:2.6}
+#ch-persp .band{opacity:.11}
+.kpi.portf{border-color:rgba(255,255,255,.28);background:linear-gradient(180deg,rgba(255,255,255,.05),transparent 50%),var(--surface)}
+.kpi.portf .nm{color:var(--text);font-weight:600}
+.kpi.portf .nm .dot{width:10px;height:10px;border-radius:50%;background:#fff;flex:none;box-shadow:0 0 0 3px rgba(255,255,255,.12)}
+.cart-tools{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.total-box{display:flex;flex-direction:column;gap:4px;min-width:200px}
+.total-box .money{width:200px}
+.total-box input[type=range]{width:200px;margin:0;height:16px;accent-color:var(--accent)}
+.cart-foot{margin-top:10px}
+.cart-foot .note{margin-top:4px}
+.valcell{white-space:nowrap}
+.valcell b{display:block;font-weight:600;font-variant-numeric:tabular-nums}
+.valcell .sub2{display:flex;align-items:center;gap:6px;flex-wrap:wrap;color:var(--muted);font-size:11px;margin-top:2px}
+.valcell.warn b{color:var(--neg)}
+.valcell.warn .sub2 em{color:var(--neg);font-style:normal}
+.valcell.ok .sub2{color:#7DD6B6}
+.valcell .mini.fix{padding:1px 7px;font-size:10.5px;border-color:rgba(240,138,106,.6);color:var(--text)}
+.wrow .pct .lock{width:20px;height:20px;border:0;border-radius:50%;background:rgba(125,214,182,.18);color:#7DD6B6;display:grid;place-items:center;cursor:pointer;padding:0;margin-left:2px}
+.wrow .pct .lock.hidden{display:none}
+.rel-wrap{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.rel-wrap .rel-box{margin-top:0;max-width:720px}
+.rel-info{font-size:12.5px;color:var(--muted);margin:6px 0 0;line-height:1.4}
+#tb-cart td.vc.hl b{font-size:14px}
 .wrow{display:grid;grid-template-columns:22px minmax(0,1fr) 92px 64px;gap:8px 10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);transition:opacity .2s}
 .wrow:last-child{border-bottom:0}
 .wrow.dim{opacity:.45}
 .wrow .ring{width:22px;height:22px;border-radius:50%;background:conic-gradient(var(--c) calc(var(--p) * 1%),rgba(255,255,255,.06) 0);display:grid;place-items:center;position:relative}
 .wrow .ring::after{content:"";width:12px;height:12px;border-radius:50%;background:var(--surface)}
 .wrow .nm{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:6px}
-.wrow .nm .dir{font-size:10px;color:var(--muted);opacity:0;transition:opacity .2s;font-weight:700}
-.wrow .nm .dir.up{color:#7DD6B6;opacity:1}.wrow .nm .dir.down{color:var(--neg);opacity:1}
 .wrow input[type=range]{width:100%;accent-color:var(--c, var(--accent));height:22px;margin:0}
 .wrow .pct{display:flex;align-items:center;justify-content:flex-end;gap:2px}
 .wrow .pct input{width:52px;background:var(--panel);border:1px solid var(--line-2);border-radius:7px;color:var(--text);padding:4px 6px;font-size:12.5px;text-align:right;font-variant-numeric:tabular-nums}
 .wrow .pct span{color:var(--muted);font-size:12px}
 .wtot{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin:8px 0 0;min-height:18px}
 .wtot .hidden{display:none}
-.cart .chart .ln.faint{opacity:.28;stroke-width:1.3}
-.cart .chart .ln.focus{opacity:1;stroke-width:2.2}
-.cart .chart .ln.cart{stroke-width:3}
 .kpis.cart-k{grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:0 0 12px}
 .kpis.cart-k .kpi{padding:11px 12px 9px}
 .kpis.cart-k .kpi .big{font-size:21px}
@@ -583,7 +597,8 @@ body.sheet-open{overflow:hidden}
 .pick .gbar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,rgba(91,152,230,.18),#5B98E6)}
 .pick .gbar i.neg{background:linear-gradient(90deg,rgba(224,122,122,.18),#E07A7A)}
 .pick .pbv .gbar i{background:linear-gradient(90deg,rgba(224,122,122,.15),rgba(224,122,122,.8))}
-.pick .pbs .gbar i{background:linear-gradient(90deg,rgba(91,152,230,.15),rgba(91,152,230,.9))}
+.pick .pbs .gbar i{background:linear-gradient(90deg,rgba(46,156,119,.25),#7DD6B6)}
+.pick .pbs .gbar i.neg,.pick .pbp .gbar i.neg{background:linear-gradient(90deg,rgba(224,122,122,.25),#E07A7A)}
 .pick .selo{font-size:9.5px;font-weight:600;letter-spacing:.01em;border-radius:6px;padding:1px 6px;font-variant-numeric:tabular-nums;color:var(--text-2);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 .pick .selo.vazio{background:transparent;color:var(--muted);font-weight:400;letter-spacing:.04em;text-transform:uppercase;font-size:9px}
 .pick .pbs.rm{align-items:center}
@@ -604,13 +619,21 @@ body.sheet-open{overflow:hidden}
 .swapcell .premio-ed input:focus{outline:none;border-color:var(--s1)}
 .swapcell .premio-ed .reset{width:18px;height:18px;border-radius:50%;border:0;background:rgba(178,203,230,.10);color:var(--text-2);display:grid;place-items:center;cursor:pointer;margin-inline-start:2px}
 .swapcell .premio-ed .reset:hover{background:rgba(178,203,230,.2);color:var(--text)}
-#tb-persp th,#tb-persp td{padding:9px 8px}
-#tb-persp td.vc{vertical-align:middle}
-#tb-persp td.vc b{display:block;font-weight:500;font-variant-numeric:tabular-nums}
-#tb-persp td.vc.hl b{font-weight:700}
-#tb-persp td.vc .sub2{margin-top:1px}
-#tb-persp .mb{width:62px;height:3px;border-radius:999px;background:rgba(178,203,230,.10);margin:5px 0 0 auto;overflow:hidden}
-#tb-persp .mb i{display:block;height:100%;border-radius:999px;opacity:.95;transition:width .25s var(--ease)}
+#tb-persp th,#tb-persp td,#tb-cart th,#tb-cart td{padding:9px 8px}
+#tb-persp td.vc,#tb-cart td.vc{vertical-align:middle;text-align:center}
+#tb-persp th,#tb-cart th{text-align:center}
+#tb-persp th:first-child,#tb-cart th:first-child{text-align:left}
+#tb-persp td.vc b,#tb-cart td.vc b{display:block;font-weight:600;font-variant-numeric:tabular-nums;font-size:12.5px;letter-spacing:-.01em}
+#tb-persp td.vc.hl b,#tb-cart td.vc.hl b{font-weight:700}
+#tb-persp td.vc .sub2,#tb-cart td.vc .sub2{margin-top:1px}
+/* barras finas em gradiente (retorno na cor do ativo, volatilidade em vermelho, Sharpe em verde), centradas sob o número */
+#tb-persp .mb,#tb-cart .mb{width:60px;height:4px;border-radius:999px;background:rgba(178,203,230,.10);margin:5px auto 0;overflow:hidden;box-shadow:inset 0 1px 1px rgba(0,0,0,.25)}
+#tb-persp .mb i,#tb-cart .mb i{display:block;height:100%;border-radius:999px;opacity:.95;transition:width .25s var(--ease);background:linear-gradient(90deg,color-mix(in srgb,var(--bc,#5B98E6) 35%,transparent),var(--bc,#5B98E6))}
+#tb-persp .mb i.vol,#tb-cart .mb i.vol{background:linear-gradient(90deg,#B85C5C,#F0A2A2)}
+#tb-persp .mb i.sh,#tb-cart .mb i.sh{background:linear-gradient(90deg,#2E9C77,#7DD6B6)}
+#tb-persp .mb i.neg,#tb-cart .mb i.neg,#tb-persp .mb i.sh.neg,#tb-cart .mb i.sh.neg{background:linear-gradient(90deg,#F0A2A2,#B85C5C)}
+#tb-cart td.valcell{text-align:center}
+#tb-cart td.valcell .sub2{justify-content:center}
 .swapcell .n{display:flex;align-items:center;gap:6px}
 .swapcell .xrm{width:18px;height:18px;border-radius:50%;border:0;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;opacity:.45;flex:none;transition:opacity .15s,background .15s;margin-inline-start:2px}
 .swapcell .xrm:hover,.swapcell .xrm:focus-visible{opacity:1;background:rgba(178,203,230,.16);color:var(--text);outline:none}
@@ -620,9 +643,8 @@ tr:hover .swapcell .xrm{opacity:.8}
 .swap select.cls{max-width:170px}
 tr.addrow td{padding:10px 8px 4px}
 tr.addrow .swap{margin-top:0}
-#tb-persp td.num{text-align:center;font-variant-numeric:tabular-nums}
-#tb-persp th.ctr,#tb-persp td.vc.ctr{text-align:center}
-#tb-persp td.vc.ctr .mb{margin:5px auto 0;width:48px}
+#tb-persp td.num,#tb-cart td.num{text-align:center;font-variant-numeric:tabular-nums}
+#tb-persp td.vc.ctr .mb,#tb-cart td.vc.ctr .mb{width:48px}
 #tb-persp td.num .heat{min-width:0;font-size:12.5px}
 
 /* simulador: opções avançadas e letras miúdas recolhidas */
@@ -791,6 +813,7 @@ td.ht{background-clip:padding-box}
 .rank .add{padding:4px 9px}
 .rank td.pl .vb .tr i{background:linear-gradient(90deg,#3F6FB0,#8FB8FF)}
 .rank td.sh .vb .tr i{background:linear-gradient(90deg,#2E9C77,#7DD6B6)}
+.rank td.sh .vb .tr i.neg{background:linear-gradient(90deg,#F0A2A2,#B85C5C)}
 .rank td.vol .vb .tr i{background:linear-gradient(90deg,#B85C5C,#F0A2A2)}
 .rank .vb .tr{height:4px}
 .rank .vb .v{font-weight:600;font-size:12.5px;letter-spacing:-.01em}
@@ -882,6 +905,8 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
 <symbol id="i-rf" viewBox="0 0 24 24"><path d="M5 19L19 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="7.5" cy="7.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="16.5" cy="16.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
 <symbol id="i-bench" viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 5-8 4 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 2.5"/></symbol>
 <symbol id="i-coe" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M3 12l9 5 9-5M3 16l9 5 9-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="i-xp" viewBox="1599 130 321 291"><path transform="matrix(1,0,0,-1,0,421.999)" d="M1834.478 104.979V68.085H1874.008C1884.196 68.085 1892.455 76.344 1892.455 86.532 1892.455 96.720 1884.196 104.979 1874.008 104.979Z" fill="currentColor"/><path transform="matrix(1,0,0,-1,0,421.999)" d="M1800.714 21.255C1800.714 21.255 1805.718 36.579 1817.914 36.579H1769.305L1742.243 63.641 1715.181 36.579H1672.495C1672.495 36.579 1672.493 37.044 1672.488 37.859L1721.161 86.532 1673.856 133.836H1717.829L1742.243 109.423 1766.657 133.836H1885.149C1895.429 133.836 1913.304 128.478 1919.999 112.013V258.009C1919.987 276.429 1905.050 291.359 1886.625 291.359H1632.764C1614.333 291.359 1599.391 276.417 1599.391 257.986V34.773C1599.391 16.341 1614.333 1.399 1632.764 1.399H1800.714Z" fill="currentColor"/><path transform="matrix(1,0,0,-1,0,421.999)" d="M1802.855 47.002V120.791L1765.961 83.896Z" fill="currentColor"/><path transform="matrix(1,0,0,-1,0,421.999)" d="M1887.964 37.83H1831.673V1.398H1886.626C1905.043 1.398 1919.975 16.316 1919.999 34.727V61.122C1916.693 53.811 1907.274 37.83 1887.964 37.83" fill="currentColor"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 11V7a4 4 0 0 1 8 0v4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
 <symbol id="i-persp" viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 5-8 4 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 6h4v4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 19V5M4 19h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M7 15l4-5 3 3 5-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 <symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 10h18M9 10v9" stroke="currentColor" stroke-width="1.8"/></symbol>
@@ -932,19 +957,19 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
 
 <main class="wrap">
   <section class="hero">
+    <div class="lbl">Atalhos</div>
+    <div class="quick" id="quick">
+      <button class="qbtn q-td" type="button" data-act="tesouro"><span class="ic"><svg><use href="#i-td"/></svg></span><div><b>Tesouro Nacional</b><small id="q-td">Selic | Pré | Inflação</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
+      <button class="qbtn q-rf" type="button" data-act="rf"><span class="ic"><svg><use href="#i-rf"/></svg></span><div><b>Renda fixa</b><small>% CDI | Pré | Inflação</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
+      <button class="qbtn q-ac" type="button" data-act="acoes"><span class="ic"><svg><use href="#i-stock"/></svg></span><div><b>Ações, FIIs e BDRs</b><small id="q-ac">papéis negociados na B3</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
+      <button class="qbtn q-xp" type="button" data-act="ranking"><span class="ic xp"><svg><use href="#i-xp"/></svg></span><div><b>Ranking XP</b><small id="q-xp">fundos</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
+          </div>
     <div class="search">
       <svg class="ico" aria-hidden="true"><use href="#i-search"/></svg>
       <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Fundo, CNPJ, ação (ex.: PETR4), título do Tesouro, benchmark ou renda fixa" aria-label="Buscar ativo" aria-controls="results" aria-expanded="false" disabled>
       <span class="kbd" aria-hidden="true">/</span>
       <div class="results" id="results" role="listbox"></div>
     </div>
-    <div class="lbl">Atalhos</div>
-    <div class="quick" id="quick">
-      <button class="qbtn q-td" type="button" data-act="tesouro"><span class="ic"><svg><use href="#i-td"/></svg></span><div><b>Tesouro Nacional</b><small id="q-td">todos os títulos à venda</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
-      <button class="qbtn q-rf" type="button" data-act="rf"><span class="ic"><svg><use href="#i-rf"/></svg></span><div><b>Renda fixa</b><small>% CDI | Pré | Inflação</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
-      <button class="qbtn q-ac" type="button" data-act="acoes"><span class="ic"><svg><use href="#i-stock"/></svg></span><div><b>Ações, FIIs e BDRs</b><small id="q-ac">papéis negociados na B3</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
-      <button class="qbtn q-xp" type="button" data-act="ranking"><span class="ic"><svg><use href="#i-trophy"/></svg></span><div><b>Ranking XP</b><small id="q-xp">fundos XP</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
-          </div>
   </section>
 
   <div class="layout">
@@ -952,7 +977,6 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
       <div class="card" id="rail-bench">
         <div class="blist" id="blist"></div>
       </div>
-      <button class="rail-cta hidden" type="button" id="go-cart"><svg><use href="#i-alloc"/></svg><span>Montar carteira</span><small>pesos, projeção, histórico e relatório</small></button>
     </aside>
 
     <section class="content">
@@ -975,20 +999,32 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
                 <label>De<input type="date" id="d-ini"></label>
                 <label>Até<input type="date" id="d-fim"></label>
               </div>
-              <button class="iconbtn sim" id="persp-btn" aria-pressed="false" aria-controls="persp" type="button" title="Carteira e simulador: pesos, projeção até 10 anos, histórico da carteira e relatório"><svg><use href="#i-alloc"/></svg><span>Carteira</span></button>
+              <button class="iconbtn sim" id="persp-btn" aria-pressed="false" aria-controls="persp" type="button" title="Carteira: pesos e composição no gráfico, projeção até 10 anos e relatório para o cliente"><svg><use href="#i-alloc"/></svg><span>Carteira</span></button>
             </div>
           </div>
           <div class="chart" id="ch-acum"></div>
           <div class="legend" id="lg-acum"></div>
         </div>
 
+        <div class="card hidden" id="card-cart">
+          <div class="head">
+            <div><h2><svg><use href="#i-alloc"/></svg>Ativos e pesos</h2><p class="sub">Pesos da carteira, valor por ativo e resultado no período selecionado acima. A linha branca do gráfico é a carteira.</p></div>
+            <div class="tools cart-tools">
+              <div class="total-box"><span class="lbl2">Valor total</span><div class="money"><input id="rel-total" type="text" inputmode="decimal" placeholder="R$ 500.000" autocomplete="off" aria-label="Valor total em reais"><span class="stp"><button type="button" data-d="-1" aria-label="Diminuir">−</button><button type="button" data-d="1" aria-label="Aumentar">+</button></span></div><input type="range" id="rel-total-rg" min="0" max="1000" step="1" value="0" aria-label="Valor total (deslize)"></div>
+              <button class="mini hidden" type="button" id="cart-eq">Pesos iguais</button>
+            </div>
+          </div>
+          <div class="tbl"><table id="tb-cart"></table></div>
+          <div class="cart-foot"><div class="cart-mode" id="cart-mode" role="group" aria-label="Rebalanceamento"><span>Carteira</span><button data-m="bh" aria-pressed="true" title="Compra no início e nunca rebalanceia">sem rebalanceamento</button><button data-m="rebal" aria-pressed="false" title="Pesos mantidos constantes (rebalanceamento diário)">com pesos constantes</button></div><p class="note" id="cart-note"></p></div>
+        </div>
+
         <div class="card hidden" id="persp">
           <div class="head">
-            <div><h2><svg><use href="#i-alloc"/></svg>Carteira e simulador</h2><p class="sub">Pesos de cada ativo, o que a carteira faria nos patamares escolhidos (não é previsão), o histórico e o relatório para o cliente.</p></div>
+            <div><h2><svg><use href="#i-persp"/></svg>Projeção da carteira</h2><p class="sub">O que a carteira e cada ativo fariam nos patamares escolhidos (não é previsão), no horizonte abaixo; o mesmo horizonte vai para o relatório.</p></div>
             <div class="tools"><button class="linkbtn" id="persp-close" type="button">fechar</button></div>
           </div>
           <div class="sim-top">
-            <label>Horizonte<div class="seg" id="p-h" role="group"><button data-h="12" aria-pressed="true">1 ano</button><button data-h="24" aria-pressed="false">2 anos</button><button data-h="36" aria-pressed="false">3 anos</button><button data-h="60" aria-pressed="false">5 anos</button><button data-h="120" aria-pressed="false">10 anos</button></div></label>
+            <label>Horizonte<div class="seg" id="p-h" role="group"><button data-h="12" aria-pressed="false">1 ano</button><button data-h="24" aria-pressed="false">2 anos</button><button data-h="36" aria-pressed="false">3 anos</button><button data-h="60" aria-pressed="false">5 anos</button><button data-h="120" aria-pressed="true">10 anos</button></div></label>
           </div>
           <div class="chart" id="ch-persp"></div>
           <div class="legend" id="lg-persp"></div>
@@ -1004,25 +1040,17 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
               </div>
             </div>
           </details>
-          <div class="tbl-head"><span class="lbl3">Ativos e pesos</span><button class="mini hidden" type="button" id="cart-eq">Pesos iguais</button></div>
+          <div class="tbl-head"><span class="lbl3">Projeção por ativo e da carteira</span><span class="hint">pesos na tabela "Ativos e pesos", acima</span></div>
           <div class="tbl" style="margin-top:6px"><table id="tb-persp"></table></div>
-          <div class="cart" id="cart-grid">
-            <div class="cart-hist" id="cart-hist"><div class="lbl3" style="margin-bottom:8px">Histórico da carteira <span class="hint" id="cart-hist-p"></span></div><div class="cart-top"><div class="stats" id="cart-kpis"></div></div>
-              <div class="chart" id="ch-cart"></div>
-              <div class="cart-leg" id="lg-cart"></div>
-              <div class="cart-mode" id="cart-mode" role="group" aria-label="Rebalanceamento"><span>Carteira</span><button data-m="bh" aria-pressed="true" title="Compra no início e nunca rebalanceia">sem rebalanceamento</button><button data-m="rebal" aria-pressed="false" title="Pesos mantidos constantes (rebalanceamento diário)">com pesos constantes</button></div>
-              <p class="note" id="cart-note"></p>
-            </div>
-            <div><div class="rel-box" id="rel-box">
-                <div class="rel-h"><b><svg><use href="#i-file"/></svg>Relatório para o cliente</b><label class="switch" title="Tema do relatório"><input type="checkbox" id="rel-tema-ck"><span class="track"><i></i></span><span id="rel-tema-t">Escuro</span></label></div>
-                <div class="rel-form">
-                  <div><span class="lbl2">Cliente</span><input id="rel-cliente" type="text" placeholder="Nome do cliente" autocomplete="off"></div>
-                  <div><span class="lbl2">Valor total</span><div class="money"><input id="rel-total" type="text" inputmode="decimal" placeholder="R$ 500.000" autocomplete="off" aria-label="Valor total em reais"><span class="stp"><button type="button" data-d="-1" aria-label="Diminuir">−</button><button type="button" data-d="1" aria-label="Aumentar">+</button></span></div><input type="range" id="rel-total-rg" min="0" max="1000" step="1" value="0" aria-label="Valor total (deslize)"></div>
-                </div>
-                <div class="rel-form"><div><span class="lbl2">Projeção</span><select id="rel-h" class="sel" aria-label="Horizonte da projeção"><option value="120" selected>10 anos</option><option value="60">5 anos</option><option value="36">3 anos</option><option value="">sem projeção</option></select></div></div>
-                <details class="rel-det" id="rel-det"><summary><span>Prazos de resgate</span><em id="rel-det-s">preenchidos pela XP</em><svg><use href="#i-chev"/></svg></summary><div class="rel-liq" id="rel-liq"></div></details>
-                <div class="rel-row" style="margin-top:12px"><button class="btn" type="button" id="rel-gerar"><svg width="14" height="14" style="margin-right:6px"><use href="#i-file"/></svg>Gerar relatório</button><span class="small">Abre em nova aba; salve em PDF pela impressão.</span></div>
+          <div class="rel-wrap" id="cart-grid">
+            <div class="rel-box" id="rel-box">
+              <div class="rel-h"><b><svg><use href="#i-file"/></svg>Relatório para o cliente</b><label class="switch" title="Tema do relatório"><input type="checkbox" id="rel-tema-ck"><span class="track"><i></i></span><span id="rel-tema-t">Escuro</span></label></div>
+              <div class="rel-form rel-form-1">
+                <div><span class="lbl2">Cliente</span><input id="rel-cliente" type="text" placeholder="Nome do cliente" autocomplete="off"></div>
+                <div><span class="lbl2">Horizonte e valor</span><p class="rel-info" id="rel-info">Usa o horizonte escolhido acima e o valor total da tabela "Ativos e pesos".</p></div>
               </div>
+              <details class="rel-det" id="rel-det"><summary><span>Prazos de resgate</span><em id="rel-det-s">preenchidos pela XP</em><svg><use href="#i-chev"/></svg></summary><div class="rel-liq" id="rel-liq"></div></details>
+              <div class="rel-row" style="margin-top:12px"><button class="btn" type="button" id="rel-gerar"><svg width="14" height="14" style="margin-right:6px"><use href="#i-file"/></svg>Gerar relatório</button><span class="small">Abre em nova aba; salve em PDF pela impressão.</span></div>
             </div>
           </div>
           <details class="fine" id="p-fine">
@@ -1285,7 +1313,7 @@ function famTD(t) {
 
 // ------------------------------------------------------------------ estado
 const S = { meta: null, index: null, acoes: [], divReinv: true, sel: [], bench: [], cdi: true, periodo: 12, custom: { ini: null, fim: null }, cache: new Map(), persp: false,
-  prem: { h: 12, cdi: null, ipca: null, exc: 0.5, dy: 0, conf: 68 }, rank: { tipo: null, classe: '', ord: 'ret12', todos: false }, td: { fam: 'ipca', fmt: 'principal' }, rf: { tipo: 'pcdi', papel: 'CDB' }, coeSel: null, corrExtra: [], cart: { pesos: {}, modo: 'bh', focus: null } };
+  prem: { h: 12, cdi: null, ipca: null, exc: 0.5, dy: 0, conf: 68 }, rank: { tipo: null, classe: '', ord: 'ret12', todos: false }, td: { fam: 'ipca', fmt: 'principal' }, rf: { tipo: 'pcdi', papel: 'CDB' }, coeSel: null, corrExtra: [], cart: { pesos: {}, trava: {}, modo: 'bh', focus: null, serie: null, volHist: null, sharpeHist: null }, ui: {} };
 const $ = (id) => document.getElementById(id);
 const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
 const NS = 'http://www.w3.org/2000/svg';
@@ -1299,10 +1327,10 @@ function fmtNum(v, d = 1) { return v == null || !isFinite(v) ? null : fix(nf(d).
 const pct = (v, d = 1) => { if (v == null || !isFinite(v)) return null; const s = fmtNum(Math.abs(v) * 100, d); return (v < 0 ? '−' : '') + s + '%'; };
 const pctSign = (v, d = 1) => { if (v == null || !isFinite(v)) return null; const s = fmtNum(Math.abs(v) * 100, d); return (v < 0 ? '−' : v > 0 ? '+' : '') + s + '%'; };
 const money = (v) => { if (v == null || !isFinite(v)) return null; const a = Math.abs(v);
-  if (a >= 1e9) return 'R$ ' + fmtNum(v / 1e9, 2) + ' bi'; if (a >= 1e6) return 'R$ ' + fmtNum(v / 1e6, 1) + ' mi'; if (a >= 1e3) return 'R$ ' + fmtNum(v / 1e3, 0) + ' mil'; return 'R$ ' + fmtNum(v, 0); };
+  if (a >= 1e9) return 'R$ ' + fmtNum(v / 1e9, 2) + 'B'; if (a >= 1e6) return 'R$ ' + fmtNum(v / 1e6, 1) + 'M'; if (a >= 1e3) return 'R$ ' + fmtNum(v / 1e3, 0) + ' mil'; return 'R$ ' + fmtNum(v, 0); };
 const inteiro = (v) => v == null ? null : fmtNum(v, 0);
-const compact = (v) => { if (v == null) return null; const a = Math.abs(v); if (a >= 1e6) return fmtNum(v / 1e6, 1) + ' mi'; if (a >= 1e3) return fmtNum(v / 1e3, a >= 1e4 ? 0 : 1) + ' mil'; return fmtNum(v, 0); };
-const compactR = (v) => { const a = Math.abs(v); if (a >= 1e9) return fmtNum(v / 1e9, 1) + ' bi'; if (a >= 1e6) return fmtNum(v / 1e6, 0) + ' mi'; if (a >= 1e3) return fmtNum(v / 1e3, 0) + ' mil'; return fmtNum(v, 0); };
+const compact = (v) => { if (v == null) return null; const a = Math.abs(v); if (a >= 1e6) return fmtNum(v / 1e6, 1) + 'M'; if (a >= 1e3) return fmtNum(v / 1e3, a >= 1e4 ? 0 : 1) + ' mil'; return fmtNum(v, 0); };
+const compactR = (v) => { const a = Math.abs(v); if (a >= 1e9) return fmtNum(v / 1e9, 1) + 'B'; if (a >= 1e6) return fmtNum(v / 1e6, 0) + 'M'; if (a >= 1e3) return fmtNum(v / 1e3, 0) + ' mil'; return fmtNum(v, 0); };
 const MESES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
 const dBR = (iso) => iso ? iso.slice(8, 10) + '/' + iso.slice(5, 7) + '/' + iso.slice(0, 4) : '';
 const dCurta = (iso) => MESES[+iso.slice(5, 7) - 1] + '/' + iso.slice(2, 4);
@@ -1333,7 +1361,7 @@ async function carregar() {
     $('status').innerHTML = '';
     const pill = el('span', 'pill'); pill.append(el('i'), document.createTextNode('até '), el('b', null, dBR(meta.referencia))); pill.title = inteiro(meta.n_fundos) + ' fundos · ' + (S.acoes.length ? inteiro(S.acoes.length) + ' ações, FIIs e BDRs · ' : '') + (meta.tesouro || []).length + ' títulos · ' + (S.benchmarks.length + 1) + ' benchmarks' + (meta.n_coes ? ' · ' + meta.n_coes + ' COEs' : '') + ' · atualizado de terça a sábado'; $('status').append(pill);
     $('ft-min').textContent = meta.min_cotistas;
-    $('q-td').textContent = (meta.tesouro || []).length + ' títulos à venda'; $('q-xp').textContent = inteiro(meta.n_xp || 0) + ' fundos XP'; if ($('q-ac')) $('q-ac').textContent = S.acoes.length ? inteiro(S.acoes.filter(a => a.tipo === 'acao').length) + ' ações, ' + inteiro(S.acoes.filter(a => a.tipo === 'fii').length) + ' FIIs e ' + inteiro(S.acoes.filter(a => a.tipo === 'bdr').length) + ' BDRs' : 'em breve'; if (meta.n_coes && $('ft-coe')) $('ft-coe').textContent = meta.n_coes + ' COEs da prateleira XP';
+    $('q-td').title = (meta.tesouro || []).length + ' títulos à venda'; $('q-xp').textContent = inteiro(meta.n_xp || 0) + ' fundos'; if ($('q-ac')) $('q-ac').textContent = S.acoes.length ? inteiro(S.acoes.filter(a => a.tipo === 'acao').length) + ' ações, ' + inteiro(S.acoes.filter(a => a.tipo === 'fii').length) + ' FIIs e ' + inteiro(S.acoes.filter(a => a.tipo === 'bdr').length) + ' BDRs' : 'em breve'; if (meta.n_coes && $('ft-coe')) $('ft-coe').textContent = meta.n_coes + ' COEs da prateleira XP';
     $('q').disabled = false;
     $('d-ini').min = meta.calendario[0]; $('d-ini').max = meta.referencia; $('d-fim').min = meta.calendario[0]; $('d-fim').max = meta.referencia; $('d-fim').value = meta.referencia; $('d-ini').value = subMeses(meta.referencia, 12);
     renderBench(); renderChips(); renderPeriodoInfo(); renderRanking(); montarTesouro(); montarRF(); iniciarCOE();
@@ -1499,7 +1527,7 @@ document.querySelectorAll('[data-act]').forEach(b => b.addEventListener('click',
 function irParaCarteira() {
   const prontos = S.sel.filter(s => s.data);
   if (prontos.length < 2) { abrirSheet('ranking'); const t = $('rank-bar-t'); $('rank-bar').classList.remove('hidden'); t.textContent = prontos.length ? '1 ativo na comparação: escolha mais um para montar a carteira' : 'Escolha pelo menos dois fundos para montar a carteira'; return; }
-  fecharSheets(); if (!S.persp) togglePersp(true); else setTimeout(() => $('persp').scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+  fecharSheets(); if (!S.persp) togglePersp(true); else setTimeout(() => $('kpis').scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
 }
 function abrirSheet(qual) { fecharModais(); const sh = $('sh-' + qual); sh.classList.add('on'); document.body.classList.add('sheet-open'); sh.scrollTop = 0; if (qual === 'ranking') { renderRanking(); } if (qual === 'coe' && S.coeSel) { setTimeout(() => { if (S.coeSel) selecionarCOE(S.coeSel, false); }, 50); } }
 function fecharSheets() { document.querySelectorAll('.sheet.on').forEach(s => s.classList.remove('on')); document.body.classList.remove('sheet-open'); }
@@ -1521,14 +1549,12 @@ async function adicionar(key, kind) {
   catch (e) { console.error(e); S.sel = S.sel.filter(s => s !== item); renderChips(); return; }
   renderChips(); gravarURL(); render(); renderRanking();
 }
-function remover(key) { S.sel = S.sel.filter(s => s.key !== key); delete S.cart.pesos[key]; renderChips(); gravarURL(); render(); renderRanking(); }
+function remover(key) { S.sel = S.sel.filter(s => s.key !== key); delete S.cart.pesos[key]; delete S.cart.trava[key]; renderChips(); gravarURL(); render(); renderRanking(); }
 function renderChips() {
   const n = S.sel.length;
-  $('go-cart').classList.toggle('hidden', S.sel.filter(s => s.data).length < 2);
   inp.placeholder = n >= MAX ? 'Limite de ' + MAX + ' ativos na comparação' : n ? 'Adicionar outro ativo (fundo, ação, FII, Tesouro, benchmark ou renda fixa)' : 'Fundo, CNPJ, ação ou FII (ex.: PETR4, HGLG11), título do Tesouro, benchmark ou renda fixa';
   inp.disabled = n >= MAX;
 }
-$('go-cart').addEventListener('click', () => irParaCarteira());
 function janela12() { const fim = idxAte(S.meta.referencia); return { ini: Math.max(0, idxAte(subMeses(S.meta.referencia, 12))), fim }; }
 
 // ------------------------------------------------------------------ Tesouro Nacional (seletor completo)
@@ -1638,7 +1664,8 @@ $('more-btn').addEventListener('click', () => { const on = $('more').classList.t
 $('persp-btn').addEventListener('click', () => togglePersp(!S.persp));
 $('persp-close').addEventListener('click', () => togglePersp(false));
 if ($('p-div')) $('p-div').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; setDivReinv(b.dataset.d === '1'); });
-function togglePersp(on) { S.persp = on; $('persp').classList.toggle('hidden', !on); $('card-ret').classList.toggle('hidden', on || !S.sel.some(x => x.data)); $('persp-btn').setAttribute('aria-pressed', on ? 'true' : 'false'); gravarURL(); if (on) { renderPersp(); renderCarteira(); $('persp').scrollIntoView({ behavior: 'smooth', block: 'start' }); } }
+// abre ou fecha o modo carteira: card e linha da carteira no gráfico principal, tabela "Ativos e pesos" no lugar da tabela por período, projeção e relatório abaixo
+function togglePersp(on) { S.persp = on; $('persp').classList.toggle('hidden', !on); $('card-ret').classList.toggle('hidden', on || !S.sel.some(x => x.data)); $('card-cart').classList.toggle('hidden', !on || !S.sel.some(x => x.data)); $('persp-btn').setAttribute('aria-pressed', on ? 'true' : 'false'); gravarURL(); if (S.sel.some(x => x.data)) render(); else renderCarteira(); if (on) $('kpis').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
 
 // ------------------------------------------------------------------ URL
 function gravarURL() {
@@ -1929,6 +1956,8 @@ function render() {
   const refs = refSeries(J);
   const mp = prontos.map(s => ({ s, m: metricasJS(s.data, Math.max(J.ini, s.data.firstIdx), Math.min(J.fim, s.data.ateIdx), mesesJ) }));
   const mcdi = metricasJS(cdiDoc(), J.ini, J.fim, mesesJ);
+  // carteira (modo carteira aberto): série histórica nos pesos atuais, usada no card, no gráfico principal e na tabela "Ativos e pesos"
+  const cart = S.persp ? calcularCarteira() : (S.cart.serie = null);
 
   // 0. KPIs por ativo (com × para remover); CDI e benchmarks ficam só na barra lateral e nos gráficos
   const kb = $('kpis'); kb.innerHTML = '';
@@ -1959,19 +1988,22 @@ function render() {
     const x = el('button', 'x'); x.type = 'button'; x.title = 'Remover da comparação'; x.setAttribute('aria-label', 'Remover ' + s.data.nome); x.append(icon('i-x', 11)); x.addEventListener('click', () => remover(s.key)); k.append(x);
     kb.append(k);
   });
+  if (cart) kb.append(cardCarteira(cart));
 
   // 1. rentabilidade acumulada (aparece mesmo sem ativos, só com CDI e benchmarks)
-  const acum = prontos.map(s => { const f = s.data; const a = acumulada(f.qff, J.ini, J.fim, f.ateIdx); return { nome: f.nome, cor: s.cor, vals: a.vals, baseI: a.baseI, f }; });
+  const acum = prontos.map(s => { const f = s.data; const a = acumulada(f.qff, J.ini, J.fim, f.ateIdx); return { nome: f.nome, cor: s.cor, vals: a.vals, baseI: a.baseI, f, sid: s.key }; });
   const seriesAcum = [...acum, ...refs];
   if (!seriesAcum.length) { const cdiVals = new Array(cal.length).fill(null); const c0 = S.meta.cdi[J.ini]; for (let i = J.ini; i <= J.fim; i++) cdiVals[i] = S.meta.cdi[i] / c0 - 1; seriesAcum.push({ id: 'cdi', nome: 'CDI', cor: COR_CDI, dash: true, vals: cdiVals }); }
-  desenhar($('ch-acum'), { series: seriesAcum, ini: J.ini, fim: J.fim, altura: temAtivo ? 330 : 280, fmt: (v, t) => t ? (v * 100).toFixed(0) + '%' : pctSign(v), zero: true, area: prontos.length === 1 || !temAtivo });
-  legenda($('lg-acum'), seriesAcum);
+  S.ui.acum = { base: seriesAcum, J, altura: temAtivo ? 330 : 280, area: prontos.length === 1 || !temAtivo };
+  redesenharAcum();
   const tardios = acum.filter(a => a.baseI != null && a.baseI > J.ini + 5);
   setSub('acum-sub', ((tardios.length ? tardios.map(a => a.nome + ' começa em ' + dBR(cal[a.baseI])).join('; ') + '.' : '') +
     (refs.some(r => r.doc && r.doc.moeda === 'USD') ? ' Índices em dólar não incluem a variação cambial.' : '')).trim());
   if (!temAtivo) { renderCarteira(); return; }
 
-  // 2. tabela por período (período selecionado + janelas fixas), com barras comparando os ativos em cada coluna
+  // 2. com a carteira aberta, a tabela "Ativos e pesos" (pesos, valor, período, benchmark, vol, Sharpe, Co Ibov) toma o lugar da tabela por período
+  if (S.persp) montarTabelaCarteira(mp, J);
+  // 2b. tabela por período (período selecionado + janelas fixas), com barras comparando os ativos em cada coluna
   const tb = $('tb-ret'); tb.innerHTML = '';
   const th = el('tr'); th.append(el('th', null, 'Ativo'), el('th', null, 'Período')); JANELAS.forEach(w => th.append(el('th', null, w + ' meses'))); { const _h = el('thead'); _h.append(th); tb.append(_h); }
   const tbody = el('tbody');
@@ -1986,7 +2018,7 @@ function render() {
     else vb.append(el('span', 'sub2', ret <= 0 ? 'abaixo do CDI' : ''));
     if (esc) td.style.background = heatBg(ret, esc.maxPos, esc.maxNeg);
     td.append(vb); return td; };
-  mp.forEach(({ s, m }) => { const tr = el('tr'); tr.append(nomeCell(s), cellRet(s, m ? m.ret : null, m ? compBm(s, m.ret, { ini: Math.max(J.ini, s.data.firstIdx), fim: Math.min(J.fim, s.data.ateIdx) }) : null, true, escalas[0])); JANELAS.forEach((w, k) => { const j = s.data.janelas[String(w)]; tr.append(cellRet(s, j ? j.ret : null, j ? compBm(s, j.ret, { w }) : null, false, escalas[k + 1])); }); tbody.append(tr); });
+  if (!S.persp) mp.forEach(({ s, m }) => { const tr = el('tr'); tr.append(nomeCell(s), cellRet(s, m ? m.ret : null, m ? compBm(s, m.ret, { ini: Math.max(J.ini, s.data.firstIdx), fim: Math.min(J.fim, s.data.ateIdx) }) : null, true, escalas[0])); JANELAS.forEach((w, k) => { const j = s.data.janelas[String(w)]; tr.append(cellRet(s, j ? j.ret : null, j ? compBm(s, j.ret, { w }) : null, false, escalas[k + 1])); }); tbody.append(tr); });
   tb.append(tbody);
 
   // 3. risco × retorno
@@ -2006,6 +2038,15 @@ function render() {
 
   if ($('more').classList.contains('on')) renderMais();
   if (S.persp) renderPersp();
+}
+// gráfico principal: ativos, CDI e benchmarks; no modo carteira entra a linha branca da carteira (redesenhada ao mexer nos pesos)
+function redesenharAcum() {
+  const u = S.ui.acum; if (!u) return;
+  const cart = S.persp ? S.cart.serie : null;
+  const series = cart ? [...u.base, { nome: 'Carteira', cor: COR_CART, vals: cart.vals, grosso: true, cls: 'cart', sid: '__cart' }] : u.base;
+  desenhar($('ch-acum'), { series, ini: u.J.ini, fim: u.J.fim, altura: u.altura, fmt: (v, t) => t ? (v * 100).toFixed(0) + '%' : pctSign(v), zero: true, area: u.area && !cart });
+  legenda($('lg-acum'), series);
+  if (S.cart.focus) focarCarteira(S.cart.focus);
 }
 function nomeCell(s) { const td = el('td'); const n = el('span', 'n'); const i = el('i'); i.style.background = s.cor; const sp = el('span', null, s.data.nome); sp.title = s.data.nome; n.append(i, sp); td.append(n); return td; }
 // tabela com a coluna do período selecionado + janelas fixas
@@ -2266,7 +2307,7 @@ function renderRanking() {
     h.addEventListener('click', () => { if (S.rank.ord === c.id) S.rank.dir = S.rank.dir === 'asc' ? 'desc' : 'asc'; else { S.rank.ord = c.id; S.rank.dir = c.asc ? 'asc' : 'desc'; } renderRanking(); }); th.append(h); });
   th.append(el('th', null, '')); { const _h = el('thead'); _h.append(th); tb.append(_h); }
   const tbody = el('tbody');
-  const maxVol = Math.max(...mostrar.map(f => f.vol12 || 0), 1e-9), maxSh = Math.max(...mostrar.map(f => Math.abs(f.sharpe12 || 0)), 1e-9), maxPl = Math.max(...mostrar.map(f => Math.sqrt(f.pl || 0)), 1e-9);
+  const maxVol = Math.max(...mostrar.map(f => f.vol12 || 0), 1e-9), maxSh = Math.min(2, Math.max(...mostrar.map(f => Math.abs(f.sharpe12 || 0)), 1e-9)), maxPl = Math.max(...mostrar.map(f => Math.sqrt(f.pl || 0)), 1e-9);
   // escala de cor independente por janela (12, 24, 36 m), sobre os fundos mostrados
   const escR = { '12': heatEscala(mostrar.map(f => f.ret12)), '24': heatEscala(mostrar.map(f => valJanela(f, 'ret24', '24'))), '36': heatEscala(mostrar.map(f => valJanela(f, 'ret36', '36'))) };
   const ref = idxAte(S.meta.referencia);
@@ -2571,7 +2612,8 @@ function renderCorrExtra() {
 }
 $('corr-add').addEventListener('click', () => { const b = $('corr-extra'); b.classList.toggle('hidden'); renderCorrExtra(); });
 
-// ------------------------------------------------------------------ carteira (diversificação com pesos)
+// ------------------------------------------------------------------ carteira (pesos, mínimos, composição no gráfico principal)
+const COR_CART = '#FFFFFF';
 function pesosAtuais() {
   const prontos = S.sel.filter(s => s.data); if (!prontos.length) return [];
   const semPeso = prontos.filter(s => S.cart.pesos[s.key] == null);
@@ -2594,105 +2636,207 @@ function normalizarPesos(prontos) {
   const resto = Math.round((100 - prontos.reduce((a, s) => a + S.cart.pesos[s.key], 0)) * 10) / 10;
   if (resto !== 0 && prontos.length) { const maior = prontos.reduce((m, s) => S.cart.pesos[s.key] > S.cart.pesos[m.key] ? s : m, prontos[0]); S.cart.pesos[maior.key] = Math.round((S.cart.pesos[maior.key] + resto) * 10) / 10; }
 }
-// muda o peso de um ativo e redistribui o restante entre os outros, na proporção que eles já tinham
+// muda o peso de um ativo e redistribui o restante entre os outros não travados, na proporção que eles já tinham;
+// os travados (fixados no mínimo) ficam como estão. Mexer num ativo travado o destrava.
 function definirPeso(key, v) {
-  const prontos = S.sel.filter(s => s.data); v = Math.max(0, Math.min(100, +v || 0));
-  const outros = prontos.filter(s => s.key !== key); const somaOutros = outros.reduce((a, s) => a + (S.cart.pesos[s.key] || 0), 0);
-  const resto = 100 - v;
+  const prontos = S.sel.filter(s => s.data); delete S.cart.trava[key];
+  const travados = prontos.filter(s => s.key !== key && S.cart.trava[s.key]); const somaTrav = travados.reduce((a, s) => a + (S.cart.pesos[s.key] || 0), 0);
+  v = Math.max(0, Math.min(Math.max(0, 100 - somaTrav), +v || 0));
+  const outros = prontos.filter(s => s.key !== key && !S.cart.trava[s.key]); const somaOutros = outros.reduce((a, s) => a + (S.cart.pesos[s.key] || 0), 0);
+  const resto = Math.max(0, 100 - v - somaTrav);
   outros.forEach(s => S.cart.pesos[s.key] = somaOutros > 0 ? (S.cart.pesos[s.key] || 0) / somaOutros * resto : resto / outros.length);
   S.cart.pesos[key] = v;
-  // arredonda os outros e devolve o resíduo ao maior deles, sem mexer no ativo que o usuário está ajustando
+  // arredonda os outros e devolve o resíduo ao maior deles, sem mexer no ativo que o usuário está ajustando nem nos travados
   outros.forEach(s => S.cart.pesos[s.key] = Math.round(S.cart.pesos[s.key] * 10) / 10);
   S.cart.pesos[key] = Math.round(v * 10) / 10;
   const r = Math.round((100 - prontos.reduce((a, s) => a + S.cart.pesos[s.key], 0)) * 10) / 10;
-  if (r !== 0 && outros.length) { const maior = outros.reduce((m, s) => S.cart.pesos[s.key] > S.cart.pesos[m.key] ? s : m, outros[0]); S.cart.pesos[maior.key] = Math.max(0, Math.round((S.cart.pesos[maior.key] + r) * 10) / 10); }
+  if (r !== 0) { const alvo = outros.length ? outros.reduce((m, s) => S.cart.pesos[s.key] > S.cart.pesos[m.key] ? s : m, outros[0]) : prontos.find(s => s.key === key); S.cart.pesos[alvo.key] = Math.max(0, Math.round((S.cart.pesos[alvo.key] + r) * 10) / 10); }
 }
 function pesosIguais() { const ps = S.sel.filter(s => s.data).map(s => S.cart.pesos[s.key]); if (!ps.length) return true; const alvo = 100 / ps.length; return ps.every(p => p != null && Math.abs(p - alvo) < 0.6); }
-let cartAnterior = {};
-const cartUI = { chaves: '', linhas: {} };
-// controle de peso de um ativo, montado dentro da primeira coluna da tabela do simulador (anel, seta de direção, controle deslizante e %)
+// aplicação mínima por tipo: fundos pela XP; Tesouro R$ 30; ações, FIIs e BDRs o preço de uma unidade (mercado fracionário); renda fixa digitada sem mínimo
+function minimoDe(s) {
+  if (!s.data) return null;
+  if (s.kind === 'fundo') { const x = s.data.xp; return x && x.aplic_min != null && x.aplic_min > 0 ? x.aplic_min : null; }
+  if (s.kind === 'tesouro') return 30;
+  if (s.kind === 'acao') return s.data.preco > 0 ? s.data.preco : null;
+  return null;
+}
+// trava o ativo no menor peso que respeita a aplicação mínima (uma casa decimal); os outros absorvem a diferença
+function fixarMinimo(key) {
+  const s = S.sel.find(x => x.key === key); const total = typeof lerTotal === 'function' ? lerTotal() : null; const min = s ? minimoDe(s) : null;
+  if (!s || !total || !min) return;
+  const v = Math.min(100, Math.ceil(min / total * 1000) / 10);
+  definirPeso(key, v); S.cart.trava[key] = true;
+  gravarURL(); renderCarteira(); atualizarCarteiraVisual(); if (typeof atualizarCarteiraSim === 'function') atualizarCarteiraSim();
+}
+function destravar(key) { delete S.cart.trava[key]; renderCarteira(); }
+const cartUI = { linhas: {}, cartRow: null, total: null };
+const reais = (v) => v == null || !isFinite(v) ? '–' : 'R$ ' + fix(new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 0 }).format(Math.round(v)));
+// controle de peso de um ativo, montado na primeira coluna da tabela "Ativos e pesos" (anel, controle deslizante, % e cadeado)
 function linhaPeso(s, anel) {
   const r = el('div', 'wrow'); r.dataset.key = s.key; r.style.setProperty('--c', s.cor);
-  const ring = anel || el('span', 'ring'); const dir = el('span', 'dir');
+  const ring = anel || el('span', 'ring');
   const rg = document.createElement('input'); rg.type = 'range'; rg.min = 0; rg.max = 100; rg.step = 0.5; rg.setAttribute('aria-label', 'Peso de ' + s.data.nome + ' na carteira');
   const pc = el('div', 'pct'); const num = document.createElement('input'); num.type = 'number'; num.min = 0; num.max = 100; num.step = 0.5; num.setAttribute('aria-label', 'Peso em % de ' + s.data.nome); pc.append(num, el('span', null, '%'));
+  const lock = el('button', 'lock hidden'); lock.type = 'button'; lock.title = 'Travado no mínimo do ativo; clique para destravar'; lock.setAttribute('aria-label', 'Destravar o peso de ' + s.data.nome); lock.append(icon('i-lock', 11)); lock.addEventListener('click', () => destravar(s.key)); pc.append(lock);
   let arrastando = false;
-  const aplicar = (v, final) => { if (!arrastando) cartAnterior = sharesAtuais(); definirPeso(s.key, v); if (final) { arrastando = false; gravarURL(); } else arrastando = true; renderCarteira(); if (typeof atualizarCarteiraSim === 'function') atualizarCarteiraSim(); };
+  const aplicar = (v, final) => { definirPeso(s.key, v); if (final) { arrastando = false; gravarURL(); } else arrastando = true; renderCarteira(); atualizarCarteiraVisual(); if (typeof atualizarCarteiraSim === 'function') atualizarCarteiraSim(); };
   rg.addEventListener('input', () => aplicar(rg.value, false)); rg.addEventListener('change', () => aplicar(rg.value, true));
   num.addEventListener('change', () => aplicar(num.value, true));
   r.append(rg, pc);
-  cartUI.linhas[s.key] = { r, ring, dir, rg, num };
-  return { r, ring, dir };
+  cartUI.linhas[s.key] = { r, ring, rg, num, lock };
+  return { r, ring };
 }
 function atualizarLinhas(itens) {
   const ativo = document.activeElement;
   itens.forEach(({ s, w }) => {
     const u = cartUI.linhas[s.key]; if (!u) return;
     u.ring.style.setProperty('--p', w.toFixed(1)); u.ring.title = fmtNum(w, 1) + '% da carteira';
-    const share = w / 100, ant = cartAnterior[s.key];
-    if (ant != null && Math.abs(ant - share) > 0.002) { u.dir.textContent = share > ant ? '▲' : '▼'; u.dir.className = 'dir ' + (share > ant ? 'up' : 'down'); u.dir.title = 'Participação ' + (share > ant ? 'subiu' : 'caiu') + ' para ' + fmtNum(w, 1) + '%'; } else { u.dir.textContent = ''; u.dir.className = 'dir'; }
     if (u.rg !== ativo) u.rg.value = Math.round(w * 2) / 2;
     if (u.num !== ativo) u.num.value = Math.round(w * 10) / 10;
+    u.lock.classList.toggle('hidden', !S.cart.trava[s.key]);
+    if (u.valor) u.valor(w);
   });
 }
-function renderCarteira() {
-  [...$('cart-mode').querySelectorAll('button')].forEach(x => x.setAttribute('aria-pressed', x.dataset.m === S.cart.modo ? 'true' : 'false'));
+// série histórica da carteira no período selecionado (pesos atuais): devolve null com menos de 2 ativos
+function calcularCarteira() {
   const itens = pesosAtuais();
-  // o histórico da carteira vive no bloco "Carteira e simulador": com menos de 2 ativos fica só o relatório
-  const hist = $('cart-hist'); const grid = $('cart-grid');
-  $('cart-eq').classList.toggle('hidden', itens.length < 2 || pesosIguais());
-  if (itens.length < 2) { if (hist) hist.classList.add('hidden'); if (grid) grid.classList.add('so-rel'); S.cart.volHist = null; return; }
-  if (hist) hist.classList.remove('hidden'); if (grid) grid.classList.remove('so-rel');
+  if (itens.length < 2) { S.cart.volHist = null; S.cart.sharpeHist = null; S.cart.serie = null; return null; }
   const J = janela(), cal = S.meta.calendario, mesesJ = periodoMeses(J);
-  const soma = 100;
-  atualizarLinhas(itens);
-  if ($('cart-hist-p')) $('cart-hist-p').textContent = periodoLabel();
-  // série da carteira
   const n = cal.length, ini = Math.max(J.ini, ...itens.map(x => x.s.data.firstIdx)), fim = Math.min(J.fim, ...itens.map(x => x.s.data.ateIdx));
-  const pesos = itens.map(x => soma > 0 ? x.w / soma : 1 / itens.length);
+  const pesos = itens.map(x => x.w / 100);
   const vals = new Array(n).fill(null); const retD = new Array(n).fill(null);
   if (fim - ini >= 5) {
     if (S.cart.modo === 'rebal') { let v = 1; vals[ini] = 0; for (let i = ini + 1; i <= fim; i++) { let r = 0; itens.forEach((x, k) => { const a = x.s.data.qff[i - 1], b = x.s.data.qff[i]; if (a != null && b != null && a > 0) r += pesos[k] * (b / a - 1); }); v *= 1 + r; vals[i] = v - 1; retD[i] = r; } }
     else { for (let i = ini; i <= fim; i++) { let v = 0; itens.forEach((x, k) => { const a = x.s.data.qff[ini], b = x.s.data.qff[i]; v += pesos[k] * (a != null && b != null && a > 0 ? b / a : 1); }); vals[i] = v - 1; if (i > ini && vals[i - 1] != null) retD[i] = (1 + vals[i]) / (1 + vals[i - 1]) - 1; } }
   }
-  const doc = { qff: vals.map(v => v == null ? null : 1 + v), ret: retD, nome: 'Carteira' };
+  const doc = { qff: vals.map(v => v == null ? null : 1 + v), ret: retD, nome: 'Carteira', firstIdx: ini, ateIdx: fim };
   const m = fim - ini >= 5 ? metricasJS(doc, ini, fim, mesesJ) : null;
   S.cart.volHist = m && m.vol != null ? m.vol : null; S.cart.sharpeHist = m && m.sharpe != null ? m.sharpe : null;
-  // KPIs da carteira
-  // faixa compacta: resultado no período, % do CDI, volatilidade e Sharpe (ícones pequenos, sem cards)
-  const kb = $('cart-kpis'); kb.innerHTML = '';
-  const st = (val, lbl, opts) => { const d = el('span', 'st' + (opts && opts.main ? ' main' : '')); if (opts && opts.icon) d.append(icon(opts.icon, 12)); const b = el('b', opts && opts.cls ? opts.cls : null, val); d.append(b, document.createTextNode(lbl)); if (opts && opts.title) d.title = opts.title; kb.append(d); };
-  if (m) {
-    st(pctSign(m.ret), 'no período', { main: true, cls: m.ret < 0 ? 'neg' : '', title: pct(m.aR) + ' ao ano' });
-    st(m.pcdi != null ? fmtNum(m.pcdi, 0) + '%' : (m.ret <= 0 ? 'abaixo' : 'n/d'), 'do CDI', { title: 'CDI no período: ' + pctSign(m.cdi) });
-    st(m.vol != null ? pct(m.vol) : 'n/d', 'vol.', { icon: 'i-wave', title: 'Volatilidade anualizada' });
-    st(m.sharpe != null ? fmtNum(m.sharpe, 2) : '—', 'Sharpe', { icon: 'i-gauge', title: 'Retorno acima do CDI por unidade de risco' });
-  }
-  // gráfico: carteira em destaque, ativos em transparência, CDI tracejado
-  const series = itens.map((x, k) => { const a = acumulada(x.s.data.qff, ini, fim, x.s.data.ateIdx); return { nome: x.s.data.nome, cor: x.s.cor, vals: a.vals, cls: 'faint', sid: x.s.key, semPonto: true }; });
-  if (S.cdi) { const cv = new Array(n).fill(null); const c0 = S.meta.cdi[ini]; for (let i = ini; i <= fim; i++) cv[i] = S.meta.cdi[i] / c0 - 1; series.push({ nome: 'CDI', cor: COR_CDI, dash: true, vals: cv, semPonto: true }); }
-  series.push({ nome: 'Carteira', cor: 'var(--gold)', vals, cls: 'cart', grosso: true, sid: '__cart' });
-  desenhar($('ch-cart'), { series, ini, fim, altura: 260, fmt: (v, t) => t ? (v * 100).toFixed(0) + '%' : pctSign(v), zero: true, endLabel: true });
-  const lg = $('lg-cart'); lg.innerHTML = '';
-  [...itens.map(x => ({ nome: x.s.data.nome + ' · ' + fmtNum(soma > 0 ? x.w / soma * 100 : 0, 0) + '%', cor: x.s.cor, key: x.s.key })), { nome: 'Carteira', cor: '#D4A24A', key: '__cart' }].forEach(it => { const b = el('button'); b.type = 'button'; const i = el('i'); i.style.borderTopColor = it.cor; b.append(i, document.createTextNode(it.nome)); b.addEventListener('pointerenter', () => focarCarteira(it.key)); b.addEventListener('pointerleave', () => focarCarteira(null)); b.addEventListener('click', () => focarCarteira(S.cart.focus === it.key ? null : it.key, true)); lg.append(b); });
-  $('cart-note').textContent = (S.cart.modo === 'rebal' ? 'Rebalanceada diariamente para os pesos acima. ' : 'Sem rebalanceamento. ') + dBR(cal[ini]) + ' a ' + dBR(cal[fim]) + ', sem custos nem impostos.';
+  S.cart.serie = { itens, ini, fim, vals, doc, m, J };
+  return S.cart.serie;
+}
+// atualiza o que depende dos pesos sem reconstruir a tabela: anéis, %, valores em R$, avisos de mínimo, linha "Carteira" e a nota
+function renderCarteira() {
+  const prontos = S.sel.filter(s => s.data);
+  const card = $('card-cart'); if (card) card.classList.toggle('hidden', !S.persp || !prontos.length);
+  const cart = calcularCarteira();
+  const itens = pesosAtuais();
+  $('cart-eq').classList.toggle('hidden', itens.length < 2 || pesosIguais());
+  [...$('cart-mode').querySelectorAll('button')].forEach(x => x.setAttribute('aria-pressed', x.dataset.m === S.cart.modo ? 'true' : 'false'));
+  atualizarLinhas(itens);
+  if (cartUI.cartRow) cartUI.cartRow(cart);
+  const nota = $('cart-note');
+  if (nota) { const cal = S.meta.calendario; nota.textContent = cart ? (S.cart.modo === 'rebal' ? 'Carteira rebalanceada diariamente para os pesos acima. ' : 'Carteira sem rebalanceamento (compra no início do período). ') + dBR(cal[cart.ini]) + ' a ' + dBR(cal[cart.fim]) + ', sem custos nem impostos. Os valores em reais seguem o valor total informado.' : (prontos.length === 1 ? 'Adicione mais um ativo para ver a carteira no gráfico.' : ''); }
   if (S.cart.focus) focarCarteira(S.cart.focus);
+}
+// valor em reais de um ativo pelo peso e pelo valor total; avisa quando fica abaixo da aplicação mínima
+function celulaValor(s) {
+  const td = el('td', 'valcell'); const b = el('b'); const sub = el('span', 'sub2'); td.append(b, sub);
+  const min = minimoDe(s);
+  const atualizar = (w) => {
+    const total = typeof lerTotal === 'function' ? lerTotal() : null; const v = total ? total * w / 100 : null;
+    b.textContent = v != null ? reais(v) : '–'; sub.innerHTML = '';
+    td.classList.remove('warn', 'ok');
+    if (!total) { sub.textContent = min ? 'mín. ' + reais(min) : 'informe o valor total'; return; }
+    if (min && v + 0.005 < min) {
+      td.classList.add('warn');
+      const t = el('em', null, 'abaixo do mínimo de ' + reais(min)); const bt = el('button', 'mini fix', 'Fixar no mínimo'); bt.type = 'button'; bt.title = 'Trava o peso no menor valor que respeita a aplicação mínima'; bt.addEventListener('click', () => fixarMinimo(s.key));
+      sub.append(t, bt);
+    } else if (min) { sub.textContent = (S.cart.trava[s.key] ? 'travado no mínimo de ' : 'mín. ') + reais(min); if (S.cart.trava[s.key]) td.classList.add('ok'); }
+  };
+  if (cartUI.linhas[s.key]) cartUI.linhas[s.key].valor = atualizar;
+  atualizar(S.cart.pesos[s.key] || 0);
+  return td;
+}
+// tabela "Ativos e pesos", logo abaixo do gráfico principal: peso, valor, rentabilidade no período, benchmark, vol, Sharpe e correlação com o Ibovespa
+function montarTabelaCarteira(mp, J) {
+  const tb = $('tb-cart'); tb.innerHTML = ''; cartUI.linhas = {}; cartUI.cartRow = null;
+  const temPesos = mp.length >= 2;
+  const ibovDoc = benchDoc('ibov'); cartUI.temIbov = !!ibovDoc;
+  const th = el('tr'); th.append(el('th', null, 'Ativo e peso'), el('th', null, 'Valor'), el('th', null, periodoCurto()), el('th', null, 'vs benchmark'));
+  { const tv = el('th', 'ctr', 'Vol'); tv.title = 'Volatilidade anualizada no período'; const ts = el('th', 'ctr', 'Sharpe'); ts.title = 'Retorno acima do CDI por unidade de risco'; const tc = el('th', 'ctr', 'Co Ibov'); tc.title = 'Correlação dos retornos diários com o Ibovespa'; th.append(tv, ts, tc); }
+  { const h = el('thead'); h.append(th); tb.append(h); }
+  const tbody = el('tbody');
+  const maxRet = Math.max(0.0001, ...mp.map(({ m }) => Math.abs(m ? m.ret : 0)));
+  const maxVol = Math.max(0, ...mp.map(({ m }) => m && m.vol != null ? m.vol : 0)), maxSh = Math.min(2, Math.max(0, ...mp.map(({ m }) => m && m.sharpe != null ? Math.abs(m.sharpe) : 0)));
+  const barra = (v, max, cor) => { const w = el('div', 'mb'); const i = el('i', cor === 'vol' || cor === 'sh' ? cor : ''); i.style.width = (v == null || !(max > 0) ? 0 : Math.min(100, Math.abs(v) / max * 100)).toFixed(1) + '%'; if (v != null && v < 0) i.classList.add('neg'); if (cor && cor !== 'vol' && cor !== 'sh') i.style.setProperty('--bc', cor); w.append(i); return w; };
+  const celula = (txt, v, max, cor, cls) => { const td = el('td', 'vc' + (cls ? ' ' + cls : '')); td.append(el('b', null, txt == null ? '–' : txt)); td.append(barra(v, max, cor)); return td; };
+  const vsCell = (s, m, cor) => { const td = el('td', 'num'); if (!m) { td.textContent = '–'; return td; } if (semComp(s)) { td.append(el('span', 'badge neu', idxTxt(s))); return td; } const c = compBm(s, m.ret, { ini: Math.max(J.ini, s.data.firstIdx), fim: Math.min(J.fim, s.data.ateIdx) }); const bd = el('span', 'badge ' + (c ? (c.pos ? 'pos' : 'neg') : 'neu'), c ? c.t : (bmDeSel(s) === 'cdi' && m.ret <= 0 ? 'abaixo do CDI' : 'n/d')); if (c) bd.title = c.lbl + ' no período: ' + pctSign(c.bret); td.append(bd); return td; };
+  mp.forEach(({ s, m }) => {
+    const tr = el('tr'); const td0 = el('td', 'swapcell'); td0.dataset.key = s.key; td0.style.setProperty('--c', s.cor); const n = el('span', 'n');
+    const sp = el('span', null, s.data.nome); sp.title = s.data.nomeLongo || s.data.nome;
+    const ring = el('span', 'ring'); ring.style.setProperty('--p', String(S.cart.pesos[s.key] || 0)); const lp = linhaPeso(s, ring); n.append(ring, sp);
+    const x = el('button', 'xrm'); x.type = 'button'; x.title = 'Remover da comparação'; x.setAttribute('aria-label', 'Remover ' + s.data.nome); x.append(icon('i-x', 10)); x.addEventListener('click', () => remover(s.key)); n.append(x);
+    td0.append(n, lp.r); if (typeof trocaAtivo === 'function') td0.append(trocaAtivo(s));
+    td0.addEventListener('pointerenter', () => focarCarteira(s.key)); td0.addEventListener('pointerleave', () => focarCarteira(null));
+    tr.append(td0, celulaValor(s));
+    tr.append(celula(m ? pctSign(m.ret, decDe(s)) : null, m ? m.ret : null, maxRet, s.cor, 'hl'));
+    tr.append(vsCell(s, m, s.cor));
+    const vol = m && m.vol != null && m.vol >= 0.004 ? m.vol : null, sh = m && m.sharpe != null && !(m.vol != null && m.vol < 0.004) ? m.sharpe : null;
+    tr.append(celula(vol == null ? null : pct(vol), vol, maxVol, 'vol', 'ctr'));
+    tr.append(celula(sh == null ? null : fmtNum(sh, 2), sh, maxSh, 'sh', 'ctr'));
+    const co = ibovDoc && s.data.ret ? pearson(s.data.ret, ibovDoc.ret, { ini: Math.max(J.ini, s.data.firstIdx || 0, ibovDoc.firstIdx || 0), fim: Math.min(J.fim, s.data.ateIdx, ibovDoc.ateIdx) }) : null; const tdc = el('td', 'num'); if (co != null) { tdc.append(el('span', 'badge ' + (Math.abs(co) >= 0.5 ? 'neg' : 'neu'), fmtNum(co * 100, 0) + '%')); } else tdc.textContent = '–'; tr.append(tdc);
+    tbody.append(tr);
+  });
+  if (temPesos) {
+    const trc = el('tr', 'cartrow'); tbody.append(trc);
+    cartUI.cartRow = (cart) => {
+      trc.innerHTML = ''; const m = cart && cart.m; const total = typeof lerTotal === 'function' ? lerTotal() : null;
+      const td0 = el('td', 'swapcell'); const n = el('span', 'n'); const i = el('i'); n.append(i, el('span', null, 'Carteira')); td0.append(n); td0.append(el('small', 'hint', mp.length + ' ativos · ' + (S.cart.modo === 'rebal' ? 'pesos constantes' : 'sem rebalanceamento'))); td0.addEventListener('pointerenter', () => focarCarteira('__cart')); td0.addEventListener('pointerleave', () => focarCarteira(null)); trc.append(td0);
+      const tv = el('td', 'valcell'); tv.append(el('b', null, total ? reais(total) : '–'), el('span', 'sub2', '100%')); trc.append(tv);
+      trc.append(celula(m ? pctSign(m.ret) : null, m ? m.ret : null, Math.max(maxRet, Math.abs(m ? m.ret : 0)), COR_CART, 'hl'));
+      const tdv = el('td', 'num'); if (m && m.pcdi != null) { const bd = el('span', 'badge ' + (m.pcdi >= 100 ? 'pos' : 'neg'), fmtNum(m.pcdi, 0) + '% do CDI'); bd.title = 'CDI no período: ' + pctSign(m.cdi); tdv.append(bd); } else tdv.append(el('span', 'badge neg', m && m.ret <= 0 ? 'abaixo do CDI' : 'n/d')); trc.append(tdv);
+      trc.append(celula(m && m.vol != null ? pct(m.vol) : null, m ? m.vol : null, Math.max(maxVol, m && m.vol != null ? m.vol : 0), 'vol', 'ctr'));
+      trc.append(celula(m && m.sharpe != null ? fmtNum(m.sharpe, 2) : null, m ? m.sharpe : null, Math.max(maxSh, m && m.sharpe != null ? Math.abs(m.sharpe) : 0), 'sh', 'ctr'));
+      const co = cart && ibovDoc ? pearson(cart.doc.ret, ibovDoc.ret, { ini: Math.max(cart.ini, ibovDoc.firstIdx || 0), fim: Math.min(cart.fim, ibovDoc.ateIdx) }) : null; const tdc = el('td', 'num'); if (co != null) tdc.append(el('span', 'badge ' + (Math.abs(co) >= 0.5 ? 'neg' : 'neu'), fmtNum(co * 100, 0) + '%')); else tdc.textContent = '–'; trc.append(tdc);
+    };
+  }
+  if (S.sel.length < MAX && typeof trocaAtivo === 'function') { const tr = el('tr', 'addrow'); const td = el('td'); td.colSpan = 7; td.append(trocaAtivo(null)); tr.append(td); tbody.append(tr); }
+  tb.append(tbody);
+}
+// remonta a tabela com as métricas do período (usado quando o Ibovespa termina de carregar depois do primeiro desenho)
+function remontarTabelaCarteira() {
+  const prontos = S.sel.filter(s => s.data); if (!S.persp || !prontos.length) return;
+  const J = janela(), mesesJ = periodoMeses(J);
+  const mp = prontos.map(s => ({ s, m: metricasJS(s.data, Math.max(J.ini, s.data.firstIdx), Math.min(J.fim, s.data.ateIdx), mesesJ) }));
+  montarTabelaCarteira(mp, J); renderCarteira();
+}
+// card "Carteira" entre os cards dos ativos: resultado no período, % do CDI, vol e Sharpe, com a linha branca no gráfico principal
+function cardCarteira(cart) {
+  const k = el('div', 'kpi portf'); k.style.setProperty('--c', COR_CART); k.id = 'kpi-cart';
+  const m = cart.m;
+  const nm = el('div', 'nm'); const i = el('i', 'dot'); nm.append(i, el('span', null, 'Carteira')); nm.title = cart.itens.length + ' ativos, ' + (S.cart.modo === 'rebal' ? 'pesos constantes' : 'sem rebalanceamento') + ' · ' + periodoLabel(); k.append(nm);
+  k.append(el('div', 'big' + (m && m.ret < 0 ? ' neg' : ''), m ? pctSign(m.ret) : 'sem dados'));
+  const row = el('div', 'row');
+  if (m) {
+    const bd = el('span', 'badge ' + (m.pcdi != null ? (m.pcdi >= 100 ? 'pos' : 'neg') : 'neu'), m.pcdi != null ? fmtNum(m.pcdi, 0) + '% do CDI' : (m.ret <= 0 ? 'abaixo do CDI' : 'CDI n/d')); bd.title = 'CDI no período: ' + pctSign(m.cdi); row.append(bd);
+    if (m.sharpe != null) { const x = el('span', 'sh'); x.title = 'Índice de Sharpe no período'; x.append(icon('i-gauge', 11), ' ', el('b', null, fmtNum(m.sharpe, 2))); row.append(x); }
+    if (m.vol != null) { const x = el('span', 'sh'); x.title = 'Volatilidade anualizada'; x.append(icon('i-wave', 11), ' ', el('b', null, pct(m.vol))); row.append(x); }
+  }
+  k.append(row);
+  const sp = el('div', 'sp'); sparkline(sp, cart.doc.qff, cart.ini, cart.fim, COR_CART, 72, 30); k.append(sp);
+  return k;
+}
+// redesenha o gráfico principal e o card da carteira depois de mexer nos pesos (uma vez por quadro)
+let _rafCart = 0;
+function atualizarCarteiraVisual() {
+  if (_rafCart) return; _rafCart = requestAnimationFrame(() => { _rafCart = 0; redesenharAcum(); const old = $('kpi-cart'); if (old && S.cart.serie) old.replaceWith(cardCarteira(S.cart.serie)); });
 }
 function sharesAtuais() { const prontos = S.sel.filter(s => s.data); const soma = prontos.reduce((a, s) => a + (S.cart.pesos[s.key] || 0), 0); return Object.fromEntries(prontos.map(s => [s.key, soma > 0 ? (S.cart.pesos[s.key] || 0) / soma : 0])); }
 function focarCarteira(key, fixo) {
   if (fixo) S.cart.focus = key; else if (S.cart.focus && key == null) key = S.cart.focus;
-  const svg = $('ch-cart').querySelector('svg'); if (!svg) return;
-  svg.querySelectorAll('.ln[data-sid]').forEach(p => { const sid = p.dataset.sid; p.classList.toggle('focus', key != null && sid === key); if (sid !== '__cart') { p.classList.toggle('faint', !(key != null && sid === key)); p.style.opacity = key != null && sid !== key && sid !== '__cart' ? '.14' : ''; } });
-  document.querySelectorAll('#tb-persp .swapcell[data-key]').forEach(r => r.classList.toggle('dim', key != null && key !== '__cart' && r.dataset.key !== key));
-  $('lg-cart').querySelectorAll('button').forEach((b, i) => b.classList.toggle('focus', key != null && ((i < S.sel.filter(s => s.data).length && S.sel.filter(s => s.data)[i].key === key) || (key === '__cart' && b.textContent === 'Carteira'))));
+  const svg = $('ch-acum').querySelector('svg'); if (!svg) return;
+  svg.querySelectorAll('.ln[data-sid]').forEach(p => { const sid = p.dataset.sid; p.classList.toggle('focus', key != null && sid === key); if (sid !== '__cart') p.style.opacity = key != null && sid !== key ? '.18' : ''; });
+  document.querySelectorAll('#tb-cart .swapcell[data-key]').forEach(r => r.classList.toggle('dim', key != null && key !== '__cart' && r.dataset.key !== key));
 }
-$('cart-mode').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.cart.modo = b.dataset.m; [...$('cart-mode').querySelectorAll('button')].forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false')); gravarURL(); renderCarteira(); });
-$('cart-eq').addEventListener('click', () => { const prontos = S.sel.filter(s => s.data); cartAnterior = sharesAtuais(); prontos.forEach(s => S.cart.pesos[s.key] = 100 / prontos.length); normalizarPesos(prontos); gravarURL(); renderCarteira(); });
+$('cart-mode').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.cart.modo = b.dataset.m; gravarURL(); renderCarteira(); atualizarCarteiraVisual(); if (typeof atualizarCarteiraSim === 'function') atualizarCarteiraSim(); });
+$('cart-eq').addEventListener('click', () => { const prontos = S.sel.filter(s => s.data); S.cart.trava = {}; prontos.forEach(s => S.cart.pesos[s.key] = 100 / prontos.length); normalizarPesos(prontos); gravarURL(); renderCarteira(); atualizarCarteiraVisual(); if (typeof atualizarCarteiraSim === 'function') atualizarCarteiraSim(); });
 
-window.__cmp = { S, sharesAtuais, get cartAnterior() { return cartAnterior; } };
+window.__cmp = { S, sharesAtuais, minimoDe, cartUI };
 
 // ------------------------------------------------------------------ relatório para o cliente (PDF pela impressão do navegador)
-S.rel = { cliente: '', total: null, tema: 'escuro', liq: {}, h: 120 };
+S.rel = { cliente: '', total: null, tema: 'escuro', liq: {} };
 // QR do WhatsApp da Maison (wa.me/5521985004567 com mensagem pronta), pré-renderizado: módulos como pontos (traço de comprimento zero com ponta redonda) e padrões de localização arredondados
 const QR_WA = { n: 53, d: 'M8.5 0.5h0M10.5 0.5h0M11.5 0.5h0M12.5 0.5h0M13.5 0.5h0M16.5 0.5h0M17.5 0.5h0M18.5 0.5h0M19.5 0.5h0M20.5 0.5h0M21.5 0.5h0M24.5 0.5h0M25.5 0.5h0M26.5 0.5h0M28.5 0.5h0M29.5 0.5h0M30.5 0.5h0M31.5 0.5h0M32.5 0.5h0M35.5 0.5h0M36.5 0.5h0M40.5 0.5h0M42.5 0.5h0M11.5 1.5h0M13.5 1.5h0M14.5 1.5h0M16.5 1.5h0M17.5 1.5h0M18.5 1.5h0M21.5 1.5h0M22.5 1.5h0M23.5 1.5h0M24.5 1.5h0M26.5 1.5h0M29.5 1.5h0M31.5 1.5h0M32.5 1.5h0M33.5 1.5h0M34.5 1.5h0M37.5 1.5h0M38.5 1.5h0M39.5 1.5h0M40.5 1.5h0M41.5 1.5h0M42.5 1.5h0M43.5 1.5h0M12.5 2.5h0M15.5 2.5h0M17.5 2.5h0M19.5 2.5h0M22.5 2.5h0M23.5 2.5h0M27.5 2.5h0M29.5 2.5h0M31.5 2.5h0M32.5 2.5h0M33.5 2.5h0M34.5 2.5h0M37.5 2.5h0M38.5 2.5h0M39.5 2.5h0M41.5 2.5h0M43.5 2.5h0M8.5 3.5h0M9.5 3.5h0M11.5 3.5h0M12.5 3.5h0M14.5 3.5h0M16.5 3.5h0M17.5 3.5h0M20.5 3.5h0M22.5 3.5h0M23.5 3.5h0M24.5 3.5h0M25.5 3.5h0M27.5 3.5h0M28.5 3.5h0M29.5 3.5h0M30.5 3.5h0M33.5 3.5h0M35.5 3.5h0M37.5 3.5h0M38.5 3.5h0M40.5 3.5h0M42.5 3.5h0M44.5 3.5h0M8.5 4.5h0M11.5 4.5h0M13.5 4.5h0M17.5 4.5h0M18.5 4.5h0M19.5 4.5h0M23.5 4.5h0M24.5 4.5h0M25.5 4.5h0M26.5 4.5h0M27.5 4.5h0M28.5 4.5h0M30.5 4.5h0M31.5 4.5h0M32.5 4.5h0M35.5 4.5h0M36.5 4.5h0M37.5 4.5h0M38.5 4.5h0M40.5 4.5h0M41.5 4.5h0M42.5 4.5h0M8.5 5.5h0M10.5 5.5h0M11.5 5.5h0M13.5 5.5h0M15.5 5.5h0M21.5 5.5h0M24.5 5.5h0M28.5 5.5h0M29.5 5.5h0M32.5 5.5h0M33.5 5.5h0M34.5 5.5h0M36.5 5.5h0M41.5 5.5h0M42.5 5.5h0M8.5 6.5h0M10.5 6.5h0M12.5 6.5h0M14.5 6.5h0M16.5 6.5h0M18.5 6.5h0M20.5 6.5h0M22.5 6.5h0M24.5 6.5h0M26.5 6.5h0M28.5 6.5h0M30.5 6.5h0M32.5 6.5h0M34.5 6.5h0M36.5 6.5h0M38.5 6.5h0M40.5 6.5h0M42.5 6.5h0M44.5 6.5h0M8.5 7.5h0M9.5 7.5h0M10.5 7.5h0M12.5 7.5h0M15.5 7.5h0M18.5 7.5h0M19.5 7.5h0M22.5 7.5h0M24.5 7.5h0M28.5 7.5h0M34.5 7.5h0M35.5 7.5h0M36.5 7.5h0M39.5 7.5h0M44.5 7.5h0M0.5 8.5h0M4.5 8.5h0M6.5 8.5h0M7.5 8.5h0M8.5 8.5h0M10.5 8.5h0M12.5 8.5h0M18.5 8.5h0M19.5 8.5h0M20.5 8.5h0M21.5 8.5h0M23.5 8.5h0M24.5 8.5h0M25.5 8.5h0M26.5 8.5h0M27.5 8.5h0M28.5 8.5h0M33.5 8.5h0M35.5 8.5h0M36.5 8.5h0M39.5 8.5h0M41.5 8.5h0M43.5 8.5h0M45.5 8.5h0M46.5 8.5h0M47.5 8.5h0M48.5 8.5h0M49.5 8.5h0M52.5 8.5h0M1.5 9.5h0M2.5 9.5h0M3.5 9.5h0M4.5 9.5h0M5.5 9.5h0M8.5 9.5h0M9.5 9.5h0M11.5 9.5h0M13.5 9.5h0M16.5 9.5h0M20.5 9.5h0M24.5 9.5h0M26.5 9.5h0M27.5 9.5h0M28.5 9.5h0M29.5 9.5h0M30.5 9.5h0M31.5 9.5h0M33.5 9.5h0M36.5 9.5h0M38.5 9.5h0M39.5 9.5h0M41.5 9.5h0M42.5 9.5h0M44.5 9.5h0M47.5 9.5h0M49.5 9.5h0M50.5 9.5h0M51.5 9.5h0M52.5 9.5h0M0.5 10.5h0M1.5 10.5h0M2.5 10.5h0M3.5 10.5h0M5.5 10.5h0M6.5 10.5h0M8.5 10.5h0M13.5 10.5h0M20.5 10.5h0M21.5 10.5h0M23.5 10.5h0M24.5 10.5h0M27.5 10.5h0M28.5 10.5h0M29.5 10.5h0M30.5 10.5h0M31.5 10.5h0M32.5 10.5h0M33.5 10.5h0M35.5 10.5h0M38.5 10.5h0M39.5 10.5h0M40.5 10.5h0M41.5 10.5h0M42.5 10.5h0M43.5 10.5h0M44.5 10.5h0M47.5 10.5h0M49.5 10.5h0M50.5 10.5h0M52.5 10.5h0M2.5 11.5h0M3.5 11.5h0M7.5 11.5h0M11.5 11.5h0M22.5 11.5h0M25.5 11.5h0M28.5 11.5h0M29.5 11.5h0M32.5 11.5h0M34.5 11.5h0M35.5 11.5h0M36.5 11.5h0M37.5 11.5h0M38.5 11.5h0M39.5 11.5h0M43.5 11.5h0M45.5 11.5h0M46.5 11.5h0M47.5 11.5h0M48.5 11.5h0M51.5 11.5h0M52.5 11.5h0M0.5 12.5h0M1.5 12.5h0M6.5 12.5h0M8.5 12.5h0M10.5 12.5h0M11.5 12.5h0M20.5 12.5h0M21.5 12.5h0M23.5 12.5h0M24.5 12.5h0M25.5 12.5h0M27.5 12.5h0M29.5 12.5h0M30.5 12.5h0M32.5 12.5h0M35.5 12.5h0M36.5 12.5h0M37.5 12.5h0M39.5 12.5h0M41.5 12.5h0M42.5 12.5h0M45.5 12.5h0M47.5 12.5h0M48.5 12.5h0M52.5 12.5h0M5.5 13.5h0M7.5 13.5h0M8.5 13.5h0M9.5 13.5h0M10.5 13.5h0M14.5 13.5h0M15.5 13.5h0M17.5 13.5h0M19.5 13.5h0M20.5 13.5h0M21.5 13.5h0M22.5 13.5h0M24.5 13.5h0M26.5 13.5h0M27.5 13.5h0M28.5 13.5h0M30.5 13.5h0M31.5 13.5h0M32.5 13.5h0M33.5 13.5h0M35.5 13.5h0M36.5 13.5h0M38.5 13.5h0M39.5 13.5h0M42.5 13.5h0M43.5 13.5h0M44.5 13.5h0M48.5 13.5h0M49.5 13.5h0M52.5 13.5h0M2.5 14.5h0M3.5 14.5h0M4.5 14.5h0M5.5 14.5h0M6.5 14.5h0M11.5 14.5h0M14.5 14.5h0M15.5 14.5h0M17.5 14.5h0M23.5 14.5h0M24.5 14.5h0M28.5 14.5h0M33.5 14.5h0M36.5 14.5h0M38.5 14.5h0M40.5 14.5h0M42.5 14.5h0M43.5 14.5h0M45.5 14.5h0M47.5 14.5h0M49.5 14.5h0M52.5 14.5h0M0.5 15.5h0M1.5 15.5h0M5.5 15.5h0M9.5 15.5h0M14.5 15.5h0M16.5 15.5h0M17.5 15.5h0M18.5 15.5h0M23.5 15.5h0M28.5 15.5h0M31.5 15.5h0M32.5 15.5h0M36.5 15.5h0M38.5 15.5h0M39.5 15.5h0M41.5 15.5h0M43.5 15.5h0M45.5 15.5h0M46.5 15.5h0M47.5 15.5h0M48.5 15.5h0M49.5 15.5h0M51.5 15.5h0M52.5 15.5h0M0.5 16.5h0M4.5 16.5h0M5.5 16.5h0M6.5 16.5h0M7.5 16.5h0M8.5 16.5h0M11.5 16.5h0M13.5 16.5h0M16.5 16.5h0M21.5 16.5h0M23.5 16.5h0M25.5 16.5h0M29.5 16.5h0M30.5 16.5h0M31.5 16.5h0M32.5 16.5h0M34.5 16.5h0M36.5 16.5h0M38.5 16.5h0M43.5 16.5h0M48.5 16.5h0M49.5 16.5h0M1.5 17.5h0M2.5 17.5h0M4.5 17.5h0M5.5 17.5h0M7.5 17.5h0M8.5 17.5h0M12.5 17.5h0M14.5 17.5h0M22.5 17.5h0M24.5 17.5h0M25.5 17.5h0M26.5 17.5h0M27.5 17.5h0M28.5 17.5h0M30.5 17.5h0M32.5 17.5h0M33.5 17.5h0M34.5 17.5h0M35.5 17.5h0M36.5 17.5h0M38.5 17.5h0M39.5 17.5h0M42.5 17.5h0M43.5 17.5h0M44.5 17.5h0M45.5 17.5h0M47.5 17.5h0M48.5 17.5h0M50.5 17.5h0M52.5 17.5h0M1.5 18.5h0M5.5 18.5h0M6.5 18.5h0M8.5 18.5h0M9.5 18.5h0M10.5 18.5h0M11.5 18.5h0M13.5 18.5h0M14.5 18.5h0M16.5 18.5h0M18.5 18.5h0M20.5 18.5h0M24.5 18.5h0M26.5 18.5h0M28.5 18.5h0M30.5 18.5h0M31.5 18.5h0M33.5 18.5h0M34.5 18.5h0M38.5 18.5h0M40.5 18.5h0M42.5 18.5h0M43.5 18.5h0M45.5 18.5h0M49.5 18.5h0M51.5 18.5h0M52.5 18.5h0M3.5 19.5h0M5.5 19.5h0M7.5 19.5h0M8.5 19.5h0M9.5 19.5h0M12.5 19.5h0M13.5 19.5h0M16.5 19.5h0M17.5 19.5h0M20.5 19.5h0M21.5 19.5h0M23.5 19.5h0M29.5 19.5h0M31.5 19.5h0M32.5 19.5h0M33.5 19.5h0M36.5 19.5h0M39.5 19.5h0M40.5 19.5h0M42.5 19.5h0M46.5 19.5h0M48.5 19.5h0M51.5 19.5h0M1.5 20.5h0M2.5 20.5h0M4.5 20.5h0M6.5 20.5h0M9.5 20.5h0M11.5 20.5h0M13.5 20.5h0M14.5 20.5h0M16.5 20.5h0M17.5 20.5h0M21.5 20.5h0M22.5 20.5h0M24.5 20.5h0M27.5 20.5h0M28.5 20.5h0M31.5 20.5h0M32.5 20.5h0M36.5 20.5h0M38.5 20.5h0M41.5 20.5h0M45.5 20.5h0M48.5 20.5h0M51.5 20.5h0M52.5 20.5h0M2.5 21.5h0M3.5 21.5h0M4.5 21.5h0M5.5 21.5h0M7.5 21.5h0M8.5 21.5h0M9.5 21.5h0M12.5 21.5h0M13.5 21.5h0M16.5 21.5h0M17.5 21.5h0M18.5 21.5h0M19.5 21.5h0M20.5 21.5h0M23.5 21.5h0M24.5 21.5h0M26.5 21.5h0M29.5 21.5h0M30.5 21.5h0M31.5 21.5h0M35.5 21.5h0M36.5 21.5h0M37.5 21.5h0M38.5 21.5h0M41.5 21.5h0M42.5 21.5h0M44.5 21.5h0M49.5 21.5h0M50.5 21.5h0M52.5 21.5h0M4.5 22.5h0M6.5 22.5h0M8.5 22.5h0M9.5 22.5h0M10.5 22.5h0M11.5 22.5h0M17.5 22.5h0M18.5 22.5h0M19.5 22.5h0M20.5 22.5h0M23.5 22.5h0M25.5 22.5h0M29.5 22.5h0M30.5 22.5h0M35.5 22.5h0M37.5 22.5h0M39.5 22.5h0M40.5 22.5h0M42.5 22.5h0M43.5 22.5h0M44.5 22.5h0M47.5 22.5h0M49.5 22.5h0M52.5 22.5h0M1.5 23.5h0M2.5 23.5h0M4.5 23.5h0M5.5 23.5h0M11.5 23.5h0M17.5 23.5h0M18.5 23.5h0M24.5 23.5h0M27.5 23.5h0M29.5 23.5h0M31.5 23.5h0M32.5 23.5h0M33.5 23.5h0M34.5 23.5h0M35.5 23.5h0M37.5 23.5h0M41.5 23.5h0M43.5 23.5h0M44.5 23.5h0M46.5 23.5h0M48.5 23.5h0M51.5 23.5h0M0.5 24.5h0M1.5 24.5h0M2.5 24.5h0M4.5 24.5h0M5.5 24.5h0M6.5 24.5h0M7.5 24.5h0M8.5 24.5h0M10.5 24.5h0M11.5 24.5h0M15.5 24.5h0M17.5 24.5h0M19.5 24.5h0M21.5 24.5h0M24.5 24.5h0M25.5 24.5h0M26.5 24.5h0M27.5 24.5h0M28.5 24.5h0M30.5 24.5h0M31.5 24.5h0M32.5 24.5h0M35.5 24.5h0M38.5 24.5h0M39.5 24.5h0M42.5 24.5h0M43.5 24.5h0M44.5 24.5h0M45.5 24.5h0M46.5 24.5h0M47.5 24.5h0M48.5 24.5h0M49.5 24.5h0M0.5 25.5h0M1.5 25.5h0M2.5 25.5h0M3.5 25.5h0M4.5 25.5h0M8.5 25.5h0M9.5 25.5h0M13.5 25.5h0M14.5 25.5h0M16.5 25.5h0M17.5 25.5h0M19.5 25.5h0M20.5 25.5h0M22.5 25.5h0M23.5 25.5h0M24.5 25.5h0M28.5 25.5h0M29.5 25.5h0M30.5 25.5h0M31.5 25.5h0M32.5 25.5h0M33.5 25.5h0M37.5 25.5h0M38.5 25.5h0M39.5 25.5h0M41.5 25.5h0M42.5 25.5h0M44.5 25.5h0M48.5 25.5h0M50.5 25.5h0M0.5 26.5h0M3.5 26.5h0M4.5 26.5h0M6.5 26.5h0M8.5 26.5h0M10.5 26.5h0M11.5 26.5h0M12.5 26.5h0M15.5 26.5h0M18.5 26.5h0M21.5 26.5h0M22.5 26.5h0M24.5 26.5h0M26.5 26.5h0M28.5 26.5h0M29.5 26.5h0M30.5 26.5h0M33.5 26.5h0M36.5 26.5h0M37.5 26.5h0M38.5 26.5h0M39.5 26.5h0M40.5 26.5h0M41.5 26.5h0M42.5 26.5h0M43.5 26.5h0M44.5 26.5h0M46.5 26.5h0M48.5 26.5h0M52.5 26.5h0M2.5 27.5h0M3.5 27.5h0M4.5 27.5h0M8.5 27.5h0M9.5 27.5h0M11.5 27.5h0M12.5 27.5h0M13.5 27.5h0M16.5 27.5h0M17.5 27.5h0M19.5 27.5h0M20.5 27.5h0M21.5 27.5h0M24.5 27.5h0M28.5 27.5h0M29.5 27.5h0M31.5 27.5h0M36.5 27.5h0M37.5 27.5h0M39.5 27.5h0M41.5 27.5h0M44.5 27.5h0M48.5 27.5h0M49.5 27.5h0M52.5 27.5h0M0.5 28.5h0M1.5 28.5h0M4.5 28.5h0M5.5 28.5h0M6.5 28.5h0M7.5 28.5h0M8.5 28.5h0M9.5 28.5h0M11.5 28.5h0M13.5 28.5h0M16.5 28.5h0M17.5 28.5h0M18.5 28.5h0M24.5 28.5h0M25.5 28.5h0M26.5 28.5h0M27.5 28.5h0M28.5 28.5h0M29.5 28.5h0M30.5 28.5h0M31.5 28.5h0M32.5 28.5h0M34.5 28.5h0M36.5 28.5h0M38.5 28.5h0M39.5 28.5h0M41.5 28.5h0M42.5 28.5h0M44.5 28.5h0M45.5 28.5h0M46.5 28.5h0M47.5 28.5h0M48.5 28.5h0M51.5 28.5h0M2.5 29.5h0M7.5 29.5h0M8.5 29.5h0M12.5 29.5h0M17.5 29.5h0M18.5 29.5h0M20.5 29.5h0M21.5 29.5h0M22.5 29.5h0M23.5 29.5h0M27.5 29.5h0M28.5 29.5h0M29.5 29.5h0M30.5 29.5h0M32.5 29.5h0M33.5 29.5h0M38.5 29.5h0M42.5 29.5h0M43.5 29.5h0M45.5 29.5h0M48.5 29.5h0M49.5 29.5h0M50.5 29.5h0M52.5 29.5h0M1.5 30.5h0M2.5 30.5h0M5.5 30.5h0M6.5 30.5h0M7.5 30.5h0M11.5 30.5h0M14.5 30.5h0M15.5 30.5h0M17.5 30.5h0M21.5 30.5h0M22.5 30.5h0M23.5 30.5h0M25.5 30.5h0M26.5 30.5h0M29.5 30.5h0M30.5 30.5h0M35.5 30.5h0M38.5 30.5h0M41.5 30.5h0M42.5 30.5h0M46.5 30.5h0M49.5 30.5h0M50.5 30.5h0M52.5 30.5h0M2.5 31.5h0M4.5 31.5h0M8.5 31.5h0M10.5 31.5h0M14.5 31.5h0M15.5 31.5h0M17.5 31.5h0M19.5 31.5h0M23.5 31.5h0M26.5 31.5h0M28.5 31.5h0M30.5 31.5h0M31.5 31.5h0M32.5 31.5h0M34.5 31.5h0M35.5 31.5h0M36.5 31.5h0M37.5 31.5h0M39.5 31.5h0M41.5 31.5h0M43.5 31.5h0M44.5 31.5h0M47.5 31.5h0M51.5 31.5h0M52.5 31.5h0M1.5 32.5h0M6.5 32.5h0M7.5 32.5h0M9.5 32.5h0M13.5 32.5h0M14.5 32.5h0M15.5 32.5h0M17.5 32.5h0M21.5 32.5h0M24.5 32.5h0M27.5 32.5h0M31.5 32.5h0M32.5 32.5h0M33.5 32.5h0M35.5 32.5h0M36.5 32.5h0M38.5 32.5h0M39.5 32.5h0M43.5 32.5h0M44.5 32.5h0M46.5 32.5h0M47.5 32.5h0M49.5 32.5h0M51.5 32.5h0M52.5 32.5h0M4.5 33.5h0M5.5 33.5h0M8.5 33.5h0M9.5 33.5h0M10.5 33.5h0M11.5 33.5h0M16.5 33.5h0M20.5 33.5h0M22.5 33.5h0M23.5 33.5h0M25.5 33.5h0M26.5 33.5h0M29.5 33.5h0M31.5 33.5h0M35.5 33.5h0M36.5 33.5h0M38.5 33.5h0M40.5 33.5h0M42.5 33.5h0M43.5 33.5h0M44.5 33.5h0M46.5 33.5h0M47.5 33.5h0M48.5 33.5h0M51.5 33.5h0M52.5 33.5h0M1.5 34.5h0M5.5 34.5h0M6.5 34.5h0M8.5 34.5h0M11.5 34.5h0M13.5 34.5h0M17.5 34.5h0M23.5 34.5h0M24.5 34.5h0M25.5 34.5h0M27.5 34.5h0M29.5 34.5h0M33.5 34.5h0M35.5 34.5h0M38.5 34.5h0M39.5 34.5h0M40.5 34.5h0M42.5 34.5h0M45.5 34.5h0M46.5 34.5h0M47.5 34.5h0M49.5 34.5h0M50.5 34.5h0M51.5 34.5h0M52.5 34.5h0M0.5 35.5h0M1.5 35.5h0M4.5 35.5h0M10.5 35.5h0M15.5 35.5h0M18.5 35.5h0M19.5 35.5h0M20.5 35.5h0M22.5 35.5h0M23.5 35.5h0M24.5 35.5h0M25.5 35.5h0M27.5 35.5h0M28.5 35.5h0M32.5 35.5h0M33.5 35.5h0M34.5 35.5h0M35.5 35.5h0M36.5 35.5h0M39.5 35.5h0M41.5 35.5h0M43.5 35.5h0M45.5 35.5h0M47.5 35.5h0M51.5 35.5h0M0.5 36.5h0M2.5 36.5h0M4.5 36.5h0M6.5 36.5h0M11.5 36.5h0M12.5 36.5h0M14.5 36.5h0M15.5 36.5h0M18.5 36.5h0M23.5 36.5h0M26.5 36.5h0M27.5 36.5h0M31.5 36.5h0M32.5 36.5h0M33.5 36.5h0M36.5 36.5h0M38.5 36.5h0M39.5 36.5h0M42.5 36.5h0M43.5 36.5h0M45.5 36.5h0M47.5 36.5h0M49.5 36.5h0M3.5 37.5h0M5.5 37.5h0M8.5 37.5h0M9.5 37.5h0M11.5 37.5h0M12.5 37.5h0M13.5 37.5h0M14.5 37.5h0M16.5 37.5h0M18.5 37.5h0M19.5 37.5h0M20.5 37.5h0M22.5 37.5h0M23.5 37.5h0M24.5 37.5h0M30.5 37.5h0M35.5 37.5h0M36.5 37.5h0M37.5 37.5h0M38.5 37.5h0M39.5 37.5h0M41.5 37.5h0M42.5 37.5h0M43.5 37.5h0M45.5 37.5h0M48.5 37.5h0M49.5 37.5h0M50.5 37.5h0M52.5 37.5h0M0.5 38.5h0M3.5 38.5h0M6.5 38.5h0M10.5 38.5h0M11.5 38.5h0M13.5 38.5h0M14.5 38.5h0M15.5 38.5h0M18.5 38.5h0M20.5 38.5h0M21.5 38.5h0M22.5 38.5h0M23.5 38.5h0M24.5 38.5h0M25.5 38.5h0M27.5 38.5h0M30.5 38.5h0M31.5 38.5h0M32.5 38.5h0M34.5 38.5h0M35.5 38.5h0M36.5 38.5h0M38.5 38.5h0M42.5 38.5h0M44.5 38.5h0M45.5 38.5h0M46.5 38.5h0M47.5 38.5h0M48.5 38.5h0M50.5 38.5h0M52.5 38.5h0M2.5 39.5h0M5.5 39.5h0M9.5 39.5h0M10.5 39.5h0M11.5 39.5h0M18.5 39.5h0M19.5 39.5h0M20.5 39.5h0M22.5 39.5h0M25.5 39.5h0M28.5 39.5h0M31.5 39.5h0M32.5 39.5h0M34.5 39.5h0M36.5 39.5h0M37.5 39.5h0M38.5 39.5h0M39.5 39.5h0M40.5 39.5h0M41.5 39.5h0M43.5 39.5h0M47.5 39.5h0M2.5 40.5h0M4.5 40.5h0M5.5 40.5h0M6.5 40.5h0M7.5 40.5h0M9.5 40.5h0M11.5 40.5h0M12.5 40.5h0M13.5 40.5h0M19.5 40.5h0M26.5 40.5h0M29.5 40.5h0M30.5 40.5h0M31.5 40.5h0M32.5 40.5h0M33.5 40.5h0M36.5 40.5h0M37.5 40.5h0M41.5 40.5h0M43.5 40.5h0M44.5 40.5h0M45.5 40.5h0M51.5 40.5h0M52.5 40.5h0M0.5 41.5h0M1.5 41.5h0M2.5 41.5h0M5.5 41.5h0M7.5 41.5h0M8.5 41.5h0M9.5 41.5h0M13.5 41.5h0M14.5 41.5h0M15.5 41.5h0M18.5 41.5h0M21.5 41.5h0M23.5 41.5h0M25.5 41.5h0M26.5 41.5h0M27.5 41.5h0M28.5 41.5h0M29.5 41.5h0M30.5 41.5h0M32.5 41.5h0M40.5 41.5h0M41.5 41.5h0M42.5 41.5h0M44.5 41.5h0M47.5 41.5h0M48.5 41.5h0M50.5 41.5h0M51.5 41.5h0M52.5 41.5h0M0.5 42.5h0M1.5 42.5h0M3.5 42.5h0M4.5 42.5h0M5.5 42.5h0M6.5 42.5h0M7.5 42.5h0M12.5 42.5h0M13.5 42.5h0M14.5 42.5h0M15.5 42.5h0M16.5 42.5h0M17.5 42.5h0M18.5 42.5h0M20.5 42.5h0M22.5 42.5h0M23.5 42.5h0M29.5 42.5h0M30.5 42.5h0M31.5 42.5h0M35.5 42.5h0M42.5 42.5h0M46.5 42.5h0M47.5 42.5h0M49.5 42.5h0M52.5 42.5h0M1.5 43.5h0M2.5 43.5h0M8.5 43.5h0M10.5 43.5h0M13.5 43.5h0M14.5 43.5h0M15.5 43.5h0M16.5 43.5h0M18.5 43.5h0M19.5 43.5h0M20.5 43.5h0M22.5 43.5h0M23.5 43.5h0M27.5 43.5h0M28.5 43.5h0M31.5 43.5h0M32.5 43.5h0M37.5 43.5h0M39.5 43.5h0M43.5 43.5h0M45.5 43.5h0M47.5 43.5h0M3.5 44.5h0M6.5 44.5h0M7.5 44.5h0M8.5 44.5h0M10.5 44.5h0M11.5 44.5h0M14.5 44.5h0M17.5 44.5h0M18.5 44.5h0M19.5 44.5h0M23.5 44.5h0M24.5 44.5h0M25.5 44.5h0M26.5 44.5h0M27.5 44.5h0M28.5 44.5h0M30.5 44.5h0M31.5 44.5h0M32.5 44.5h0M33.5 44.5h0M34.5 44.5h0M36.5 44.5h0M38.5 44.5h0M39.5 44.5h0M41.5 44.5h0M42.5 44.5h0M43.5 44.5h0M44.5 44.5h0M45.5 44.5h0M46.5 44.5h0M47.5 44.5h0M48.5 44.5h0M8.5 45.5h0M9.5 45.5h0M12.5 45.5h0M14.5 45.5h0M15.5 45.5h0M16.5 45.5h0M18.5 45.5h0M20.5 45.5h0M21.5 45.5h0M22.5 45.5h0M23.5 45.5h0M24.5 45.5h0M28.5 45.5h0M29.5 45.5h0M30.5 45.5h0M31.5 45.5h0M32.5 45.5h0M35.5 45.5h0M36.5 45.5h0M37.5 45.5h0M38.5 45.5h0M42.5 45.5h0M44.5 45.5h0M48.5 45.5h0M50.5 45.5h0M52.5 45.5h0M8.5 46.5h0M9.5 46.5h0M10.5 46.5h0M12.5 46.5h0M13.5 46.5h0M14.5 46.5h0M17.5 46.5h0M18.5 46.5h0M20.5 46.5h0M23.5 46.5h0M24.5 46.5h0M26.5 46.5h0M28.5 46.5h0M29.5 46.5h0M30.5 46.5h0M33.5 46.5h0M35.5 46.5h0M37.5 46.5h0M38.5 46.5h0M40.5 46.5h0M41.5 46.5h0M42.5 46.5h0M43.5 46.5h0M44.5 46.5h0M46.5 46.5h0M48.5 46.5h0M51.5 46.5h0M52.5 46.5h0M11.5 47.5h0M13.5 47.5h0M14.5 47.5h0M16.5 47.5h0M18.5 47.5h0M19.5 47.5h0M20.5 47.5h0M21.5 47.5h0M23.5 47.5h0M24.5 47.5h0M28.5 47.5h0M30.5 47.5h0M34.5 47.5h0M36.5 47.5h0M39.5 47.5h0M42.5 47.5h0M43.5 47.5h0M44.5 47.5h0M48.5 47.5h0M49.5 47.5h0M51.5 47.5h0M52.5 47.5h0M8.5 48.5h0M9.5 48.5h0M12.5 48.5h0M13.5 48.5h0M14.5 48.5h0M17.5 48.5h0M18.5 48.5h0M21.5 48.5h0M22.5 48.5h0M24.5 48.5h0M25.5 48.5h0M26.5 48.5h0M27.5 48.5h0M28.5 48.5h0M30.5 48.5h0M36.5 48.5h0M37.5 48.5h0M39.5 48.5h0M44.5 48.5h0M45.5 48.5h0M46.5 48.5h0M47.5 48.5h0M48.5 48.5h0M51.5 48.5h0M52.5 48.5h0M9.5 49.5h0M12.5 49.5h0M14.5 49.5h0M15.5 49.5h0M17.5 49.5h0M18.5 49.5h0M19.5 49.5h0M23.5 49.5h0M24.5 49.5h0M26.5 49.5h0M27.5 49.5h0M28.5 49.5h0M29.5 49.5h0M30.5 49.5h0M31.5 49.5h0M33.5 49.5h0M35.5 49.5h0M36.5 49.5h0M38.5 49.5h0M41.5 49.5h0M42.5 49.5h0M47.5 49.5h0M50.5 49.5h0M51.5 49.5h0M9.5 50.5h0M11.5 50.5h0M12.5 50.5h0M13.5 50.5h0M14.5 50.5h0M17.5 50.5h0M18.5 50.5h0M19.5 50.5h0M21.5 50.5h0M23.5 50.5h0M28.5 50.5h0M29.5 50.5h0M30.5 50.5h0M31.5 50.5h0M32.5 50.5h0M33.5 50.5h0M38.5 50.5h0M39.5 50.5h0M40.5 50.5h0M41.5 50.5h0M42.5 50.5h0M43.5 50.5h0M45.5 50.5h0M47.5 50.5h0M49.5 50.5h0M51.5 50.5h0M12.5 51.5h0M13.5 51.5h0M14.5 51.5h0M15.5 51.5h0M17.5 51.5h0M18.5 51.5h0M21.5 51.5h0M24.5 51.5h0M28.5 51.5h0M29.5 51.5h0M31.5 51.5h0M32.5 51.5h0M34.5 51.5h0M35.5 51.5h0M36.5 51.5h0M38.5 51.5h0M40.5 51.5h0M41.5 51.5h0M43.5 51.5h0M45.5 51.5h0M46.5 51.5h0M49.5 51.5h0M51.5 51.5h0M52.5 51.5h0M8.5 52.5h0M10.5 52.5h0M13.5 52.5h0M14.5 52.5h0M15.5 52.5h0M16.5 52.5h0M17.5 52.5h0M20.5 52.5h0M22.5 52.5h0M24.5 52.5h0M25.5 52.5h0M29.5 52.5h0M30.5 52.5h0M31.5 52.5h0M32.5 52.5h0M33.5 52.5h0M35.5 52.5h0M36.5 52.5h0M37.5 52.5h0M39.5 52.5h0M42.5 52.5h0M43.5 52.5h0M44.5 52.5h0M45.5 52.5h0M46.5 52.5h0M47.5 52.5h0M48.5 52.5h0M49.5 52.5h0M50.5 52.5h0M51.5 52.5h0', fin: 'M1.2 0h4.6a1.2 1.2 0 0 1 1.2 1.2v4.6a1.2 1.2 0 0 1 -1.2 1.2h-4.6a1.2 1.2 0 0 1 -1.2 -1.2v-4.6a1.2 1.2 0 0 1 1.2 -1.2zM1.7 1h3.6a0.7 0.7 0 0 1 0.7 0.7v3.6a0.7 0.7 0 0 1 -0.7 0.7h-3.6a0.7 0.7 0 0 1 -0.7 -0.7v-3.6a0.7 0.7 0 0 1 0.7 -0.7zM2.5 2h2.0a0.5 0.5 0 0 1 0.5 0.5v2.0a0.5 0.5 0 0 1 -0.5 0.5h-2.0a0.5 0.5 0 0 1 -0.5 -0.5v-2.0a0.5 0.5 0 0 1 0.5 -0.5zM47.2 0h4.6a1.2 1.2 0 0 1 1.2 1.2v4.6a1.2 1.2 0 0 1 -1.2 1.2h-4.6a1.2 1.2 0 0 1 -1.2 -1.2v-4.6a1.2 1.2 0 0 1 1.2 -1.2zM47.7 1h3.6a0.7 0.7 0 0 1 0.7 0.7v3.6a0.7 0.7 0 0 1 -0.7 0.7h-3.6a0.7 0.7 0 0 1 -0.7 -0.7v-3.6a0.7 0.7 0 0 1 0.7 -0.7zM48.5 2h2.0a0.5 0.5 0 0 1 0.5 0.5v2.0a0.5 0.5 0 0 1 -0.5 0.5h-2.0a0.5 0.5 0 0 1 -0.5 -0.5v-2.0a0.5 0.5 0 0 1 0.5 -0.5zM1.2 46h4.6a1.2 1.2 0 0 1 1.2 1.2v4.6a1.2 1.2 0 0 1 -1.2 1.2h-4.6a1.2 1.2 0 0 1 -1.2 -1.2v-4.6a1.2 1.2 0 0 1 1.2 -1.2zM1.7 47h3.6a0.7 0.7 0 0 1 0.7 0.7v3.6a0.7 0.7 0 0 1 -0.7 0.7h-3.6a0.7 0.7 0 0 1 -0.7 -0.7v-3.6a0.7 0.7 0 0 1 0.7 -0.7zM2.5 48h2.0a0.5 0.5 0 0 1 0.5 0.5v2.0a0.5 0.5 0 0 1 -0.5 0.5h-2.0a0.5 0.5 0 0 1 -0.5 -0.5v-2.0a0.5 0.5 0 0 1 0.5 -0.5z' };
 const WA_NUM = '(21) 98500-4567';
@@ -2712,7 +2856,9 @@ $('rel-total-rg').addEventListener('input', () => { const p = +$('rel-total-rg')
 $('rel-total').addEventListener('blur', () => escreverTotal(lerTotal() || 0));
 $('rel-total').addEventListener('keydown', (e) => { if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); passoTotal(e.key === 'ArrowUp' ? 1 : -1); } });
 function passoTotal(dir) { const v = lerTotal() || 0; if (!v) { escreverTotal(dir > 0 ? 100000 : 0); return; } const passo = Math.max(1000, arredondarBonito(v * 0.1)); escreverTotal(arredondarBonito(Math.max(0, v + dir * passo))); }
-document.querySelectorAll('#rel-box .stp button').forEach(b => b.addEventListener('click', () => passoTotal(+b.dataset.d)));
+document.querySelectorAll('#card-cart .stp button').forEach(b => b.addEventListener('click', () => passoTotal(+b.dataset.d)));
+// o valor total alimenta a coluna de valor e os avisos de mínimo da tabela "Ativos e pesos"
+['input', 'change'].forEach(ev => { $('rel-total').addEventListener(ev, () => { if (S.persp) renderCarteira(); }); $('rel-total-rg').addEventListener(ev, () => { if (S.persp) renderCarteira(); }); });
 // tipos de alocação do relatório: renda fixa por indexador (prefixado, pós-fixado, inflação+), multimercados, renda variável, exterior e alternativos
 const TIPOS_ALOC = [{ id: 'pre', nome: 'Prefixado', cor: '#C8D9F1' }, { id: 'pos', nome: 'Pós-fixado', cor: '#8FB4E3' }, { id: 'infl', nome: 'Inflação+', cor: '#5B98E6' }, { id: 'mm', nome: 'Multimercados', cor: '#3F78C4' }, { id: 'rv', nome: 'Renda variável', cor: '#D4A24A' }, { id: 'ext', nome: 'Exterior', cor: '#244A80' }, { id: 'alt', nome: 'Alternativos', cor: '#7A9CCB' }];
 function tipoAloc(s) {
@@ -2740,7 +2886,6 @@ function renderRelLiq() {
   prontos.forEach(s => { if (S.rel.liq[s.key] == null) S.rel.liq[s.key] = liqPadrao(s);
     const n = el('span', 'n', s.data.nome); n.title = s.data.nome; const d = el('span', 'd'); const i = document.createElement('input'); i.type = 'number'; i.min = 0; i.max = 400; i.step = 1; i.value = S.rel.liq[s.key] == null ? '' : S.rel.liq[s.key]; i.placeholder = '?'; i.setAttribute('aria-label', 'Resgate em dias de ' + s.data.nome); i.addEventListener('change', () => { S.rel.liq[s.key] = i.value === '' ? null : Math.max(0, Math.round(+i.value)); }); d.append('D+', i); box.append(n, d); });
 }
-if ($('rel-h')) $('rel-h').addEventListener('change', () => { S.rel.h = $('rel-h').value === '' ? 0 : +$('rel-h').value; });
 $('rel-tema-ck').addEventListener('change', () => { S.rel.tema = $('rel-tema-ck').checked ? 'claro' : 'escuro'; $('rel-tema-t').textContent = $('rel-tema-ck').checked ? 'Claro' : 'Escuro'; });
 $('rel-gerar').addEventListener('click', () => gerarRelatorio());
 
@@ -2762,7 +2907,10 @@ function donutSVG(partes, size, centro0) {
   const maior = partes.slice().sort((a, b) => b.valor - a.valor)[0];
   const c0 = centro0 || (maior ? { big: fmtNum(maior.valor / tot * 100, 0) + '%', small: String(maior.nome).length > 14 ? String(maior.nome).slice(0, 13) + '…' : maior.nome } : null);
   const centro = c0 ? `<text x="${C}" y="${C - 2}" text-anchor="middle" class="dc">${esc(c0.big)}</text><text x="${C}" y="${C + 12}" text-anchor="middle" class="dc2">${esc(c0.small)}</text>` : '';
-  return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" class="donut">${out.join('')}${centro}</svg>`;
+  const uid = 'dn' + Math.random().toString(36).slice(2, 7);
+  const defs = `<defs><linearGradient id="${uid}b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".5" stop-color="#fff" stop-opacity=".04"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></linearGradient><radialGradient id="${uid}g" cx="50%" cy="50%" r="50%"><stop offset="${(r0 / R * 100).toFixed(0)}%" stop-color="#000" stop-opacity=".28"/><stop offset="${(r0 / R * 100 + 9).toFixed(0)}%" stop-color="#000" stop-opacity="0"/><stop offset="92%" stop-color="#fff" stop-opacity="0"/><stop offset="100%" stop-color="#fff" stop-opacity=".16"/></radialGradient><clipPath id="${uid}c"><circle cx="${C}" cy="${C}" r="${R}"/></clipPath></defs>`;
+  const bisel = `<circle cx="${C}" cy="${C}" r="${(R + 0.5).toFixed(1)}" fill="none" stroke="url(#${uid}b)" stroke-width="1.6"/><circle cx="${C}" cy="${C}" r="${(r0 - 0.6).toFixed(1)}" fill="none" stroke="url(#${uid}b)" stroke-width="1.2" opacity=".9"/><circle cx="${C}" cy="${C}" r="${R}" fill="url(#${uid}g)" clip-path="url(#${uid}c)" pointer-events="none"/>`;
+  return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" class="donut">${defs}${out.join('')}${bisel}${centro}</svg>`;
 }
 function barrasSVG(itens, opts) {
   // itens: [{lbl, v, cor}] barras verticais com rótulo do valor
@@ -2806,7 +2954,8 @@ async function gerarRelatorio() {
     return { s, share, valor: total * share, m12, rel, liq: S.rel.liq[s.key] == null ? liqPadrao(s) : S.rel.liq[s.key], gest: s.kind === 'fundo' ? (s.data.gestor_curto || s.data.gestor) : s.kind === 'tesouro' ? 'Tesouro Nacional' : s.kind === 'acao' ? 'B3 · ' + s.data.ticker : (em ? em.nome : (s.data.emissor || 'Série sintética')), em }; });
   // perfis (gestoras, fundos, Tesouro, papéis) para as páginas por ativo e a página de gestoras e emissores
   const perfis = await Promise.all(linhas.map(l => perfilDe(l.s).catch(() => ({ gestora: null, gestores: [], fundo: null, td: null, papel: null, emissor: null }))));
-  const H = S.rel.h || 0; const temProj = H > 0; const hLbl = H >= 24 ? (H / 12) + ' anos' : '1 ano';
+  // horizonte da projeção: o escolhido em cima do gráfico da simulação (padrão 10 anos)
+  const H = (S.sim && S.sim.h) || 120; const temProj = true; const hLbl = H >= 24 ? (H / 12) + ' anos' : '1 ano';
   // carteira (12 meses, pesos constantes) para rentabilidade estimada
   const pesos = linhas.map(l => l.share); const ini = Math.max(J12.ini, ...prontos.map(s => s.data.firstIdx)), fim = Math.min(J12.fim, ...prontos.map(s => s.data.ateIdx));
   const vals = new Array(cal.length).fill(null); let v = 1; vals[ini] = 0;
@@ -2829,10 +2978,10 @@ async function gerarRelatorio() {
   for (let t = 0; t <= (temProj ? H : HS); t += 3) { const e = total * cartIdx(t); const yrs = t / 12; proj.push({ t: yrs, e, up: e * Math.exp(sig * Math.sqrt(yrs)), dn: e * Math.exp(-sig * Math.sqrt(yrs)), cdi: total * (1 + cdiPath[t]), poup: total * (1 + poupPath[t]) }); }
   const simRows = S.sim.rows; const nivel3 = (k) => fmtNum(nivelEm(simRows[k].v, 0), 2) + '% hoje para ' + fmtNum(nivelEm(simRows[k].v, 36), 2) + '% em 3 anos';
   const premissasTxt = 'CDI de ' + nivel3('cdi') + ', IPCA de ' + nivel3('ipca') + (S.sim.realDoc ? ', juro real das NTN-Bs de ' + nivel3('real') : '') + (S.meta.focus ? ' (relatório Focus de ' + dBR(S.meta.focus.data) + ')' : '');
-  const tema = S.rel.tema;
+  const tema = S.rel.tema; const corCart = tema === 'claro' ? '#1B2434' : '#FFFFFF';
   // gráficos gerados na página (mesmo motor) e serializados
-  const svgAcum = svgOff((box) => desenhar(box, { series: [{ nome: 'Carteira', cor: '#D4A24A', vals, grosso: true }, { nome: 'CDI', cor: COR_CDI, dash: true, vals: (() => { const c = new Array(cal.length).fill(null); for (let i = ini; i <= fim; i++) c[i] = S.meta.cdi[i] / S.meta.cdi[ini] - 1; return c; })() }], ini, fim, altura: 260, zero: true, area: true, fmt: (x, t) => t ? (x * 100).toFixed(0) + '%' : pctSign(x), endLabel: true }), 700);
-  const svgProj = svgOff((box) => { const n = proj.length; const idx = (arr) => arr; desenhar(box, { series: [{ nome: 'Cenário otimista e pessimista', cor: '#D4A24A', vals: proj.map(p => p.e), band: { lo: proj.map(p => p.dn), hi: proj.map(p => p.up) }, grosso: true }, { nome: 'Otimista', cor: '#D4A24A', vals: proj.map(p => p.up), fina: true, dash: true, cls: 'faint', semPonto: true }, { nome: 'Pessimista', cor: '#D4A24A', vals: proj.map(p => p.dn), fina: true, dash: true, cls: 'faint', semPonto: true }, { nome: 'CDI', cor: COR_CDI, dash: true, vals: proj.map(p => p.cdi) }, { nome: 'Poupança', cor: '#7FB5A4', dash: true, vals: proj.map(p => p.poup) }], ini: 0, fim: n - 1, altura: 280, fmt: (x, t) => t ? compactR(x) : moneyFull(x), xTicks: () => proj.map((p, i) => ({ i, label: p.t % 1 === 0 ? (p.t === 0 ? 'hoje' : p.t === 1 ? '1 ano' : p.t + ' anos') : '' })).filter(t => t.label !== ''), xLabel: (i) => 'ano ' + proj[i].t, endLabel: true, semMarca: false }); }, 700);
+  const svgAcum = svgOff((box) => desenhar(box, { series: [{ nome: 'Carteira', cor: corCart, vals, grosso: true }, { nome: 'CDI', cor: COR_CDI, dash: true, vals: (() => { const c = new Array(cal.length).fill(null); for (let i = ini; i <= fim; i++) c[i] = S.meta.cdi[i] / S.meta.cdi[ini] - 1; return c; })() }], ini, fim, altura: 260, zero: true, area: true, fmt: (x, t) => t ? (x * 100).toFixed(0) + '%' : pctSign(x), endLabel: true }), 700);
+  const svgProj = svgOff((box) => { const n = proj.length; const idx = (arr) => arr; desenhar(box, { series: [{ nome: 'Cenário otimista e pessimista', cor: corCart, vals: proj.map(p => p.e), band: { lo: proj.map(p => p.dn), hi: proj.map(p => p.up) }, grosso: true }, { nome: 'Otimista', cor: corCart, vals: proj.map(p => p.up), fina: true, dash: true, cls: 'faint', semPonto: true }, { nome: 'Pessimista', cor: corCart, vals: proj.map(p => p.dn), fina: true, dash: true, cls: 'faint', semPonto: true }, { nome: 'CDI', cor: COR_CDI, dash: true, vals: proj.map(p => p.cdi) }, { nome: 'Poupança', cor: '#7FB5A4', dash: true, vals: proj.map(p => p.poup) }], ini: 0, fim: n - 1, altura: 280, fmt: (x, t) => t ? compactR(x) : moneyFull(x), xTicks: () => proj.map((p, i) => ({ i, label: p.t % 1 === 0 ? (p.t === 0 ? 'hoje' : p.t === 1 ? '1 ano' : p.t + ' anos') : '' })).filter(t => t.label !== ''), xLabel: (i) => 'ano ' + proj[i].t, endLabel: true, semMarca: false }); }, 700);
   const ipcaPath = caminho(simRow('ipca').v, HS);
   const porAtivo = linhas.map((l, k) => { const s = l.s;
     if (s.kind === 'fundo' || s.kind === 'acao') { const a = acumulada(s.data.qff, Math.max(J12.ini, s.data.firstIdx), Math.min(J12.fim, s.data.ateIdx), s.data.ateIdx); const c = new Array(cal.length).fill(null); const i0 = a.baseI != null ? a.baseI : J12.ini; for (let i = i0; i <= J12.fim; i++) c[i] = S.meta.cdi[i] / S.meta.cdi[i0] - 1;
@@ -2919,7 +3068,7 @@ h3{font-size:13px;font-weight:600;margin:14px 0 4px;color:var(--text-2)}
 .kp.k4{gap:8px;margin:10px 0 8px}.kp.k4 > div{padding:8px 10px;border-radius:10px;background:var(--panel)}.kp.k4 .v{font-size:14.5px}.kp.k4 .v .badge{font-size:11px;padding:1px 7px;vertical-align:2px}
 /* página por ativo: título, classificação, indicadores, gráfico, leitura */
 .card.ativo{padding:12px 16px 10px;margin-bottom:10px}
-.card.ativo .ah{display:flex;flex-direction:column;gap:2px}.card.ativo .ah-l{display:flex;align-items:center;gap:12px}.card.ativo .glogo.sm{width:34px;height:34px;border-radius:9px;font-size:12px;flex:none}
+.ah{display:flex;flex-direction:column;gap:2px}.ah-l{display:flex;align-items:center;gap:12px}.ah .glogo.sm{width:38px;height:38px;border-radius:10px;font-size:12px;flex:none}.ah-top{margin:2px 0 10px;padding-bottom:10px;border-bottom:1px solid var(--line)}.ah-top h3{margin:0;font-size:17px;font-weight:600;color:var(--text);letter-spacing:-.01em;line-height:1.3}.ah-top .cls{font-size:10.5px;color:var(--muted);letter-spacing:.04em;padding-inline-start:16px}.card.ativo .kp{margin-top:0}
 .card.perfil{padding:12px 16px 8px}.card.perfil h4{margin:8px 0 3px;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}.card.perfil h4:first-child{margin-top:0}.card.perfil p.txt{margin:0 0 6px;font-size:11px;line-height:1.55;color:var(--text-2);font-weight:300}.card.perfil p.txt b{color:var(--text);font-weight:500}.card.perfil p.eq{color:var(--muted)}
 .foot-note{position:absolute;left:12mm;right:12mm;bottom:16mm}
 .card.ativo h3{margin:0;font-size:15px;font-weight:600;color:var(--text);letter-spacing:-.01em;line-height:1.3}
@@ -2982,7 +3131,7 @@ tr.tot td{font-weight:700;border-top:2px solid var(--line-2);border-bottom:0}
   // rentabilidade estimada
   html.push(P(`<h2>Rentabilidade estimada da carteira</h2><p class="sub">O que a carteira proposta teria rendido, mês a mês, nos últimos 12 meses, com os pesos mantidos constantes. Base: ${dBR(cal[ini])} a ${dBR(cal[fim])}.</p>
     <div class="card"><div class="chart">${svgMensal}</div></div>
-    <div class="card"><div class="chart">${svgAcum}</div>${legenda([{ nome: 'Carteira', cor: '#D4A24A' }, { nome: 'CDI', cor: COR_CDI, dash: true }])}<div class="meta"><span>Carteira <b>${pctSign(mC.ret)}</b></span><span>CDI <b>${pctSign(cdi12)}</b></span><span>Meses positivos <b>${ult12.filter(m => m.v > 0).length} de ${ult12.length}</b></span></div></div>
+    <div class="card"><div class="chart">${svgAcum}</div>${legenda([{ nome: 'Carteira', cor: corCart }, { nome: 'CDI', cor: COR_CDI, dash: true }])}<div class="meta"><span>Carteira <b>${pctSign(mC.ret)}</b></span><span>CDI <b>${pctSign(cdi12)}</b></span><span>Meses positivos <b>${ult12.filter(m => m.v > 0).length} de ${ult12.length}</b></span></div></div>
     <p class="note">Simulação com base no resultado dos últimos 12 meses. Esse gráfico é uma simulação e o resultado futuro pode ser diferente do apresentado.</p>`, 'Rentabilidade estimada'));
   // projeção (se o horizonte foi pedido): sem o card de diferença, com as premissas no rodapé da página
   if (temProj) {
@@ -2992,7 +3141,7 @@ tr.tot td{font-weight:700;border-top:2px solid var(--line-2);border-bottom:0}
     const marcos = [1, 2, 3, 5, 10].filter(a => a <= anosH);
     html.push(P(`<h2>Projeção de ${hLbl}</h2><p class="sub">Evolução esperada de ${moneyFull(total)} com cada ativo seguindo o seu modelo no simulador, comparada ao CDI e à poupança.</p>
     <div class="kp k3"><div><div class="t">Carteira em ${hLbl}</div><div class="v">${kv(p10.e)}</div><div class="s">${pctSign(aaCart)} ao ano; de ${money(p10.dn)} a ${money(p10.up)}</div></div><div><div class="t">CDI</div><div class="v">${kv(p10.cdi)}</div><div class="s">${pctSign(aaCdi)} ao ano</div></div><div><div class="t">Poupança</div><div class="v">${kv(p10.poup)}</div><div class="s">70% do CDI, limitada a 6,17% a.a.</div></div></div>
-    <div class="card"><div class="chart">${svgProj}</div>${legenda([{ nome: 'Esperado (faixa: cenários otimista e pessimista)', cor: '#D4A24A' }, { nome: 'CDI', cor: COR_CDI, dash: true }, { nome: 'Poupança', cor: '#7FB5A4', dash: true }])}</div>
+    <div class="card"><div class="chart">${svgProj}</div>${legenda([{ nome: 'Esperado (faixa: cenários otimista e pessimista)', cor: corCart }, { nome: 'CDI', cor: COR_CDI, dash: true }, { nome: 'Poupança', cor: '#7FB5A4', dash: true }])}</div>
     <table class="fx"><colgroup><col style="width:28%"><col style="width:18%"><col style="width:18%"><col style="width:18%"><col style="width:18%"></colgroup><thead><tr><th>Marco</th><th>Carteira</th><th>Pessimista</th><th>Otimista</th><th>CDI</th></tr></thead><tbody>${marcos.map(a => { const m = marcoP(a); return m ? `<tr><td>${a === 1 ? '1 ano' : a + ' anos'}</td><td>${moneyFull(m.e)}</td><td>${moneyFull(m.dn)}</td><td>${moneyFull(m.up)}</td><td>${moneyFull(m.cdi)}</td></tr>` : ''; }).join('')}</tbody></table>
     <p class="note foot-note">Premissas: ${premissasTxt}. A faixa vem da volatilidade histórica da carteira (${pct(mC.vol || 0)}) e cobre cerca de 68% dos cenários de um modelo lognormal. Títulos do Tesouro com carrego e marcação a mercado; fundos de risco pelo beta ao seu benchmark mais metade do alfa histórico; pós-fixados pelo percentual do CDI entregue. Não considera aportes, resgates, impostos ou custos. Projeções não são previsões nem garantia de resultado.</p>`, 'Projeção'));
   }
@@ -3030,7 +3179,7 @@ tr.tot td{font-weight:700;border-top:2px solid var(--line-2);border-bottom:0}
       if (pf.papel && pf.papel.txt) textos += `<h4>${esc(pf.papel.nome)}</h4>` + para(pf.papel.txt);
       if (pf.emissor) textos += `<p class="txt">Emissor: <b>${esc(pf.emissor.nome)}</b> (${esc(pf.emissor.tipo)}). A rentabilidade mostrada é a taxa contratada, sem marcação a mercado.</p>`;
     }
-    html.push(P(`<div class="card ativo"><div class="ah"><div class="ah-l">${logoTopo}<div><h3><span class="sw" style="background:${l.s.cor}"></span>${esc(f.nomeLongo || f.nome)}</h3><div class="cls">${esc(classe)}</div></div></div></div><div class="kp k4">${tiles.join('')}</div><div class="chart">${pa.svg}</div>${legenda(pa.legenda)}<div class="meta">${leitura}</div></div>
+    html.push(P(`<div class="ah ah-top"><div class="ah-l">${logoTopo}<div><h3><span class="sw" style="background:${l.s.cor}"></span>${esc(f.nomeLongo || f.nome)}</h3><div class="cls">${esc(classe)}</div></div></div></div><div class="card ativo"><div class="kp k4">${tiles.join('')}</div><div class="chart">${pa.svg}</div>${legenda(pa.legenda)}<div class="meta">${leitura}</div></div>
       ${textos ? `<div class="card perfil">${textos}</div>` : ''}
       <p class="note">${l.s.kind !== 'fundo' && l.s.kind !== 'acao' ? 'Caminho esperado pelos patamares do simulador, faixa de 68% pela volatilidade histórica; venda antes do vencimento sujeita à marcação a mercado.' : 'Últimos 12 meses, líquidos de taxas e brutos de IR; rentabilidade passada não garante a futura.'}${textos && (pf.gestora || pf.fundo) ? ' Textos da gestora e do fundo: Guia de Fundos da XP.' : ''}</p>`, 'Detalhamento dos ativos'));
   });
@@ -3041,7 +3190,11 @@ tr.tot td{font-weight:700;border-top:2px solid var(--line-2);border-bottom:0}
     emis.forEach(e => { blocos.push(`<div class="gest">${logoEm(e)}<div style="flex:1;min-width:0"><div class="t"><b>${esc(e.nome)}</b><span>${esc(e.tipo)} · emissor de renda fixa</span></div><p>${esc((PAPEL_TEXTOS[papelDe(e.papeis[0])] || '').split('. ')[0])}${(PAPEL_TEXTOS[papelDe(e.papeis[0])] || '') ? '.' : ''}</p><p style="color:var(--muted)">Na carteira: ${esc(e.papeis.join('; '))}</p></div></div>`); });
     if (temTD) blocos.push(`<div class="gest">${logoEm(tdEm)}<div style="flex:1;min-width:0"><div class="t"><b>Tesouro Nacional</b><span>Títulos públicos federais</span></div><p>Os títulos são emitidos pelo Tesouro Nacional e têm a garantia da União, com recompra diária pelo próprio Tesouro. São a referência de menor risco de crédito do mercado brasileiro.</p><p style="color:var(--muted)">Na carteira: ${esc(linhas.filter(l => l.s.kind === 'tesouro').map(l => l.s.data.nome).join('; '))}</p></div></div>`);
     if (acoesCart.length) blocos.push(`<div class="gest"><span class="glogo mono">B3</span><div style="flex:1;min-width:0"><div class="t"><b>B3</b><span>Bolsa brasileira · ações, FIIs e BDRs</span></div><p>Papéis negociados na B3, com liquidação em D+2. A cotação usada é ajustada por proventos (dividendos, JCP e rendimentos de FII reinvestidos) e por desdobramentos, o que a torna comparável à cota de um fundo. Os BDRs representam ações estrangeiras, carregam também a variação do câmbio e entram só pelo preço.</p><p style="color:var(--muted)">Na carteira: ${esc(acoesCart.map(l => l.s.data.ticker + ' (' + l.s.data.nome + ')').join('; '))}</p></div></div>`);
-    html.push(P(`<h2>Gestoras e emissores</h2><p class="sub">Quem gere cada fundo e quem emite cada papel da carteira, com o histórico da casa e da equipe quando disponível.</p>` + blocos.join(''), 'Gestoras e emissores'));
+    const porPagina = 3;
+    for (let i = 0; i < blocos.length; i += porPagina) {
+      const cont = i > 0 ? ' (continuação)' : '';
+      html.push(P(`<h2>Gestoras e emissores${cont}</h2>` + (i === 0 ? `<p class="sub">Quem gere cada fundo e quem emite cada papel da carteira, com o histórico da casa e da equipe quando disponível.</p>` : '') + blocos.slice(i, i + porPagina).join(''), 'Gestoras e emissores'));
+    }
   }
   const doc = `<!DOCTYPE html><html lang="pt-BR" class="${tema === 'claro' ? 'claro' : ''}"><head><meta charset="utf-8"><title>${esc('Planejamento de investimentos' + (cliente ? ' · ' + cliente : ''))}</title><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"><style>${css}</style></head><body>${sprite}<div class="noprint"><button class="ghost" onclick="document.documentElement.classList.toggle('claro')">Claro / escuro</button><button onclick="window.print()">Salvar como PDF</button></div>${html.join('')}</body></html>`;
   w.document.open(); w.document.write(doc); w.document.close();
@@ -3059,7 +3212,7 @@ const simLbl = (t) => t === 12 ? '1 ano' : (t / 12) + ' anos';
 const SIM_PREMIO = { ibov: ['cdi', 3], sp500brl: ['cdi', 3], mscibrl: ['cdi', 3], nasdaqbrl: ['cdi', 3], ifix: ['cdi', 1], ourobrl: ['ipca', 2], dolar: ['ipca', -2] };
 const SIM_NOMES = { cdi: 'CDI', ipca: 'IPCA', real: 'Juro real', ibov: 'Ibovespa', sp500brl: 'S&P 500 em reais', mscibrl: 'MSCI World em reais', nasdaqbrl: 'Nasdaq 100 em reais', ifix: 'IFIX', ourobrl: 'Ouro em reais', dolar: 'Dólar' };
 const SIM_ALFA = 0.5;   // fração do alfa (ou do excesso) histórico que os fundos carregam para a projeção
-S.sim = { h: 12, conf: 68, dImab: 7.5, cenEm: 36, realRef: null, realDoc: null, dolar0: null, rows: {}, realManual: false };
+S.sim = { h: 120, conf: 68, dImab: 7.5, cenEm: 36, realRef: null, realDoc: null, dolar0: null, rows: {}, realManual: false };
 const mensal = (aa) => Math.pow(1 + aa / 100, 1 / 12) - 1;
 const r2 = (v) => v == null || !isFinite(v) ? null : Math.round(v * 100) / 100;
 function simRow(k) {
@@ -3292,67 +3445,67 @@ async function renderPersp() {
   try { emUso = await prepararSim(prontos); } finally { simPend = false; }
   if (simAgain) { simAgain = false; return renderPersp(); }
   renderSimControles(emUso);
+  if (!cartUI.temIbov && benchDoc('ibov')) remontarTabelaCarteira();
   const H = sm.h, z = sm.conf === 95 ? 1.96 : 1, ipcaDoc = benchDoc('ipca'), imabDoc = benchDoc('imab');
   const modelos = prontos.map(s => simularAtivo(s, H, ipcaDoc, imabDoc));
-  const series = modelos.map(m => { const vals = m.idx.map(v => v - 1); const fx = m.sigma > 0.002 ? faixa(m.idx, m.sigma, z) : null; return { nome: m.nome, cor: m.cor, vals, band: fx, m, fim: vals[H], lo: fx ? fx.lo[H] : vals[H], hi: fx ? fx.hi[H] : vals[H] }; });
+  const temPesos = prontos.length >= 2;
+  // com dois ou mais ativos, os ativos entram como linhas finas sem faixa: a faixa do gráfico é a da carteira (volatilidade histórica nos pesos atuais)
+  const series = modelos.map(m => { const vals = m.idx.map(v => v - 1); const fx = m.sigma > 0.002 ? faixa(m.idx, m.sigma, z) : null; return { nome: m.nome, cor: m.cor, vals, band: temPesos ? null : fx, m, fim: vals[H], lo: fx ? fx.lo[H] : vals[H], hi: fx ? fx.hi[H] : vals[H], fina: temPesos, semPonto: temPesos }; });
   // referências no gráfico: o CDI e os benchmarks ligados no trilho (os mesmos da comparação)
   const refs = [{ id: 'cdi', nome: 'CDI', cor: COR_CDI, dash: true, vals: caminho(simRow('cdi').v, H) }];
   S.bench.forEach(id => { const vals = caminhoBench(id, H, []); if (vals) refs.push({ id, nome: (S.benchmarks.find(b => b.id === id) || {}).nome || SIM_NOMES[id] || id, cor: CORES_BENCH[id] || COR_CDI, dash: true, vals }); });
   const ref = S.meta.referencia;
-  desenhar($('ch-persp'), { series: [...series, ...refs], ini: 0, fim: H, altura: 300, zero: true, fmt: (v, t) => t ? (v * 100).toFixed(0) + '%' : pctSign(v), endLabel: true,
-    xTicks: () => { const out = []; const step = H > 60 ? 12 : H > 24 ? 6 : 3; for (let t = 0; t <= H; t += step) out.push({ i: t, label: t === 0 ? 'hoje' : H > 60 ? (t / 12) + (t === 12 ? ' ano' : ' anos') : mesLbl(mesMais(ref, t)) }); return out; },
-    xLabel: (i) => i === 0 ? 'Hoje' : 'Mês ' + i + ' · ' + mesLbl(mesMais(ref, i)) });
-  legenda($('lg-persp'), [...series, ...refs]);
+  calcularCarteira();
+  // carteira projetada: soma ponderada dos caminhos de cada ativo (pesos da tabela "Ativos e pesos"); faixa pela volatilidade histórica da carteira
+  const serieCart = () => {
+    if (!temPesos) return null;
+    const ws = prontos.map(p => (S.cart.pesos[p.key] || 0) / 100); const idx = []; for (let t = 0; t <= H; t++) idx[t] = series.reduce((a, s2, k) => a + ws[k] * s2.m.idx[t], 0);
+    const vals = idx.map(v => v - 1); const sig = S.cart.volHist != null ? S.cart.volHist : series.reduce((a, s2, k) => a + ws[k] * s2.m.sigma, 0) * 0.85; const fx = sig > 0.002 ? faixa(idx, sig, z) : null;
+    return { nome: 'Carteira', cor: COR_CART, vals, band: fx, grosso: true, cls: 'cart', sid: '__cart', fim: vals[H], lo: fx ? fx.lo[H] : vals[H], hi: fx ? fx.hi[H] : vals[H], sig };
+  };
+  const desenharProj = () => {
+    const c = serieCart(); const todas = c ? [...series, c, ...refs] : [...series, ...refs];
+    desenhar($('ch-persp'), { series: todas, ini: 0, fim: H, altura: 300, zero: true, fmt: (v, t) => t ? (v * 100).toFixed(0) + '%' : pctSign(v), endLabel: true,
+      xTicks: () => { const out = []; const step = H > 60 ? 12 : H > 24 ? 6 : 3; for (let t = 0; t <= H; t += step) out.push({ i: t, label: t === 0 ? 'hoje' : H > 60 ? (t / 12) + (t === 12 ? ' ano' : ' anos') : mesLbl(mesMais(ref, t)) }); return out; },
+      xLabel: (i) => i === 0 ? 'Hoje' : 'Mês ' + i + ' · ' + mesLbl(mesMais(ref, i)) });
+    legenda($('lg-persp'), todas);
+    return c;
+  };
   // tabela nos marcos (1, 2, 3, 5 e 10 anos até o horizonte) + faixa no horizonte + "vs" cada benchmark do trilho (CDI sempre), acumulado no período
   const marcos = SIM_MARCOS.filter(t => t <= H); const tb = $('tb-persp'); tb.innerHTML = '';
   const vsCols = ['cdi', ...S.bench.filter(id => id !== 'cdi')].map(id => ({ id, nome: id === 'cdi' ? 'CDI' : (BM_LBL[id] || (S.benchmarks.find(b => b.id === id) || {}).nome || id), vals: caminhoBench(id, H, refs) })).filter(c => c.vals);
-  const th = el('tr'); th.append(el('th', null, 'Ativo')); marcos.forEach(t => th.append(el('th', null, simLbl(t)))); th.append(el('th', null, 'Pessimista'), el('th', null, 'Otimista')); vsCols.forEach(c => th.append(el('th', null, 'vs ' + c.nome))); { const tv = el('th', 'ctr', 'Vol'); tv.title = 'Volatilidade anualizada'; const ts = el('th', 'ctr', 'Sharpe'); const tc = el('th', 'ctr', 'Co Ibov'); tc.title = 'Correlação com o Ibovespa'; th.append(tv, ts, tc); } { const _h = el('thead'); _h.append(th); tb.append(_h); }
+  const th = el('tr'); th.append(el('th', null, 'Ativo')); marcos.forEach(t => th.append(el('th', null, simLbl(t)))); th.append(el('th', null, 'Pessimista'), el('th', null, 'Otimista')); vsCols.forEach(c => th.append(el('th', null, 'vs ' + c.nome))); { const _h = el('thead'); _h.append(th); tb.append(_h); }
   const tbody = el('tbody');
-  const J = janela(); const ibovDoc = benchDoc('ibov');
-  // barras finas por coluna: retorno na cor do ativo, volatilidade em vermelho, Sharpe em azul; escala pelo maior valor da coluna
+  // barras finas por coluna: retorno na cor do ativo; escala pelo maior valor da coluna
   const maxCol = marcos.map(t => Math.max(0, ...series.map(s => Math.abs(s.vals[t] || 0))));
-  const stats = series.map((s, k) => { const mj = janelaBase(prontos[k].data); const j = mj && mj.j; return { vol: j && j.vol != null && j.vol >= 0.004 ? j.vol : null, sh: j && j.sharpe != null && !(j.vol != null && j.vol < 0.004) ? j.sharpe : null }; });
-  const maxVol = Math.max(0, ...stats.map(x => x.vol || 0)), maxSh = Math.max(0, ...stats.map(x => Math.abs(x.sh || 0)));
   const escFx = Math.max(0.05, ...series.map(s => Math.max(Math.abs(s.lo || 0), Math.abs(s.hi || 0))));
   const faixaTd = (v) => { const td = el('td', 'num'); const h = el('span', 'heat', pctSign(v)); h.style.background = corHeat(v, escFx); td.append(h); return td; };
-  const barra = (v, max, cor, neg) => { const w = el('div', 'mb'); const i = el('i'); i.style.width = (v == null || !(max > 0) ? 0 : Math.min(100, Math.abs(v) / max * 100)).toFixed(1) + '%'; i.style.background = v != null && v < 0 ? 'var(--neg)' : cor; if (neg) i.classList.add('neg'); w.append(i); return w; };
+  const barra = (v, max, cor) => { const w = el('div', 'mb'); const i = el('i'); i.style.width = (v == null || !(max > 0) ? 0 : Math.min(100, Math.abs(v) / max * 100)).toFixed(1) + '%'; if (v != null && v < 0) i.classList.add('neg'); if (cor) i.style.setProperty('--bc', cor); w.append(i); return w; };
   const celula = (txt, v, max, cor, cls, sub) => { const td = el('td', 'vc' + (cls ? ' ' + cls : '')); const b = el('b', null, txt == null ? '–' : txt); td.append(b); if (sub) td.append(el('span', 'sub2', sub)); td.append(barra(v, max, cor)); return td; };
-  // pesos da carteira: o anel, a seta de direção e o controle de peso ficam na primeira coluna (bloco único carteira + simulador)
-  cartUI.linhas = {}; pesosAtuais(); const temPesos = prontos.length >= 2;
+  // os pesos ficam na tabela "Ativos e pesos", logo abaixo do gráfico principal; aqui a primeira coluna tem nome, troca e prêmio das ações
   series.forEach((s, k) => { const sel = prontos[k]; const tr = el('tr'); const td0 = el('td', 'swapcell'); td0.dataset.key = sel.key; td0.style.setProperty('--c', s.cor); const n = el('span', 'n');
-    const sp = el('span', null, s.nome); sp.title = s.nome;
-    if (temPesos) { const ring = el('span', 'ring'); ring.style.setProperty('--p', String(S.cart.pesos[sel.key] || 0)); const lp = linhaPeso(sel, ring); n.append(ring, sp, lp.dir); td0.append(n, lp.r); }
-    else { const i = el('i'); i.style.background = s.cor; n.append(i, sp); td0.append(n); }
-    const x = el('button', 'xrm'); x.type = 'button'; x.title = 'Remover da comparação'; x.setAttribute('aria-label', 'Remover ' + s.nome); x.append(icon('i-x', 10)); x.addEventListener('click', () => remover(sel.key)); n.append(x);
+    const sp = el('span', null, s.nome); sp.title = s.nome; const i = el('i'); i.style.background = s.cor; n.append(i, sp);
+    const x = el('button', 'xrm'); x.type = 'button'; x.title = 'Remover da comparação'; x.setAttribute('aria-label', 'Remover ' + s.nome); x.append(icon('i-x', 10)); x.addEventListener('click', () => remover(sel.key)); n.append(x); td0.append(n);
     td0.addEventListener('pointerenter', () => focarCarteira(sel.key)); td0.addEventListener('pointerleave', () => focarCarteira(null));
     td0.append(trocaAtivo(sel)); if (sel.kind === 'acao') td0.append(editorPremio(sel)); tr.append(td0);
     marcos.forEach((t, k2) => tr.append(celula(pctSign(s.vals[t]), s.vals[t], maxCol[k2], s.cor, t === H ? 'hl' : '', s.m.agio[t] != null && t <= H ? (s.m.agio[t] >= 0 ? 'ágio ' : 'deságio ') + pctSign(s.m.agio[t]) : null)));
     tr.append(faixaTd(s.lo), faixaTd(s.hi));
     vsCols.forEach(c => { const d = s.fim - c.vals[H]; const tdv = el('td', 'num'); tdv.append(el('span', 'badge ' + (d < 0 ? 'neg' : 'pos'), c.nome + ' ' + (d < 0 ? '−' : '+') + fmtNum(Math.abs(d) * 100, 1) + ' p.p.')); tdv.title = c.nome + ' no período: ' + pctSign(c.vals[H]); tr.append(tdv); });
-    const st = stats[k];
-    { const td = celula(st.vol == null ? null : pct(st.vol), st.vol, maxVol, 'var(--neg)', 'ctr'); td.title = 'Volatilidade anualizada ' + periodoLabel(); tr.append(td); }
-    { const td = celula(st.sh == null ? null : fmtNum(st.sh, 2), st.sh, maxSh, 'var(--accent)', 'ctr'); td.title = 'Índice de Sharpe ' + periodoLabel(); tr.append(td); }
-    const co = ibovDoc && sel.data.ret ? pearson(sel.data.ret, ibovDoc.ret, { ini: Math.max(J.ini, sel.data.firstIdx || 0, ibovDoc.firstIdx || 0), fim: Math.min(J.fim, sel.data.ateIdx, ibovDoc.ateIdx) }) : null; const tdc = el('td', 'num'); if (co != null) { tdc.append(el('span', 'badge ' + (Math.abs(co) >= 0.5 ? 'neg' : 'neu'), fmtNum(co * 100, 0) + '%')); tdc.title = 'Correlação dos retornos diários com o Ibovespa ' + (S.periodo === 'max' || S.periodo === 'custom' ? 'no ' : 'nos ') + periodoLabel(); } tr.append(tdc); tbody.append(tr); });
-  // linha da carteira: soma ponderada dos caminhos de cada ativo (pesos da Diversificação), faixa pela volatilidade histórica da carteira
+    tbody.append(tr); });
+  // linha da carteira: redesenha o gráfico (linha branca com a faixa) e a linha da tabela a cada mudança de peso
   if (temPesos) {
     const trc = el('tr', 'cartrow'); tbody.append(trc);
     const desenharCart = () => {
-      trc.innerHTML = ''; const ws = prontos.map(p => (S.cart.pesos[p.key] || 0) / 100); const idx = []; for (let t = 0; t <= H; t++) idx[t] = series.reduce((a, s2, k) => a + ws[k] * s2.m.idx[t], 0);
-      const vals = idx.map(v => v - 1); const sig = S.cart.volHist != null ? S.cart.volHist : series.reduce((a, s2, k) => a + ws[k] * s2.m.sigma, 0) * 0.85; const fx2 = sig > 0.002 ? faixa(idx, sig, z) : null;
-      const td0 = el('td', 'swapcell'); const n = el('span', 'n'); const i = el('i'); const sp = el('span', null, 'Carteira'); n.append(i, sp); td0.append(n); const sm = el('small', 'hint', 'pesos acima · ' + (S.cart.modo === 'rebal' ? 'pesos constantes' : 'sem rebalanceamento')); td0.append(sm); trc.append(td0);
-      marcos.forEach((t, k2) => trc.append(celula(pctSign(vals[t]), vals[t], Math.max(maxCol[k2], Math.abs(vals[t] || 0)), 'var(--gold)', t === H ? 'hl' : '')));
-      trc.append(faixaTd(fx2 ? fx2.lo[H] : vals[H]), faixaTd(fx2 ? fx2.hi[H] : vals[H]));
-      vsCols.forEach(c => { const d = vals[H] - c.vals[H]; const tdv = el('td', 'num'); tdv.append(el('span', 'badge ' + (d < 0 ? 'neg' : 'pos'), c.nome + ' ' + (d < 0 ? '−' : '+') + fmtNum(Math.abs(d) * 100, 1) + ' p.p.')); trc.append(tdv); });
-      { const td = celula(S.cart.volHist != null ? pct(S.cart.volHist) : null, S.cart.volHist, maxVol, 'var(--neg)', 'ctr'); td.title = 'Volatilidade histórica da carteira ' + periodoLabel(); trc.append(td); }
-      { const td = celula(S.cart.sharpeHist != null ? fmtNum(S.cart.sharpeHist, 2) : null, S.cart.sharpeHist, maxSh, 'var(--accent)', 'ctr'); td.title = 'Sharpe histórico da carteira'; trc.append(td); }
-      trc.append(el('td', 'num', '–'));
+      const c = desenharProj(); trc.innerHTML = ''; const vals = c.vals;
+      const td0 = el('td', 'swapcell'); const n = el('span', 'n'); const i = el('i'); const sp = el('span', null, 'Carteira'); n.append(i, sp); td0.append(n); const sm2 = el('small', 'hint', 'pesos da tabela acima · faixa de ' + sm.conf + '% com vol. de ' + pct(c.sig)); td0.append(sm2); td0.addEventListener('pointerenter', () => focarCarteira('__cart')); td0.addEventListener('pointerleave', () => focarCarteira(null)); trc.append(td0);
+      marcos.forEach((t, k2) => trc.append(celula(pctSign(vals[t]), vals[t], Math.max(maxCol[k2], Math.abs(vals[t] || 0)), COR_CART, t === H ? 'hl' : '')));
+      trc.append(faixaTd(c.lo), faixaTd(c.hi));
+      vsCols.forEach(cc => { const d = vals[H] - cc.vals[H]; const tdv = el('td', 'num'); tdv.append(el('span', 'badge ' + (d < 0 ? 'neg' : 'pos'), cc.nome + ' ' + (d < 0 ? '−' : '+') + fmtNum(Math.abs(d) * 100, 1) + ' p.p.')); trc.append(tdv); });
     };
     S.sim.cartRow = desenharCart; desenharCart();
-  } else S.sim.cartRow = null;
-  if (S.sel.length < MAX) { const tr = el('tr', 'addrow'); const td = el('td'); td.colSpan = marcos.length + 6 + vsCols.length; td.append(trocaAtivo(null)); tr.append(td); tbody.append(tr); }
+  } else { S.sim.cartRow = null; desenharProj(); }
+  if (S.sel.length < MAX) { const tr = el('tr', 'addrow'); const td = el('td'); td.colSpan = marcos.length + 3 + vsCols.length; td.append(trocaAtivo(null)); tr.append(td); tbody.append(tr); }
   tb.append(tbody);
-  // histórico da carteira e relatório, no mesmo bloco; a linha "Carteira" usa a volatilidade histórica calculada ali
-  renderCarteira(); if (S.sim.cartRow) S.sim.cartRow();
   // letras miúdas: por ativo e gerais
   const pa = $('persp-ativos'); pa.innerHTML = ''; pa.append(el('div', null, 'Por que cada ativo foi para esse patamar:'));
   const ula = el('ul'); series.forEach(s => { const li = el('li'); const b = el('b', null, s.nome + ': '); b.style.color = s.cor; li.append(b, document.createTextNode(s.m.texto)); ula.append(li); }); pa.append(ula);
@@ -3367,7 +3520,7 @@ async function renderPersp() {
     d ? 'Juro real: referência ' + d.nome + ', hoje IPCA + ' + fmtNum(d.taxa, 2) + '%; ' + cenTxt('real') + '.' + (simRow('real').cen === 'derivado' ? ' Segue a hipótese das expectativas: o juro real longo é a média dos juros reais curtos esperados (CDI contra IPCA da tabela) mais um prêmio a termo, mantido no nível de hoje. Para colocar a sua própria visão, use "Adicionar juro real" nas opções avançadas.' : '') + (hr ? ' O juro real de 10 anos (NTN-B) ficou entre ' + fmtNum(hr.min, 2) + '% e ' + fmtNum(hr.max, 2) + '% nos últimos ' + anos15 + ' anos (desde ' + dBR(hr.desde) + '), com mediana de ' + fmtNum(hr.mediana, 2) + '%.' : '') + ' A taxa da NTN-B é o juro real longo, que já embute os cortes esperados; por isso não é igual à conta CDI contra IPCA, que é o juro real de curto prazo.' : 'Sem título do Tesouro IPCA+ na base para servir de referência ao juro real.',
     emUso.length ? 'Benchmarks de risco: ' + emUso.map(k => SIM_NOMES[k] + ' (' + cenTxt(k) + (k === 'dolar' && simRow(k).cen === 'focus' && fz && fz.cambio ? ': câmbio de fim de ano ' + Object.entries(fz.cambio).map(([a, v]) => a + ' R$ ' + fmtNum(v, 2)).join(', ') + (sm.dolar0 ? ', hoje R$ ' + fmtNum(sm.dolar0, 2) : '') : '') + ')').join('; ') + '. Edite os patamares para colocar a sua visão.' : null,
     'Títulos do Tesouro: carrego da taxa contratada mais o efeito de preço da mudança de taxa (duration que encurta até o vencimento; no vencimento a marcação some). Fundos com benchmark IMA-B: NTN-B sintética de duration ' + fmtNum(sm.dImab, 1) + ' anos, escalada pelo beta do fundo. Fundos de risco: beta contra o seu benchmark ' + (S.periodo === 'max' || S.periodo === 'custom' ? 'no ' : 'nos ') + periodoLabel() + ' mais metade do alfa histórico (o alfa tende a diminuir com o tempo). Pós-fixados replicam o percentual do CDI entregue; atrelados à inflação seguem o IPCA mais metade do excesso histórico.',
-    'A faixa mostra o intervalo de ' + sm.conf + '% de um modelo lognormal com a volatilidade histórica de cada ativo. Nada aqui considera imposto de renda, come-cotas, custódia ou spreads. Projeções não são previsões nem recomendação.',
+    'A faixa mostra o intervalo de ' + sm.conf + '% de um modelo lognormal com a volatilidade histórica da carteira nos pesos atuais, medida ' + (S.periodo === 'max' || S.periodo === 'custom' ? 'no ' : 'nos ') + periodoLabel() + ' (com um ativo só, a volatilidade do próprio ativo). Mais peso em ativos voláteis alarga a faixa; a correlação entre eles a estreita. Nada aqui considera imposto de renda, come-cotas, custódia ou spreads. Projeções não são previsões nem recomendação.',
   ].filter(Boolean).forEach(t => ul.append(el('li', null, t)));
   pt.append(ul);
 }
@@ -3575,7 +3728,7 @@ function renderLista() {
   if (faltam.length) Promise.all(faltam.map(b => carregarBench(b).catch(() => null))).then(() => { if (P.el && P.el.classList.contains('on') && P.lista === lista) renderLista(); });
   const mx = {}; PICK_W.forEach(W => { mx[W] = Math.max(0, ...vis.map(i => Math.abs((i.r ? i.r[W] : (W === 12 ? i.ret : null)) || 0))); });
   const esc = {}; PICK_W.forEach(W => { const ds = vis.map(i => { const v = i.r ? i.r[W] : (W === 12 ? i.ret : null); const sl = seloBm(i.bm, v, W); return sl ? Math.abs(sl.v) : 0; }); esc[W] = Math.max(0.02, ...ds); });
-  const mxV = Math.max(0, ...vis.map(i => i.vol || 0)), mxS = Math.max(0, ...vis.map(i => Math.abs(i.sharpe || 0)));
+  const mxV = Math.max(0, ...vis.map(i => i.vol || 0)), mxS = Math.min(2, Math.max(0, ...vis.map(i => Math.abs(i.sharpe || 0))));
   if (temBarras) { const hd = el('div', 'pitem head'); hd.append(el('span', null, 'Ativo')); PICK_W.forEach(W => hd.append(el('span', 'w' + W, W + 'm'))); const hv = el('span', null, 'Vol'); hv.title = 'Volatilidade anualizada em 12 meses'; hd.append(hv, el('span', null, 'Sharpe')); lista.append(hd); }
   vis.forEach(it => {
     const jaTem = S.sel.some(x => x.key === it.key); const ehAtual = P.atual && P.atual.key === it.key;
@@ -3626,7 +3779,7 @@ function editorPremio(sel) {
   const rs = el('button', 'reset'); rs.type = 'button'; rs.title = 'Voltar ao histórico'; rs.setAttribute('aria-label', 'Voltar ao prêmio histórico'); rs.append(icon('i-hold', 10)); rs.addEventListener('click', () => { delete sm.premios[sel.key]; renderPersp(); }); rs.classList.toggle('hidden', sm.premios[sel.key] == null);
   box.append(lb, inp, el('span', null, ' p.p.'), rs); return box;
 }
-function atualizarCarteiraSim() { if (S.sim.cartRow) S.sim.cartRow(); }
+function atualizarCarteiraSim() { if (S.persp && S.sim.cartRow) S.sim.cartRow(); }
 function trocaAtivo(atual) {
   const box = el('div', 'swap'); const b = el('button', 'swapbtn' + (atual ? '' : ' add')); b.type = 'button';
   b.append(icon(atual ? 'i-swap' : 'i-plus', 12), el('span', null, atual ? 'Trocar' : 'Adicionar ativo'));
