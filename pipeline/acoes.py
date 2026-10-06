@@ -1,7 +1,7 @@
 """Ações, BDRs e fundos imobiliários negociados na B3, só com fontes oficiais e abertas.
 
 Universo e preços: os arquivos anuais de cotações históricas da B3 (COTAHIST), mercado à vista: ações em lote padrão
-(CODBDI 02: ON, PN, UNT), BDRs (CODBDI 34/35/36: DRN, DR1, DR2, DR3, DRE) e cotas de fundos imobiliários (CODBDI 12). Entram os papéis com negócios em
+(CODBDI 02: ON, PN, UNT), BDRs (espécies DRN, DR1, DR2, DR3, DRE; CODBDI 34/35/36 desde out/2022, 02 antes) e cotas de fundos imobiliários (CODBDI 12). Entram os papéis com negócios em
 pelo menos LIQ_MIN dos pregões dos últimos 12 meses; os ilíquidos ficam com preço parado por semanas e distorcem a comparação.
 
 Duas séries por papel, alinhadas ao calendário:
@@ -39,7 +39,7 @@ PREGOES_12M = 252
 PAUSA_B3 = 0.2          # segundos entre chamadas à API da B3
 ESPECIES_ACAO = ("ON", "PN", "PNA", "PNB", "PNC", "PND", "PNE", "PNF", "UNT")
 ESPECIES_BDR = ("DRN", "DR1", "DR2", "DR3", "DRE")
-CODBDI_BDR = ("34", "35", "36")   # no COTAHIST os BDRs não vêm em lote padrão (02): 34 não patrocinado, 35 patrocinado, 36 ETF
+CODBDI_BDR = ("34", "35", "36")   # no COTAHIST os BDRs vêm nestes códigos desde outubro de 2022 (antes, em lote padrão 02): 34 não patrocinado, 35 patrocinado, 36 ETF
 CASH_PAGINA = 100       # proventos em dinheiro por página na API da B3 (acima de ~120 a API devolve vazio)
 EVENTOS_VERSAO = 2      # formato do cache de eventos; muda quando a leitura da API muda (invalida caches antigos)
 RAZOES_SPLIT = (2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30, 40, 50, 100)
@@ -93,8 +93,8 @@ def _ler_cotahist(raw: bytes, por_ticker: dict, pregoes: set, apenas: set | None
                 esp = especi[0] if especi else ""
                 if codbdi == "02" and esp in ESPECIES_ACAO:
                     tipo = "acao"
-                elif codbdi in CODBDI_BDR and esp in ESPECIES_BDR:
-                    tipo = "bdr"   # 34 = BDR não patrocinado, 35 = patrocinado (DR1/DR2/DR3), 36 = BDR de ETF
+                elif esp in ESPECIES_BDR and (codbdi in CODBDI_BDR or codbdi == "02"):
+                    tipo = "bdr"   # desde out/2022: 34 = BDR não patrocinado, 35 = patrocinado (DR1/DR2/DR3), 36 = BDR de ETF; antes vinham em lote padrão (02)
                 elif codbdi == "12" and esp.startswith("CI"):
                     tipo = "fii"   # cotas de fundos imobiliários (e fiagros) em lote padrão
                 else:
