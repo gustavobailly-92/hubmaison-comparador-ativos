@@ -40,7 +40,7 @@ CVM_CAD = "https://dados.cvm.gov.br/dados/FI/CAD/DADOS/cad_fi.csv"
 CVM_REG = "https://dados.cvm.gov.br/dados/FI/CAD/DADOS/registro_fundo_classe.zip"
 BCB_CDI = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados"
 
-JANELAS = (12, 24, 36, 48)          # meses
+JANELAS = (12, 24, 36, 60, 120)     # meses (1, 2, 3, 5 e 10 anos)
 MIN_COTISTAS = 10                   # fundos com menos cotistas ficam fora da busca
 # fundos de previdência (FIEs dos planos PGBL/VGBL) têm a seguradora como único cotista: ficam fora da regra acima
 RE_PREVIDENCIA = re.compile(r"PREV|\bFIE\b|VGBL|PGBL|APOSENTADORIA", re.I)
@@ -534,6 +534,27 @@ def ler_informe(raw: bytes, cnpjs_ok: set[str]) -> pd.DataFrame | None:
     return pd.concat(frames, ignore_index=True)
 
 
+ANO_ULTIMO_HIST = 2020  # até 2020 a CVM publica um ZIP por ano (pasta HIST); de 2021 em diante, um por mês
+
+
+def _mes_do_zip_anual(ano: int, ym: str, cache: str) -> bytes | None:
+    """Extrai o CSV de um mês do ZIP anual da CVM (baixado uma vez e guardado no cache) e devolve um ZIP só com ele."""
+    fname = f"inf_diario_fi_{ano}.zip"
+    p = os.path.join(cache, fname)
+    if not (os.path.exists(p) and os.path.getsize(p) > 1_000_000):
+        raw = http_get(CVM_INF + "HIST/" + fname, tentativas=3, timeout=600)
+        open(p, "wb").write(raw)
+    with zipfile.ZipFile(p) as z:
+        nome = next((n for n in z.namelist() if n.lower().endswith(f"inf_diario_fi_{ym}.csv")), None)
+        if not nome:
+            return None
+        dados = z.read(nome)
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zout:
+        zout.writestr(f"inf_diario_fi_{ym}.csv", dados)
+    return buf.getvalue()
+
+
 def baixar_informes(meses: list[str], offline: str | None, cache: str, cnpjs_ok: set[str]):
     quotas, pls, cots = [], [], []
     recentes = set(meses[-12:])  # os últimos 12 meses são sempre baixados de novo (a CVM retifica M-2 a M-11)
@@ -545,6 +566,11 @@ def baixar_informes(meses: list[str], offline: str | None, cache: str, cnpjs_ok:
                 log(f"  {fname}: não existe no modo offline, pulando")
                 continue
             raw = open(p, "rb").read()
+        elif int(ym[:4]) <= ANO_ULTIMO_HIST:
+            raw = _mes_do_zip_anual(int(ym[:4]), ym, cache)
+            if raw is None:
+                log(f"  {fname}: mês ausente no ZIP anual da CVM, pulando")
+                continue
         else:
             p = os.path.join(cache, fname)
             if os.path.exists(p) and ym not in recentes:
@@ -689,7 +715,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default="dist/data")
     ap.add_argument("--cache", default="cache")
-    ap.add_argument("--meses", type=int, default=51, help="meses de informe diário (48 + folga)")
+    ap.add_argument("--meses", type=int, default=123, help="meses de informe diário (120 + folga): 10 anos de histórico")
     ap.add_argument("--offline", default=None, help="pasta com arquivos locais em vez de baixar")
     ap.add_argument("--min-cotistas", type=int, default=MIN_COTISTAS)
     ap.add_argument("--hoje", default=None, help="AAAA-MM-DD (testes)")
@@ -938,7 +964,7 @@ def main() -> int:
         return d
 
     bench_meta, tesouro_meta, hist_meta = [], [], []
-    acoes_rows, acoes_info, n_bdr = [], {}, 0
+    acoes_rows, acoes_info, n_bdr, n_fii = [], {}, 0, 0
     if not args.sem_extras:
         log("4b/5 benchmarks")
         try:
@@ -1047,28 +1073,34 @@ def main() -> int:
         except Exception as e:  # noqa: BLE001
             avisos.append(f"ações e BDRs falharam: {e}")
             papeis = []
-        n_bdr = 0
+        n_bdr = n_fii = 0
         for p in papeis:
-            extra = {k: v for k, v in p.items() if k not in ("q", "sessoes", "possiveis")}
+            extra = {k: v for k, v in p.items() if k not in ("q", "qp", "sessoes", "possiveis")}
             d = doc_serie(p["q"], extra)
             if not d:
                 continue
             jb = (bench_docs.get(p["bm"]) or {}).get("janelas")
             d["premio"], d["premio_w"] = ac.premio_sobre(d["janelas"], jb)
+            # série só de preço (sem reinvestir os proventos), alinhada do mesmo ponto que a ajustada
+            if p.get("qp") is not None:
+                d["qp"] = [None if np.isnan(v) else float(f"{v:.7g}") for v in p["qp"][d["d0"]:]]
             with open(os.path.join(args.out, "acoes", f"{p['ticker']}.json"), "w", encoding="utf-8") as fh:
                 json.dump(d, fh, ensure_ascii=False, separators=(",", ":"))
             j12 = d["janelas"].get("12") or {}
             j24 = d["janelas"].get("24") or {}
             j36 = d["janelas"].get("36") or {}
             acoes_rows.append([p["ticker"], p["nome"], p["tipo"], p["especi"], j12.get("ret"), j12.get("pcdi"), j12.get("sharpe"), j12.get("vol"),
-                               j24.get("ret"), j36.get("ret"), d["premio"], d["premio_w"], p["bm"], round(p["liq"]), round(p["preco"], 2), d["ate"]])
+                               j24.get("ret"), j36.get("ret"), d["premio"], d["premio_w"], p["bm"], round(p["liq"]), round(p["preco"], 2), d["ate"],
+                               p.get("ajuste")])
             if p["tipo"] == "bdr":
                 n_bdr += 1
+            elif p["tipo"] == "fii":
+                n_fii += 1
         with open(os.path.join(args.out, "acoes.json"), "w", encoding="utf-8") as fh:
             json.dump({"colunas": ["ticker", "nome", "tipo", "especi", "ret12", "pcdi12", "sharpe12", "vol12", "ret24", "ret36",
-                                   "premio", "premio_w", "bm", "liq", "preco", "ate"],
+                                   "premio", "premio_w", "bm", "liq", "preco", "ate", "ajuste"],
                        "acoes": acoes_rows, "info": acoes_info}, fh, ensure_ascii=False, separators=(",", ":"))
-        log(f"  {len(acoes_rows)} papéis publicados ({len(acoes_rows) - n_bdr} ações, {n_bdr} BDRs)")
+        log(f"  {len(acoes_rows)} papéis publicados ({len(acoes_rows) - n_bdr - n_fii} ações, {n_bdr} BDRs, {n_fii} FIIs)")
 
     log("5/5 índice e metadados")
     index_rows.sort(key=lambda x: -(x[4] or 0))
@@ -1091,7 +1123,7 @@ def main() -> int:
         "benchmarks": bench_meta,
         "tesouro": tesouro_meta,
         "historicos": hist_meta,
-        "acoes": {"n": len(acoes_rows), "bdrs": n_bdr, **{k: v for k, v in acoes_info.items() if k != "papeis_no_arquivo"}},
+        "acoes": {"n": len(acoes_rows), "bdrs": n_bdr, "fiis": n_fii, **{k: v for k, v in acoes_info.items() if k != "papeis_no_arquivo"}},
         "xp_tipos": [t for t, _ in fx.TIPO_XP],
         "janelas": list(JANELAS),
         "min_cotistas": args.min_cotistas,
@@ -1161,7 +1193,7 @@ def main() -> int:
     status = {
         "referencia": ref.isoformat(), "gerado": meta["gerado"], "fundos_publicados": n_ok,
         "fundos_na_matriz": len(cnpjs), "fundos_xp": n_xp, "benchmarks": [b["id"] for b in bench_meta],
-        "tesouro_titulos": len(tesouro_meta), "historicos": [h["simbolo"] for h in hist_meta], "acoes": len(acoes_rows), "bdrs": n_bdr, "descartados_parados": n_parado,
+        "tesouro_titulos": len(tesouro_meta), "historicos": [h["simbolo"] for h in hist_meta], "acoes": len(acoes_rows), "bdrs": n_bdr, "fiis": n_fii, "descartados_parados": n_parado,
         "descartados_poucos_cotistas": n_poucos, "descartados_historico_curto": n_hist,
         "dias_calendario": len(datas), "meses_processados": meses, "avisos": avisos,
         "duracao_s": round(time.time() - t_ini),
