@@ -17,6 +17,7 @@ Uso:
 from __future__ import annotations
 
 import argparse
+from bisect import bisect_left
 import io
 import json
 import math
@@ -41,6 +42,8 @@ CVM_REG = "https://dados.cvm.gov.br/dados/FI/CAD/DADOS/registro_fundo_classe.zip
 BCB_CDI = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados"
 
 JANELAS = (12, 24, 36, 60, 120)     # meses (1, 2, 3, 5 e 10 anos)
+ANOS_BENCH = 50                     # teto do histórico dos benchmarks (limitado abaixo pelo Plano Real)
+INICIO_BENCH = date(1994, 7, 1)     # antes do real a hiperinflação torna o acumulado nominal ilegível (10^13%)
 MIN_COTISTAS = 10                   # fundos com menos cotistas ficam fora da busca
 # fundos de previdência (FIEs dos planos PGBL/VGBL) têm a seguradora como único cotista: ficam fora da regra acima
 RE_PREVIDENCIA = re.compile(r"PREV|\bFIE\b|VGBL|PGBL|APOSENTADORIA", re.I)
@@ -787,13 +790,25 @@ def main() -> int:
     log(f"matriz: {Q.shape[0]:,} fundos x {Q.shape[1]:,} dias ({datas_str[0]} a {datas_str[-1]})")
 
     log("3/5 CDI")
-    cdi = carregar_cdi(datas[0] - timedelta(days=10), hoje, args.offline)
-    taxas = np.array([cdi.get(d.isoformat(), np.nan) for d in datas])
-    faltando = int(np.isnan(taxas).sum())
+    # calendário longo: os benchmarks levam até ANOS_BENCH anos (a partir do Plano Real); os dias úteis extras vêm do próprio CDI.
+    # Fundos, Tesouro e ações seguem no calendário curto (10 anos) e só o d0 publicado é deslocado.
+    inicio_bench = max(INICIO_BENCH, date(hoje.year - ANOS_BENCH, hoje.month, 1))
+    cdi = carregar_cdi(min(inicio_bench, datas[0] - timedelta(days=10)), hoje, args.offline)
+    corte0 = datas[0].isoformat()
+    pre_dias = sorted(date.fromisoformat(k) for k in cdi if k < corte0)
+    OFFSET = len(pre_dias)
+    datas_longas = pre_dias + datas
+    if OFFSET:
+        log(f"calendário longo: {len(datas_longas):,} dias úteis desde {datas_longas[0]} (benchmarks); fundos desde {datas[0]}")
+    taxas_longas = np.array([cdi.get(d.isoformat(), np.nan) for d in datas_longas])
+    faltando = int(np.isnan(taxas_longas[OFFSET:]).sum())
     if faltando:
         avisos.append(f"CDI sem valor em {faltando} dias do calendário (tratados como 0)")
-    taxas = np.nan_to_num(taxas, nan=0.0)
-    cdi_idx = np.cumprod(1 + taxas)
+    taxas_longas = np.nan_to_num(taxas_longas, nan=0.0)
+    cdi_idx_longo = np.cumprod(1 + taxas_longas)
+    # trecho dos fundos: as métricas usam razões entre pontos, então o nível absoluto herdado do trecho longo não muda nada
+    taxas = taxas_longas[OFFSET:]
+    cdi_idx = cdi_idx_longo[OFFSET:]
 
     # data de referência global: último dia em que pelo menos 60% dos fundos "ativos" informaram
     contagem = Q.notna().sum(axis=0).values
@@ -833,12 +848,24 @@ def main() -> int:
         else:
             semanas_i[-1] = i
 
+    fim_mes_i_l, meses_lbl_l = [], []
+    for i, d in enumerate(datas_longas):
+        lbl = d.strftime("%Y-%m")
+        if not meses_lbl_l or meses_lbl_l[-1] != lbl:
+            fim_mes_i_l.append(i)
+            meses_lbl_l.append(lbl)
+        else:
+            fim_mes_i_l[-1] = i
+    mes_fechado_l = [True] * (len(fim_mes_i_l) - 1) + [mes_fechado[-1] if mes_fechado else True]
+
     log("4/5 métricas por fundo")
     Qv = Q.values
     PLv = PL.values
     CTv = CT.values
     cnpjs = list(Q.index)
     index_rows = []
+    co_src: dict[str, np.ndarray] = {}   # retornos diários dos últimos 12 meses, por fundo, para a correlação com o Ibovespa
+    co_a12 = max(0, bisect_left(datas, date(ref.year - 1, ref.month, min(ref.day, 28))))
     n_ok = n_parado = n_poucos = n_hist = n_xp = 0
     for r, cnpj in enumerate(cnpjs):
         q = Qv[r].astype(float)
@@ -916,7 +943,7 @@ def main() -> int:
             "ate": datas[asof_i].isoformat(),
             "pl": None if np.isnan(pl_atual) else round(float(pl_atual)),
             "cotistas": None if np.isnan(cot_atual) else int(cot_atual),
-            "d0": first_i,
+            "d0": first_i + OFFSET,
             "q": qs,
             "w0": w_ini,
             "plw": pl_w,
@@ -938,6 +965,9 @@ def main() -> int:
             j24.get("ret"), j36.get("ret"), g_site, g_logo, bench_do_fundo(xp, info.get("classe", ""), nome),
             (xp or {}).get("liquidez_dias"), 1 if pf else 0, pg,
         ])
+        qq = q[co_a12:ref_i + 1]
+        with np.errstate(invalid="ignore", divide="ignore"):
+            co_src[cnpj] = qq[1:] / qq[:-1] - 1.0
         if xp:
             n_xp += 1
         n_ok += 1
@@ -945,21 +975,26 @@ def main() -> int:
             log(f"  {n_ok:,} fundos gravados")
 
     # ------------------------------------------------------------------ benchmarks, históricos e Tesouro Direto
-    def doc_serie(q: np.ndarray, extra: dict) -> dict | None:
+    def doc_serie(q: np.ndarray, extra: dict, longo: bool = False) -> dict | None:
+        """Monta o doc de uma série. Curta (fundos, Tesouro, ações): alinhada ao calendário dos fundos, com o d0
+        publicado já deslocado para o calendário longo. Longa (benchmarks): alinhada ao calendário longo."""
+        dts, ci, ri, fm, ml, mf, off = ((datas_longas, cdi_idx_longo, ref_i + OFFSET, fim_mes_i_l, meses_lbl_l, mes_fechado_l, 0)
+                                        if longo else (datas, cdi_idx, ref_i, fim_mes_i, meses_lbl, mes_fechado, OFFSET))
         validos = ~np.isnan(q)
         if validos.sum() < 30:
             return None
         idx_v = np.where(validos)[0]
-        ate_ref = idx_v[idx_v <= ref_i]
+        ate_ref = idx_v[idx_v <= ri]
         if len(ate_ref) == 0:
             return None
         asof_i = int(ate_ref[-1])
-        m = metricas_fundo(q, datas, cdi_idx, asof_i, fim_mes_i, meses_lbl, mes_fechado)
+        m = metricas_fundo(q, dts, ci, asof_i, fm, ml, mf)
         first_i = m["first_i"]
         d = dict(extra)
-        d.update({"ate": datas[asof_i].isoformat(), "d0": first_i,
+        d.update({"ate": dts[asof_i].isoformat(), "d0": first_i + off,
                   "q": [None if np.isnan(v) else float(f"{v:.7g}") for v in q[first_i:]],
-                  "janelas": m["janelas"], "extras": m["extras"], "mensal": m["mensal"]})
+                  "janelas": m["janelas"], "extras": m["extras"], "mensal": m["mensal"][-126:],
+                  "_first": first_i})
         return d
 
     bench_meta, tesouro_meta, hist_meta = [], [], []
@@ -967,7 +1002,7 @@ def main() -> int:
     if not args.sem_extras:
         log("4b/5 benchmarks")
         try:
-            bench, hist = fx.construir_benchmarks(datas, hoje, args.offline, avisos)
+            bench, hist = fx.construir_benchmarks(datas_longas, hoje, args.offline, avisos)
         except Exception as e:  # noqa: BLE001
             avisos.append(f"benchmarks falharam: {e}")
             bench, hist = [], {}
@@ -993,7 +1028,7 @@ def main() -> int:
             if cnpj_p not in Q.index:
                 avisos.append(f"benchmark {nome_b}: fundo {nome_f} ({cnpj_p}) não está na matriz")
                 continue
-            qp = ffill_1d(Q.loc[cnpj_p].to_numpy(dtype=float))
+            qp = np.concatenate([np.full(OFFSET, np.nan), ffill_1d(Q.loc[cnpj_p].to_numpy(dtype=float))])
             fator = (1.0 + taxa_p) ** (1.0 / 252.0)
             qg = np.full(len(qp), np.nan)
             base = None
@@ -1010,7 +1045,7 @@ def main() -> int:
             ofi = ima_hist.get(chave_anbima) or {}
             if len(ofi) >= 20:
                 # emenda: a partir do primeiro dia oficial disponível, segue o número da ANBIMA (escalado no dia da emenda)
-                d_str = [d.isoformat() for d in datas]
+                d_str = [d.isoformat() for d in datas_longas]
                 j0 = next((i for i, ds in enumerate(d_str) if ds in ofi and not np.isnan(qg[i])), None)
                 if j0 is not None:
                     escala = qg[j0] / ofi[d_str[j0]]
@@ -1025,10 +1060,11 @@ def main() -> int:
             log(f"  {nome_b}: proxy pelo fundo {nome_f}" + (" com emenda oficial" if len(ofi) >= 20 else ""))
         bench_docs = {}
         for b in bench:
-            d = doc_serie(b["q"], {k: v for k, v in b.items() if k != "q"})
+            d = doc_serie(b["q"], {k: v for k, v in b.items() if k != "q"}, longo=True)
             if not d:
                 avisos.append(f"benchmark {b['nome']} sem dados suficientes")
                 continue
+            d.pop("_first", None)
             bench_docs[b["id"]] = d
             with open(os.path.join(args.out, "bench", f"{b['id']}.json"), "w", encoding="utf-8") as fh:
                 json.dump(d, fh, ensure_ascii=False, separators=(",", ":"))
@@ -1042,6 +1078,32 @@ def main() -> int:
             hist_meta.append({"id": sid, "simbolo": sym, "nome": h["nome"], "desde": h["datas"][0], "ate": h["datas"][-1], "n": len(h["datas"])})
         log(f"  {len(bench_meta)} benchmarks, {len(hist_meta)} históricos")
 
+        # correlação com o Ibovespa (12 meses): retornos diários do índice na mesma janela dos fundos
+        ibov_ret12 = None
+        ib = bench_docs.get("ibov")
+        if ib:
+            qi = np.full(len(datas_longas), np.nan)
+            qi[ib["d0"]:ib["d0"] + len(ib["q"])] = [np.nan if v is None else v for v in ib["q"]]
+            qi = qi[OFFSET + co_a12:OFFSET + ref_i + 1]
+            with np.errstate(invalid="ignore", divide="ignore"):
+                ibov_ret12 = qi[1:] / qi[:-1] - 1.0
+
+        def co12_de(rets: np.ndarray | None):
+            if rets is None or ibov_ret12 is None or len(rets) != len(ibov_ret12):
+                return None
+            ok = ~np.isnan(rets) & ~np.isnan(ibov_ret12)
+            if ok.sum() < 60:
+                return None
+            a, b2 = rets[ok], ibov_ret12[ok]
+            sa, sb = a.std(), b2.std()
+            if sa < 1e-12 or sb < 1e-12:
+                return None
+            return round(float(np.corrcoef(a, b2)[0, 1]), 2)
+
+        for row in index_rows:
+            row.append(co12_de(co_src.get(row[0])))
+        co_src.clear()
+
         log("4c/5 Tesouro Direto")
         try:
             titulos = fx.carregar_tesouro(datas, hoje, args.offline, args.cache, avisos)
@@ -1053,6 +1115,10 @@ def main() -> int:
             d = doc_serie(t["q"], {k: v for k, v in t.items() if k != "q"})
             if not d:
                 continue
+            d.pop("_first", None)
+            qq = t["q"][co_a12:ref_i + 1]
+            with np.errstate(invalid="ignore", divide="ignore"):
+                t_co = co12_de(qq[1:] / qq[:-1] - 1.0)
             # série semanal da taxa
             d["taxaw"] = [None if np.isnan(txs[i]) else round(float(txs[i]), 4) for i in semanas_i]
             with open(os.path.join(args.out, "tesouro", f"{t['id']}.json"), "w", encoding="utf-8") as fh:
@@ -1061,7 +1127,7 @@ def main() -> int:
             tesouro_meta.append({"id": t["id"], "nome": t["nome"], "tipo": t["tipo"], "indexador": t["indexador"], "venc": t["venc"],
                                  "taxa": t["taxa"], "duration": None if t["duration"] is None else round(t["duration"], 2),
                                  "cupom": t["cupom"], "ret12": j12.get("ret"), "vol12": j12.get("vol"), "sharpe12": j12.get("sharpe"),
-                                 "ret24": (d["janelas"].get("24") or {}).get("ret"), "ret36": (d["janelas"].get("36") or {}).get("ret"), "ate": d["ate"]})
+                                 "ret24": (d["janelas"].get("24") or {}).get("ret"), "ret36": (d["janelas"].get("36") or {}).get("ret"), "ate": d["ate"], "co12": t_co})
         tesouro_meta.sort(key=lambda x: (x["tipo"], x["venc"]))
 
         log("4d/5 ações e BDRs")
@@ -1081,8 +1147,12 @@ def main() -> int:
             jb = (bench_docs.get(p["bm"]) or {}).get("janelas")
             d["premio"], d["premio_w"] = ac.premio_sobre(d["janelas"], jb)
             # série só de preço (sem reinvestir os proventos), alinhada do mesmo ponto que a ajustada
+            first_c = d.pop("_first", d["d0"])
             if p.get("qp") is not None:
-                d["qp"] = [None if np.isnan(v) else float(f"{v:.7g}") for v in p["qp"][d["d0"]:]]
+                d["qp"] = [None if np.isnan(v) else float(f"{v:.7g}") for v in p["qp"][first_c:]]
+            qq = p["q"][co_a12:ref_i + 1]
+            with np.errstate(invalid="ignore", divide="ignore"):
+                p_co = co12_de(qq[1:] / qq[:-1] - 1.0)
             with open(os.path.join(args.out, "acoes", f"{p['ticker']}.json"), "w", encoding="utf-8") as fh:
                 json.dump(d, fh, ensure_ascii=False, separators=(",", ":"))
             j12 = d["janelas"].get("12") or {}
@@ -1090,33 +1160,37 @@ def main() -> int:
             j36 = d["janelas"].get("36") or {}
             acoes_rows.append([p["ticker"], p["nome"], p["tipo"], p["especi"], j12.get("ret"), j12.get("pcdi"), j12.get("sharpe"), j12.get("vol"),
                                j24.get("ret"), j36.get("ret"), d["premio"], d["premio_w"], p["bm"], round(p["liq"]), round(p["preco"], 2), d["ate"],
-                               p.get("ajuste")])
+                               p.get("ajuste"), p_co])
             if p["tipo"] == "bdr":
                 n_bdr += 1
             elif p["tipo"] == "fii":
                 n_fii += 1
         with open(os.path.join(args.out, "acoes.json"), "w", encoding="utf-8") as fh:
             json.dump({"colunas": ["ticker", "nome", "tipo", "especi", "ret12", "pcdi12", "sharpe12", "vol12", "ret24", "ret36",
-                                   "premio", "premio_w", "bm", "liq", "preco", "ate", "ajuste"],
+                                   "premio", "premio_w", "bm", "liq", "preco", "ate", "ajuste", "co12"],
                        "acoes": acoes_rows, "info": acoes_info}, fh, ensure_ascii=False, separators=(",", ":"))
         log(f"  {len(acoes_rows)} papéis publicados ({len(acoes_rows) - n_bdr - n_fii} ações, {n_bdr} BDRs, {n_fii} FIIs)")
 
     log("5/5 índice e metadados")
+    if args.sem_extras:
+        for row in index_rows:
+            row.append(None)   # co12 depende do Ibovespa, que não roda com --sem-extras
     index_rows.sort(key=lambda x: -(x[4] or 0))
     with open(os.path.join(args.out, "index.json"), "w", encoding="utf-8") as fh:
         json.dump({"colunas": ["cnpj", "nome", "classe", "gestor", "pl", "cotistas", "ret12", "pcdi12", "sharpe12", "vol12",
                                "xp_tipo", "xp_classe", "xp_risco", "xp_top", "xp_estrelas", "ret24", "ret36", "gestor_site", "gestor_logo", "bm",
-                               "xp_liq", "pf", "pg"],
+                               "xp_liq", "pf", "pg", "co12"],
                    "fundos": index_rows}, fh, ensure_ascii=False, separators=(",", ":"))
     meta = {
         "referencia": ref.isoformat(),
         "gerado": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "calendario": [d.isoformat() for d in datas],
-        "semanas": semanas_i,
-        "fim_mes": fim_mes_i,
+        "calendario": [d.isoformat() for d in datas_longas],
+        "cal_fundos0": OFFSET,
+        "semanas": [i + OFFSET for i in semanas_i],
+        "fim_mes": [i + OFFSET for i in fim_mes_i],
         "meses": meses_lbl,
-        "cdi": [float(f"{v:.9g}") for v in cdi_idx],
-        "cdi_taxa": [float(f"{v:.6g}") for v in taxas],
+        "cdi": [float(f"{v:.9g}") for v in cdi_idx_longo],
+        "cdi_taxa": [float(f"{v:.6g}") for v in taxas_longas],
         "n_fundos": n_ok,
         "n_xp": n_xp,
         "benchmarks": bench_meta,

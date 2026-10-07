@@ -363,7 +363,8 @@ def rendimentos_fii(anos: list[int], hoje: date, cache: str, avisos: list[str]) 
 
 def _detectar_splits(serie: dict[str, float]) -> list[tuple[str, float]]:
     """Saltos de preço de razão inteira entre pregões consecutivos (desdobramento ou grupamento), para papéis sem evento
-    oficial (BDRs). Devolve [(último dia com o preço antigo, multiplicador de quantidade)]."""
+    oficial (BDRs mudam a razão com qualquer inteiro: o MSFT34 fez 24:1 em 2020). Aceita qualquer razão inteira de 2 a 200,
+    com tolerância de 4%. Devolve [(último dia com o preço antigo, multiplicador de quantidade)]."""
     dias = sorted(serie)
     out = []
     for a, b in zip(dias, dias[1:]):
@@ -371,13 +372,14 @@ def _detectar_splits(serie: dict[str, float]) -> list[tuple[str, float]]:
         if p0 <= 0 or p1 <= 0:
             continue
         r = p0 / p1
-        for n in RAZOES_SPLIT:
-            if abs(r / n - 1) < 0.04:
+        if r > 1.7:
+            n = round(r)
+            if 2 <= n <= 200 and abs(r / n - 1) < 0.04:
                 out.append((a, float(n)))
-                break
-            if abs(r * n - 1) < 0.04:
+        elif r < 1 / 1.7:
+            n = round(1 / r)
+            if 2 <= n <= 200 and abs(1 / (r * n) - 1) < 0.04:
                 out.append((a, 1.0 / n))
-                break
     return out
 
 
