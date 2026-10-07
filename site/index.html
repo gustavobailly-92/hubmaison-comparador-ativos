@@ -332,7 +332,7 @@ th.sortable[aria-sort="descending"] .arr{opacity:1}
 .tbl-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px}
 .tbl-head .hint{font-size:11.5px;color:var(--muted)}
 /* primeira coluna da tabela: anel de peso, nome, ×, controle de peso e a troca do ativo */
-.swapcell .wrow{display:grid;grid-template-columns:minmax(0,1fr) 90px;gap:4px 8px;align-items:center;padding:4px 0 0;border-bottom:0}
+.swapcell .wrow{display:grid;grid-template-columns:minmax(0,1fr) 78px;gap:4px 8px;align-items:center;padding:4px 0 0;border-bottom:0}
 .swapcell .wrow input[type=range]{height:18px}
 .swapcell .wrow .pct input{width:54px;padding:3px 4px;font-size:12px;text-align:center}
 .swapcell .n .ring{width:16px;height:16px;border-radius:50%;background:conic-gradient(var(--c) calc(var(--p) * 1%),rgba(255,255,255,.08) 0);display:grid;place-items:center;flex:none}
@@ -360,8 +360,18 @@ th.sortable[aria-sort="descending"] .arr{opacity:1}
 .valcell.warn .sub2 em{color:var(--neg);font-style:normal}
 .valcell.ok .sub2{color:#7DD6B6}
 .valcell .mini.fix{padding:1px 7px;font-size:10.5px;border-color:rgba(240,138,106,.6);color:var(--text)}
-.wrow .pct .lock{width:20px;height:20px;border:0;border-radius:50%;background:rgba(125,214,182,.18);color:#7DD6B6;display:grid;place-items:center;cursor:pointer;padding:0;margin-left:2px}
-.wrow .pct .lock.hidden{display:none}
+.wrow .pct .pctv{font-weight:600;font-variant-numeric:tabular-nums;font-size:12.5px;color:var(--text);min-width:44px;text-align:right}
+.wrow .pct .lock{width:22px;height:22px;border:1px solid var(--line-2);border-radius:50%;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;padding:0;margin-inline-start:4px;transition:background .15s,color .15s,border-color .15s}
+.wrow .pct .lock:hover{color:var(--text);border-color:var(--text-2)}
+.wrow .pct .lock[aria-pressed="true"]{background:rgba(125,214,182,.18);color:#7DD6B6;border-color:rgba(125,214,182,.5)}
+.wrow.travado input[type=range]{opacity:.75}
+.valcell .valin{width:108px;background:var(--panel);border:1px solid var(--line-2);border-radius:8px;color:var(--text);padding:5px 8px;font-size:12.5px;font-weight:600;text-align:center;font-variant-numeric:tabular-nums;font-family:var(--font)}
+.valcell .valin:focus{outline:none;border-color:var(--s1)}
+.valcell .valin:disabled{opacity:.45;cursor:not-allowed}
+.valcell.warn .valin{border-color:rgba(240,138,106,.7);color:var(--neg)}
+.valcell.ok .valin{border-color:rgba(125,214,182,.5)}
+#tb-cart td.liq{white-space:nowrap}
+.badge.taxa{font-variant-numeric:tabular-nums}
 .rel-wrap{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
 .rel-wrap .rel-box{margin-top:0;max-width:720px}
 .rel-info{font-size:12.5px;color:var(--muted);margin:6px 0 0;line-height:1.4}
@@ -2637,9 +2647,9 @@ function normalizarPesos(prontos) {
   if (resto !== 0 && prontos.length) { const maior = prontos.reduce((m, s) => S.cart.pesos[s.key] > S.cart.pesos[m.key] ? s : m, prontos[0]); S.cart.pesos[maior.key] = Math.round((S.cart.pesos[maior.key] + resto) * 10) / 10; }
 }
 // muda o peso de um ativo e redistribui o restante entre os outros não travados, na proporção que eles já tinham;
-// os travados (fixados no mínimo) ficam como estão. Mexer num ativo travado o destrava.
+// os travados (cadeado) ficam como estão; mexer num ativo travado muda só ele e os destravados.
 function definirPeso(key, v) {
-  const prontos = S.sel.filter(s => s.data); delete S.cart.trava[key];
+  const prontos = S.sel.filter(s => s.data);
   const travados = prontos.filter(s => s.key !== key && S.cart.trava[s.key]); const somaTrav = travados.reduce((a, s) => a + (S.cart.pesos[s.key] || 0), 0);
   v = Math.max(0, Math.min(Math.max(0, 100 - somaTrav), +v || 0));
   const outros = prontos.filter(s => s.key !== key && !S.cart.trava[s.key]); const somaOutros = outros.reduce((a, s) => a + (S.cart.pesos[s.key] || 0), 0);
@@ -2669,7 +2679,7 @@ function fixarMinimo(key) {
   definirPeso(key, v); S.cart.trava[key] = true;
   gravarURL(); renderCarteira(); atualizarCarteiraVisual(); if (typeof atualizarCarteiraSim === 'function') atualizarCarteiraSim();
 }
-function destravar(key) { delete S.cart.trava[key]; renderCarteira(); }
+function alternarTrava(key) { if (S.cart.trava[key]) delete S.cart.trava[key]; else S.cart.trava[key] = true; renderCarteira(); }
 const cartUI = { linhas: {}, cartRow: null, total: null };
 const reais = (v) => v == null || !isFinite(v) ? '–' : 'R$ ' + fix(new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 0 }).format(Math.round(v)));
 // controle de peso de um ativo, montado na primeira coluna da tabela "Ativos e pesos" (anel, controle deslizante, % e cadeado)
@@ -2677,14 +2687,12 @@ function linhaPeso(s, anel) {
   const r = el('div', 'wrow'); r.dataset.key = s.key; r.style.setProperty('--c', s.cor);
   const ring = anel || el('span', 'ring');
   const rg = document.createElement('input'); rg.type = 'range'; rg.min = 0; rg.max = 100; rg.step = 0.5; rg.setAttribute('aria-label', 'Peso de ' + s.data.nome + ' na carteira');
-  const pc = el('div', 'pct'); const num = document.createElement('input'); num.type = 'number'; num.min = 0; num.max = 100; num.step = 0.5; num.setAttribute('aria-label', 'Peso em % de ' + s.data.nome); pc.append(num, el('span', null, '%'));
-  const lock = el('button', 'lock hidden'); lock.type = 'button'; lock.title = 'Travado no mínimo do ativo; clique para destravar'; lock.setAttribute('aria-label', 'Destravar o peso de ' + s.data.nome); lock.append(icon('i-lock', 11)); lock.addEventListener('click', () => destravar(s.key)); pc.append(lock);
-  let arrastando = false;
-  const aplicar = (v, final) => { definirPeso(s.key, v); if (final) { arrastando = false; gravarURL(); } else arrastando = true; renderCarteira(); atualizarCarteiraVisual(); if (typeof atualizarCarteiraSim === 'function') atualizarCarteiraSim(); };
+  const pc = el('div', 'pct'); const num = el('b', 'pctv', '0%');
+  const lock = el('button', 'lock'); lock.type = 'button'; lock.setAttribute('aria-pressed', 'false'); lock.append(icon('i-lock', 11)); lock.addEventListener('click', () => alternarTrava(s.key)); pc.append(num, lock);
+  const aplicar = (v, final) => { definirPeso(s.key, v); if (final) gravarURL(); renderCarteira(); atualizarCarteiraVisual(); if (typeof atualizarCarteiraSim === 'function') atualizarCarteiraSim(); };
   rg.addEventListener('input', () => aplicar(rg.value, false)); rg.addEventListener('change', () => aplicar(rg.value, true));
-  num.addEventListener('change', () => aplicar(num.value, true));
   r.append(rg, pc);
-  cartUI.linhas[s.key] = { r, ring, rg, num, lock };
+  cartUI.linhas[s.key] = { r, ring, rg, num, lock, aplicar };
   return { r, ring };
 }
 function atualizarLinhas(itens) {
@@ -2693,8 +2701,8 @@ function atualizarLinhas(itens) {
     const u = cartUI.linhas[s.key]; if (!u) return;
     u.ring.style.setProperty('--p', w.toFixed(1)); u.ring.title = fmtNum(w, 1) + '% da carteira';
     if (u.rg !== ativo) u.rg.value = Math.round(w * 2) / 2;
-    if (u.num !== ativo) u.num.value = Math.round(w * 10) / 10;
-    u.lock.classList.toggle('hidden', !S.cart.trava[s.key]);
+    u.num.textContent = fmtNum(w, 1) + '%';
+    const travado = !!S.cart.trava[s.key]; u.lock.setAttribute('aria-pressed', travado ? 'true' : 'false'); u.lock.title = travado ? 'Travado: mexer nos outros ativos não altera este. Clique para destravar.' : 'Travar o peso e o valor deste ativo'; u.lock.setAttribute('aria-label', (travado ? 'Destravar ' : 'Travar ') + s.data.nome); u.r.classList.toggle('travado', travado);
     if (u.valor) u.valor(w);
   });
 }
@@ -2732,29 +2740,40 @@ function renderCarteira() {
 }
 // valor em reais de um ativo pelo peso e pelo valor total; avisa quando fica abaixo da aplicação mínima
 function celulaValor(s) {
-  const td = el('td', 'valcell'); const b = el('b'); const sub = el('span', 'sub2'); td.append(b, sub);
+  const td = el('td', 'valcell'); const inp = document.createElement('input'); inp.type = 'text'; inp.inputMode = 'decimal'; inp.className = 'valin'; inp.setAttribute('aria-label', 'Valor em reais de ' + s.data.nome); inp.placeholder = 'R$'; const sub = el('span', 'sub2'); td.append(inp, sub);
   const min = minimoDe(s);
+  // digitar o valor muda o peso (valor ÷ total); sem valor total o campo fica desligado
+  const aplicarValor = () => { const total = typeof lerTotal === 'function' ? lerTotal() : null; if (!total) return; const v = parseFloat(String(inp.value).replace(/[R$\s.]/g, '').replace(',', '.')); if (!isFinite(v) || v < 0) { atualizar(S.cart.pesos[s.key] || 0); return; } const u = cartUI.linhas[s.key]; if (u) u.aplicar(Math.min(100, v / total * 100), true); };
+  inp.addEventListener('change', aplicarValor); inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); inp.blur(); } });
   const atualizar = (w) => {
     const total = typeof lerTotal === 'function' ? lerTotal() : null; const v = total ? total * w / 100 : null;
-    b.textContent = v != null ? reais(v) : '–'; sub.innerHTML = '';
+    if (document.activeElement !== inp) inp.value = v != null ? reais(v) : ''; inp.disabled = !total; sub.innerHTML = '';
     td.classList.remove('warn', 'ok');
     if (!total) { sub.textContent = min ? 'mín. ' + reais(min) : 'informe o valor total'; return; }
     if (min && v + 0.005 < min) {
       td.classList.add('warn');
       const t = el('em', null, 'abaixo do mínimo de ' + reais(min)); const bt = el('button', 'mini fix', 'Fixar no mínimo'); bt.type = 'button'; bt.title = 'Trava o peso no menor valor que respeita a aplicação mínima'; bt.addEventListener('click', () => fixarMinimo(s.key));
       sub.append(t, bt);
-    } else if (min) { sub.textContent = (S.cart.trava[s.key] ? 'travado no mínimo de ' : 'mín. ') + reais(min); if (S.cart.trava[s.key]) td.classList.add('ok'); }
+    } else if (min) { sub.textContent = 'mín. ' + reais(min); if (S.cart.trava[s.key]) td.classList.add('ok'); }
   };
   if (cartUI.linhas[s.key]) cartUI.linhas[s.key].valor = atualizar;
   atualizar(S.cart.pesos[s.key] || 0);
   return td;
+}
+// prazo de resgate do ativo (mesma regra do relatório, respeitando o que foi editado em "Prazos de resgate")
+function resgateDe(s) { const ed = S.rel && S.rel.liq ? S.rel.liq[s.key] : null; const d = ed != null ? ed : (typeof liqPadrao === 'function' ? liqPadrao(s) : null); return d == null ? null : d; }
+// taxa contratada da renda fixa e do Tesouro: prefixado em % a.a., inflação como IPCA + x%, Selic + x%, % do CDI
+function taxaDe(s) {
+  if (s.kind === 'rf') { const f = s.data; return f.tipo === 'pre' ? fmtNum(f.taxa, 2) + '% a.a.' : f.tipo === 'ipca' ? 'IPCA + ' + fmtNum(f.taxa, 2) + '% a.a.' : fmtNum(f.taxa, f.taxa % 1 ? 1 : 0) + '% do CDI'; }
+  if (s.kind === 'tesouro') { const f = s.data; return f.indexador === 'PRE' ? fmtNum(f.taxa, 2) + '% a.a.' : f.indexador === 'SELIC' ? 'Selic + ' + fmtNum(f.taxa, 2) + '%' : 'IPCA + ' + fmtNum(f.taxa, 2) + '% a.a.'; }
+  return null;
 }
 // tabela "Ativos e pesos", logo abaixo do gráfico principal: peso, valor, rentabilidade no período, benchmark, vol, Sharpe e correlação com o Ibovespa
 function montarTabelaCarteira(mp, J) {
   const tb = $('tb-cart'); tb.innerHTML = ''; cartUI.linhas = {}; cartUI.cartRow = null;
   const temPesos = mp.length >= 2;
   const ibovDoc = benchDoc('ibov'); cartUI.temIbov = !!ibovDoc;
-  const th = el('tr'); th.append(el('th', null, 'Ativo e peso'), el('th', null, 'Valor'), el('th', null, periodoCurto()), el('th', null, 'vs benchmark'));
+  const th = el('tr'); th.append(el('th', null, 'Ativo e peso'), el('th', null, 'Valor'), el('th', null, 'Resgate'), el('th', null, periodoCurto()), el('th', null, 'Taxa / benchmark'));
   { const tv = el('th', 'ctr', 'Vol'); tv.title = 'Volatilidade anualizada no período'; const ts = el('th', 'ctr', 'Sharpe'); ts.title = 'Retorno acima do CDI por unidade de risco'; const tc = el('th', 'ctr', 'Co Ibov'); tc.title = 'Correlação dos retornos diários com o Ibovespa'; th.append(tv, ts, tc); }
   { const h = el('thead'); h.append(th); tb.append(h); }
   const tbody = el('tbody');
@@ -2762,7 +2781,8 @@ function montarTabelaCarteira(mp, J) {
   const maxVol = Math.max(0, ...mp.map(({ m }) => m && m.vol != null ? m.vol : 0)), maxSh = Math.min(2, Math.max(0, ...mp.map(({ m }) => m && m.sharpe != null ? Math.abs(m.sharpe) : 0)));
   const barra = (v, max, cor) => { const w = el('div', 'mb'); const i = el('i', cor === 'vol' || cor === 'sh' ? cor : ''); i.style.width = (v == null || !(max > 0) ? 0 : Math.min(100, Math.abs(v) / max * 100)).toFixed(1) + '%'; if (v != null && v < 0) i.classList.add('neg'); if (cor && cor !== 'vol' && cor !== 'sh') i.style.setProperty('--bc', cor); w.append(i); return w; };
   const celula = (txt, v, max, cor, cls) => { const td = el('td', 'vc' + (cls ? ' ' + cls : '')); td.append(el('b', null, txt == null ? '–' : txt)); td.append(barra(v, max, cor)); return td; };
-  const vsCell = (s, m, cor) => { const td = el('td', 'num'); if (!m) { td.textContent = '–'; return td; } if (semComp(s)) { td.append(el('span', 'badge neu', idxTxt(s))); return td; } const c = compBm(s, m.ret, { ini: Math.max(J.ini, s.data.firstIdx), fim: Math.min(J.fim, s.data.ateIdx) }); const bd = el('span', 'badge ' + (c ? (c.pos ? 'pos' : 'neg') : 'neu'), c ? c.t : (bmDeSel(s) === 'cdi' && m.ret <= 0 ? 'abaixo do CDI' : 'n/d')); if (c) bd.title = c.lbl + ' no período: ' + pctSign(c.bret); td.append(bd); return td; };
+  const liqCell = (s) => { const td = el('td', 'num liq'); const d = resgateDe(s); if (d == null) { td.textContent = 'n/d'; return td; } const b = el('span', 'badge neu', 'D+' + d); b.title = d === 0 ? 'Liquidez diária' : (s.kind === 'rf' && s.data.venc ? 'Dias úteis até o vencimento (' + dBR(s.data.venc) + ')' : s.kind === 'acao' ? 'Liquidação na B3' : 'Prazo de resgate (cotização mais liquidação)'); td.append(b); return td; };
+  const vsCell = (s, m, cor) => { const td = el('td', 'num'); const taxa = taxaDe(s); if (taxa) { const b = el('span', 'badge neu taxa', taxa); b.title = s.kind === 'tesouro' ? 'Taxa do título' : 'Taxa contratada'; td.append(b); return td; } if (!m) { td.textContent = '–'; return td; } if (semComp(s)) { td.append(el('span', 'badge neu', idxTxt(s))); return td; } const c = compBm(s, m.ret, { ini: Math.max(J.ini, s.data.firstIdx), fim: Math.min(J.fim, s.data.ateIdx) }); const bd = el('span', 'badge ' + (c ? (c.pos ? 'pos' : 'neg') : 'neu'), c ? c.t : (bmDeSel(s) === 'cdi' && m.ret <= 0 ? 'abaixo do CDI' : 'n/d')); if (c) bd.title = c.lbl + ' no período: ' + pctSign(c.bret); td.append(bd); return td; };
   mp.forEach(({ s, m }) => {
     const tr = el('tr'); const td0 = el('td', 'swapcell'); td0.dataset.key = s.key; td0.style.setProperty('--c', s.cor); const n = el('span', 'n');
     const sp = el('span', null, s.data.nome); sp.title = s.data.nomeLongo || s.data.nome;
@@ -2770,7 +2790,7 @@ function montarTabelaCarteira(mp, J) {
     const x = el('button', 'xrm'); x.type = 'button'; x.title = 'Remover da comparação'; x.setAttribute('aria-label', 'Remover ' + s.data.nome); x.append(icon('i-x', 10)); x.addEventListener('click', () => remover(s.key)); n.append(x);
     td0.append(n, lp.r); if (typeof trocaAtivo === 'function') td0.append(trocaAtivo(s));
     td0.addEventListener('pointerenter', () => focarCarteira(s.key)); td0.addEventListener('pointerleave', () => focarCarteira(null));
-    tr.append(td0, celulaValor(s));
+    tr.append(td0, celulaValor(s), liqCell(s));
     tr.append(celula(m ? pctSign(m.ret, decDe(s)) : null, m ? m.ret : null, maxRet, s.cor, 'hl'));
     tr.append(vsCell(s, m, s.cor));
     const vol = m && m.vol != null && m.vol >= 0.004 ? m.vol : null, sh = m && m.sharpe != null && !(m.vol != null && m.vol < 0.004) ? m.sharpe : null;
@@ -2785,6 +2805,7 @@ function montarTabelaCarteira(mp, J) {
       trc.innerHTML = ''; const m = cart && cart.m; const total = typeof lerTotal === 'function' ? lerTotal() : null;
       const td0 = el('td', 'swapcell'); const n = el('span', 'n'); const i = el('i'); n.append(i, el('span', null, 'Carteira')); td0.append(n); td0.append(el('small', 'hint', mp.length + ' ativos · ' + (S.cart.modo === 'rebal' ? 'pesos constantes' : 'sem rebalanceamento'))); td0.addEventListener('pointerenter', () => focarCarteira('__cart')); td0.addEventListener('pointerleave', () => focarCarteira(null)); trc.append(td0);
       const tv = el('td', 'valcell'); tv.append(el('b', null, total ? reais(total) : '–'), el('span', 'sub2', '100%')); trc.append(tv);
+      { const ds = mp.map(({ s }) => resgateDe(s)).filter(d => d != null); const tl = el('td', 'num liq'); if (ds.length) { const mx = Math.max(...ds); const b = el('span', 'badge neu', 'até D+' + mx); b.title = 'Prazo do ativo mais lento da carteira'; tl.append(b); } else tl.textContent = '–'; trc.append(tl); }
       trc.append(celula(m ? pctSign(m.ret) : null, m ? m.ret : null, Math.max(maxRet, Math.abs(m ? m.ret : 0)), COR_CART, 'hl'));
       const tdv = el('td', 'num'); if (m && m.pcdi != null) { const bd = el('span', 'badge ' + (m.pcdi >= 100 ? 'pos' : 'neg'), fmtNum(m.pcdi, 0) + '% do CDI'); bd.title = 'CDI no período: ' + pctSign(m.cdi); tdv.append(bd); } else tdv.append(el('span', 'badge neg', m && m.ret <= 0 ? 'abaixo do CDI' : 'n/d')); trc.append(tdv);
       trc.append(celula(m && m.vol != null ? pct(m.vol) : null, m ? m.vol : null, Math.max(maxVol, m && m.vol != null ? m.vol : 0), 'vol', 'ctr'));
@@ -2792,7 +2813,7 @@ function montarTabelaCarteira(mp, J) {
       const co = cart && ibovDoc ? pearson(cart.doc.ret, ibovDoc.ret, { ini: Math.max(cart.ini, ibovDoc.firstIdx || 0), fim: Math.min(cart.fim, ibovDoc.ateIdx) }) : null; const tdc = el('td', 'num'); if (co != null) tdc.append(el('span', 'badge ' + (Math.abs(co) >= 0.5 ? 'neg' : 'neu'), fmtNum(co * 100, 0) + '%')); else tdc.textContent = '–'; trc.append(tdc);
     };
   }
-  if (S.sel.length < MAX && typeof trocaAtivo === 'function') { const tr = el('tr', 'addrow'); const td = el('td'); td.colSpan = 7; td.append(trocaAtivo(null)); tr.append(td); tbody.append(tr); }
+  if (S.sel.length < MAX && typeof trocaAtivo === 'function') { const tr = el('tr', 'addrow'); const td = el('td'); td.colSpan = 8; td.append(trocaAtivo(null)); tr.append(td); tbody.append(tr); }
   tb.append(tbody);
 }
 // remonta a tabela com as métricas do período (usado quando o Ibovespa termina de carregar depois do primeiro desenho)
@@ -2833,7 +2854,7 @@ function focarCarteira(key, fixo) {
 $('cart-mode').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.cart.modo = b.dataset.m; gravarURL(); renderCarteira(); atualizarCarteiraVisual(); if (typeof atualizarCarteiraSim === 'function') atualizarCarteiraSim(); });
 $('cart-eq').addEventListener('click', () => { const prontos = S.sel.filter(s => s.data); S.cart.trava = {}; prontos.forEach(s => S.cart.pesos[s.key] = 100 / prontos.length); normalizarPesos(prontos); gravarURL(); renderCarteira(); atualizarCarteiraVisual(); if (typeof atualizarCarteiraSim === 'function') atualizarCarteiraSim(); });
 
-window.__cmp = { S, sharesAtuais, minimoDe, cartUI };
+window.__cmp = { S, sharesAtuais, minimoDe, cartUI, taxaDe, resgateDe };
 
 // ------------------------------------------------------------------ relatório para o cliente (PDF pela impressão do navegador)
 S.rel = { cliente: '', total: null, tema: 'escuro', liq: {} };
