@@ -1,8 +1,8 @@
 {
   "referencia": "2026-10-02",
-  "gerado": "2026-10-07T05:20:07Z",
-  "fundos_publicados": 10217,
-  "fundos_na_matriz": 16515,
+  "gerado": "2026-10-07T05:32:59Z",
+  "fundos_publicados": 10216,
+  "fundos_na_matriz": 16511,
   "fundos_xp": 1008,
   "benchmarks": [
     "ipca",
@@ -35,9 +35,9 @@
   "acoes": 1057,
   "bdrs": 462,
   "fiis": 276,
-  "descartados_parados": 474,
-  "descartados_poucos_cotistas": 5783,
-  "descartados_historico_curto": 41,
+  "descartados_parados": 471,
+  "descartados_poucos_cotistas": 5781,
+  "descartados_historico_curto": 43,
   "dias_calendario": 2570,
   "meses_processados": [
     "201608",
@@ -168,5 +168,5 @@
     "CDI sem valor em 15 dias do calendário (tratados como 0)",
     "ações: 33 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 926
+  "duracao_s": 684
 }
