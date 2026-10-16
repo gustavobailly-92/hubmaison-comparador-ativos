@@ -1,9 +1,9 @@
 {
-  "referencia": "2026-10-13",
-  "gerado": "2026-10-15T17:58:14Z",
-  "fundos_publicados": 10203,
-  "fundos_na_matriz": 16511,
-  "fundos_xp": 1008,
+  "referencia": "2026-10-14",
+  "gerado": "2026-10-16T17:35:50Z",
+  "fundos_publicados": 10196,
+  "fundos_na_matriz": 16517,
+  "fundos_xp": 1007,
   "benchmarks": [
     "ipca",
     "ipca6",
@@ -32,13 +32,13 @@
     "^BVSP",
     "URTH"
   ],
-  "acoes": 1060,
+  "acoes": 1059,
   "bdrs": 463,
-  "fiis": 277,
-  "descartados_parados": 493,
-  "descartados_poucos_cotistas": 5795,
-  "descartados_historico_curto": 20,
-  "dias_calendario": 2582,
+  "fiis": 276,
+  "descartados_parados": 506,
+  "descartados_poucos_cotistas": 5792,
+  "descartados_historico_curto": 23,
+  "dias_calendario": 2583,
   "meses_processados": [
     "201608",
     "201609",
@@ -168,5 +168,5 @@
     "CDI sem valor em 21 dias do calendário (tratados como 0)",
     "ações: 33 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 914
+  "duracao_s": 1021
 }
