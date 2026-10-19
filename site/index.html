@@ -169,8 +169,11 @@ header .row{display:flex;align-items:center;justify-content:space-between;gap:16
 .bitem:hover{border-color:var(--line-3)}
 .bitem[aria-pressed="true"]{background:linear-gradient(180deg,var(--panel-2),var(--panel));border-color:var(--line-2);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),inset 0 -1px 0 rgba(0,0,0,.3),0 6px 14px -10px rgba(0,0,0,.6)}
 .bitem .sw{width:18px;height:18px;border-radius:6px;display:grid;place-items:center;flex:none;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
-.bitem .sw i{width:12px;height:0;border-top:2px dashed;display:block}
-.bitem[aria-pressed="false"] .sw i{border-top-color:var(--mid) !important}
+.bitem .sw{width:24px;height:24px;border-radius:8px;background:color-mix(in srgb,var(--bc) 14%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--bc) 38%,transparent);color:var(--bc);transition:background .18s,box-shadow .18s,color .18s}
+.bitem .sw svg{width:13px;height:13px}
+.bitem[aria-pressed="false"] .sw{background:rgba(255,255,255,.035);box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);color:var(--mid)}
+.bitem[aria-pressed="true"]{box-shadow:inset 0 1px 0 rgba(255,255,255,.08),inset 0 -1px 0 rgba(0,0,0,.3),0 6px 14px -10px rgba(0,0,0,.6),inset 0 0 0 1px color-mix(in srgb,var(--bc) 22%,transparent)}
+.bitem[aria-pressed="true"] .nm{font-weight:600}
 .bitem .nm{flex:1;min-width:0;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bitem[aria-pressed="false"] .nm{color:var(--muted)}
 .bitem .sp{width:50px;height:20px;flex:none;opacity:.9}
@@ -920,6 +923,39 @@ footer p{margin:0 0 8px}
 footer .row{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:flex-start}
 footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--line-2)}
 .seg .short{display:none}
+/* v18: seletor Portfólio × Sem composição no cabeçalho do gráfico */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+.modehead{display:flex;flex-direction:column;gap:3px}
+.modebar{display:flex;align-items:center;gap:10px;min-height:30px}
+.modebar .mico{width:16px;height:16px;color:var(--accent);flex:none}
+.modeseg{position:relative;display:grid;grid-template-columns:1fr 1fr;isolation:isolate;background:rgba(7,14,28,.55);border:1px solid var(--line);border-radius:999px;padding:2px;box-shadow:inset 0 1px 2px rgba(0,0,0,.35)}
+.modeseg .thumb{position:absolute;top:2px;bottom:2px;left:2px;width:calc(50% - 2px);border-radius:999px;background:linear-gradient(180deg,var(--panel-2),var(--panel));box-shadow:0 1px 2px rgba(0,0,0,.35),inset 0 0 0 1px var(--line-2);transform:translateX(calc(var(--i) * 100%));transition:transform 250ms cubic-bezier(.77,0,.175,1);z-index:0;will-change:transform}
+.modeseg button{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;background:none;border:0;border-radius:999px;padding:5px 13px;font-size:12px;letter-spacing:.01em;color:var(--muted);cursor:pointer;white-space:nowrap;font-family:var(--font);line-height:1.3;transition:color .18s}
+.modeseg button:hover{color:var(--text-2)}
+.modeseg button svg{width:14px;height:14px;flex:none;opacity:.6;transition:opacity .18s,color .18s}
+.modeseg button[aria-pressed="true"]{color:var(--text);font-weight:600}
+.modeseg button[aria-pressed="true"] svg{opacity:1;color:var(--accent)}
+.modeseg button:focus-visible{outline:2px solid var(--s1);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.modeseg .thumb{transition:none}}
+@media (max-width:520px){.modeseg button{padding:5px 9px;font-size:11.5px;gap:5px}}
+/* v18: cabeçalho do Portfólio com o valor em destaque */
+.porthead .pico{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;flex:none;background:radial-gradient(circle at 30% 25%,rgba(91,152,230,.32),rgba(91,152,230,.08) 72%);color:#9CC0F0;box-shadow:inset 0 0 0 1px rgba(91,152,230,.28),0 1px 0 rgba(255,255,255,.04)}
+.porthead .pico svg{width:15px;height:15px}
+.porthead .money.big{width:250px;max-width:100%}
+.porthead .money.big input{font-size:19px;padding:7px 72px 7px 12px;letter-spacing:0}
+/* v18: valor centralizado na linha, com o mínimo embaixo e a altura reservada para as caixas se alinharem */
+#tb-persp th.quiet{position:relative}
+#tb-persp td.valcell{text-align:center;vertical-align:middle}
+#tb-persp td.valcell .valin{display:block;margin:0 auto}
+#tb-persp td.valcell b{text-align:center}
+#tb-persp td.valcell .sub2{justify-content:center;min-height:16px;margin-top:4px;text-align:center}
+#tb-persp td.swapcell,#tb-persp td.liq,#tb-persp td.num{vertical-align:middle}
+/* v18: marca do Tesouro no atalho (a imagem cobre o ícone quando carrega) */
+.qbtn .ic{position:relative;overflow:hidden}
+.qbtn .ic img.glogo{position:absolute;inset:0;width:100%;height:100%;border-radius:inherit;object-fit:contain;padding:4px;box-sizing:border-box;opacity:0;transition:opacity .2s}
+.qbtn .ic.has-logo img.glogo{opacity:1}
+.qbtn .ic.has-logo svg{opacity:0}
+
 @media (max-width:640px){
   .logo{height:42px}
   .status .pill{font-size:11px;padding:5px 10px}
@@ -952,7 +988,7 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
 <symbol id="i-td" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6l8-3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 <symbol id="i-rf" viewBox="0 0 24 24"><path d="M5 19L19 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="7.5" cy="7.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="16.5" cy="16.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
 <symbol id="i-coupon" viewBox="0 0 24 24"><path d="M7 3.5h6.8L18.5 8v12.5H7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M13.8 3.5V8h4.7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9.6 17l5-5.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="10.4" cy="12.3" r="1.35" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="14.9" cy="16.3" r="1.35" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
-<symbol id="i-bench" viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 5-8 4 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 2.5"/></symbol>
+<symbol id="i-lines" viewBox="0 0 24 24"><path d="M4 7h16M4 12h11M4 17h14" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol><symbol id="i-rise" viewBox="0 0 24 24"><path d="M4 19V5M4 19h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M7 16L18 7" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M14.5 7H18v3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-pct" viewBox="0 0 24 24"><path d="M6 18L18 6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="7.5" cy="7.5" r="2.4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="16.5" cy="16.5" r="2.4" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol><symbol id="i-basket" viewBox="0 0 24 24"><path d="M3.5 10h17l-1.6 8.2a2 2 0 0 1-2 1.6H7.1a2 2 0 0 1-2-1.6L3.5 10z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 10l3-5.5M16 10l-3-5.5M9.5 13.5v3M14.5 13.5v3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol><symbol id="i-piggy" viewBox="0 0 24 24"><path d="M4.5 13.5c0-3.6 3-6 7.5-6 3.9 0 6.2 1.6 7.1 3.7l2.4.5v4.1l-2.1.5c-.5 1.1-1.3 2-2.4 2.6V21h-2.6l-.5-1.4h-3.6L9.8 21H7.2v-2.3c-1.7-1.1-2.7-3-2.7-5.2z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M4.5 13.2H2.8M9.5 7.6l1.3-2.4 2 2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16.3" cy="12.2" r="1.05" fill="currentColor"/></symbol><symbol id="i-bars" viewBox="0 0 24 24"><path d="M5 19v-5M10 19V9M15 19v-7M20 19V5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol><symbol id="i-building" viewBox="0 0 24 24"><path d="M5 20V5.5l7-2 7 2V20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M3.5 20h17M9 8.5h1.5M13.5 8.5H15M9 12h1.5M13.5 12H15M9 15.5h1.5M13.5 15.5H15M11 20v-2.5h2V20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol><symbol id="i-bond" viewBox="0 0 24 24"><path d="M5 4h14v12l-3.5-2-3.5 2-3.5-2L5 16V4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.5 8h7M8.5 11.5h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M9.5 16.5v4l2.5-1.3 2.5 1.3v-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol><symbol id="i-usd" viewBox="0 0 24 24"><path d="M12 3.5v17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M16 8a3.5 3.5 0 0 0-3.5-2.5h-1.2a3 3 0 0 0 0 6h1.6a3 3 0 0 1 0 6h-1.4A3.5 3.5 0 0 1 8 15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol><symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 12h17M12 3.5c2.6 2.4 3.9 5.2 3.9 8.5S14.6 18.1 12 20.5M12 3.5c-2.6 2.4-3.9 5.2-3.9 8.5s1.3 6.1 3.9 8.5" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol><symbol id="i-chip" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="9.5" y="9.5" width="5" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M9 3v3M12 3v3M15 3v3M9 18v3M12 18v3M15 18v3M3 9h3M3 12h3M3 15h3M18 9h3M18 12h3M18 15h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol><symbol id="i-ingot" viewBox="0 0 24 24"><path d="M6.5 9h11l3 7h-17l3-7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.5 12.5h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".7"/></symbol><symbol id="i-btc" viewBox="0 0 24 24"><path d="M9 4.5v15M12 4.5v2M12 17.5v2M9 6.5h5a2.5 2.5 0 0 1 0 5H9M9 11.5h5.5a3 3 0 0 1 0 6H9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 6.5h2M7 17.5h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol><symbol id="i-bars-star" viewBox="0 0 24 24"><path d="M5 19v-4M10 19V11M15 19v-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M19 3.5l1.2 2.5 2.7.4-2 1.9.5 2.7-2.4-1.3-2.4 1.3.5-2.7-2-1.9 2.7-.4z" fill="currentColor"/></symbol><symbol id="i-bench" viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 5-8 4 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 2.5"/></symbol>
 <symbol id="i-coe" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M3 12l9 5 9-5M3 16l9 5 9-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
 <symbol id="i-xp" viewBox="1599 130 321 291"><path transform="matrix(1,0,0,-1,0,421.999)" d="M1834.478 104.979V68.085H1874.008C1884.196 68.085 1892.455 76.344 1892.455 86.532 1892.455 96.720 1884.196 104.979 1874.008 104.979Z" fill="currentColor"/><path transform="matrix(1,0,0,-1,0,421.999)" d="M1800.714 21.255C1800.714 21.255 1805.718 36.579 1817.914 36.579H1769.305L1742.243 63.641 1715.181 36.579H1672.495C1672.495 36.579 1672.493 37.044 1672.488 37.859L1721.161 86.532 1673.856 133.836H1717.829L1742.243 109.423 1766.657 133.836H1885.149C1895.429 133.836 1913.304 128.478 1919.999 112.013V258.009C1919.987 276.429 1905.050 291.359 1886.625 291.359H1632.764C1614.333 291.359 1599.391 276.417 1599.391 257.986V34.773C1599.391 16.341 1614.333 1.399 1632.764 1.399H1800.714Z" fill="currentColor"/><path transform="matrix(1,0,0,-1,0,421.999)" d="M1802.855 47.002V120.791L1765.961 83.896Z" fill="currentColor"/><path transform="matrix(1,0,0,-1,0,421.999)" d="M1887.964 37.83H1831.673V1.398H1886.626C1905.043 1.398 1919.975 16.316 1919.999 34.727V61.122C1916.693 53.811 1907.274 37.83 1887.964 37.83" fill="currentColor"/></symbol>
 <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.6V12l3 2.1" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -1007,10 +1043,9 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
 
 <main class="wrap">
   <section class="hero">
-    <div class="lbl">Atalhos</div>
     <div class="quick" id="quick">
-      <button class="qbtn q-td" type="button" data-act="tesouro"><span class="ic"><svg><use href="#i-td"/></svg></span><div><b>Tesouro Nacional</b><small id="q-td">Selic | Pré | Inflação</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
-      <button class="qbtn q-rf" type="button" data-act="rf"><span class="ic"><svg><use href="#i-coupon"/></svg></span><div><b>Renda fixa</b><small>% CDI | Pré | Inflação</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
+      <button class="qbtn q-td" type="button" data-act="tesouro"><span class="ic" id="q-td-ic"><svg><use href="#i-td"/></svg></span><div><b>Tesouro Nacional</b><small id="q-td">Selic | Pré | Inflação</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
+      <button class="qbtn q-rf" type="button" data-act="rf"><span class="ic"><svg><use href="#i-rise"/></svg></span><div><b>Renda fixa</b><small>% CDI | Pré | Inflação</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
       <button class="qbtn q-ac" type="button" data-act="acoes"><span class="ic"><svg><use href="#i-stock"/></svg></span><div><b>Renda Variável</b><small id="q-ac">Ação, FII e BDR</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
       <button class="qbtn q-xp" type="button" data-act="ranking"><span class="ic xp"><svg><use href="#i-xp"/></svg></span><div><b>Ranking XP</b><small id="q-xp">fundos</small></div><span class="go" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></button>
           </div>
@@ -1035,7 +1070,7 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
 
         <div class="card" id="card-acum">
           <div class="head">
-            <div><h2><svg><use href="#i-chart"/></svg>Rentabilidade acumulada</h2><p class="sub" id="acum-sub"></p></div>
+            <div class="modehead"><h2 class="sr-only">Rentabilidade acumulada</h2><div class="modebar"><svg class="mico" aria-hidden="true"><use href="#i-chart"/></svg><div class="modeseg" id="modo" role="group" aria-label="Modo de leitura" style="--i:0"><span class="thumb" aria-hidden="true"></span><button type="button" data-m="cart" aria-pressed="true" title="Composição da carteira no gráfico, com pesos, valores e projeção"><svg aria-hidden="true"><use href="#i-alloc"/></svg><span>Portfólio</span></button><button type="button" data-m="solo" aria-pressed="false" title="Só os ativos, sem a linha da carteira"><svg aria-hidden="true"><use href="#i-lines"/></svg><span>Sem composição</span></button></div></div><p class="sub" id="acum-sub"></p></div>
             <div class="tools ptools">
               <div class="seg" id="periodo" role="group" aria-label="Período de análise">
                 <button data-p="12" aria-pressed="true">1<span class="long"> ano</span><span class="short">a</span></button>
@@ -1049,7 +1084,6 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
                 <label>De<input type="date" id="d-ini"></label>
                 <label>Até<input type="date" id="d-fim"></label>
               </div>
-              <button class="iconbtn sim" id="persp-btn" aria-pressed="false" aria-controls="persp" type="button" title="Carteira: pesos e composição no gráfico, projeção até 10 anos e relatório para o cliente"><svg><use href="#i-alloc"/></svg><span>Carteira</span></button>
             </div>
           </div>
           <div class="chart" id="ch-acum"></div>
@@ -1058,8 +1092,8 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
 
         <div class="card hidden" id="persp">
           <div class="head porthead">
-            <div class="port-l"><h2><svg><use href="#i-alloc"/></svg>Portfólio</h2>
-              <div class="money"><input id="rel-total" type="text" inputmode="decimal" placeholder="R$ 500.000" autocomplete="off" aria-label="Valor total em reais"><span class="stp"><button type="button" data-d="-1" aria-label="Diminuir">−</button><button type="button" data-d="1" aria-label="Aumentar">+</button></span></div>
+            <div class="port-l"><span class="pico" aria-hidden="true"><svg><use href="#i-alloc"/></svg></span><h2 class="sr-only">Portfólio</h2>
+              <div class="money big"><input id="rel-total" type="text" inputmode="decimal" placeholder="R$ 500.000" autocomplete="off" aria-label="Valor total em reais"><span class="stp"><button type="button" data-d="-1" aria-label="Diminuir">−</button><button type="button" data-d="1" aria-label="Aumentar">+</button></span></div>
             </div>
             <div class="tools"><button class="mini hidden" type="button" id="cart-eq">Pesos iguais</button><button class="linkbtn" id="persp-close" type="button">fechar</button></div>
           </div>
@@ -1313,11 +1347,13 @@ const COR_CDI = '#93ACC6';
 const CORES_BENCH = { cdi: '#93ACC6', ipca: '#E07A7A', ipca6: '#F2A0A0', poupanca: '#7FB5A4', dolar: '#C9B48A', ibov: '#F0C674', ifix: '#D98CB3', imab: '#C1A1E8', irfm: '#8ED0C9', sp500: '#8FB8FF', sp500brl: '#6C8FE0', nasdaq: '#C7A6FF', nasdaqbrl: '#A585E6', msci: '#9FD7C8', mscibrl: '#68B39F', ouro: '#F2D28B', ourobrl: '#D9B45C', btc: '#F5A25D' };
 // [título, ids, dobra]: os grupos com dobra ficam recolhidos numa caixa <details> com o título indicado
 const GRUPOS_BENCH = [
-  ['Referência', ['cdi', 'ipca', 'poupanca', 'ibov'], null],
+  [null, ['cdi', 'ipca', 'poupanca', 'ibov'], null],
   ['Brasil', ['ipca6', 'ifix', 'imab', 'irfm', 'dolar'], 'Outros índices de referência'],
   ['Internacional', ['sp500', 'sp500brl', 'nasdaq', 'nasdaqbrl', 'msci', 'mscibrl'], 'Outros índices de referência'],
   ['Alternativos', ['ouro', 'ourobrl', 'btc'], 'Outros índices de referência'],
 ];
+// ícone de cada índice na barra lateral (no lugar do tracinho pontilhado)
+const BENCH_ICO = { cdi: 'i-pct', ipca: 'i-basket', ipca6: 'i-basket', poupanca: 'i-piggy', ibov: 'i-bars', ifix: 'i-building', imab: 'i-bond', irfm: 'i-bond', dolar: 'i-usd', sp500: 'i-bars-star', sp500brl: 'i-bars-star', nasdaq: 'i-chip', nasdaqbrl: 'i-chip', msci: 'i-globe', mscibrl: 'i-globe', ouro: 'i-ingot', ourobrl: 'i-ingot', btc: 'i-btc' };
 const MAX = 10, MAX_BENCH = 3;
 const JANELAS = [12, 24, 36, 60];
 const RF_NOMES = { pcdi: (t) => 'Renda fixa ' + fmtNum(t, t % 1 ? 1 : 0) + '% do CDI', pre: (t) => 'Prefixado ' + fmtNum(t, t % 1 ? 2 : 0) + '% a.a.', ipca: (t) => 'IPCA+ ' + fmtNum(t, t % 1 ? 2 : 0) + '% a.a.' };
@@ -1372,7 +1408,7 @@ function famTD(t) {
 }
 
 // ------------------------------------------------------------------ estado
-const S = { meta: null, index: null, acoes: [], divReinv: true, sel: [], bench: [], cdi: true, periodo: 12, custom: { ini: null, fim: null }, cache: new Map(), persp: false,
+const S = { meta: null, index: null, acoes: [], divReinv: true, sel: [], bench: [], cdi: true, periodo: 12, custom: { ini: null, fim: null }, cache: new Map(), persp: true,
   prem: { h: 12, cdi: null, ipca: null, exc: 0.5, dy: 0, conf: 68 }, rank: { tipo: null, classe: '', ord: 'ret12', todos: false }, td: { fam: 'ipca', fmt: 'principal' }, rf: { tipo: 'pcdi', papel: 'CDB' }, coeSel: null, corrExtra: [], cart: { pesos: {}, trava: {}, modo: 'bh', focus: null, serie: null, volHist: null, sharpeHist: null }, ui: {} };
 const $ = (id) => document.getElementById(id);
 const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
@@ -1425,7 +1461,7 @@ async function carregar() {
     $('q').disabled = false;
     $('d-ini').min = meta.calendario[0]; $('d-ini').max = meta.referencia; $('d-fim').min = meta.calendario[0]; $('d-fim').max = meta.referencia; $('d-fim').value = meta.referencia; $('d-ini').value = subMeses(meta.referencia, 12);
     renderBench(); renderChips(); renderPeriodoInfo(); renderRanking(); montarTesouro(); montarRF(); iniciarCOE();
-    getJSON('emissores.json').then(e => { S.emissores = (e && e.emissores) || []; S.emissores.forEach(x => { x.busca = norm(x.nome + ' ' + (x.aliases || []).join(' ')); }); if (S.sel.some(x => x.kind === 'rf' || x.kind === 'tesouro')) render(); }).catch(() => { S.emissores = []; });
+    getJSON('emissores.json').then(e => { S.emissores = (e && e.emissores) || []; S.emissores.forEach(x => { x.busca = norm(x.nome + ' ' + (x.aliases || []).join(' ')); }); marcaTesouroAtalho(); if (S.sel.some(x => x.kind === 'rf' || x.kind === 'tesouro')) render(); }).catch(() => { S.emissores = []; });
     await lerURL();
     if (!S.sel.length) render();
     // benchmarks em segundo plano, para os mini-gráficos
@@ -1683,6 +1719,8 @@ $('rf-emissor').addEventListener('keydown', (e) => { const box = $('rf-emissor-l
 function emissorDe(txt) { const t = norm(String(txt || '').replace(/^(cdb|lci|lca|lcd|lc|lf|lig|cri|cra|deb[êe]nture|rdb|letra)\s+/i, '')); if (!t || !S.emissores) return null; let melhor = null; S.emissores.forEach(e => { const cands = [e.nome, ...(e.aliases || [])].map(norm); if (cands.some(c => c === t)) { if (!melhor || melhor.p < 3) melhor = { e, p: 3 }; } else if (cands.some(c => t === 'banco ' + c || c === 'banco ' + t)) { if (!melhor || melhor.p < 2) melhor = { e, p: 2 }; } else if (cands.some(c => c.length >= 3 && (t.startsWith(c + ' ') || t.endsWith(' ' + c) || t.includes(' ' + c + ' ')))) { if (!melhor || melhor.p < 1) melhor = { e, p: 1 }; } }); return melhor ? melhor.e : null; }
 function logoEmissor(txt, cls) { const e = emissorDe(txt); if (!e || e.logo !== 'p') return null; const wrap = el('span'); wrap.style.display = 'contents'; const img = new Image(); img.className = 'glogo' + (cls ? ' ' + cls : ''); img.alt = e.nome; img.title = e.nome; img.loading = 'lazy'; img.decoding = 'async'; img.addEventListener('error', () => img.remove()); img.src = DATA + '/logos/' + e.slug + '.png'; wrap.append(img); return wrap; }
 function logoTesouro(cls) { return logoEmissor('Tesouro Nacional', cls); }
+// o card do atalho do Tesouro mostra a marca do Tesouro (a mesma dos cards dos títulos); se a imagem falhar, fica o ícone
+function marcaTesouroAtalho() { const ic = $('q-td-ic'); if (!ic || ic.querySelector('img')) return; const lg = logoTesouro('qlogo'); if (!lg) return; const img = lg.querySelector('img'); if (!img) return; img.addEventListener('load', () => ic.classList.add('has-logo')); img.addEventListener('error', () => ic.classList.remove('has-logo')); ic.append(lg); }
 function abrirRF(tipo) { if (tipo) { S.rf.tipo = tipo; $('rf-taxa').value = tipo === 'pcdi' ? 110 : tipo === 'pre' ? 14 : 7; } montarRF(); $('m-rf').classList.add('on'); setTimeout(() => $('rf-taxa').focus(), 50); }
 $('rf-add').addEventListener('click', () => { const t = parseFloat(String($('rf-taxa').value).replace(/\s/g, '').replace(',', '.')); if (!(t > 0)) return; adicionar('rf:' + rfId(S.rf.tipo, t, emissorCompleto(), $('rf-venc').value), 'rf'); $('rf-venc').value = ''; $('rf-emissor').value = ''; $('rf-emissor-logo').innerHTML = ''; });
 $('rf-emissor').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('rf-add').click(); });
@@ -1703,7 +1741,7 @@ function desligarBench(id) { if (id === 'cdi') S.cdi = !S.cdi; else S.bench = S.
 function renderBench() {
   const box = $('blist'); box.innerHTML = '';
   const J = janela12();
-  const item = (id, nome, on, ret12, doc) => { const b = el('button', 'bitem'); b.type = 'button'; b.setAttribute('aria-pressed', on ? 'true' : 'false'); const i = el('span', 'sw'); const ii = el('i'); ii.style.borderTopColor = CORES_BENCH[id] || COR_CDI; i.append(ii);
+  const item = (id, nome, on, ret12, doc) => { const b = el('button', 'bitem'); b.type = 'button'; b.setAttribute('aria-pressed', on ? 'true' : 'false'); const i = el('span', 'sw'); i.append(icon(BENCH_ICO[id] || 'i-bench', 13)); b.style.setProperty('--bc', CORES_BENCH[id] || COR_CDI);
     const sp = el('span', 'sp'); if (doc) sparkline(sp, doc.qff, J.ini, J.fim, CORES_BENCH[id] || COR_CDI, 56, 20, !on);
     const v = el('span', 'v' + (ret12 == null ? '' : ret12 >= 0 ? ' pos' : ' neg'), ret12 != null ? pctSign(ret12) : ''); v.title = 'Últimos 12 meses';
     b.append(i, el('span', 'nm', nome), sp, v); b.title = (on ? 'Ocultar ' : 'Mostrar ') + nome; b.addEventListener('click', () => on ? desligarBench(id) : ligarBench(id)); return b; };
@@ -1719,7 +1757,7 @@ function renderBench() {
     // dentro da dobra, cada grupo fica na sua própria caixa com título
     let caixa = alvo;
     if (dobra) { caixa = el('div', 'bbox'); caixa.append(el('div', 'bgrp', titulo)); alvo.append(caixa); }
-    else alvo.append(el('div', 'bgrp', titulo));
+    else if (titulo) alvo.append(el('div', 'bgrp', titulo));
     disp.forEach(id => { if (id === 'cdi') { const cdiDoc = { qff: S.meta.cdi }; caixa.append(item('cdi', 'CDI', S.cdi, ret12CDI(), cdiDoc)); } else { const b = S.benchmarks.find(x => x.id === id); caixa.append(item(id, b.nome, S.bench.includes(id), b.ret12, benchDoc(id))); } });
   });
 }
@@ -1736,15 +1774,17 @@ function setPeriodo(p) {
 ['d-ini', 'd-fim'].forEach(id => $(id).addEventListener('change', () => { if (S.periodo !== 'custom') return; S.custom.ini = $('d-ini').value; S.custom.fim = $('d-fim').value; if (S.custom.ini && S.custom.fim && S.custom.ini > S.custom.fim) { const t = S.custom.ini; S.custom.ini = S.custom.fim; S.custom.fim = t; $('d-ini').value = S.custom.ini; $('d-fim').value = S.custom.fim; } renderPeriodoInfo(); gravarURL(); render(); }));
 function renderPeriodoInfo() {
   // o intervalo do período fica só no título do gráfico (tooltip) e nos subtítulos; sem a linha "De ... a ..." (pedido da v15)
-  const J = janela(); const cal = S.meta.calendario; const h = document.querySelector('#card-acum h2'); if (!h) return;
+  const J = janela(); const cal = S.meta.calendario; const h = document.querySelector('#card-acum .modehead'); if (!h) return;
   h.title = J.fim - J.ini < 5 ? 'Período muito curto: escolha pelo menos uma semana de dados.' : 'De ' + dBR(cal[J.ini]) + ' a ' + dBR(cal[J.fim]) + (S.periodo === 'max' ? (S.sel.some(x => x.data) ? ' (desde o início do ativo mais recente)' : ' (todo o histórico dos indicadores)') : '');
 }
 $('more-btn').addEventListener('click', () => { const on = $('more').classList.toggle('on'); $('more-btn').setAttribute('aria-expanded', on ? 'true' : 'false'); if (on) renderMais(); });
-$('persp-btn').addEventListener('click', () => togglePersp(!S.persp));
+$('modo').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; togglePersp(b.dataset.m === 'cart'); });
 $('persp-close').addEventListener('click', () => togglePersp(false));
 if ($('p-div')) $('p-div').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; setDivReinv(b.dataset.d === '1'); });
 // abre ou fecha o modo carteira: card e linha da carteira no gráfico principal, card Portfólio (pesos + projeção + relatório) no lugar da tabela por período
-function togglePersp(on) { S.persp = on; $('persp').classList.toggle('hidden', !on || !S.sel.some(x => x.data)); $('card-ret').classList.toggle('hidden', on || !S.sel.some(x => x.data)); $('persp-btn').setAttribute('aria-pressed', on ? 'true' : 'false'); gravarURL(); if (S.sel.some(x => x.data)) render(); else renderCarteira(); if (on) $('kpis').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+function togglePersp(on) { S.persp = on; sincronizarModo(); $('persp').classList.toggle('hidden', !on || !S.sel.some(x => x.data)); $('card-ret').classList.toggle('hidden', on || !S.sel.some(x => x.data)); gravarURL(); if (S.sel.some(x => x.data)) render(); else renderCarteira(); if (on && S.sel.some(x => x.data)) $('kpis').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+// o seletor Portfólio × Sem composição no cabeçalho do gráfico segue o estado
+function sincronizarModo() { const m = $('modo'); if (!m) return; m.style.setProperty('--i', S.persp ? '0' : '1'); [...m.querySelectorAll('button')].forEach(b => b.setAttribute('aria-pressed', (b.dataset.m === 'cart') === !!S.persp ? 'true' : 'false')); }
 
 // ------------------------------------------------------------------ URL
 function gravarURL() {
@@ -1754,7 +1794,7 @@ function gravarURL() {
   if (S.bench.length) u.searchParams.set('b', S.bench.join(',')); else u.searchParams.delete('b');
   if (!S.cdi) u.searchParams.set('nocdi', '1'); else u.searchParams.delete('nocdi');
   if (S.periodo === 'custom' && S.custom.ini && S.custom.fim) u.searchParams.set('p', S.custom.ini + '_' + S.custom.fim); else if (S.periodo !== 12) u.searchParams.set('p', S.periodo); else u.searchParams.delete('p');
-  if (S.persp) u.searchParams.set('persp', '1'); else u.searchParams.delete('persp');
+  if (!S.persp) u.searchParams.set('persp', '0'); else u.searchParams.delete('persp');
   if (!S.divReinv) u.searchParams.set('div', '0'); else u.searchParams.delete('div');
   if (S.corrExtra.length) u.searchParams.set('c', S.corrExtra.join(',')); else u.searchParams.delete('c');
   const pesos = S.sel.map(s => S.cart.pesos[s.key]).filter(v => v != null);
@@ -1785,7 +1825,7 @@ async function lerURL() {
   const w = (u.searchParams.get('w') || '').split(',').map(Number); if (w.length === S.sel.length && w.every(x => isFinite(x) && x >= 0)) S.sel.forEach((s, i) => S.cart.pesos[s.key] = w[i]);
   if (u.searchParams.get('cm') === 'rebal') S.cart.modo = 'rebal';
   if (S.sel.length) render();
-  if (u.searchParams.get('persp') === '1' && S.sel.length) togglePersp(true);
+  if (u.searchParams.get('persp') === '0') { S.persp = false; sincronizarModo(); if (S.sel.length) togglePersp(false); }
   const coe = u.searchParams.get('coe'); if (coe && S.coes && S.coes.some(c => c.id === coe)) selecionarCOE(coe);
 }
 
@@ -2030,7 +2070,9 @@ function render() {
   const temAtivo = prontos.length > 0;
   renderPeriodoInfo();
   ['card-ret', 'card-rr', 'grid-corr', 'more-btn'].forEach(id => $(id).classList.toggle('hidden', !temAtivo || (id === 'card-ret' && S.persp)));
-  if (!temAtivo) { $('more').classList.remove('on'); $('more-btn').setAttribute('aria-expanded', 'false'); $('card-pl').classList.add('hidden'); if (S.persp) togglePersp(false); }
+  if (!temAtivo) { $('more').classList.remove('on'); $('more-btn').setAttribute('aria-expanded', 'false'); $('card-pl').classList.add('hidden'); }
+  // o card Portfólio aparece sozinho assim que há um ativo (modo carteira é o padrão; "Sem composição" o esconde)
+  $('persp').classList.toggle('hidden', !temAtivo || !S.persp);
   const J = janela(), cal = S.meta.calendario, mesesJ = periodoMeses(J);
   const refs = refSeries(J);
   const mp = prontos.map(s => ({ s, m: metricasJS(s.data, Math.max(J.ini, s.data.firstIdx), Math.min(J.fim, s.data.ateIdx), mesesJ) }));
@@ -2865,7 +2907,7 @@ function focarCarteira(key, fixo) {
 $('cart-mode').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.cart.modo = b.dataset.m; gravarURL(); renderCarteira(); atualizarCarteiraVisual(); if (typeof atualizarCarteiraSim === 'function') atualizarCarteiraSim(); });
 $('cart-eq').addEventListener('click', () => { const prontos = S.sel.filter(s => s.data); S.cart.trava = {}; prontos.forEach(s => S.cart.pesos[s.key] = 100 / prontos.length); normalizarPesos(prontos); gravarURL(); renderCarteira(); atualizarCarteiraVisual(); if (typeof atualizarCarteiraSim === 'function') atualizarCarteiraSim(); });
 
-window.__cmp = { S, sharesAtuais, minimoDe, cartUI, taxaDe, resgateDe };
+window.__cmp = { S, sharesAtuais, minimoDe, cartUI, taxaDe, resgateDe, remover, adicionar, togglePersp };
 
 // ------------------------------------------------------------------ relatório para o cliente (PDF pela impressão do navegador)
 S.rel = { cliente: '', total: null, tema: 'escuro', liq: {} };
@@ -3509,7 +3551,7 @@ async function renderPersp() {
   const marcos = SIM_MARCOS.filter(t => t <= H); const tb = $('tb-persp'); tb.innerHTML = '';
   const J = janela(), mesesJ = periodoMeses(J); const ibovDoc = benchDoc('ibov');
   const mp = prontos.map(s2 => metricasJS(s2.data, Math.max(J.ini, s2.data.firstIdx), Math.min(J.fim, s2.data.ateIdx), mesesJ));
-  const th = el('tr'); th.append(el('th', null, 'Ativo e peso'), el('th', null, 'Valor'), el('th', null, 'Resgate'), el('th', null, 'Taxa / benchmark'));
+  const th = el('tr'); const thq = (txt) => { const h = el('th', 'quiet'); h.append(el('span', 'sr-only', txt)); return h; }; th.append(thq('Ativo e peso'), thq('Valor'), thq('Resgate'), thq('Taxa / benchmark'));
   { const tv = el('th', 'ctr', 'Vol'); tv.title = 'Volatilidade anualizada ' + periodoLabel(); const ts = el('th', 'ctr', 'Sharpe'); ts.title = 'Retorno acima do CDI por unidade de risco ' + periodoLabel(); const tc = el('th', 'ctr', 'Co Ibov'); tc.title = 'Correlação dos retornos diários com o Ibovespa ' + periodoLabel(); th.append(tv, ts, tc); }
   marcos.forEach(t => { const h2 = el('th', 'ctr proj', simLbl(t)); h2.title = 'Projeção acumulada em ' + simLbl(t); th.append(h2); });
   th.append(el('th', 'ctr proj', 'Pessimista'), el('th', 'ctr proj', 'Otimista'));
@@ -3849,7 +3891,6 @@ function atualizarCarteiraSim() { if (S.persp && S.sim.cartRow) S.sim.cartRow();
 function trocaAtivo(atual) {
   const box = el('div', 'swap'); const b = el('button', 'swapbtn' + (atual ? '' : ' add')); b.type = 'button';
   b.append(icon(atual ? 'i-swap' : 'i-plus', 12), el('span', null, atual ? 'Trocar' : 'Adicionar ativo'));
-  if (atual) { const cid = classeDe(atual); const g = cid ? gruposClasse().find(x => x.id === cid) : null; if (g) { const sm = el('small', null, g.lbl.replace(/^Fundos CVM · /, '')); sm.title = g.lbl; b.append(sm); } else if (atual.kind === 'acao' && atual.data) { const sm = el('small', null, (atual.data.tipo === 'bdr' ? 'BDR' : atual.data.tipo === 'fii' ? 'FII' : 'Ação') + ' · ' + atual.data.ticker); b.append(sm); } }
   b.setAttribute('aria-haspopup', 'dialog'); b.addEventListener('click', () => abrirPicker(atual, b));
   box.append(b); return box;
 }
