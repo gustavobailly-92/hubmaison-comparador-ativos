@@ -1,8 +1,8 @@
 {
-  "referencia": "2026-10-15",
-  "gerado": "2026-10-19T19:03:05Z",
-  "fundos_publicados": 10192,
-  "fundos_na_matriz": 16503,
+  "referencia": "2026-10-16",
+  "gerado": "2026-10-20T18:16:42Z",
+  "fundos_publicados": 10196,
+  "fundos_na_matriz": 16482,
   "fundos_xp": 1007,
   "benchmarks": [
     "ipca",
@@ -23,7 +23,7 @@
     "imab",
     "irfm"
   ],
-  "tesouro_titulos": 58,
+  "tesouro_titulos": 0,
   "historicos": [
     "GLD",
     "AIQ",
@@ -35,10 +35,10 @@
   "acoes": 1060,
   "bdrs": 463,
   "fiis": 277,
-  "descartados_parados": 498,
-  "descartados_poucos_cotistas": 5792,
-  "descartados_historico_curto": 21,
-  "dias_calendario": 2584,
+  "descartados_parados": 501,
+  "descartados_poucos_cotistas": 5767,
+  "descartados_historico_curto": 18,
+  "dias_calendario": 2585,
   "meses_processados": [
     "201608",
     "201609",
@@ -166,7 +166,8 @@
   ],
   "avisos": [
     "CDI sem valor em 21 dias do calendário (tratados como 0)",
+    "Tesouro Direto falhou: https://www.tesourotransparente.gov.br/ckan/dataset/df56aa42-484a-4a59-8184-7676580c81e3/resource/796d2059-14e9-44e3-80c9-2d9e30b405c1/download/PrecoTaxaTesouroDireto.csv: <urlopen error [Errno 104] Connection reset by peer>",
     "ações: 33 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 886
+  "duracao_s": 1352
 }
