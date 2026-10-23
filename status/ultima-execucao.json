@@ -1,8 +1,8 @@
 {
   "referencia": "2026-10-20",
-  "gerado": "2026-10-22T18:12:35Z",
-  "fundos_publicados": 10190,
-  "fundos_na_matriz": 16482,
+  "gerado": "2026-10-23T18:14:01Z",
+  "fundos_publicados": 10188,
+  "fundos_na_matriz": 16478,
   "fundos_xp": 1007,
   "benchmarks": [
     "ipca",
@@ -32,13 +32,13 @@
     "^BVSP",
     "URTH"
   ],
-  "acoes": 1061,
-  "bdrs": 464,
+  "acoes": 1059,
+  "bdrs": 462,
   "fiis": 278,
-  "descartados_parados": 528,
-  "descartados_poucos_cotistas": 5750,
-  "descartados_historico_curto": 14,
-  "dias_calendario": 2587,
+  "descartados_parados": 524,
+  "descartados_poucos_cotistas": 5749,
+  "descartados_historico_curto": 17,
+  "dias_calendario": 2588,
   "meses_processados": [
     "201608",
     "201609",
@@ -169,5 +169,5 @@
     "Tesouro Direto falhou: https://www.tesourotransparente.gov.br/ckan/dataset/df56aa42-484a-4a59-8184-7676580c81e3/resource/796d2059-14e9-44e3-80c9-2d9e30b405c1/download/PrecoTaxaTesouroDireto.csv: HTTP Error 429: Too Many Requests",
     "ações: 33 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 1074
+  "duracao_s": 1430
 }
