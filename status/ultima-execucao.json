@@ -1,9 +1,9 @@
 {
-  "referencia": "2026-10-20",
-  "gerado": "2026-10-23T18:14:01Z",
-  "fundos_publicados": 10188,
-  "fundos_na_matriz": 16478,
-  "fundos_xp": 1007,
+  "referencia": "2026-10-22",
+  "gerado": "2026-10-24T16:45:49Z",
+  "fundos_publicados": 10193,
+  "fundos_na_matriz": 16473,
+  "fundos_xp": 1011,
   "benchmarks": [
     "ipca",
     "ipca6",
@@ -32,13 +32,13 @@
     "^BVSP",
     "URTH"
   ],
-  "acoes": 1059,
-  "bdrs": 462,
+  "acoes": 1058,
+  "bdrs": 461,
   "fiis": 278,
-  "descartados_parados": 524,
-  "descartados_poucos_cotistas": 5749,
-  "descartados_historico_curto": 17,
-  "dias_calendario": 2588,
+  "descartados_parados": 495,
+  "descartados_poucos_cotistas": 5769,
+  "descartados_historico_curto": 16,
+  "dias_calendario": 2589,
   "meses_processados": [
     "201608",
     "201609",
@@ -165,9 +165,9 @@
     "202610"
   ],
   "avisos": [
-    "CDI sem valor em 21 dias do calendário (tratados como 0)",
+    "CDI sem valor em 22 dias do calendário (tratados como 0)",
     "Tesouro Direto falhou: https://www.tesourotransparente.gov.br/ckan/dataset/df56aa42-484a-4a59-8184-7676580c81e3/resource/796d2059-14e9-44e3-80c9-2d9e30b405c1/download/PrecoTaxaTesouroDireto.csv: HTTP Error 429: Too Many Requests",
     "ações: 33 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 1430
+  "duracao_s": 842
 }
