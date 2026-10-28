@@ -559,6 +559,13 @@ body.sheet-open{overflow:hidden}
 .pf-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:10px}
 .pf-facts div{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:10px;padding:9px 11px}
 .pf-facts b{display:block;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+.pf-cresc{width:100%;max-width:520px;border-collapse:collapse;margin-top:12px;font-size:12.5px}
+.pf-cresc th{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;text-align:end;padding:4px 10px 6px;border-bottom:1px solid var(--line)}
+.pf-cresc th:first-child{text-align:start;padding-inline-start:0}
+.pf-cresc td{padding:7px 10px;text-align:end;font-variant-numeric:tabular-nums;color:var(--text);border-bottom:1px solid rgba(178,203,230,.08)}
+.pf-cresc td:first-child{text-align:start;padding-inline-start:0;color:var(--text-2);font-weight:300}
+.pf-cresc td.pos{color:#7DD6B6}.pf-cresc td.neg{color:#F0A2A2}.pf-cresc td.na{color:var(--muted)}
+.pf-cresc tr:last-child td{border-bottom:0}
 .pf-facts span{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .pf-team{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px;margin-top:10px}
 .pf-team div{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:10px;padding:9px 11px}
@@ -630,13 +637,45 @@ body.sheet-open{overflow:hidden}
 .pick .pchips button[aria-pressed="true"]{background:var(--text-2);color:var(--deep);border-color:var(--text-2)}
 .pick .pchips button[aria-pressed="true"] small{color:rgba(7,14,28,.6)}
 .pick .pchips.sub button{font-size:11px;padding:3px 9px}
-.pick .plist{overflow:auto;padding:4px 8px 10px;flex:1;min-height:120px}
-.pick .pitem{display:grid;grid-template-columns:minmax(0,1fr) 88px 88px 88px 54px 56px 52px;gap:10px;align-items:center;width:100%;background:none;border:0;border-radius:10px;padding:7px 8px;color:var(--text-2);font-family:var(--font);text-align:start;cursor:pointer;position:relative}
-.pick .pitem.simples{grid-template-columns:minmax(0,1fr)}
-.pick .pitem:hover:not(:disabled){background:rgba(178,203,230,.08);color:var(--text)}
-.pick .pitem:disabled{cursor:default;opacity:.55}
-.pick .pitem.head{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:6px 8px 2px;cursor:default}
-.pick .pitem.head span:not(:first-child){text-align:center}
+.pick .plist{overflow:auto;padding:0 0 4px;flex:1;min-height:120px}
+/* barra de rolagem sempre visível (Chrome e Safari pelo ::-webkit-scrollbar; Firefox pelas propriedades padrão) */
+.pick .plist::-webkit-scrollbar{height:9px;width:9px}
+.pick .plist::-webkit-scrollbar-track{background:rgba(7,14,28,.35)}
+.pick .plist::-webkit-scrollbar-thumb{background:rgba(178,203,230,.32);border-radius:999px;border:2px solid transparent;background-clip:padding-box}
+.pick .plist::-webkit-scrollbar-thumb:hover{background:rgba(178,203,230,.5);background-clip:padding-box}
+.pick .plist::-webkit-scrollbar-corner{background:rgba(7,14,28,.35)}
+@supports not selector(::-webkit-scrollbar){.pick .plist{scrollbar-width:thin;scrollbar-color:rgba(178,203,230,.32) rgba(7,14,28,.35)}}
+/* linhas em grade: nome fixo à esquerda, colunas definidas pela seção (--pcols), ação (+/×) fixa à direita; --pmin faz a lista rolar
+   na horizontal quando as colunas não cabem; --rt é a tinta da linha (zebra e hover), repetida nas células fixas para cobrirem o que rola por baixo */
+.pick .pitem{--rt:transparent;display:grid;grid-template-columns:var(--pcols,minmax(0,1fr) 30px);gap:8px;align-items:center;width:100%;min-width:var(--pmin,0);box-sizing:border-box;background:var(--rt);border:0;border-radius:0;padding:7px 0;color:var(--text-2);font-family:var(--font);text-align:start;cursor:pointer;position:relative}
+.pick .pitem.alt{--rt:rgba(178,203,230,.055)}
+.pick .pitem:hover{--rt:rgba(178,203,230,.10);color:var(--text)}
+.pick .pitem.alt:hover{--rt:rgba(178,203,230,.12)}
+.pick .pitem.simples{grid-template-columns:minmax(0,1fr) 30px}
+.pick .pitem > .nm{position:sticky;inset-inline-start:0;z-index:1;padding-inline:14px 4px;background:linear-gradient(var(--rt),var(--rt)),var(--panel-2,#1B2E4E)}
+.pick .pitem > .pact{position:sticky;inset-inline-end:0;z-index:1;display:flex;align-items:center;justify-content:center;align-self:stretch;padding-inline:0 6px;background:linear-gradient(var(--rt),var(--rt)),var(--panel-2,#1B2E4E)}
+.pick .plist.scx .pitem > .nm::after,.pick .plist.scxe .pitem > .pact::before{content:"";position:absolute;top:0;bottom:0;width:14px;pointer-events:none}
+.pick .plist.scx .pitem > .nm::after{inset-inline-start:100%;background:linear-gradient(to right,rgba(5,12,26,.42),transparent)}
+.pick .plist.scxe .pitem > .pact::before{inset-inline-end:100%;background:linear-gradient(to left,rgba(5,12,26,.42),transparent)}
+.pick .phead{position:sticky;top:0;z-index:3}
+.pick .pitem.head,.pick .pitem.hgrp{--rt:transparent;background:var(--panel-2,#1B2E4E);cursor:default}
+.pick .pitem.head{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:4px 0 6px;border-bottom:1px solid var(--line)}
+.pick .pitem.head:hover,.pick .pitem.hgrp:hover{color:var(--muted)}
+.pick .pitem.head span:not(.nm):not(.pact){text-align:center;white-space:nowrap}
+.pick .pitem.hgrp{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:10px 0 0;align-items:end}
+.pick .pitem.hgrp .grp{text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-bottom:3px;border-bottom:1px solid rgba(178,203,230,.16);margin:0 3px;opacity:.85}
+.pick .padd{width:24px;height:24px;border-radius:50%;border:1px solid rgba(178,203,230,.28);background:transparent;color:var(--text-2);display:grid;place-items:center;cursor:pointer;transition:background .15s,border-color .15s,color .15s,scale .12s}
+.pick .pitem:hover .padd{border-color:rgba(91,152,230,.7);color:var(--text)}
+.pick .padd:hover{background:#5B98E6;border-color:#5B98E6;color:#fff}
+.pick .padd:active{scale:.94}
+.pick .padd:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pick .pbf{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0}
+.pick .pbf b{font-weight:400;font-size:11px;font-variant-numeric:tabular-nums;color:var(--text-2);line-height:1.1}
+.pick .pbf .gbar{width:36px}
+.pick .pbf.mult .gbar i{background:linear-gradient(90deg,rgba(178,203,230,.18),rgba(178,203,230,.6))}
+.pick .pbf.dy .gbar i{background:linear-gradient(90deg,rgba(46,156,119,.25),#7DD6B6)}
+.pick .pbf.gro .gbar i{background:linear-gradient(90deg,rgba(91,152,230,.18),#5B98E6)}
+.pick .pbf.gro .gbar i.neg{background:linear-gradient(90deg,rgba(224,122,122,.25),#E07A7A)}
 .pick .pitem .nm{min-width:0;display:flex;flex-direction:column;gap:1px}
 .pick .pitem .nm b{font-weight:500;font-size:12.5px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pick .pitem .nm small{font-size:10.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:300}
@@ -652,17 +691,15 @@ body.sheet-open{overflow:hidden}
 .pick .pbs .gbar i.neg,.pick .pbp .gbar i.neg{background:linear-gradient(90deg,rgba(224,122,122,.25),#E07A7A)}
 .pick .selo{font-size:9.5px;font-weight:600;letter-spacing:.01em;border-radius:6px;padding:1px 6px;font-variant-numeric:tabular-nums;color:var(--text-2);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 .pick .selo.vazio{background:transparent;color:var(--muted);font-weight:400;letter-spacing:.04em;text-transform:uppercase;font-size:9px}
-.pick .pbs.rm,.pick .pbc.rm{align-items:center}
 .pick .xrm{width:24px;height:24px;border-radius:50%;border:0;background:rgba(178,203,230,.10);color:var(--text-2);display:grid;place-items:center;cursor:pointer}
 .pick .xrm:hover{background:rgba(224,122,122,.22);color:#F0A2A2}
 .pick .xrm:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.pick .xrm.solto{position:absolute;inset-inline-end:8px;top:50%;transform:translateY(-50%)}
 .pick .pitem.ja,.pick .pitem.atual{opacity:.6;cursor:default}
 .pick .pitem.ja:hover,.pick .pitem.atual:hover{opacity:.9}
 .pick .pitem .tag{display:inline-block;margin-inline-start:8px;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:rgba(178,203,230,.10);border-radius:6px;padding:1px 6px;vertical-align:1px;font-weight:500}
-.pick .pvazio{padding:14px 10px;font-size:12px;color:var(--muted)}
-.pick .pfoot{padding:8px 6px 2px}
-@media (max-width:720px){.pick .pbody{flex-direction:column}.pick .pnav{flex-direction:row;overflow:auto;border-right:0;border-bottom:1px solid var(--line);min-width:0;padding:8px}.pick .pnav button span{white-space:nowrap}.pick .pitem{grid-template-columns:minmax(0,1fr) 84px}.pick .pitem .pbp:not(.w12),.pick .pitem .pbv,.pick .pitem .pbs,.pick .pitem .pbc:not(.rm),.pick .pitem.head span:nth-child(n+3){display:none}.pick .pitem .pbs.rm,.pick .pitem .pbc.rm{position:absolute;inset-inline-end:6px;top:50%;transform:translateY(-50%)}.pick .pitem.ja,.pick .pitem.atual{padding-inline-end:36px}.pick .ph .tt{display:none}}
+.pick .pvazio{padding:14px 14px;font-size:12px;color:var(--muted)}
+.pick .pfoot{padding:8px 14px 2px}
+@media (max-width:720px){.pick .pbody{flex-direction:column}.pick .pnav{flex-direction:row;overflow:auto;border-right:0;border-bottom:1px solid var(--line);min-width:0;padding:8px}.pick .pnav button span{white-space:nowrap}.pick .pitem,.pick .pitem.simples{grid-template-columns:minmax(0,1fr) 84px 30px;min-width:0}.pick .pitem.simples{grid-template-columns:minmax(0,1fr) 30px}.pick .pitem .pbp:not(.w12),.pick .pitem .pbv,.pick .pitem .pbs,.pick .pitem .pbc,.pick .pitem .pbf,.pick .pitem.head span:not(.nm):not(.w12):not(.pact),.pick .pitem.hgrp{display:none}.pick .ph .tt{display:none}}
 .swapcell .n span{display:inline-block;max-width:230px;overflow:hidden;text-overflow:ellipsis;vertical-align:bottom}
 .swapcell .premio-ed{display:inline-flex;align-items:center;gap:4px;margin-top:5px;font-size:11px;color:var(--muted);white-space:nowrap}
 .swapcell .premio-ed input{width:54px;background:rgba(7,14,28,.55);border:1px solid var(--line);border-radius:7px;color:var(--text);padding:2px 4px;font-size:11.5px;font-family:var(--font);text-align:center;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
@@ -2899,7 +2936,7 @@ function focarCarteira(key, fixo) {
 $('cart-mode').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.cart.modo = b.dataset.m; gravarURL(); renderCarteira(); atualizarCarteiraVisual(); if (typeof atualizarCarteiraSim === 'function') atualizarCarteiraSim(); });
 $('cart-eq').addEventListener('click', () => { const prontos = S.sel.filter(s => s.data); S.cart.trava = {}; prontos.forEach(s => S.cart.pesos[s.key] = 100 / prontos.length); normalizarPesos(prontos); gravarURL(); renderCarteira(); atualizarCarteiraVisual(); if (typeof atualizarCarteiraSim === 'function') atualizarCarteiraSim(); });
 
-window.__cmp = { S, sharesAtuais, minimoDe, cartUI, taxaDe, resgateDe, remover, adicionar, togglePersp };
+window.__cmp = { S, sharesAtuais, minimoDe, cartUI, taxaDe, resgateDe, remover, adicionar, togglePersp, abrirPerfilKey: (k, key) => abrirPerfilKey(k, key) };
 
 // ------------------------------------------------------------------ relatório para o cliente (PDF pela impressão do navegador)
 S.rel = { cliente: '', total: null, tema: 'escuro', liq: {} };
@@ -3759,7 +3796,9 @@ function pickClasses(sec, sub) {
 function pickItens() {
   const { sec, sub, cls, liq, q } = PICK; const nq = norm(q || ''); const out = [];
   if (sec === 'rf') { const tp = sub || 'pcdi'; RF_TAXAS[tp].forEach(tx => out.push({ key: 'rf:' + rfId(tp, tx, ''), kind: 'rf', nome: RF_NOMES[tp](tx), sub: RF_IDX[tp], liq: 0 })); if (PICK.atual && PICK.atual.kind === 'rf' && PICK.atual.data && !out.some(o => o.key === PICK.atual.key)) out.unshift({ key: PICK.atual.key, kind: 'rf', nome: PICK.atual.data.nomeLongo || PICK.atual.data.nome, sub: PICK.atual.data.indexador, liq: 0 }); return out.filter(o => !nq || norm(o.nome).includes(nq)); }
-  if (sec === 'ac') { const tp = sub || 'acao'; S.acoes.forEach(a => { if ((a.tipo === 'bdr' ? 'bdr' : a.tipo === 'fii' ? 'fii' : 'acao') !== tp) return; if (nq && !a.busca.includes(nq)) return; out.push({ key: 'ac:' + a.ticker, kind: 'acao', nome: a.ticker + ' · ' + a.nome, sub: (a.tipo === 'bdr' ? 'BDR' : a.tipo === 'fii' ? 'FII' : 'Ação ' + (a.especi || '')) + (a.liq ? ' · R$ ' + compactR(a.liq) + '/dia' : '') + (a.premio != null ? ' · ' + (BM_LBL[a.bm] || 'Ibov') + ' ' + (a.premio >= 0 ? '+' : '−') + fmtNum(Math.abs(a.premio), 1) + ' p.p.' : ''), ret: a.ret12, r: { 12: a.ret12, 24: a.ret24, 36: a.ret36 }, vol: a.vol12, sharpe: a.sharpe12, co: a.co12, bm: a.bm, liq: null }); }); out.sort((x, y) => (y.ret == null ? -1e9 : y.ret) - (x.ret == null ? -1e9 : x.ret)); return out; }
+  if (sec === 'ac') { const tp = sub || 'acao'; S.acoes.forEach(a => { if ((a.tipo === 'bdr' ? 'bdr' : a.tipo === 'fii' ? 'fii' : 'acao') !== tp) return; if (nq && !a.busca.includes(nq)) return; out.push({ key: 'ac:' + a.ticker, kind: 'acao', nome: a.ticker + ' · ' + a.nome, sub: (a.tipo === 'bdr' ? 'BDR' : a.tipo === 'fii' ? 'FII' : 'Ação ' + (a.especi || '')) + (a.liq ? ' · R$ ' + compactR(a.liq) + '/dia' : '') + (a.premio != null ? ' · ' + (BM_LBL[a.bm] || 'Ibov') + ' ' + (a.premio >= 0 ? '+' : '−') + fmtNum(Math.abs(a.premio), 1) + ' p.p.' : ''), ret: a.ret12, r: { 12: a.ret12, 24: a.ret24, 36: a.ret36 }, vol: a.vol12, sharpe: a.sharpe12, co: a.co12, bm: a.bm, liq: null,
+      // fundamentos (pipeline): FIIs com DY 12 m e P/VP; ações com P/VPA, EV/EBITDA e crescimento de PL, EBITDA e receita em 12/24/36 m
+      fd: { dy12: a.dy12, pvp: a.pvp, pvpa: a.pvpa, ev: a.ev_ebitda, gpl12: a.g_pl12, gpl24: a.g_pl24, gpl36: a.g_pl36, geb12: a.g_eb12, geb24: a.g_eb24, geb36: a.g_eb36, grec12: a.g_rec12, grec24: a.g_rec24, grec36: a.g_rec36, fin: !!a.fin, dt: a.dt_fund } }); }); out.sort((x, y) => (y.ret == null ? -1e9 : y.ret) - (x.ret == null ? -1e9 : x.ret)); return out; }
   if (sec === 'td') { (S.tesouro || []).filter(t => !sub || String(t.fam) === sub).sort((x, y) => x.venc.localeCompare(y.venc)).forEach(t => { if (nq && !t.busca.includes(nq)) return; out.push({ key: 'td:' + t.id, kind: 'tesouro', nome: t.nome, sub: taxaTD(t) + ' · vence ' + t.venc.slice(0, 4), ret: t.ret12, r: { 12: t.ret12, 24: t.ret24, 36: t.ret36 }, vol: t.vol12, sharpe: t.sharpe12, co: t.co12, bm: t.indexador === 'PRE' ? null : t.indexador === 'IPCA' ? 'ipca' : 'cdi', liq: 0 }); }); return out; }
   S.index.forEach(f => {
     if (sec === 'xp') { if (!f.xp_tipo || ehPrev(f)) return; if (sub && f.xp_tipo !== sub) return; if (cls && (classeXPCanon(f.xp_classe || '') || 'sem classe') !== cls) return; }
@@ -3809,37 +3848,91 @@ function renderFichas() {
   const subs = pickSubs(P.sec); if (subs.length) { const row = el('div', 'pchips'); const all = el('button'); all.type = 'button'; all.textContent = P.sec === 'rf' || P.sec === 'ac' ? '' : 'Todos'; if (P.sec !== 'rf' && P.sec !== 'ac') { all.setAttribute('aria-pressed', !P.sub ? 'true' : 'false'); all.addEventListener('click', () => { P.sub = null; P.cls = null; renderFichas(); renderLista(); }); row.append(all); } subs.forEach(sb => { const b = el('button'); b.type = 'button'; b.append(document.createTextNode(sb.lbl)); if (sb.n) b.append(el('small', null, String(sb.n))); b.setAttribute('aria-pressed', P.sub === sb.id || (P.sec === 'rf' && !P.sub && sb.id === 'pcdi') || (P.sec === 'ac' && !P.sub && sb.id === 'acao') ? 'true' : 'false'); b.addEventListener('click', () => { P.sub = sb.id; P.cls = null; renderFichas(); renderLista(); }); row.append(b); }); main.append(row); }
   const classes = pickClasses(P.sec, P.sub); if (classes.length) { const row = el('div', 'pchips sub'); const all = el('button'); all.type = 'button'; all.textContent = 'Todas as classes'; all.setAttribute('aria-pressed', !P.cls ? 'true' : 'false'); all.addEventListener('click', () => { P.cls = null; renderFichas(); renderLista(); }); row.append(all); classes.forEach(c => { const b = el('button'); b.type = 'button'; b.append(document.createTextNode(c.lbl), el('small', null, String(c.n))); b.setAttribute('aria-pressed', P.cls === c.id ? 'true' : 'false'); b.addEventListener('click', () => { P.cls = c.id; renderFichas(); renderLista(); }); row.append(b); }); main.append(row); }
 }
+// colunas da lista por seção: além de retorno e risco, os fundamentos de FIIs (DY 12 m, P/VP) e de ações (P/VPA, EV/EBITDA,
+// crescimento de PL, EBITDA e receita). `asc` marca as colunas em que o primeiro clique ordena do menor para o maior (múltiplos).
+const PICK_COL_W = { nm: 220, w: 84, vol: 50, sharpe: 52, co: 50, mult: 58, gro: 54, act: 30, gap: 8 };
+function pickColunas(sec, sub) {
+  const cols = [];
+  PICK_W.forEach(W => cols.push({ g: 'Retorno', k: String(W), lbl: W + 'm', w: PICK_COL_W.w, cls: 'pbp w' + W, tt: 'Ordenar pelo retorno de ' + W + ' meses' }));
+  cols.push({ g: 'Risco', k: 'vol', lbl: 'Vol', w: PICK_COL_W.vol, cls: 'pbv', tt: 'Ordenar pela volatilidade anualizada em 12 meses' },
+            { g: 'Risco', k: 'sharpe', lbl: 'Sharpe', w: PICK_COL_W.sharpe, cls: 'pbs', tt: 'Ordenar pelo Sharpe de 12 meses' },
+            { g: 'Risco', k: 'co', lbl: 'Co Ibov', w: PICK_COL_W.co, cls: 'pbc', tt: 'Ordenar pela correlação com o Ibovespa em 12 meses' });
+  if (sec !== 'ac') return cols;
+  const tp = sub || 'acao';
+  if (tp === 'fii') cols.push({ g: 'Fundamentos', k: 'dy12', lbl: 'DY 12m', w: PICK_COL_W.mult, cls: 'pbf dy', tt: 'Ordenar pelo dividend yield de 12 meses (rendimentos dos últimos 12 informes mensais ÷ cotação)' },
+                              { g: 'Fundamentos', k: 'pvp', lbl: 'P/VP', w: PICK_COL_W.mult, cls: 'pbf mult', asc: true, tt: 'Ordenar pelo preço sobre o valor patrimonial da cota (menor primeiro)' });
+  if (tp === 'acao') {
+    cols.push({ g: 'Valuation', k: 'pvpa', lbl: 'P/VPA', w: PICK_COL_W.mult, cls: 'pbf mult', asc: true, tt: 'Ordenar pelo preço sobre o valor patrimonial por ação (menor primeiro)' },
+              { g: 'Valuation', k: 'ev', lbl: 'EV/EBITDA', w: PICK_COL_W.mult + 12, cls: 'pbf mult', asc: true, tt: 'Ordenar pelo valor da firma sobre o EBITDA de 12 meses (menor primeiro)' });
+    [['gpl', 'Crescimento do PL', 'do patrimônio líquido'], ['geb', 'Crescimento do EBITDA', 'do EBITDA acumulado em 12 meses'], ['grec', 'Crescimento da receita', 'da receita líquida acumulada em 12 meses']].forEach(([p, g, d]) => {
+      PICK_W.forEach(W => cols.push({ g, k: p + W, lbl: W + 'm', w: PICK_COL_W.gro, cls: 'pbf gro', tt: 'Ordenar pelo crescimento ' + d + ' em ' + W + ' meses' }));
+    });
+  }
+  return cols;
+}
+const pickValor = (it, k) => k === 'vol' ? it.vol : k === 'sharpe' ? it.sharpe : k === 'co' ? it.co : /^\d+$/.test(k) ? (it.r ? it.r[+k] : (k === '12' ? it.ret : null)) : (it.fd ? it.fd[k] : null);
+const fmtMult = (v) => v == null ? null : fmtNum(v, v >= 100 ? 0 : v >= 10 ? 1 : 2) + '×';
+// célula de fundamento: número e barra (múltiplos em cinza, crescimento azul/vermelho, DY verde); "–" com o motivo quando não há dado
+function pickCelFund(it, c, max) {
+  const v = pickValor(it, c.k); const naoSeAplica = it.fd && it.fd.fin && (c.k === 'ev' || c.k.startsWith('geb') || c.k.startsWith('grec'));
+  const txt = v == null ? null : c.k === 'pvp' || c.k === 'pvpa' || c.k === 'ev' ? fmtMult(v) : c.k === 'dy12' ? pct(v, 1) : pctSign(v, 1);
+  const w = pickBar(c.cls, v, max, txt);
+  if (v == null) w.title = naoSeAplica ? 'Não se aplica a bancos e seguradoras' : it.kind === 'acao' && it.fd && !it.fd.dt ? 'Sem demonstrações da CVM para este papel' : 'Sem dado';
+  else if (it.fd && it.fd.dt) w.title = 'Dados até ' + (it.fd.dt.length === 7 ? mesBR(it.fd.dt) : dBR(it.fd.dt));
+  return w;
+}
+const mesBR = (ym) => { const [y, m] = ym.split('-'); return ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'][+m - 1] + '/' + y; };
 function renderLista() {
   const P = PICK; const lista = P.lista; if (!lista) return; lista.innerHTML = '';
   const itens = pickItens(); const LIM = 200;
-  if (P.ord) { const { k, dir } = P.ord; const vOf = (i) => k === 'vol' ? i.vol : k === 'sharpe' ? i.sharpe : k === 'co' ? i.co : (i.r ? i.r[+k] : (k === '12' ? i.ret : null)); itens.sort((a, b) => { const va = vOf(a), vb = vOf(b); if (va == null && vb == null) return 0; if (va == null) return 1; if (vb == null) return -1; return dir < 0 ? vb - va : va - vb; }); }
+  const temBarras = P.sec !== 'rf'; const cols = temBarras ? pickColunas(P.sec, P.sub) : [];
+  if (P.ord && !cols.some(c => c.k === P.ord.k)) P.ord = null;   // a coluna ordenada não existe nesta seção
+  if (P.ord) { const { k, dir } = P.ord; itens.sort((a, b) => { const va = pickValor(a, k), vb = pickValor(b, k); if (va == null && vb == null) return 0; if (va == null) return 1; if (vb == null) return -1; return dir < 0 ? vb - va : va - vb; }); }
   const vis = itens.slice(0, LIM);
-  const temBarras = P.sec !== 'rf';
   // benchmarks ainda não carregados (abertura logo após o carregamento da página): busca e redesenha a lista quando chegarem
   const faltam = [...new Set(vis.map(i => i.bm).filter(b => b && b !== 'cdi' && !benchDoc(b) && S.benchmarks.some(x => x.id === b)))];
   if (faltam.length) Promise.all(faltam.map(b => carregarBench(b).catch(() => null))).then(() => { if (P.el && P.el.classList.contains('on') && P.lista === lista) renderLista(); });
   const mx = {}; PICK_W.forEach(W => { mx[W] = Math.max(0, ...vis.map(i => Math.abs((i.r ? i.r[W] : (W === 12 ? i.ret : null)) || 0))); });
   const esc = {}; PICK_W.forEach(W => { const ds = vis.map(i => { const v = i.r ? i.r[W] : (W === 12 ? i.ret : null); const sl = seloBm(i.bm, v, W); return sl ? Math.abs(sl.v) : 0; }); esc[W] = Math.max(0.02, ...ds); });
   const mxV = Math.max(0, ...vis.map(i => i.vol || 0)), mxS = Math.min(2, Math.max(0, ...vis.map(i => Math.abs(i.sharpe || 0))));
-  const sortBtn = (k, lbl, title) => { const b = el('button', 'sortx'); b.type = 'button'; if (title) b.title = title; b.append(document.createTextNode(lbl), el('span', 'arr', '▼'));
-    const atual = P.ord && P.ord.k === k; b.setAttribute('aria-sort', atual ? (P.ord.dir < 0 ? 'descending' : 'ascending') : 'none');
-    b.addEventListener('click', () => { P.ord = atual && P.ord.dir < 0 ? { k, dir: 1 } : atual ? null : { k, dir: -1 }; renderLista(); }); return b; };
-  if (temBarras) { const hd = el('div', 'pitem head'); hd.append(el('span', null, 'Ativo'));
-    PICK_W.forEach(W => { const sp = el('span', 'w' + W); sp.append(sortBtn(String(W), W + 'm', 'Ordenar pelo retorno de ' + W + ' meses')); hd.append(sp); });
-    const hv = el('span'); hv.append(sortBtn('vol', 'Vol', 'Ordenar pela volatilidade anualizada em 12 meses')); const hs = el('span'); hs.append(sortBtn('sharpe', 'Sharpe', 'Ordenar pelo Sharpe de 12 meses')); const hc = el('span'); hc.append(sortBtn('co', 'Co Ibov', 'Ordenar pela correlação com o Ibovespa em 12 meses'));
-    hd.append(hv, hs, hc); lista.append(hd); }
-  vis.forEach(it => {
+  // escala das barras de fundamentos: o 90º percentil do módulo, para um ou dois valores extremos não achatarem as demais barras
+  const mxF = {}; cols.forEach(c => { if (!c.cls.startsWith('pbf')) return; const vs = vis.map(i => Math.abs(pickValor(i, c.k))).filter(v => v != null && isFinite(v)).sort((a, b) => a - b); mxF[c.k] = vs.length ? vs[Math.min(vs.length - 1, Math.floor(vs.length * 0.9))] : 0; });
+  // grade: nome fixo à esquerda, colunas de largura fixa, ação (+ / ×) fixa à direita; a lista rola na horizontal quando não cabe
+  const W = PICK_COL_W; const total = W.nm + cols.reduce((s, c) => s + c.w, 0) + W.act + W.gap * (cols.length + 1);
+  lista.style.setProperty('--pcols', temBarras ? `minmax(${W.nm}px,1fr) ${cols.map(c => c.w + 'px').join(' ')} ${W.act}px` : `minmax(0,1fr) ${W.act}px`);
+  lista.style.setProperty('--pmin', (temBarras ? total : 0) + 'px');
+  lista.classList.toggle('wide', temBarras);
+  const sortBtn = (c) => { const b = el('button', 'sortx'); b.type = 'button'; if (c.tt) b.title = c.tt; b.append(document.createTextNode(c.lbl), el('span', 'arr', '▼'));
+    const atual = P.ord && P.ord.k === c.k; b.setAttribute('aria-sort', atual ? (P.ord.dir < 0 ? 'descending' : 'ascending') : 'none');
+    const d1 = c.asc ? 1 : -1;   // primeiro clique: retornos do maior para o menor; múltiplos do menor para o maior
+    b.addEventListener('click', () => { P.ord = atual && P.ord.dir === d1 ? { k: c.k, dir: -d1 } : atual ? null : { k: c.k, dir: d1 }; renderLista(); }); return b; };
+  if (temBarras) {
+    const ph = el('div', 'phead');
+    // grupos (Retorno, Risco, Valuation, Crescimento…) sobre as colunas que lhes pertencem
+    const hg = el('div', 'pitem hgrp'); hg.append(el('span', 'nm'));
+    let i = 0; while (i < cols.length) { let j = i; while (j < cols.length && cols[j].g === cols[i].g) j++; const sp = el('span', 'grp', cols[i].g); sp.style.gridColumn = 'span ' + (j - i); hg.append(sp); i = j; }
+    hg.append(el('span', 'pact')); ph.append(hg);
+    const hd = el('div', 'pitem head'); hd.append(el('span', 'nm', 'Ativo'));
+    cols.forEach(c => { const sp = el('span', c.k === 'vol' || c.k === 'sharpe' || c.k === 'co' ? '' : 'w' + c.k); sp.append(sortBtn(c)); hd.append(sp); });
+    hd.append(el('span', 'pact')); ph.append(hd); lista.append(ph);
+  }
+  vis.forEach((it, idx) => {
     const jaTem = S.sel.some(x => x.key === it.key); const ehAtual = P.atual && P.atual.key === it.key;
-    const b = el(jaTem || ehAtual ? 'div' : 'button', 'pitem' + (temBarras ? '' : ' simples')); if (b.tagName === 'BUTTON') b.type = 'button';
+    const b = el('div', 'pitem' + (temBarras ? '' : ' simples') + (idx % 2 ? ' alt' : ''));
     const nmb = el('div', 'nm' + (it.kind !== 'rf' ? ' nome' : '')); const n1 = el('b', null, it.nome); n1.title = it.kind !== 'rf' ? it.nome + ' — clique para ver os detalhes' : it.nome; nmb.append(n1);
     if (it.kind !== 'rf') nmb.addEventListener('click', (e) => { e.stopPropagation(); abrirPerfilKey(it.kind, it.key); }); const subTxt = [it.sub, it.liq != null && it.kind === 'fundo' ? 'D+' + fmtNum(it.liq, 0) : null].filter(Boolean).join(' · '); if (subTxt) nmb.append(el('small', null, subTxt)); b.append(nmb);
-    if (temBarras) {
-      PICK_W.forEach(W => b.append(pickCelJanela(it, W, mx[W], esc[W])));
-      b.append(pickBar('pbv', it.vol, mxV, it.vol == null ? null : pct(it.vol)));
-      b.append(pickBar('pbs', it.sharpe, mxS, it.sharpe == null ? null : fmtNum(it.sharpe, 2)));
-      if (jaTem || ehAtual) { const rm = el('div', 'pbc rm'); const x = el('button', 'xrm'); x.type = 'button'; x.title = 'Retirar da comparação'; x.setAttribute('aria-label', 'Retirar ' + it.nome + ' da comparação'); x.append(icon('i-x', 10)); x.addEventListener('click', (e) => { e.stopPropagation(); remover(it.key); if (ehAtual) fecharPicker(); else renderLista(); }); rm.append(x); b.append(rm); }
-      else { const cc = el('div', 'pbc'); const bd = el('b', it.co != null && Math.abs(it.co) >= 0.5 ? 'alto' : '', it.co == null ? '–' : fmtNum(it.co * 100, 0) + '%'); cc.title = 'Correlação dos retornos diários com o Ibovespa em 12 meses'; cc.append(bd); b.append(cc); }
-    } else if (jaTem || ehAtual) { const x = el('button', 'xrm solto'); x.type = 'button'; x.title = 'Retirar da comparação'; x.setAttribute('aria-label', 'Retirar ' + it.nome + ' da comparação'); x.append(icon('i-x', 10)); x.addEventListener('click', (e) => { e.stopPropagation(); remover(it.key); if (ehAtual) fecharPicker(); else renderLista(); }); b.append(x); }
+    if (temBarras) cols.forEach(c => {
+      if (/^\d+$/.test(c.k)) b.append(pickCelJanela(it, +c.k, mx[+c.k], esc[+c.k]));
+      else if (c.k === 'vol') b.append(pickBar('pbv', it.vol, mxV, it.vol == null ? null : pct(it.vol)));
+      else if (c.k === 'sharpe') b.append(pickBar('pbs', it.sharpe, mxS, it.sharpe == null ? null : fmtNum(it.sharpe, 2)));
+      else if (c.k === 'co') { const cc = el('div', 'pbc'); const bd = el('b', it.co != null && Math.abs(it.co) >= 0.5 ? 'alto' : '', it.co == null ? '–' : fmtNum(it.co * 100, 0) + '%'); cc.title = 'Correlação dos retornos diários com o Ibovespa em 12 meses'; cc.append(bd); b.append(cc); }
+      else b.append(pickCelFund(it, c, mxF[c.k]));
+    });
+    // ação da linha: "+" acrescenta (a linha inteira também responde ao clique); "×" retira o que já está na comparação
+    const act = el('div', 'pact');
+    if (jaTem || ehAtual) { const x = el('button', 'xrm'); x.type = 'button'; x.title = 'Retirar da comparação'; x.setAttribute('aria-label', 'Retirar ' + it.nome + ' da comparação'); x.append(icon('i-x', 10)); x.addEventListener('click', (e) => { e.stopPropagation(); remover(it.key); if (ehAtual) fecharPicker(); else renderLista(); }); act.append(x); }
+    else { const add = el('button', 'padd'); add.type = 'button'; add.title = P.atual ? 'Trocar por este ativo' : 'Adicionar à comparação'; add.setAttribute('aria-label', (P.atual ? 'Trocar por ' : 'Adicionar ') + it.nome + (P.atual ? '' : ' à comparação')); add.append(icon(P.atual ? 'i-swap' : 'i-plus', 11)); act.append(add); }
+    b.append(act);
     if (ehAtual) { b.classList.add('atual'); n1.append(el('span', 'tag', 'atual')); } else if (jaTem) { b.classList.add('ja'); n1.append(el('span', 'tag', 'na comparação')); }
     else b.addEventListener('click', () => { const atual = P.atual; fecharPicker(); if (atual) substituir(atual.key, it.key, it.kind); else adicionar(it.key, it.kind); });
     lista.append(b);
@@ -3847,9 +3940,13 @@ function renderLista() {
   if (!vis.length) { const semPrazos = P.liq != null && !S.index.some(f => f.xp_liq != null); lista.append(el('div', 'pvazio', semPrazos ? 'Esta base não trouxe os prazos de resgate; recarregue a página para atualizar os dados.' : P.liq != null ? 'Nenhum ativo com esse prazo de resgate nesta seção.' : 'Nada encontrado nesta seção.')); }
   else if (itens.length > LIM) lista.append(el('div', 'pvazio', 'Mostrando os ' + LIM + ' de maior retorno em ' + itens.length + '; use a busca para refinar.'));
   if (P.sec === 'rf') { const foot = el('div', 'pfoot'); const bt = el('button', 'mini'); bt.type = 'button'; bt.textContent = 'Outra taxa, emissor ou vencimento…'; bt.addEventListener('click', () => { fecharPicker(); abrirRF(P.sub || 'pcdi'); }); foot.append(bt); lista.append(foot); }
+  if (!lista._scx) { lista._scx = true; lista.addEventListener('scroll', () => sombrasLista(lista), { passive: true }); }
+  requestAnimationFrame(() => sombrasLista(lista));
 }
+// sombras nas bordas das colunas fixas enquanto houver conteúdo escondido de cada lado
+function sombrasLista(lista) { const max = lista.scrollWidth - lista.clientWidth; lista.classList.toggle('scx', lista.scrollLeft > 1); lista.classList.toggle('scxe', max - lista.scrollLeft > 1); }
 function posicionarPicker() {
-  const P = PICK; if (!P.el || !P.anchor) return; const r = P.anchor.getBoundingClientRect(); const W = Math.min(950, window.innerWidth - 16); P.el.style.width = W + 'px';
+  const P = PICK; if (!P.el || !P.anchor) return; const r = P.anchor.getBoundingClientRect(); const W = Math.min(1040, window.innerWidth - 16); P.el.style.width = W + 'px';
   if (window.innerWidth < 720) { P.el.style.left = '8px'; P.el.style.top = '8px'; P.el.style.width = (window.innerWidth - 16) + 'px'; P.el.style.maxHeight = (window.innerHeight - 16) + 'px'; return; }
   const left = Math.max(8, Math.min(r.left, window.innerWidth - W - 8)); P.el.style.left = left + 'px';
   const h = Math.min(P.el.offsetHeight, window.innerHeight * 0.8); const abaixo = window.innerHeight - r.bottom - 10;
@@ -3940,6 +4037,39 @@ async function perfilDe(s) {
 }
 const CAT_LBL = { juros_brasil: 'Juros Brasil', juros_internacional: 'Juros internacionais', moedas: 'Moedas', acoes_brasil: 'Ações Brasil', acoes_internacional: 'Ações internacionais', commodities: 'Commodities', credito_high_grade: 'Crédito high grade', credito_high_yield: 'Crédito high yield', credito_soberano: 'Crédito soberano', outros_mercados_globais: 'Outros mercados globais', imobiliario: 'Imobiliário', credito_internacional: 'Crédito internacional' };
 function paras(box, txt) { String(txt || '').split(/\n+/).map(t => t.trim()).filter(Boolean).forEach(t => box.append(el('p', null, t))); }
+// fundamentos no perfil: FII (DY 12 m, P/VP, VP da cota) e ação (P/VPA, EV/EBITDA, valor de mercado, PL, dívida líquida, receita e EBITDA
+// de 12 meses, crescimento de PL, EBITDA e receita em 12/24/36 m); bancos e seguradoras só com os itens patrimoniais
+function secFundamentos(sec, f) {
+  const F = f.fund; if (!F || f.tipo === 'bdr') return;
+  const dt = F.dt_fund ? (F.dt_fund.length === 7 ? mesBR(F.dt_fund) : dBR(F.dt_fund)) : null;
+  const d = sec('Fundamentos', 'i-gauge');
+  const fato = (dl, k, v, tt) => { if (v == null) return; const it = el('div'); it.append(el('b', null, v), el('span', null, k)); if (tt) it.title = tt; dl.append(it); };
+  const mult = (v) => v == null ? null : fmtNum(v, v >= 100 ? 0 : 2) + '×';
+  const dl = el('div', 'pf-facts');
+  if (f.tipo === 'fii') {
+    fato(dl, 'Dividend yield 12 meses', F.dy12 != null ? pct(F.dy12, 1) + (F.dy12_meses && F.dy12_meses < 12 ? ' (' + F.dy12_meses + ' meses)' : '') : null, 'Soma dos rendimentos mensais dos últimos informes, em % da cotação');
+    fato(dl, 'P/VP', mult(F.pvp), 'Cotação ÷ valor patrimonial da cota');
+    fato(dl, 'Valor patrimonial da cota', F.vp != null ? 'R$ ' + fmtNum(F.vp, 2) : null);
+    d.append(dl);
+    d.append(el('p', 'pf-fonte', 'Informe mensal do fundo à CVM' + (dt ? ', até ' + dt : '') + '.'));
+    return;
+  }
+  fato(dl, 'P/VPA', mult(F.pvpa), 'Valor de mercado ÷ patrimônio líquido');
+  fato(dl, 'EV/EBITDA', F.fin ? 'não se aplica' : mult(F.ev_ebitda), F.fin ? 'Bancos e seguradoras não têm EBITDA comparável' : 'Valor de mercado + dívida líquida, sobre o EBITDA de 12 meses');
+  fato(dl, 'Valor de mercado', F.mcap != null ? 'R$ ' + compactR(F.mcap) : null, 'Ações ON e PN em circulação (B3) pelos últimos preços');
+  fato(dl, 'Patrimônio líquido', F.pl != null ? 'R$ ' + compactR(F.pl) : null);
+  fato(dl, 'Dívida líquida', F.divida_liq != null ? (F.divida_liq < 0 ? '−' : '') + 'R$ ' + compactR(Math.abs(F.divida_liq)) : null, 'Empréstimos e financiamentos menos caixa e aplicações');
+  if (!F.fin) { fato(dl, 'Receita líquida 12 meses', F.receita != null ? 'R$ ' + compactR(F.receita) : null); fato(dl, 'EBITDA 12 meses', F.ebitda != null ? 'R$ ' + compactR(F.ebitda) : null, 'EBIT mais depreciação e amortização, acumulados em 12 meses'); }
+  d.append(dl);
+  // crescimento: tabela compacta PL / EBITDA / receita × 12, 24 e 36 meses
+  const linhas = [['Patrimônio líquido', F.g_pl], ['EBITDA', F.fin ? null : F.g_ebitda], ['Receita líquida', F.fin ? null : F.g_rec]].filter(([, g]) => g && g.some(v => v != null));
+  if (linhas.length) {
+    const tb = el('table', 'pf-cresc'); const th = el('tr'); th.append(el('th', null, 'Crescimento'), el('th', null, '12 meses'), el('th', null, '24 meses'), el('th', null, '36 meses')); tb.append(th);
+    linhas.forEach(([k, g]) => { const tr = el('tr'); tr.append(el('td', null, k)); g.forEach(v => { const td = el('td', v == null ? 'na' : v < 0 ? 'neg' : 'pos', v == null ? '–' : pctSign(v, 1)); tr.append(td); }); tb.append(tr); });
+    d.append(tb);
+  }
+  d.append(el('p', 'pf-fonte', 'Demonstrações financeiras entregues à CVM (ITR e DFP)' + (dt ? ', até ' + dt : '') + '; receita e EBITDA acumulados em 12 meses, crescimento sobre o mesmo acumulado 1, 2 e 3 anos antes.' + (F.fin ? ' Banco ou seguradora: receita e EBITDA não são comparáveis aos de outras empresas.' : '')));
+}
 // abre o perfil a partir de qualquer listagem (seletor, ranking, tabela): carrega o doc e monta um sel temporário
 async function abrirPerfilKey(kind, key) {
   if (kind === 'rf') return;
@@ -3964,6 +4094,7 @@ async function abrirPerfil(s) {
     const d = sec(f.tipo === 'bdr' ? 'BDR' : f.tipo === 'fii' ? 'Fundo imobiliário' : 'Ação', 'i-stock');
     paras(d, f.tipo === 'fii' ? 'Cota de fundo de investimento imobiliário negociada na B3. A série usa a cotação com os rendimentos mensais reinvestidos (informe mensal da CVM) e os desdobramentos incorporados; a referência na comparação e na projeção é o IFIX. Rendimentos isentos de imposto de renda para pessoa física nas condições da lei.' : f.tipo === 'bdr' ? 'Brazilian Depositary Receipt: certificado negociado na B3 que representa ações de uma empresa estrangeira, em reais. A cotação acompanha o preço da ação no exterior e o câmbio; por isso a referência na comparação e na projeção é o S&P 500 em reais.' : 'Ação negociada na B3. A série de preços é a cotação ajustada por proventos (dividendos e juros sobre capital próprio reinvestidos) e por desdobramentos e grupamentos, para ficar comparável à cota de um fundo. A referência na comparação e na projeção é o Ibovespa.');
     const dl = el('div', 'pf-facts'); [['Último preço', f.preco != null ? 'R$ ' + fmtNum(f.preco, 2) : null], ['Volume médio', f.liq ? 'R$ ' + compactR(f.liq) + '/dia' : null], ['Excesso sobre o índice', f.premio != null ? (f.premio >= 0 ? '+' : '−') + fmtNum(Math.abs(f.premio), 1) + ' p.p. a.a. em ' + (f.premio_w || 36) + ' meses' : null], ['Liquidez', 'D+2 (liquidação na B3)'], ['Imposto', f.tipo === 'fii' ? '20% sobre o ganho na venda; rendimentos isentos para pessoa física' : '15% sobre o ganho (20% em day trade); isenção até R$ 20 mil vendidos no mês para ações']].forEach(([k, v]) => { if (v) { const it = el('div'); it.append(el('b', null, v), el('span', null, k)); dl.append(it); } }); d.append(dl);
+    secFundamentos(sec, f);
   }
   if (s.kind === 'rf') {
     if (P.emissor) { const d = sec(P.emissor.nome, null); paras(d, P.emissor.tipo + '. Emissor do papel informado por você; a rentabilidade mostrada é a taxa contratada, sem marcação a mercado.'); }
