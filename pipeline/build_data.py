@@ -1158,18 +1158,27 @@ def main() -> int:
             j12 = d["janelas"].get("12") or {}
             j24 = d["janelas"].get("24") or {}
             j36 = d["janelas"].get("36") or {}
+            f = p.get("fund") or {}
+            g = lambda k, i: (f.get(k) or [None, None, None])[i]  # noqa: E731
             acoes_rows.append([p["ticker"], p["nome"], p["tipo"], p["especi"], j12.get("ret"), j12.get("pcdi"), j12.get("sharpe"), j12.get("vol"),
                                j24.get("ret"), j36.get("ret"), d["premio"], d["premio_w"], p["bm"], round(p["liq"]), round(p["preco"], 2), d["ate"],
-                               p.get("ajuste"), p_co])
+                               p.get("ajuste"), p_co,
+                               # fundamentos: FIIs (DY 12 m, P/VP) e ações (P/VPA, EV/EBITDA, crescimento de PL, EBITDA e receita em 12/24/36 m)
+                               f.get("dy12"), f.get("pvp"), f.get("pvpa"), f.get("ev_ebitda"),
+                               g("g_pl", 0), g("g_pl", 1), g("g_pl", 2), g("g_ebitda", 0), g("g_ebitda", 1), g("g_ebitda", 2),
+                               g("g_rec", 0), g("g_rec", 1), g("g_rec", 2), 1 if f.get("fin") else 0, f.get("dt_fund")])
             if p["tipo"] == "bdr":
                 n_bdr += 1
             elif p["tipo"] == "fii":
                 n_fii += 1
         with open(os.path.join(args.out, "acoes.json"), "w", encoding="utf-8") as fh:
             json.dump({"colunas": ["ticker", "nome", "tipo", "especi", "ret12", "pcdi12", "sharpe12", "vol12", "ret24", "ret36",
-                                   "premio", "premio_w", "bm", "liq", "preco", "ate", "ajuste", "co12"],
+                                   "premio", "premio_w", "bm", "liq", "preco", "ate", "ajuste", "co12",
+                                   "dy12", "pvp", "pvpa", "ev_ebitda", "g_pl12", "g_pl24", "g_pl36", "g_eb12", "g_eb24", "g_eb36",
+                                   "g_rec12", "g_rec24", "g_rec36", "fin", "dt_fund"],
                        "acoes": acoes_rows, "info": acoes_info}, fh, ensure_ascii=False, separators=(",", ":"))
-        log(f"  {len(acoes_rows)} papéis publicados ({len(acoes_rows) - n_bdr - n_fii} ações, {n_bdr} BDRs, {n_fii} FIIs)")
+        n_fund = sum(1 for r in acoes_rows if r[18] is not None or r[20] is not None or r[22] is not None)
+        log(f"  {len(acoes_rows)} papéis publicados ({len(acoes_rows) - n_bdr - n_fii} ações, {n_bdr} BDRs, {n_fii} FIIs); {n_fund} com fundamentos")
 
     log("5/5 índice e metadados")
     if args.sem_extras:

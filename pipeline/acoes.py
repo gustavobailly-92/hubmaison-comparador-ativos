@@ -28,6 +28,7 @@ from datetime import date
 import numpy as np
 
 import fontes_extras as fx
+import fundamentos as fd
 
 COTAHIST_URL = "https://bvmf.bmfbovespa.com.br/InstDados/SerHist/COTAHIST_A{ano}.ZIP"
 B3_EMPRESAS = "https://sistemaswebb3-listados.b3.com.br/listedCompaniesProxy/CompanyCall/"
@@ -41,7 +42,7 @@ ESPECIES_ACAO = ("ON", "PN", "PNA", "PNB", "PNC", "PND", "PNE", "PNF", "UNT")
 ESPECIES_BDR = ("DRN", "DR1", "DR2", "DR3", "DRE")
 CODBDI_BDR = ("34", "35", "36")   # no COTAHIST os BDRs vêm nestes códigos desde outubro de 2022 (antes, em lote padrão 02): 34 não patrocinado, 35 patrocinado, 36 ETF
 CASH_PAGINA = 100       # proventos em dinheiro por página na API da B3 (acima de ~120 a API devolve vazio)
-EVENTOS_VERSAO = 2      # formato do cache de eventos; muda quando a leitura da API muda (invalida caches antigos)
+EVENTOS_VERSAO = 3      # formato do cache de eventos; muda quando a leitura da API muda (invalida caches antigos); 3 = código CVM e número de ações
 RAZOES_SPLIT = (2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30, 40, 50, 100)
 
 log = fx.log
@@ -242,6 +243,12 @@ def eventos_empresa(emissor: str, cache_dir: str, hoje: date) -> dict | None:
         return out
     nome = (sup.get("tradingName") or "").strip()
     stock = _eventos_stock(sup.get("stockDividends"))
+    # código CVM (liga a empresa às demonstrações ITR/DFP) e número de ações (valor de mercado)
+    try:
+        cvm = int(re.sub(r"\D", "", str(sup.get("codeCVM") or ""))) or None
+    except ValueError:
+        cvm = None
+    acoes = {k: _num_br(sup.get(j)) for k, j in (("on", "numberCommonShares"), ("pn", "numberPreferredShares"), ("total", "totalNumberShares"))}
     cash: list | None = []
     if nome:
         # a API aceita no máximo ~120 registros por página (com 500 devolve vazio) e não encontra nomes com barra
@@ -280,7 +287,7 @@ def eventos_empresa(emissor: str, cache_dir: str, hoje: date) -> dict | None:
                 break
             if cash:
                 break
-    out = {"versao": EVENTOS_VERSAO, "atualizado": hoje.isoformat(), "nome": nome, "stock": stock, "cash": cash}
+    out = {"versao": EVENTOS_VERSAO, "atualizado": hoje.isoformat(), "nome": nome, "stock": stock, "cash": cash, "cvm": cvm, "acoes": acoes}
     with open(arq, "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False)
     return out
@@ -302,10 +309,13 @@ def eventos_fii(codigo: str, cache_dir: str, hoje: date) -> dict | None:
     return out
 
 
-def rendimentos_fii(anos: list[int], hoje: date, cache: str, avisos: list[str]) -> tuple[dict[str, str], dict[str, dict[str, float]]]:
-    """Informe mensal de FII da CVM: (ISIN -> CNPJ) e (CNPJ -> {AAAA-MM: dividend yield do mês, fração})."""
+def rendimentos_fii(anos: list[int], hoje: date, cache: str, avisos: list[str]) -> tuple[dict[str, str], dict[str, dict[str, float]], dict[str, dict[str, float]]]:
+    """Informe mensal de FII da CVM: (ISIN -> CNPJ), (CNPJ -> {AAAA-MM: dividend yield do mês, fração}) e
+    (CNPJ -> {AAAA-MM: valor patrimonial da cota}, pelo campo do informe ou por patrimônio líquido ÷ cotas emitidas)."""
     isin_cnpj: dict[str, str] = {}
     dy: dict[str, dict[str, float]] = {}
+    vp: dict[str, dict[str, float]] = {}
+    col_vp_usada = None
     os.makedirs(cache, exist_ok=True)
     for ano in anos:
         arq = os.path.join(cache, f"inf_mensal_fii_{ano}.zip")
@@ -344,19 +354,39 @@ def rendimentos_fii(anos: list[int], hoje: date, cache: str, avisos: list[str]) 
                         if "Percentual_Dividend_Yield_Mes" not in hdr or "Data_Referencia" not in hdr:
                             continue
                         idt, idy = hdr.index("Data_Referencia"), hdr.index("Percentual_Dividend_Yield_Mes")
+                        # valor patrimonial da cota: o campo próprio do informe ou patrimônio líquido ÷ cotas emitidas
+                        ivp = next((hdr.index(h) for h in hdr if re.match(r"valor_patrim\w*_cota", h, re.I)), None)
+                        ipl = next((hdr.index(h) for h in hdr if re.match(r"patrimonio_liquido$", h, re.I)), None)
+                        ict = next((hdr.index(h) for h in hdr if re.match(r"cotas_emitidas$", h, re.I)), None)
+                        if col_vp_usada is None:
+                            col_vp_usada = hdr[ivp] if ivp is not None else (f"{hdr[ipl]}/{hdr[ict]}" if ipl is not None and ict is not None else "nenhuma")
                         for linha in txt:
                             c = linha.rstrip("\r\n").split(";")
                             if len(c) <= max(ic, idt, idy):
                                 continue
+                            cnpj = re.sub(r"\D", "", c[ic])
+                            mes = c[idt][:7]
                             try:
                                 v = float(c[idy]) if c[idy].strip() else None
                             except ValueError:
                                 v = None
-                            if v is None or v < 0 or v > 0.2:
-                                continue
                             # a versão mais recente do informe prevalece (as linhas vêm em ordem; a última ganha)
-                            dy.setdefault(re.sub(r"\D", "", c[ic]), {})[c[idt][:7]] = v
-    return isin_cnpj, dy
+                            if v is not None and 0 <= v <= 0.2:
+                                dy.setdefault(cnpj, {})[mes] = v
+                            pv = None
+                            try:
+                                if ivp is not None and len(c) > ivp and c[ivp].strip():
+                                    pv = float(c[ivp])
+                                elif ipl is not None and ict is not None and len(c) > max(ipl, ict) and c[ipl].strip() and c[ict].strip():
+                                    n_cotas = float(c[ict])
+                                    pv = float(c[ipl]) / n_cotas if n_cotas > 0 else None
+                            except ValueError:
+                                pv = None
+                            if pv is not None and pv > 0:
+                                vp.setdefault(cnpj, {})[mes] = pv
+    if col_vp_usada is not None:
+        log(f"  FII: valor patrimonial da cota pela coluna {col_vp_usada}")
+    return isin_cnpj, dy, vp
 
 
 # --------------------------------------------------------------------------- ajustes
@@ -455,7 +485,9 @@ def carregar_acoes(datas: list[date], hoje: date, offline: str | None, cache: st
     """Devolve (papéis, info). Cada papel: ticker, nome, tipo (acao|bdr|fii), especi, bm, liq, preco, fonte, ajuste,
     q e qp (np.array no calendário: com e sem proventos reinvestidos)."""
     if offline:
-        return _sinteticas(datas), {"pregoes": len(datas), "ultimo_pregao": datas[-1].isoformat(), "papeis_no_arquivo": 13, "fonte": "sintético"}
+        out = _sinteticas(datas)
+        _fundamentos_sinteticos(out, hoje)
+        return out, {"pregoes": len(datas), "ultimo_pregao": datas[-1].isoformat(), "papeis_no_arquivo": 13, "fonte": "sintético"}
     pasta = os.path.join(cache, "acoes")
     os.makedirs(pasta, exist_ok=True)
     papeis, info, atual = universo(hoje, cache, avisos)
@@ -465,9 +497,10 @@ def carregar_acoes(datas: list[date], hoje: date, offline: str | None, cache: st
     # rendimentos dos FIIs (CVM) e eventos societários (B3)
     isin_cnpj: dict[str, str] = {}
     dy_fii: dict[str, dict[str, float]] = {}
+    vp_fii: dict[str, dict[str, float]] = {}
     if any(p["tipo"] == "fii" for p in papeis):
         try:
-            isin_cnpj, dy_fii = rendimentos_fii(anos, hoje, os.path.join(cache, "fii"), avisos)
+            isin_cnpj, dy_fii, vp_fii = rendimentos_fii(anos, hoje, os.path.join(cache, "fii"), avisos)
             log(f"  FII: {len(isin_cnpj)} ISINs e {len(dy_fii)} fundos com dividend yield mensal na CVM")
         except Exception as e:  # noqa: BLE001
             avisos.append(f"rendimentos dos FIIs (CVM): {e}")
@@ -533,6 +566,7 @@ def carregar_acoes(datas: list[date], hoje: date, offline: str | None, cache: st
             if not dy:
                 ajuste = "sem proventos"
                 n_sem_evento += 1
+            p["_vp"] = vp_fii.get(cnpj) if cnpj else None
         else:  # BDR: sem fonte aberta de proventos
             splits = _detectar_splits(serie)
             ajuste = "sem proventos"
@@ -540,19 +574,84 @@ def carregar_acoes(datas: list[date], hoje: date, offline: str | None, cache: st
         q = fx.alinhar(q_d, datas)
         if np.isnan(q).all():
             continue
-        out.append({**{k2: v for k2, v in p.items() if k2 != "isin"}, "nome_longo": None, "fonte": "B3 COTAHIST",
+        out.append({**{k2: v for k2, v in p.items() if k2 not in ("isin", "_vp")}, "nome_longo": None, "fonte": "B3 COTAHIST",
                     "nome": _nome_bonito(p["nome"], p["especi"], None), "ajuste": ajuste, "estreia": min(serie),
                     "n_splits": inf.get("splits", 0), "n_proventos": inf.get("proventos", 0),
                     "bm": "sp500brl" if p["tipo"] == "bdr" else "ifix" if p["tipo"] == "fii" else "ibov",
-                    "q": q, "qp": fx.alinhar(qp_d, datas)})
+                    "q": q, "qp": fx.alinhar(qp_d, datas), "fund": _fund_fii(dy, p.get("_vp"), p["preco"], hoje) if p["tipo"] == "fii" else {}})
         n_ok += 1
         if (k + 1) % 100 == 0:
             log(f"  {k + 1} de {len(papeis)} papéis ({int(time.time() - t0)}s)")
     log(f"  séries montadas: {n_ok} papéis, {len(emissores)} emissores e {len(fiis)} FIIs consultados na B3 ({int(time.time() - t0)}s); {n_sem_evento} sem proventos")
     if n_sem_evento:
         avisos.append(f"ações: {n_sem_evento} papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)")
-    info["fonte"] = "B3 COTAHIST + eventos B3 + CVM (FII)"
+    # fundamentos das companhias (ITR/DFP da CVM) e indicadores de valuation por papel
+    try:
+        aplicar_fundamentos(out, emissores, hoje, cache, avisos)
+    except Exception as e:  # noqa: BLE001
+        avisos.append(f"fundamentos (CVM): {e}")
+    info["fonte"] = "B3 COTAHIST + eventos B3 + CVM (FII, ITR/DFP)"
     return out, info
+
+
+def _fund_fii(dy: dict | None, vp: dict | None, preco: float | None, hoje: date) -> dict:
+    """FII: dividend yield de 12 meses (soma dos 12 últimos rendimentos mensais do informe) e P/VP (cotação ÷ valor
+    patrimonial da cota do último informe)."""
+    out: dict = {}
+    if dy:
+        meses = sorted(dy)[-12:]
+        if len(meses) >= 6:
+            out["dy12"] = round(sum(dy[m] for m in meses), 4)
+            out["dy12_meses"] = len(meses)
+    if vp and preco:
+        m = max(vp)
+        if vp[m] > 0:
+            out["pvp"] = round(preco / vp[m], 2)
+            out["vp"] = round(vp[m], 2)
+            out["dt_fund"] = m
+    return out
+
+
+def aplicar_fundamentos(papeis: list[dict], emissores: dict[str, dict | None], hoje: date, cache: str, avisos: list[str], offline: bool = False) -> None:
+    """Ações: P/VPA, EV/EBITDA e crescimentos de PL, EBITDA e receita (12/24/36 m) pelas demonstrações da CVM.
+    Valor de mercado = ações ON × preço da ON + ações PN × preço da PN (número de ações pela B3); quando só uma classe
+    é negociada, o total de ações vale pelo preço dela. BDRs e units sem ON/PN negociadas ficam sem indicadores."""
+    por_cod: dict[str, list[dict]] = {}
+    for p in papeis:
+        if p["tipo"] == "acao":
+            por_cod.setdefault(p["ticker"][:4], []).append(p)
+    cvms = {}
+    for cod in por_cod:
+        ev = emissores.get(cod) or {}
+        if ev.get("cvm"):
+            cvms[cod] = int(ev["cvm"])
+    if not cvms:
+        return
+    fund = fd.sintetico(set(cvms.values()), hoje) if offline else fd.carregar(set(cvms.values()), hoje, cache, avisos)
+    n = 0
+    for cod, lista in por_cod.items():
+        cvm = cvms.get(cod)
+        f = fund.get(cvm) if cvm else None
+        if not f:
+            continue
+        ev = emissores.get(cod) or {}
+        ac = ev.get("acoes") or {}
+        p_on = next((p["preco"] for p in lista if p["especi"] == "ON"), None)
+        p_pn = next((p["preco"] for p in lista if p["especi"].startswith("PN")), None)
+        n_on, n_pn, n_tot = ac.get("on") or 0.0, ac.get("pn") or 0.0, ac.get("total") or 0.0
+        mcap = None
+        if p_on or p_pn:
+            if n_on or n_pn:
+                mcap = n_on * (p_on or p_pn) + n_pn * (p_pn or p_on)
+            elif n_tot:
+                mcap = n_tot * (p_on or p_pn)
+        ind = fd.indicadores(f, mcap)
+        if mcap:
+            ind["mcap"] = round(mcap)
+        for p in lista:
+            p["fund"] = ind
+            n += 1
+    log(f"  fundamentos: {n} papéis com indicadores ({len(fund)} companhias)")
 
 
 def _sinteticas(datas: list[date]) -> list[dict]:
@@ -582,6 +681,30 @@ def _sinteticas(datas: list[date]) -> list[dict]:
                     "estreia": min(serie), "fonte": "sintético", "ajuste": "completo" if tipo != "bdr" else "sem proventos", "n_splits": 0, "n_proventos": 0,
                     "q": fx.alinhar(serie, datas), "qp": fx.alinhar(precos, datas)})
     return out
+
+
+def _fundamentos_sinteticos(papeis: list[dict], hoje: date) -> None:
+    """Base de teste: indicadores fictícios pelo mesmo caminho da base real (emissores sintéticos + fundamentos.sintetico)."""
+    emissores: dict[str, dict] = {}
+    for k, p in enumerate(papeis):
+        if p["tipo"] == "acao":
+            cod = p["ticker"][:4]
+            n = 4.0e7 * (1 + k % 4)   # ~R$ 2 bi a 8 bi de valor de mercado: P/VPA entre 1 e 4 com os PLs sintéticos
+            emissores.setdefault(cod, {"cvm": 9000 + len(emissores), "acoes": {"on": n, "pn": 0.7 * n if p["especi"].startswith("PN") else 0.0, "total": n}})
+        elif p["tipo"] == "fii":
+            m0 = date(hoje.year, hoje.month, 1)
+            meses = []
+            for i in range(12):
+                y, m = divmod(m0.month - 1 - i, 12)
+                meses.append(f"{m0.year + y:04d}-{m + 1:02d}")
+            dy = {m: 0.0085 + 0.0005 * (i % 3) for i, m in enumerate(meses)}
+            vp = {meses[0]: p["preco"] * (0.92 if k % 2 else 1.06)}
+            p["fund"] = _fund_fii(dy, vp, p["preco"], hoje)
+    # units sintéticas (TAEE11) não têm ON/PN negociadas: ficam com valor de mercado pelo total de ações
+    for cod, ev in emissores.items():
+        if cod == "TAEE":
+            ev["acoes"] = {"on": 0.0, "pn": 0.0, "total": 1.0e9}
+    aplicar_fundamentos(papeis, emissores, hoje, "", [], offline=True)
 
 
 def premio_sobre(janelas_ativo: dict, janelas_bench: dict) -> tuple[float | None, int | None]:
