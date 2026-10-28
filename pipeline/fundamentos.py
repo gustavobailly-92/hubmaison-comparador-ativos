@@ -37,6 +37,7 @@ ANOS_HISTORICO = 5          # anos de demonstrações além do corrente: 36 mese
 DIAS_CACHE_CORRENTE = 7     # o extrato do ano corrente é renovado toda semana (a CVM atualiza os ZIPs diariamente); o do ano
                             # anterior também, até abril (a DFP do ano anterior chega até o fim de março)
 DIAS_CACHE_FECHADO = 90     # anos fechados: a CVM regera os ZIPs antigos com reapresentações; um refresh por trimestre basta
+EXTRATO_VERSAO = 2          # formato do extrato em cache; muda quando a leitura das contas muda (2 = contas confirmadas pelo nome)
 # (campo, código da conta, começo do nome normalizado): o nome confirma a conta, porque bancos e seguradoras usam outro
 # plano no balanço (PL em 2.07 ou 2.08; 2.02.01 = Depósitos; 2.01.04 = Capitalização) e outro na DRE (3.05 = resultado
 # antes dos tributos). O PL é reconhecido pelo nome em qualquer conta de segundo nível.
@@ -144,7 +145,7 @@ def _extrato_ano(tipo: str, url: str, ano: int, hoje: date, pasta: str) -> tuple
     """Extrato de um ZIP anual (todas as companhias) com cache em JSON: o ano corrente (e o anterior até abril) é renovado
     a cada DIAS_CACHE_CORRENTE dias, os fechados a cada DIAS_CACHE_FECHADO. Guardar só o extrato (poucos MB) evita manter
     os ZIPs (~30 MB cada) no cache."""
-    arq = os.path.join(pasta, f"{tipo}_{ano}.json")
+    arq = os.path.join(pasta, f"{tipo}_{ano}.v{EXTRATO_VERSAO}.json")   # a versão no nome descarta extratos de leituras antigas
     if os.path.exists(arq) and os.path.getsize(arq) > 50:
         idade = (time.time() - os.path.getmtime(arq)) / 86400
         recente = ano >= hoje.year or (ano == hoje.year - 1 and hoje.month <= 4)
