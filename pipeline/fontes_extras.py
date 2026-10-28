@@ -593,33 +593,39 @@ TESOURO_CSV = ("https://www.tesourotransparente.gov.br/ckan/dataset/df56aa42-484
                "resource/796d2059-14e9-44e3-80c9-2d9e30b405c1/download/PrecoTaxaTesouroDireto.csv")
 # o mesmo arquivo pelo endereço sem "www" (outro caminho até o servidor quando o primeiro limita os acessos)
 TESOURO_CSV_ALT = TESOURO_CSV.replace("https://www.", "https://")
+# espelho na Hostinger (hostinger/tesouro-precos.php no repositório): o servidor do site baixa o mesmo CSV do
+# Tesouro Transparente, que desde 20/10/2026 responde 429 aos IPs do GitHub Actions, e guarda a cópia por 6 horas
+TESOURO_ESPELHO = "https://hubmaison.com/comparadordeativos/tesouro-precos.php"
 
 
 def _baixar_tesouro(prazo_s: int = 420) -> bytes:
     """Baixa o CSV de preços e taxas do Tesouro Direto. O servidor do Tesouro Transparente passou a responder
-    429 (Too Many Requests) aos IPs compartilhados do GitHub Actions; aqui a espera respeita o Retry-After
-    (até 2 min por vez), alterna entre os dois endereços e desiste depois de ~7 min. Confere se veio mesmo o CSV
-    (um bloqueio pode devolver uma página HTML com status 200)."""
+    429 (Too Many Requests) aos IPs compartilhados do GitHub Actions; a ordem é Tesouro, espelho na Hostinger,
+    Tesouro sem "www", espelho, com espera que respeita o Retry-After (até 2 min por vez) entre as voltas, e desiste
+    depois de ~7 min. Confere se veio mesmo o CSV (um bloqueio pode devolver uma página HTML com status 200)."""
     import urllib.error
     inicio = time.time(); ultimo = None; k = 0
+    ordem = (TESOURO_CSV, TESOURO_ESPELHO, TESOURO_CSV_ALT, TESOURO_ESPELHO)
     while time.time() - inicio < prazo_s:
-        url = (TESOURO_CSV, TESOURO_CSV_ALT)[k % 2]; k += 1
-        espera = min(20 * k, 90)
+        url = ordem[k % len(ordem)]; k += 1
+        # depois de uma recusa do Tesouro, o espelho entra logo em seguida; entre as voltas, a espera cresce
+        espera = 3 if ordem[k % len(ordem)] == TESOURO_ESPELHO else min(20 * k, 90)
         try:
             req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "text/csv,*/*", "Accept-Encoding": "identity"})
             with urllib.request.urlopen(req, timeout=300) as r:
                 raw = r.read()
             cab = raw[:400].decode("latin-1", errors="replace")
             if "Tipo Titulo" in cab and len(raw) > 200_000:
+                log(f"  Tesouro: CSV baixado {'pelo espelho na Hostinger' if url == TESOURO_ESPELHO else 'do Tesouro Transparente'} ({len(raw):,} bytes)")
                 return raw
             ultimo = RuntimeError(f"resposta inesperada ({len(raw):,} bytes, início: {cab[:60]!r})")
         except urllib.error.HTTPError as e:
             ultimo = e
-            if e.code == 429:
+            if e.code == 429 and ordem[k % len(ordem)] != TESOURO_ESPELHO:
                 ra = e.headers.get("Retry-After") if e.headers else None
                 if ra and str(ra).strip().isdigit():
                     espera = min(int(ra) + 2, 120)
-            elif e.code in (403, 404):
+            elif e.code in (403, 404) and ordem[k % len(ordem)] != TESOURO_ESPELHO:
                 espera = 10
         except Exception as e:  # noqa: BLE001
             ultimo = e
