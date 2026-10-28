@@ -10,10 +10,11 @@ Por companhia (código CVM), em cada fim de trimestre:
   caixa     caixa e equivalentes + aplicações financeiras de curto prazo (BPA 1.01.01 + 1.01.02)
   receita   receita de venda de bens e/ou serviços (DRE 3.01), acumulada no ano (YTD)
   ebit      resultado antes do resultado financeiro e dos tributos (DRE 3.05), YTD
-  da        depreciação, amortização e exaustão (DVA 7.04.01), YTD
+  da        depreciação, amortização e exaustão (DVA 7.04.01, publicada com sinal negativo; usada em módulo), YTD
 Com isso, o acumulado de 12 meses (LTM) em um trimestre = YTD do trimestre + ano anterior fechado (DFP) − YTD do mesmo
 trimestre do ano anterior; EBITDA = EBIT + D&A. Os crescimentos comparam o LTM (ou o PL) mais recente com o de 4, 8 e
-12 trimestres antes. Bancos e seguradoras (receita de intermediação financeira ou de seguros na DRE) ficam só com o PL.
+12 trimestres antes. Bancos e seguradoras (receita de intermediação financeira ou de seguros na DRE, ou PL fora da conta 2.03)
+ficam só com o PL e o seu crescimento.
 """
 from __future__ import annotations
 
@@ -36,12 +37,25 @@ ANOS_HISTORICO = 5          # anos de demonstrações além do corrente: 36 mese
 DIAS_CACHE_CORRENTE = 7     # o extrato do ano corrente é renovado toda semana (a CVM atualiza os ZIPs diariamente); o do ano
                             # anterior também, até abril (a DFP do ano anterior chega até o fim de março)
 DIAS_CACHE_FECHADO = 90     # anos fechados: a CVM regera os ZIPs antigos com reapresentações; um refresh por trimestre basta
+# (campo, código da conta, começo do nome normalizado): o nome confirma a conta, porque bancos e seguradoras usam outro
+# plano no balanço (PL em 2.07 ou 2.08; 2.02.01 = Depósitos; 2.01.04 = Capitalização) e outro na DRE (3.05 = resultado
+# antes dos tributos). O PL é reconhecido pelo nome em qualquer conta de segundo nível.
 CONTAS = {
-    "BPP": {"2.03": "pl", "2.01.04": "div_c", "2.02.01": "div_nc"},
-    "BPA": {"1.01.01": "caixa", "1.01.02": "aplic"},
-    "DRE": {"3.01": "receita", "3.05": "ebit"},
-    "DVA": {"7.04.01": "da"},
+    "BPP": [("pl", re.compile(r"^2\.\d\d$"), ("patrimonio liquido",)), ("div_c", "2.01.04", ("emprestimos",)), ("div_nc", "2.02.01", ("emprestimos",))],
+    "BPA": [("caixa", "1.01.01", ("caixa", "disponib")), ("aplic", "1.01.02", ("aplicac",))],
+    "DRE": [("receita", "3.01", None), ("ebit", "3.05", ("resultado antes do resultado financeiro",))],
+    "DVA": [("da", "7.04.01", ("deprecia",))],
 }
+FIN_RECEITA = ("intermedia", "segur", "premio")   # DRE 3.01 de bancos e seguradoras
+
+
+def _campo(tipo: str, cod: str, ds_norm: str) -> str | None:
+    for campo, c, prefixos in CONTAS[tipo]:
+        if not (c.match(cod) if hasattr(c, "match") else cod == c):
+            continue
+        if prefixos is None or any(ds_norm.startswith(p) for p in prefixos):
+            return campo
+    return None
 log = fx.log
 
 
@@ -68,7 +82,6 @@ def _ler_demonstracao(z: zipfile.ZipFile, nome: str, tipo: str, cvms: set[int] |
     """Lê um CSV (uma demonstração, con ou ind) e acumula em dados[(cvm, escopo)][dt_fim][campo] = (ini, -versao, valor).
     Só as contas de CONTAS[tipo], ORDEM_EXERC 'ÚLTIMO' e, nas demonstrações de resultado, o período mais longo
     (acumulado do ano) por data de fim. cvms=None lê todas as companhias. Devolve o número de linhas aproveitadas."""
-    contas = CONTAS[tipo]
     escopo = "con" if "_con_" in nome.lower() else "ind"
     n = 0
     with z.open(nome) as fh:
@@ -90,11 +103,12 @@ def _ler_demonstracao(z: zipfile.ZipFile, nome: str, tipo: str, cvms: set[int] |
             if cvms is not None and cvm not in cvms:
                 continue
             cod = c[i_cod].strip()
-            campo = contas.get(cod)
-            if tipo == "DRE" and cod == "3.01":
-                ds = _norm(c[i_ds])
-                if "intermedia" in ds or "seguro" in ds or "premio" in ds:
-                    fin[cvm] = True
+            ds = _norm(c[i_ds])
+            campo = _campo(tipo, cod, ds)
+            if tipo == "DRE" and cod == "3.01" and any(p in ds for p in FIN_RECEITA):
+                fin[cvm] = True
+            if campo == "pl" and cod != "2.03":
+                fin[cvm] = True   # plano de contas de instituição financeira ou seguradora
             if not campo or not _norm(c[i_ord]).startswith("ultimo"):
                 continue
             try:
@@ -216,7 +230,8 @@ def calcular(dados_cvm: dict, fin: dict, hoje: date) -> dict[int, dict]:
         rec = _ltm(d, fim, "receita")
         ebit = _ltm(d, fim, "ebit")
         da = _ltm(d, fim, "da")
-        ebitda = None if (e_fin or ebit is None or da is None) else ebit + da
+        # no DVA da CVM a depreciação vem como retenção, com sinal negativo (-84 bi na Petrobras em 2025): entra em módulo
+        ebitda = None if (e_fin or ebit is None or da is None) else ebit + abs(da)
         g_pl, g_rec, g_ebitda = [], [], []
         for anos in (1, 2, 3):
             antes = _ano_antes(fim, anos)
@@ -227,9 +242,9 @@ def calcular(dados_cvm: dict, fin: dict, hoje: date) -> dict[int, dict]:
             else:
                 g_rec.append(_cresc(rec, _ltm(d, antes, "receita")))
                 eb_a, da_a = _ltm(d, antes, "ebit"), _ltm(d, antes, "da")
-                g_ebitda.append(_cresc(ebitda, None if eb_a is None or da_a is None else eb_a + da_a))
-        out[cvm] = {"dt": fim, "pl": pl, "divida": divida, "caixa": caixa, "receita": None if e_fin else rec, "ebitda": ebitda,
-                    "g_pl": g_pl, "g_rec": g_rec, "g_ebitda": g_ebitda, "fin": e_fin}
+                g_ebitda.append(_cresc(ebitda, None if eb_a is None or da_a is None else eb_a + abs(da_a)))
+        out[cvm] = {"dt": fim, "pl": pl, "divida": None if e_fin else divida, "caixa": None if e_fin else caixa,
+                    "receita": None if e_fin else rec, "ebitda": ebitda, "g_pl": g_pl, "g_rec": g_rec, "g_ebitda": g_ebitda, "fin": e_fin}
     return out
 
 
@@ -283,4 +298,5 @@ def indicadores(f: dict | None, mcap: float | None) -> dict:
     eb = f.get("ebitda")
     ev_ebitda = round(ev / eb, 2) if ev is not None and eb and eb > 0 and not f.get("fin") else None
     return {"pvpa": pvpa, "ev_ebitda": ev_ebitda, "g_pl": f.get("g_pl"), "g_rec": f.get("g_rec"), "g_ebitda": f.get("g_ebitda"),
-            "fin": bool(f.get("fin")), "dt_fund": f.get("dt"), "pl": f.get("pl"), "ebitda": eb, "receita": f.get("receita"), "divida_liq": (f.get("divida") or 0.0) - (f.get("caixa") or 0.0)}
+            "fin": bool(f.get("fin")), "dt_fund": f.get("dt"), "pl": f.get("pl"), "ebitda": eb, "receita": f.get("receita"),
+            "divida_liq": None if f.get("fin") else (f.get("divida") or 0.0) - (f.get("caixa") or 0.0)}
