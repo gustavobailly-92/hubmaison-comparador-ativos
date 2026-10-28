@@ -591,6 +591,44 @@ def construir_benchmarks(datas: list[date], hoje: date, offline: str | None, avi
 
 TESOURO_CSV = ("https://www.tesourotransparente.gov.br/ckan/dataset/df56aa42-484a-4a59-8184-7676580c81e3/"
                "resource/796d2059-14e9-44e3-80c9-2d9e30b405c1/download/PrecoTaxaTesouroDireto.csv")
+# o mesmo arquivo pelo endereço sem "www" (outro caminho até o servidor quando o primeiro limita os acessos)
+TESOURO_CSV_ALT = TESOURO_CSV.replace("https://www.", "https://")
+
+
+def _baixar_tesouro(prazo_s: int = 420) -> bytes:
+    """Baixa o CSV de preços e taxas do Tesouro Direto. O servidor do Tesouro Transparente passou a responder
+    429 (Too Many Requests) aos IPs compartilhados do GitHub Actions; aqui a espera respeita o Retry-After
+    (até 2 min por vez), alterna entre os dois endereços e desiste depois de ~7 min. Confere se veio mesmo o CSV
+    (um bloqueio pode devolver uma página HTML com status 200)."""
+    import urllib.error
+    inicio = time.time(); ultimo = None; k = 0
+    while time.time() - inicio < prazo_s:
+        url = (TESOURO_CSV, TESOURO_CSV_ALT)[k % 2]; k += 1
+        espera = min(20 * k, 90)
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "text/csv,*/*", "Accept-Encoding": "identity"})
+            with urllib.request.urlopen(req, timeout=300) as r:
+                raw = r.read()
+            cab = raw[:400].decode("latin-1", errors="replace")
+            if "Tipo Titulo" in cab and len(raw) > 200_000:
+                return raw
+            ultimo = RuntimeError(f"resposta inesperada ({len(raw):,} bytes, início: {cab[:60]!r})")
+        except urllib.error.HTTPError as e:
+            ultimo = e
+            if e.code == 429:
+                ra = e.headers.get("Retry-After") if e.headers else None
+                if ra and str(ra).strip().isdigit():
+                    espera = min(int(ra) + 2, 120)
+            elif e.code in (403, 404):
+                espera = 10
+        except Exception as e:  # noqa: BLE001
+            ultimo = e
+        restante = prazo_s - (time.time() - inicio)
+        if restante <= espera:
+            break
+        log(f"  Tesouro: tentativa {k} falhou ({ultimo}); nova tentativa em {espera}s")
+        time.sleep(espera)
+    raise RuntimeError(f"{TESOURO_CSV}: {ultimo}")
 CUPOM = {"Tesouro IPCA+ com Juros Semestrais": 0.06, "Tesouro Prefixado com Juros Semestrais": 0.10,
          "Tesouro IGPM+ com Juros Semestrais": 0.06}
 INDEXADOR = {"Tesouro IPCA+": "IPCA", "Tesouro IPCA+ com Juros Semestrais": "IPCA", "Tesouro Prefixado": "PRE",
@@ -648,8 +686,18 @@ def carregar_tesouro(datas: list[date], hoje: date, offline: str | None, cache: 
             titulos.append((tipo, venc, s, tx))
     else:
         p = os.path.join(cache, "PrecoTaxaTesouroDireto.csv")
-        raw = http_get(TESOURO_CSV, timeout=300)
-        open(p, "wb").write(raw)
+        da_copia = None
+        try:
+            raw = _baixar_tesouro()
+            os.makedirs(cache, exist_ok=True)
+            open(p, "wb").write(raw)
+        except Exception as e:  # noqa: BLE001
+            # sem download, vale a última cópia boa guardada no cache do Actions (melhor que publicar a seção vazia)
+            if not os.path.exists(p):
+                raise
+            raw = open(p, "rb").read()
+            da_copia = str(e)
+            log(f"  Tesouro: download recusado ({e}); usando a cópia em cache")
         df = pd.read_csv(io.BytesIO(raw), sep=";", decimal=",", encoding="latin-1",
                          usecols=["Tipo Titulo", "Data Vencimento", "Data Base", "Taxa Compra Manha", "PU Base Manha"], dtype=str)
         df["Data Base"] = pd.to_datetime(df["Data Base"], dayfirst=True, errors="coerce")
@@ -657,6 +705,11 @@ def carregar_tesouro(datas: list[date], hoje: date, offline: str | None, cache: 
         df["PU"] = pd.to_numeric(df["PU Base Manha"].str.replace(".", "", regex=False).str.replace(",", "."), errors="coerce")
         df["Taxa"] = pd.to_numeric(df["Taxa Compra Manha"].str.replace(",", "."), errors="coerce")
         df = df.dropna(subset=["Data Base", "Data Vencimento", "PU"])
+        ult = df["Data Base"].max().date() if len(df) else None
+        if da_copia is not None:
+            avisos.append(f"Tesouro Direto: download recusado pelo Tesouro Transparente ({da_copia.split(': ', 1)[-1][:80]}); títulos publicados pela cópia em cache, com preços e taxas até {ult.strftime('%d/%m/%Y') if ult else '?'}")
+        elif ult and (hoje - ult).days > 7:
+            avisos.append(f"Tesouro Direto: o arquivo do Tesouro Transparente parou em {ult.strftime('%d/%m/%Y')}")
         # o histórico completo (desde 2002) fica guardado para as estatísticas de 15 anos (juro real de 10 anos) e para o
         # histórico de taxa de cada título; o calendário da página usa só a janela recente
         global _TESOURO_DF
