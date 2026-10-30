@@ -1,6 +1,6 @@
 {
   "referencia": "2026-10-28",
-  "gerado": "2026-10-30T18:59:09Z",
+  "gerado": "2026-10-30T19:23:43Z",
   "fundos_publicados": 10192,
   "fundos_na_matriz": 16460,
   "fundos_xp": 1010,
@@ -17,12 +17,15 @@
     "msci",
     "mscibrl",
     "ifix",
+    "ouro",
+    "ourobrl",
     "btc",
     "imab",
     "irfm"
   ],
   "tesouro_titulos": 58,
   "historicos": [
+    "GLD",
     "AIQ",
     "^GSPC",
     "^NDX",
@@ -163,8 +166,7 @@
   ],
   "avisos": [
     "CDI sem valor em 21 dias do calendário (tratados como 0)",
-    "benchmark GLD indisponível (todas as fontes falharam)",
     "ações: 33 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 922
+  "duracao_s": 812
 }
