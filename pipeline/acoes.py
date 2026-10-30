@@ -541,7 +541,8 @@ def rendimentos_fii(anos: list[int], hoje: date, cache: str, avisos: list[str]) 
                                 if iseg is not None and len(c) > iseg:
                                     ref = c[idt][:7] if idt is not None and len(c) > idt else ""
                                     if ref >= seg_cvm.get(cnpj, {}).get("ref", ""):
-                                        seg_cvm[cnpj] = {"ref": ref, "seg": c[iseg].strip(), "nome": c[inm].strip() if inm is not None and len(c) > inm else ""}
+                                        # update, não atribuição: a carteira (ativo_passivo, lida antes no mesmo ZIP) fica no mesmo dicionário
+                                        seg_cvm.setdefault(cnpj, {}).update({"ref": ref, "seg": c[iseg].strip(), "nome": c[inm].strip() if inm is not None and len(c) > inm else ""})
                     else:
                         if "Percentual_Dividend_Yield_Mes" not in hdr or "Data_Referencia" not in hdr:
                             continue
