@@ -75,28 +75,59 @@ def _classificacao_b3(txt: str | None) -> tuple[str | None, str | None, str | No
         out = toks[0]
         for t in toks[1:]:
             ult = out.rstrip().split(" ")[-1].lower()
-            out += (". " if ult in _ABREV_B3 else ", ") + t
+            out = out.rstrip() + (". " if ult in _ABREV_B3 else ", ") + t.lstrip()
         partes.append(out.strip() or None)
     while len(partes) < 3:
         partes.append(None)
     return partes[0], partes[1], partes[2]
 
 
-def _segmento_fii(seg_b3: str | None, seg_cvm: str | None, nome: str | None) -> tuple[str | None, str]:
-    """Segmento do FII e a fonte: B3 quando respondeu; senão o informe da CVM, refinado pelo nome nas categorias genéricas."""
-    for seg, fonte in ((seg_b3, "b3"), (seg_cvm, "cvm")):
-        if not seg:
-            continue
-        chave = _sem_acento(seg).strip().lower()
-        if chave in SEG_FII:
-            return SEG_FII[chave], fonte
-        if chave not in ("multicategoria", "outros", "outro", ""):
-            return seg.strip(), fonte
+TIJOLO = {"Logística", "Shoppings", "Lajes corporativas", "Residencial", "Hospital", "Hotel", "Renda urbana", "Educacional", "Agências bancárias"}
+
+
+def _seg_declarado(seg: str | None) -> str | None:
+    """Segmento declarado (B3 ou CVM) traduzido; None para as categorias genéricas (Multicategoria, Outros)."""
+    if not seg:
+        return None
+    chave = _sem_acento(seg).strip().lower()
+    if chave in SEG_FII:
+        return SEG_FII[chave]
+    return None if chave in ("multicategoria", "outros", "outro", "") else seg.strip()
+
+
+def _segmento_fii(seg_b3: str | None, seg_cvm: str | None, nome: str | None, comp: dict | None = None) -> tuple[str | None, str]:
+    """Segmento do FII e a fonte. A carteira do informe mensal (ativo e passivo) decide a natureza: recebíveis (CRI, LCI, LIG),
+    fundo de fundos (cotas de FII), tijolo (imóveis e sociedades imobiliárias; desenvolvimento quando em construção ou à venda)
+    ou híbrido; no tijolo, o tipo de imóvel vem do segmento declarado (B3/CVM) ou do nome. Sem carteira, vale o declarado e o nome."""
     nm = _sem_acento(nome or "").upper()
-    for rx, rotulo in _PISTAS_FII:
-        if re.search(rx, nm):
-            return rotulo, "nome"
-    return ("Híbrido / outros", "cvm") if seg_cvm else (None, "")
+    if re.search(r"\b(FIAGRO|AGRO|AGRIC)", nm):
+        return "Agronegócio", "nome"
+    declarado = _seg_declarado(seg_b3) or _seg_declarado(seg_cvm)
+    fonte_decl = "b3" if _seg_declarado(seg_b3) else "cvm"
+    pista = next((rotulo for rx, rotulo in _PISTAS_FII if re.search(rx, nm)), None)
+    ti = (comp or {}).get("ti") or 0.0
+    if ti > 0:
+        papel, fof, tijolo, desenv = (comp.get(k, 0.0) / ti for k in ("papel", "fof", "tijolo", "desenv"))
+        if papel >= 0.5:
+            return "Recebíveis (papel)", "carteira"
+        if fof >= 0.5:
+            return "Fundo de fundos", "carteira"
+        if tijolo >= 0.5:
+            if desenv >= 0.5:
+                return "Desenvolvimento", "carteira"
+            if declarado in TIJOLO:
+                return declarado, fonte_decl
+            if pista in TIJOLO:
+                return pista, "nome"
+            return "Híbrido", "carteira"
+        if papel + fof + tijolo >= 0.5:
+            return "Híbrido", "carteira"
+        return declarado or pista or "Outros", fonte_decl if declarado else ("nome" if pista else "carteira")
+    if declarado:
+        return declarado, fonte_decl
+    if pista:
+        return pista, "nome"
+    return ("Híbrido", "cvm") if seg_cvm else (None, "")
 RAZOES_SPLIT = (2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30, 40, 50, 100)
 
 log = fx.log
@@ -419,6 +450,44 @@ def _segmento_fii_b3(codigo: str) -> tuple[str | None, str]:
     return None, ""
 
 
+_COLS_PAPEL = ("CRI", "CRI_CRA", "Letras_Hipotecarias", "LCI", "LCI_LCA", "LIG")
+_COLS_TIJOLO = ("Direitos_Bens_Imoveis", "Acoes_Sociedades_Atividades_FII", "Cotas_Sociedades_Atividades_FII")
+_COLS_DESENV = ("Terrenos", "Imoveis_Renda_Construcao", "Imoveis_Venda_Acabados", "Imoveis_Venda_Construcao")
+
+
+def _ler_carteira_fii(z: zipfile.ZipFile, nome: str, seg_cvm: dict[str, dict]) -> None:
+    """Informe mensal, ativo e passivo: composição da carteira (recebíveis, cotas de FII, imóveis e imóveis em desenvolvimento
+    sobre o total investido) do mês mais recente de cada fundo, em seg_cvm[cnpj]["comp"]."""
+    with z.open(nome) as fh:
+        txt = io.TextIOWrapper(fh, encoding="latin-1", newline=None)
+        hdr = [h.strip() for h in next(txt).rstrip("\r\n").split(";")]
+        ic = next((hdr.index(h) for h in ("CNPJ_Fundo_Classe", "CNPJ_Fundo") if h in hdr), None)
+        if ic is None or "Total_Investido" not in hdr or "Data_Referencia" not in hdr:
+            return
+        idt, iti = hdr.index("Data_Referencia"), hdr.index("Total_Investido")
+        grupos = {k: [hdr.index(c) for c in cols if c in hdr] for k, cols in (("papel", _COLS_PAPEL), ("fof", ("FII",)), ("tijolo", _COLS_TIJOLO), ("desenv", _COLS_DESENV))}
+
+        def num(c, i):
+            try:
+                return float(c[i]) if i < len(c) and c[i].strip() else 0.0
+            except ValueError:
+                return 0.0
+        for linha in txt:
+            c = linha.rstrip("\r\n").split(";")
+            if len(c) <= max(ic, idt, iti):
+                continue
+            cnpj = re.sub(r"\D", "", c[ic])
+            ref = c[idt][:7]
+            atual = seg_cvm.setdefault(cnpj, {})
+            if ref < atual.get("ref_comp", ""):
+                continue
+            comp = {"ti": num(c, iti)}
+            for k, idx in grupos.items():
+                comp[k] = sum(num(c, i) for i in idx)
+            atual["ref_comp"] = ref
+            atual["comp"] = comp
+
+
 def rendimentos_fii(anos: list[int], hoje: date, cache: str, avisos: list[str]) -> tuple[dict[str, str], dict[str, dict[str, float]], dict[str, dict[str, float]], dict[str, dict]]:
     """Informe mensal de FII da CVM: (ISIN -> CNPJ), (CNPJ -> {AAAA-MM: dividend yield do mês, fração}),
     (CNPJ -> {AAAA-MM: valor patrimonial da cota}, pelo campo do informe ou por patrimônio líquido ÷ cotas emitidas) e
@@ -445,6 +514,9 @@ def rendimentos_fii(anos: list[int], hoje: date, cache: str, avisos: list[str]) 
         with zipfile.ZipFile(io.BytesIO(raw)) as z:
             for n in z.namelist():
                 low = n.lower()
+                if "ativo_passivo" in low:
+                    _ler_carteira_fii(z, n, seg_cvm)
+                    continue
                 if "geral" not in low and "complemento" not in low:
                     continue
                 with z.open(n) as fh:
@@ -692,7 +764,7 @@ def carregar_acoes(datas: list[date], hoje: date, offline: str | None, cache: st
                 n_sem_evento += 1
             p["_vp"] = vp_fii.get(cnpj) if cnpj else None
             sc = seg_cvm.get(cnpj) if cnpj else None
-            setor, fonte_seg = _segmento_fii(ev.get("seg"), (sc or {}).get("seg"), (sc or {}).get("nome") or p["nome"])
+            setor, fonte_seg = _segmento_fii(ev.get("seg"), (sc or {}).get("seg"), (sc or {}).get("nome") or p["nome"], (sc or {}).get("comp"))
             if setor:
                 seg_fontes[fonte_seg] = seg_fontes.get(fonte_seg, 0) + 1
         else:  # BDR: sem fonte aberta de proventos
