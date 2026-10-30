@@ -4023,7 +4023,7 @@ function renderFiltrosRV(main) {
   }
   // barra: botão Filtros (com o número de faixas ativas), contagem de resultados e, aberta, os campos mín./máx.
   const bar = el('div', 'pfilbar'); const bt = el('button', 'pfil-btn'); bt.type = 'button'; bt.setAttribute('aria-expanded', P.filOn ? 'true' : 'false'); bt.append(icon('i-sliders', 12), document.createTextNode('Filtros')); const nAt = pickFiltrosAtivos(); if (nAt) bt.append(el('b', 'badge', String(nAt)));
-  bt.addEventListener('click', () => { P.filOn = !P.filOn; renderFichas(); });
+  bt.addEventListener('click', () => { P.filOn = !P.filOn; renderFichas(); sincronizarFiltros(); });
   const cnt = el('span', 'pfil-n'); cnt.id = 'pfil-n'; bar.append(bt, cnt);
   if (nAt || P.setor) { const lp = el('button', 'pfil-clear'); lp.type = 'button'; lp.textContent = 'Limpar'; lp.addEventListener('click', () => { pickLimparFiltros(); renderFichas(); renderLista(); }); bar.append(lp); }
   main.append(bar);
