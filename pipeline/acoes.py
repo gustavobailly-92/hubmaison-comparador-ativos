@@ -22,6 +22,7 @@ import json
 import os
 import re
 import time
+import unicodedata
 import zipfile
 from datetime import date
 
@@ -42,7 +43,60 @@ ESPECIES_ACAO = ("ON", "PN", "PNA", "PNB", "PNC", "PND", "PNE", "PNF", "UNT")
 ESPECIES_BDR = ("DRN", "DR1", "DR2", "DR3", "DRE")
 CODBDI_BDR = ("34", "35", "36")   # no COTAHIST os BDRs vêm nestes códigos desde outubro de 2022 (antes, em lote padrão 02): 34 não patrocinado, 35 patrocinado, 36 ETF
 CASH_PAGINA = 100       # proventos em dinheiro por página na API da B3 (acima de ~120 a API devolve vazio)
-EVENTOS_VERSAO = 3      # formato do cache de eventos; muda quando a leitura da API muda (invalida caches antigos); 3 = código CVM e número de ações
+EVENTOS_VERSAO = 4      # formato do cache de eventos; muda quando a leitura da API muda (invalida caches antigos); 4 = setor/subsetor/segmento da B3
+FII_VERSAO = 2          # cache dos FIIs na B3; 2 = segmento de atuação
+# a API da B3 troca as vírgulas da classificação setorial por ponto ("Petróleo. Gás e Biocombustíveis"); estas abreviações
+# terminam em ponto de verdade e não podem virar vírgula
+_ABREV_B3 = {"máq", "maq", "equip", "soc", "serv", "méd", "med", "hospit", "mat", "transp", "ind", "com", "prod", "const", "adm", "part", "distrib", "s", "a"}
+# segmento dos FIIs: nomes da B3 e do informe da CVM traduzidos para os rótulos do site
+SEG_FII = {"titulos e val. mob.": "Recebíveis (papel)", "titulos e valores mobiliarios": "Recebíveis (papel)", "lajes corporativas": "Lajes corporativas",
+           "escritorios": "Lajes corporativas", "logistica": "Logística", "shoppings": "Shoppings", "shopping": "Shoppings", "hibrido": "Híbrido",
+           "fundo de fundos": "Fundo de fundos", "residencial": "Residencial", "hotel": "Hotel", "hospital": "Hospital", "varejo": "Renda urbana",
+           "educacional": "Educacional", "agencias de bancos": "Agências bancárias", "fundo de desenvolvimento": "Desenvolvimento", "desenvolvimento": "Desenvolvimento",
+           "agronegocio": "Agronegócio", "fiagro": "Agronegócio", "infraestrutura": "Infraestrutura"}
+# pistas no nome do fundo quando a CVM classifica como "Multicategoria" ou "Outros" (ordem importa: a primeira que casar vale)
+_PISTAS_FII = [(r"\b(CRI|RECEB|CREDITO|CRÉDITO|HIGH YIELD|HIGH GRADE|PAPEL|CDI\b|IPCA\b|JURO)", "Recebíveis (papel)"), (r"\b(FOF|FUNDO DE FUNDOS|FDO DE FDOS|FDO DE FUNDOS|COTAS DE)", "Fundo de fundos"),
+               (r"\b(FIAGRO|AGRO|AGRIC)", "Agronegócio"), (r"\bLOG", "Logística"), (r"\b(SHOPPING|MALL)", "Shoppings"), (r"RENDA URBANA|VAREJO", "Renda urbana"),
+               (r"RESIDENCIAL|HABITA|MORADIA", "Residencial"), (r"DESENV", "Desenvolvimento"), (r"HOTE", "Hotel"), (r"HOSPITAL|SAUDE|SAÚDE", "Hospital"),
+               (r"CORPORAT|OFFICE|LAJE|ESCRIT|TORRE|EDIF", "Lajes corporativas"), (r"INFRA", "Infraestrutura"), (r"EDUCA", "Educacional"), (r"HIBRID|HÍBRID|MULTI", "Híbrido")]
+
+
+def _sem_acento(t: str) -> str:
+    return unicodedata.normalize("NFKD", t or "").encode("ascii", "ignore").decode()
+
+
+def _classificacao_b3(txt: str | None) -> tuple[str | None, str | None, str | None]:
+    """"Setor / Subsetor / Segmento" da API de empresas da B3, com as vírgulas restauradas."""
+    if not txt:
+        return None, None, None
+    partes = []
+    for parte in str(txt).split("/"):
+        toks = parte.split(". ")
+        out = toks[0]
+        for t in toks[1:]:
+            ult = out.rstrip().split(" ")[-1].lower()
+            out += (". " if ult in _ABREV_B3 else ", ") + t
+        partes.append(out.strip() or None)
+    while len(partes) < 3:
+        partes.append(None)
+    return partes[0], partes[1], partes[2]
+
+
+def _segmento_fii(seg_b3: str | None, seg_cvm: str | None, nome: str | None) -> tuple[str | None, str]:
+    """Segmento do FII e a fonte: B3 quando respondeu; senão o informe da CVM, refinado pelo nome nas categorias genéricas."""
+    for seg, fonte in ((seg_b3, "b3"), (seg_cvm, "cvm")):
+        if not seg:
+            continue
+        chave = _sem_acento(seg).strip().lower()
+        if chave in SEG_FII:
+            return SEG_FII[chave], fonte
+        if chave not in ("multicategoria", "outros", "outro", ""):
+            return seg.strip(), fonte
+    nm = _sem_acento(nome or "").upper()
+    for rx, rotulo in _PISTAS_FII:
+        if re.search(rx, nm):
+            return rotulo, "nome"
+    return ("Híbrido / outros", "cvm") if seg_cvm else (None, "")
 RAZOES_SPLIT = (2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30, 40, 50, 100)
 
 log = fx.log
@@ -249,6 +303,15 @@ def eventos_empresa(emissor: str, cache_dir: str, hoje: date) -> dict | None:
     except ValueError:
         cvm = None
     acoes = {k: _num_br(sup.get(j)) for k, j in (("on", "numberCommonShares"), ("pn", "numberPreferredShares"), ("total", "totalNumberShares"))}
+    # classificação setorial da B3 (setor / subsetor / segmento) pelo detalhe da companhia
+    setor = subsetor = seg = None
+    if cvm:
+        try:
+            time.sleep(PAUSA_B3)
+            det = _b3_json(B3_EMPRESAS, "GetDetail", {"codeCVM": str(cvm), "language": "pt-br"})
+            setor, subsetor, seg = _classificacao_b3((det or {}).get("industryClassification") if isinstance(det, dict) else None)
+        except Exception:  # noqa: BLE001
+            pass
     cash: list | None = []
     if nome:
         # a API aceita no máximo ~120 registros por página (com 500 devolve vazio) e não encontra nomes com barra
@@ -287,7 +350,8 @@ def eventos_empresa(emissor: str, cache_dir: str, hoje: date) -> dict | None:
                 break
             if cash:
                 break
-    out = {"versao": EVENTOS_VERSAO, "atualizado": hoje.isoformat(), "nome": nome, "stock": stock, "cash": cash, "cvm": cvm, "acoes": acoes}
+    out = {"versao": EVENTOS_VERSAO, "atualizado": hoje.isoformat(), "nome": nome, "stock": stock, "cash": cash, "cvm": cvm, "acoes": acoes,
+           "setor": setor, "subsetor": subsetor, "seg": seg}
     with open(arq, "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False)
     return out
@@ -297,24 +361,72 @@ def eventos_fii(codigo: str, cache_dir: str, hoje: date) -> dict | None:
     """Desdobramentos e grupamentos de um FII (código de 4 letras) pela API de fundos listados da B3. Cache de 7 dias."""
     arq = os.path.join(cache_dir, f"eventos_fii_{codigo}.json")
     g = _ler_json(arq)
-    if g and (date.today() - date.fromisoformat(g.get("atualizado", "2000-01-01"))).days < 7:
+    if g and g.get("versao") == FII_VERSAO and (date.today() - date.fromisoformat(g.get("atualizado", "2000-01-01"))).days < 7:
         return g
     try:
         sup = _b3_json(B3_FUNDOS, "GetListedSupplementFunds", {"cnpj": "", "identifierFund": codigo, "typeFund": 7})
     except Exception as e:  # noqa: BLE001
         return g if g else {"erro": str(e)[:200]}
-    out = {"atualizado": hoje.isoformat(), "stock": _eventos_stock((sup or {}).get("stockDividends") if isinstance(sup, dict) else None)}
+    out = {"versao": FII_VERSAO, "atualizado": hoje.isoformat(), "stock": _eventos_stock((sup or {}).get("stockDividends") if isinstance(sup, dict) else None)}
+    out["seg"], out["seg_api"] = _segmento_fii_b3(codigo)
     with open(arq, "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False)
     return out
 
 
-def rendimentos_fii(anos: list[int], hoje: date, cache: str, avisos: list[str]) -> tuple[dict[str, str], dict[str, dict[str, float]], dict[str, dict[str, float]]]:
-    """Informe mensal de FII da CVM: (ISIN -> CNPJ), (CNPJ -> {AAAA-MM: dividend yield do mês, fração}) e
-    (CNPJ -> {AAAA-MM: valor patrimonial da cota}, pelo campo do informe ou por patrimônio líquido ÷ cotas emitidas)."""
+B3_FUNDOS_NOVO = "https://sistemaswebb3-listados.b3.com.br/fundsListedProxy/Search/"
+_SEG_API_OK: dict[str, int] = {}
+
+
+def _achar_chave(obj, chaves: tuple[str, ...]):
+    """Procura, em qualquer nível de um JSON, a primeira chave da lista com valor textual."""
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            if k.lower() in chaves and isinstance(v, str) and v.strip():
+                return v.strip()
+        for v in obj.values():
+            r = _achar_chave(v, chaves)
+            if r:
+                return r
+    elif isinstance(obj, list):
+        for v in obj:
+            r = _achar_chave(v, chaves)
+            if r:
+                return r
+    return None
+
+
+def _segmento_fii_b3(codigo: str) -> tuple[str | None, str]:
+    """Segmento de atuação do FII pelo detalhe do fundo na B3: tenta a API antiga (fundsCall) e a nova (fundsListedProxy);
+    devolve (segmento, api que respondeu)."""
+    candidatos = (
+        ("antiga", B3_FUNDOS, "GetDetailFundSIG", {"typeFund": 7, "identifierFund": codigo, "language": "pt-br"}),
+        ("nova", B3_FUNDOS_NOVO, "GetDetailFund", {"language": "pt-br", "typeFund": "FII", "identifierFund": codigo}),
+    )
+    for nome, base, metodo, payload in candidatos:
+        if _SEG_API_OK.get(nome, 0) <= -5:   # cinco falhas seguidas: a API não existe mais, não insiste
+            continue
+        try:
+            time.sleep(PAUSA_B3)
+            det = _b3_json(base, metodo, payload, tentativas=1)
+            seg = _achar_chave(det, ("segment", "segmento", "classification", "classificacao"))
+            if seg:
+                _SEG_API_OK[nome] = max(1, _SEG_API_OK.get(nome, 0) + 1)
+                return seg, nome
+            _SEG_API_OK[nome] = min(0, _SEG_API_OK.get(nome, 0)) - 1
+        except Exception:  # noqa: BLE001
+            _SEG_API_OK[nome] = min(0, _SEG_API_OK.get(nome, 0)) - 1
+    return None, ""
+
+
+def rendimentos_fii(anos: list[int], hoje: date, cache: str, avisos: list[str]) -> tuple[dict[str, str], dict[str, dict[str, float]], dict[str, dict[str, float]], dict[str, dict]]:
+    """Informe mensal de FII da CVM: (ISIN -> CNPJ), (CNPJ -> {AAAA-MM: dividend yield do mês, fração}),
+    (CNPJ -> {AAAA-MM: valor patrimonial da cota}, pelo campo do informe ou por patrimônio líquido ÷ cotas emitidas) e
+    (CNPJ -> segmento de atuação e nome do fundo, do informe mais recente)."""
     isin_cnpj: dict[str, str] = {}
     dy: dict[str, dict[str, float]] = {}
     vp: dict[str, dict[str, float]] = {}
+    seg_cvm: dict[str, dict] = {}   # CNPJ -> {"seg": Segmento_Atuacao, "nome": nome do fundo} do informe mais recente
     col_vp_usada = None
     os.makedirs(cache, exist_ok=True)
     for ano in anos:
@@ -346,10 +458,18 @@ def rendimentos_fii(anos: list[int], hoje: date, cache: str, avisos: list[str]) 
                         if "Codigo_ISIN" not in hdr:
                             continue
                         ii = hdr.index("Codigo_ISIN")
+                        iseg = hdr.index("Segmento_Atuacao") if "Segmento_Atuacao" in hdr else None
+                        inm = next((hdr.index(h) for h in ("Nome_Fundo_Classe", "Nome_Fundo") if h in hdr), None)
+                        idt = hdr.index("Data_Referencia") if "Data_Referencia" in hdr else None
                         for linha in txt:
                             c = linha.rstrip("\r\n").split(";")
                             if len(c) > max(ic, ii) and c[ii].strip():
-                                isin_cnpj[c[ii].strip()] = re.sub(r"\D", "", c[ic])
+                                cnpj = re.sub(r"\D", "", c[ic])
+                                isin_cnpj[c[ii].strip()] = cnpj
+                                if iseg is not None and len(c) > iseg:
+                                    ref = c[idt][:7] if idt is not None and len(c) > idt else ""
+                                    if ref >= seg_cvm.get(cnpj, {}).get("ref", ""):
+                                        seg_cvm[cnpj] = {"ref": ref, "seg": c[iseg].strip(), "nome": c[inm].strip() if inm is not None and len(c) > inm else ""}
                     else:
                         if "Percentual_Dividend_Yield_Mes" not in hdr or "Data_Referencia" not in hdr:
                             continue
@@ -386,7 +506,7 @@ def rendimentos_fii(anos: list[int], hoje: date, cache: str, avisos: list[str]) 
                                 vp.setdefault(cnpj, {})[mes] = pv
     if col_vp_usada is not None:
         log(f"  FII: valor patrimonial da cota pela coluna {col_vp_usada}")
-    return isin_cnpj, dy, vp
+    return isin_cnpj, dy, vp, seg_cvm
 
 
 # --------------------------------------------------------------------------- ajustes
@@ -498,9 +618,10 @@ def carregar_acoes(datas: list[date], hoje: date, offline: str | None, cache: st
     isin_cnpj: dict[str, str] = {}
     dy_fii: dict[str, dict[str, float]] = {}
     vp_fii: dict[str, dict[str, float]] = {}
+    seg_cvm: dict[str, dict] = {}
     if any(p["tipo"] == "fii" for p in papeis):
         try:
-            isin_cnpj, dy_fii, vp_fii = rendimentos_fii(anos, hoje, os.path.join(cache, "fii"), avisos)
+            isin_cnpj, dy_fii, vp_fii, seg_cvm = rendimentos_fii(anos, hoje, os.path.join(cache, "fii"), avisos)
             log(f"  FII: {len(isin_cnpj)} ISINs e {len(dy_fii)} fundos com dividend yield mensal na CVM")
         except Exception as e:  # noqa: BLE001
             avisos.append(f"rendimentos dos FIIs (CVM): {e}")
@@ -509,6 +630,7 @@ def carregar_acoes(datas: list[date], hoje: date, offline: str | None, cache: st
     fiis: dict[str, dict | None] = {}
     out = []
     n_ok = n_sem_evento = 0
+    seg_fontes: dict[str, int] = {}
     for k, p in enumerate(papeis):
         serie = series.get(p["ticker"]) or {}
         if len(serie) < SESSOES_MIN:
@@ -518,11 +640,13 @@ def carregar_acoes(datas: list[date], hoje: date, offline: str | None, cache: st
         dy = None
         ajuste = "completo"
         cod = p["ticker"][:4]
+        setor = subsetor = seg = None
         if p["tipo"] == "acao":
             if cod not in emissores:
                 time.sleep(PAUSA_B3)
                 emissores[cod] = eventos_empresa(cod, pasta, hoje)
             ev = emissores[cod] or {}
+            setor, subsetor, seg = ev.get("setor"), ev.get("subsetor"), ev.get("seg")
             if ev.get("erro") or ev.get("cash") is None:
                 ajuste = "sem proventos"
                 n_sem_evento += 1
@@ -567,6 +691,10 @@ def carregar_acoes(datas: list[date], hoje: date, offline: str | None, cache: st
                 ajuste = "sem proventos"
                 n_sem_evento += 1
             p["_vp"] = vp_fii.get(cnpj) if cnpj else None
+            sc = seg_cvm.get(cnpj) if cnpj else None
+            setor, fonte_seg = _segmento_fii(ev.get("seg"), (sc or {}).get("seg"), (sc or {}).get("nome") or p["nome"])
+            if setor:
+                seg_fontes[fonte_seg] = seg_fontes.get(fonte_seg, 0) + 1
         else:  # BDR: sem fonte aberta de proventos
             splits = _detectar_splits(serie)
             ajuste = "sem proventos"
@@ -578,11 +706,15 @@ def carregar_acoes(datas: list[date], hoje: date, offline: str | None, cache: st
                     "nome": _nome_bonito(p["nome"], p["especi"], None), "ajuste": ajuste, "estreia": min(serie),
                     "n_splits": inf.get("splits", 0), "n_proventos": inf.get("proventos", 0),
                     "bm": "sp500brl" if p["tipo"] == "bdr" else "ifix" if p["tipo"] == "fii" else "ibov",
+                    "setor": setor, "subsetor": subsetor, "seg": seg,
                     "q": q, "qp": fx.alinhar(qp_d, datas), "fund": _fund_fii(dy, p.get("_vp"), p["preco"], hoje) if p["tipo"] == "fii" else {}})
         n_ok += 1
         if (k + 1) % 100 == 0:
             log(f"  {k + 1} de {len(papeis)} papéis ({int(time.time() - t0)}s)")
     log(f"  séries montadas: {n_ok} papéis, {len(emissores)} emissores e {len(fiis)} FIIs consultados na B3 ({int(time.time() - t0)}s); {n_sem_evento} sem proventos")
+    n_setor = sum(1 for p in out if p["tipo"] == "acao" and p.get("setor"))
+    log(f"  setores: {n_setor} de {sum(1 for p in out if p['tipo'] == 'acao')} ações com classificação da B3; FIIs por fonte: {seg_fontes or 'nenhuma'}"
+        + (f"; API de segmento da B3: {_SEG_API_OK}" if _SEG_API_OK else ""))
     if n_sem_evento:
         avisos.append(f"ações: {n_sem_evento} papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)")
     # fundamentos das companhias (ITR/DFP da CVM) e indicadores de valuation por papel
@@ -676,7 +808,15 @@ def _sinteticas(datas: list[date]) -> list[dict]:
             if k and d[:7] != dias[k - 1][:7]:
                 fator /= 1 + dy
             precos[d] = serie[d] * fator
+        setores = {"PETR4": ("Petróleo, Gás e Biocombustíveis", "Petróleo, Gás e Biocombustíveis", "Exploração, Refino e Distribuição"),
+                   "VALE3": ("Materiais Básicos", "Mineração", "Minerais Metálicos"), "ITUB4": ("Financeiro", "Intermediários Financeiros", "Bancos"),
+                   "WEGE3": ("Bens Industriais", "Máquinas e Equipamentos", "Motores, Compressores e Outros"), "BBDC4": ("Financeiro", "Intermediários Financeiros", "Bancos"),
+                   "TAEE11": ("Utilidade Pública", "Energia Elétrica", "Energia Elétrica"), "MGLU3": ("Consumo Cíclico", "Comércio", "Eletrodomésticos"),
+                   "PRIO3": ("Petróleo, Gás e Biocombustíveis", "Petróleo, Gás e Biocombustíveis", "Exploração, Refino e Distribuição"),
+                   "HGLG11": ("Logística", None, None), "KNCR11": ("Recebíveis (papel)", None, None)}
+        st = setores.get(tk, (None, None, None))
         out.append({"ticker": tk, "nome": nome, "nome_longo": nome, "especi": esp, "tipo": tipo, "bm": "sp500brl" if tipo == "bdr" else "ifix" if tipo == "fii" else "ibov",
+                    "setor": st[0], "subsetor": st[1], "seg": st[2],
                     "liq": float(5e8 / (i + 1)), "preco": serie[max(serie)], "ultimo": max(serie), "sessoes": len(ds), "possiveis": len(ds),
                     "estreia": min(serie), "fonte": "sintético", "ajuste": "completo" if tipo != "bdr" else "sem proventos", "n_splits": 0, "n_proventos": 0,
                     "q": fx.alinhar(serie, datas), "qp": fx.alinhar(precos, datas)})
