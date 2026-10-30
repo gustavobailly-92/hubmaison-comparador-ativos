@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-pv="clean">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -637,6 +637,29 @@ body.sheet-open{overflow:hidden}
 .pick .pchips button[aria-pressed="true"]{background:var(--text-2);color:var(--deep);border-color:var(--text-2)}
 .pick .pchips button[aria-pressed="true"] small{color:rgba(7,14,28,.6)}
 .pick .pchips.sub button{font-size:11px;padding:3px 9px}
+/* Renda Variável: setores/segmentos, barra de filtros e os campos mín./máx. por indicador */
+.pick .pchips.setores,.pick .pchips.subsetores{padding-top:2px}
+.pick .pchips.subsetores{padding-inline-start:24px}
+.pick .pfilbar{display:flex;align-items:center;gap:10px;padding:8px 12px 2px}
+.pick .pfil-btn{display:inline-flex;align-items:center;gap:6px;background:transparent;border:1px solid var(--line);border-radius:999px;color:var(--text-2);padding:4px 11px 4px 9px;font-size:11.5px;font-family:var(--font);cursor:pointer;transition:border-color .15s,color .15s,background .15s}
+.pick .pfil-btn svg{width:12px;height:12px;color:var(--muted)}
+.pick .pfil-btn:hover,.pick .pfil-btn[aria-expanded="true"]{border-color:rgba(143,180,227,.5);color:var(--text)}
+.pick .pfil-btn[aria-expanded="true"] svg{color:var(--accent)}
+.pick .pfil-btn .badge{display:inline-grid;place-items:center;min-width:16px;height:16px;border-radius:999px;background:#5B98E6;color:#fff;font-size:10px;font-weight:600;padding:0 4px;margin-inline-start:2px}
+.pick .pfil-n{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.pick .pfil-clear{background:none;border:0;color:var(--muted);font-size:11px;font-family:var(--font);cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:2px 4px}
+.pick .pfil-clear:hover{color:var(--text)}
+.pick .pfil{display:flex;flex-wrap:wrap;gap:6px 14px;padding:6px 12px 8px;border-bottom:1px solid var(--line)}
+.pick .pf{display:flex;flex-direction:column;gap:3px}
+.pick .pf .lbl{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.pick .pf.on .lbl{color:var(--text-2)}
+.pick .pf .campos{display:inline-flex;align-items:center;gap:4px}
+.pick .pf .campos i{font-style:normal;font-size:10px;color:var(--muted)}
+.pick .pf .campos u{text-decoration:none;font-size:10px;color:var(--muted);margin-inline-start:1px}
+.pick .pf input{width:50px;background:rgba(7,14,28,.55);border:1px solid var(--line);border-radius:7px;color:var(--text);padding:3px 6px;font-size:11.5px;font-family:var(--font);text-align:center;font-variant-numeric:tabular-nums}
+.pick .pf input::placeholder{color:rgba(143,166,191,.55)}
+.pick .pf input:focus{outline:none;border-color:var(--s1)}
+.pick .pf.on input{border-color:rgba(91,152,230,.55)}
 .pick .plist{overflow:auto;padding:0 0 4px;flex:1;min-height:120px}
 /* barra de rolagem sempre visível (Chrome e Safari pelo ::-webkit-scrollbar; Firefox pelas propriedades padrão) */
 .pick .plist::-webkit-scrollbar{height:9px;width:9px}
@@ -699,7 +722,7 @@ body.sheet-open{overflow:hidden}
 .pick .pitem .tag{display:inline-block;margin-inline-start:8px;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:rgba(178,203,230,.10);border-radius:6px;padding:1px 6px;vertical-align:1px;font-weight:500}
 .pick .pvazio{padding:14px 14px;font-size:12px;color:var(--muted)}
 .pick .pfoot{padding:8px 14px 2px}
-@media (max-width:720px){.pick .pbody{flex-direction:column}.pick .pnav{flex-direction:row;overflow:auto;border-right:0;border-bottom:1px solid var(--line);min-width:0;padding:8px}.pick .pnav button span{white-space:nowrap}.pick .pitem,.pick .pitem.simples{grid-template-columns:minmax(0,1fr) 84px 30px;min-width:0}.pick .pitem.simples{grid-template-columns:minmax(0,1fr) 30px}.pick .pitem .pbp:not(.w12),.pick .pitem .pbv,.pick .pitem .pbs,.pick .pitem .pbc,.pick .pitem .pbf,.pick .pitem.head span:not(.nm):not(.w12):not(.pact),.pick .pitem.hgrp{display:none}.pick .ph .tt{display:none}}
+@media (max-width:720px){.pick .pbody{flex-direction:column}.pick .pnav{flex-direction:row;overflow:auto;border-right:0;border-bottom:1px solid var(--line);min-width:0;padding:8px}.pick .pnav button span{white-space:nowrap}.pick .pitem,.pick .pitem.simples{grid-template-columns:minmax(0,1fr) 84px 30px;min-width:0}.pick .pitem.simples{grid-template-columns:minmax(0,1fr) 30px}.pick .pitem .pbp:not(.w12),.pick .pitem .pbv,.pick .pitem .pbs,.pick .pitem .pbc,.pick .pitem .pbf,.pick .pitem.head span:not(.nm):not(.w12):not(.pact),.pick .pitem.hgrp{display:none}.pick .ph .tt{display:none}.pick .pfil{flex-wrap:nowrap;overflow-x:auto;gap:6px 12px}.pick .pchips.subsetores{padding-inline-start:12px}}
 .swapcell .n span{display:inline-block;max-width:230px;overflow:hidden;text-overflow:ellipsis;vertical-align:bottom}
 .swapcell .premio-ed{display:inline-flex;align-items:center;gap:4px;margin-top:5px;font-size:11px;color:var(--muted);white-space:nowrap}
 .swapcell .premio-ed input{width:54px;background:rgba(7,14,28,.55);border:1px solid var(--line);border-radius:7px;color:var(--text);padding:2px 4px;font-size:11.5px;font-family:var(--font);text-align:center;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
@@ -1010,6 +1033,84 @@ footer a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--
   .kpi .big{font-size:26px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}html{scroll-behavior:auto}}
+
+/* ===== Tema clean (v20, escolha do Gustavo), ligado por data-pv="clean" no <html>: seletor com chips sem borda, campos só com linha de base, barras discretas ===== */
+html[data-pv=clean] .pick{box-shadow:0 0 0 1px rgba(255,255,255,.06),0 24px 60px rgba(0,0,0,.5)}
+html[data-pv=clean] .pick .ph input{background:transparent}
+html[data-pv=clean] .pick .pchips{gap:2px 4px}
+html[data-pv=clean] .pick .pchips button{background:transparent;border-color:transparent;color:var(--muted);padding:4px 9px}
+html[data-pv=clean] .pick .pchips button:hover{border-color:transparent;background:rgba(178,203,230,.07);color:var(--text)}
+html[data-pv=clean] .pick .pchips button[aria-pressed="true"]{background:rgba(178,203,230,.14);color:var(--text);border-color:transparent}
+html[data-pv=clean] .pick .pchips button[aria-pressed="true"] small{color:var(--muted)}
+html[data-pv=clean] .pick .pchips.setores,html[data-pv=clean] .pick .pchips.subsetores{padding-top:0}
+html[data-pv=clean] .pick .pfilbar{padding-top:6px}
+html[data-pv=clean] .pick .pfil-btn{border-color:transparent;background:rgba(178,203,230,.07)}
+html[data-pv=clean] .pick .pfil-btn:hover,html[data-pv=clean] .pick .pfil-btn[aria-expanded="true"]{background:rgba(178,203,230,.12);border-color:transparent}
+html[data-pv=clean] .pick .pfil{border-bottom:0;background:rgba(7,14,28,.28);border-radius:10px;margin:4px 12px 8px;padding:8px 12px 10px;gap:8px 16px}
+html[data-pv=clean] .pick .pf input{background:transparent;border:0;border-bottom:1px solid var(--line-2);border-radius:0;padding:2px 4px;width:44px}
+html[data-pv=clean] .pick .pf input:focus{border-bottom-color:var(--s1)}
+html[data-pv=clean] .pick .pf.on input{border-bottom-color:var(--s1)}
+html[data-pv=clean] .pick .pitem.alt{--rt:rgba(178,203,230,.035)}
+html[data-pv=clean] .pick .pitem.head{border-bottom-color:rgba(178,203,230,.08)}
+html[data-pv=clean] .pick .pitem.hgrp .grp{border-bottom-color:transparent;opacity:.7}
+html[data-pv=clean] .pick .gbar{opacity:.6}
+html[data-pv=clean] .pick .selo{font-weight:500;opacity:.9}
+html[data-pv=clean] .pick .padd{border-color:rgba(178,203,230,.16)}
+html[data-pv=clean] .pick .pnav button[aria-pressed="true"]{background:transparent;box-shadow:inset 2px 0 0 var(--accent);border-radius:0 8px 8px 0}
+/* ===== Tema clean para o site inteiro (data-pv="clean"): menos linhas, superfícies planas, controles secundários sem borda ===== */
+html[data-pv=clean]{--line:rgba(178,203,230,.09);--line-2:rgba(178,203,230,.18);--line-3:rgba(178,203,230,.3);--shadow:0 14px 32px -24px rgba(0,0,0,.55)}
+html[data-pv=clean] body{background-image:radial-gradient(1400px 700px at 20% -300px,rgba(63,84,119,.28),transparent 70%)}
+/* cartões e kpis: anel sutil no lugar da borda, sem brilho no topo */
+html[data-pv=clean] .card,html[data-pv=clean] .kpi{background:var(--surface);border-color:transparent;box-shadow:0 0 0 1px rgba(178,203,230,.07),var(--shadow)}
+html[data-pv=clean] .kpi::before{width:2px;opacity:.9}
+html[data-pv=clean] .status .pill{background:rgba(178,203,230,.06);border-color:transparent;box-shadow:none}
+/* atalhos: preenchimento leve, sem anel em gradiente; ícones sem brilho */
+html[data-pv=clean] .qbtn{background:rgba(178,203,230,.055);box-shadow:none}
+html[data-pv=clean] .qbtn::before{display:none}
+html[data-pv=clean] .qbtn:hover{background:rgba(178,203,230,.09);transform:none;box-shadow:none}
+html[data-pv=clean] .qbtn .ic,html[data-pv=clean] .qbtn.q-td .ic,html[data-pv=clean] .qbtn.q-rf .ic,html[data-pv=clean] .qbtn.q-ac .ic{background:rgba(91,152,230,.14);box-shadow:none;color:#9CC0F0}
+html[data-pv=clean] .qbtn.q-xp .ic{background:rgba(255,255,255,.08);box-shadow:none}
+/* busca: superfície plana */
+html[data-pv=clean] .search input{background:rgba(7,14,28,.45);border-color:var(--line);box-shadow:none}
+html[data-pv=clean] .search input:focus{border-color:rgba(143,180,227,.5);box-shadow:0 0 0 3px rgba(91,152,230,.10)}
+html[data-pv=clean] .search .kbd{border-color:transparent;background:rgba(178,203,230,.08)}
+/* trilho dos índices: itens sem borda, o ligado com a cápsula na cor */
+html[data-pv=clean] .bitem{background:transparent;border-color:transparent}
+html[data-pv=clean] .bitem:hover{background:rgba(178,203,230,.06);border-color:transparent}
+html[data-pv=clean] .bitem[aria-pressed="true"]{background:rgba(178,203,230,.08);border-color:transparent;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--bc) 24%,transparent)}
+html[data-pv=clean] .rail .bbox{border-color:transparent;background:rgba(7,14,28,.22)}
+/* segmentos e abas */
+html[data-pv=clean] .seg{background:rgba(7,14,28,.4);border-color:transparent;box-shadow:none}
+html[data-pv=clean] .seg button[aria-pressed="true"]{box-shadow:none;background:rgba(178,203,230,.14)}
+html[data-pv=clean] .modeseg{border-color:transparent}
+/* botões secundários: preenchimento leve em vez de borda */
+html[data-pv=clean] .mini,html[data-pv=clean] .btn.ghost,html[data-pv=clean] .iconbtn,html[data-pv=clean] .rank .add,html[data-pv=clean] .pf-link,html[data-pv=clean] .doclinks a,html[data-pv=clean] .swapbtn,html[data-pv=clean] .modal .x,html[data-pv=clean] .sheet-x,html[data-pv=clean] .msel > button,html[data-pv=clean] select.cen,html[data-pv=clean] .sim-top select{background:rgba(178,203,230,.07);border-color:transparent}
+html[data-pv=clean] .mini:hover,html[data-pv=clean] .btn.ghost:hover,html[data-pv=clean] .iconbtn:hover,html[data-pv=clean] .rank .add:hover,html[data-pv=clean] .pf-link:hover,html[data-pv=clean] .doclinks a:hover,html[data-pv=clean] .swapbtn:hover,html[data-pv=clean] .modal .x:hover,html[data-pv=clean] .sheet-x:hover,html[data-pv=clean] .msel > button:hover{background:rgba(178,203,230,.13);border-color:transparent;color:var(--text)}
+html[data-pv=clean] .iconbtn.sim{box-shadow:inset 0 0 0 1px rgba(212,162,74,.3)}
+html[data-pv=clean] .iconbtn.sim[aria-pressed="true"]{background:rgba(212,162,74,.14);box-shadow:inset 0 0 0 1px var(--gold)}
+html[data-pv=clean] .wrow .pct .lock{border-color:transparent;background:rgba(178,203,230,.08)}
+html[data-pv=clean] .wrow .pct .lock[aria-pressed="true"]{border-color:transparent;background:rgba(125,214,182,.18)}
+/* campos: fundo escuro plano com fio fino */
+html[data-pv=clean] .valcell .valin,html[data-pv=clean] .wrow .pct input,html[data-pv=clean] .money input,html[data-pv=clean] .rel-form input[type=text],html[data-pv=clean] .rel-form select.sel,html[data-pv=clean] .dates input,html[data-pv=clean] .rfrow select,html[data-pv=clean] .rfrow input,html[data-pv=clean] .prem input,html[data-pv=clean] .prem select,html[data-pv=clean] .selrow select,html[data-pv=clean] .rel-liq .d input,html[data-pv=clean] .swapcell .premio-ed input,html[data-pv=clean] .rank-f select,html[data-pv=clean] #rank-classe{background-color:rgba(7,14,28,.45);border-color:var(--line)}
+html[data-pv=clean] .valcell .valin:focus,html[data-pv=clean] .wrow .pct input:focus,html[data-pv=clean] .money input:focus,html[data-pv=clean] .rel-form input:focus{border-color:var(--s1)}
+/* caixas internas e tiles: preenchimento, sem borda */
+html[data-pv=clean] .rel-box,html[data-pv=clean] .pf-facts div,html[data-pv=clean] .pf-team div,html[data-pv=clean] .ficha .jan .j,html[data-pv=clean] .ficha .gest,html[data-pv=clean] .coecard,html[data-pv=clean] .aitem{border-color:transparent;background:rgba(178,203,230,.05)}
+html[data-pv=clean] .tchip{border-color:transparent;background:rgba(178,203,230,.06)}
+html[data-pv=clean] .tchip:hover{background:rgba(178,203,230,.11)}
+html[data-pv=clean] .tchip[aria-pressed="true"],html[data-pv=clean] .tchip.on{background:var(--text-2);color:var(--deep);box-shadow:none}
+html[data-pv=clean] .modal .box{border-color:transparent;box-shadow:0 0 0 1px rgba(178,203,230,.08),0 30px 70px rgba(0,0,0,.55)}
+html[data-pv=clean] .sheet-card{border-color:transparent;box-shadow:0 0 0 1px rgba(178,203,230,.08),0 30px 70px rgba(0,0,0,.55)}
+html[data-pv=clean] .cupons span,html[data-pv=clean] .tag{border-color:transparent;background:rgba(178,203,230,.08)}
+/* tabelas: barras e selos mais discretos, fios mais leves */
+html[data-pv=clean] .results .sc .gbar,html[data-pv=clean] .rank .vb .tr,html[data-pv=clean] .mb,html[data-pv=clean] .tbl .gbar{opacity:.65}
+html[data-pv=clean] .rank th{border-bottom-color:var(--line)}
+html[data-pv=clean] .rank td{border-bottom-color:rgba(178,203,230,.06)}
+html[data-pv=clean] .wrow{border-bottom-color:rgba(178,203,230,.07)}
+html[data-pv=clean] #tb-persp td,html[data-pv=clean] #tb-cart td,html[data-pv=clean] .tbl td{border-bottom-color:rgba(178,203,230,.07)}
+html[data-pv=clean] .selo,html[data-pv=clean] .rank td .sub2 .selo,html[data-pv=clean] .tbl .selo{font-weight:500;opacity:.9}
+html[data-pv=clean] .kpi .idx,html[data-pv=clean] .kpi .row .sh{background:rgba(178,203,230,.07)}
+/* celular: a pílula de status desce para baixo da marca em vez de encavalar o título */
+@media (max-width:560px){header .row{flex-wrap:wrap;gap:10px 16px}.status{text-align:left;width:100%}header.wrap{padding-top:28px}}
 </style>
 </head>
 <body>
@@ -2936,7 +3037,7 @@ function focarCarteira(key, fixo) {
 $('cart-mode').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.cart.modo = b.dataset.m; gravarURL(); renderCarteira(); atualizarCarteiraVisual(); if (typeof atualizarCarteiraSim === 'function') atualizarCarteiraSim(); });
 $('cart-eq').addEventListener('click', () => { const prontos = S.sel.filter(s => s.data); S.cart.trava = {}; prontos.forEach(s => S.cart.pesos[s.key] = 100 / prontos.length); normalizarPesos(prontos); gravarURL(); renderCarteira(); atualizarCarteiraVisual(); if (typeof atualizarCarteiraSim === 'function') atualizarCarteiraSim(); });
 
-window.__cmp = { S, sharesAtuais, minimoDe, cartUI, taxaDe, resgateDe, remover, adicionar, togglePersp, abrirPerfilKey: (k, key) => abrirPerfilKey(k, key) };
+window.__cmp = { S, sharesAtuais, minimoDe, cartUI, taxaDe, resgateDe, remover, adicionar, togglePersp, abrirPerfilKey: (k, key) => abrirPerfilKey(k, key), pickFil: () => PICK.fil };
 
 // ------------------------------------------------------------------ relatório para o cliente (PDF pela impressão do navegador)
 S.rel = { cliente: '', total: null, tema: 'escuro', liq: {} };
@@ -3774,7 +3875,10 @@ function opcoesDoGrupo(id, atual) {
 }
 // ------------------------------------------------------------------ seletor de ativos do simulador: popover com seções (renda fixa, Tesouro, fundos XP comuns, previdência, outros fundos),
 // classificação em fichas, busca, filtro de liquidez e, em cada linha, barras de retorno (azul), volatilidade (vermelha) e Sharpe (azul-claro)
-const PICK = { el: null, atual: null, sec: 'xp', sub: null, cls: null, liq: null, q: '', ord: null, anchor: null, onPick: null };
+const PICK = { el: null, atual: null, sec: 'xp', sub: null, cls: null, liq: null, q: '', ord: null, anchor: null, onPick: null, setor: null, sub2: null, fil: {}, filOn: false };
+// filtros de Renda Variável: setor/subsetor (ações) ou segmento (FIIs) e faixas mín./máx. por coluna numérica da aba
+const pickFiltrosAtivos = () => Object.values(PICK.fil).filter(f => f && (f.min != null || f.max != null)).length;
+const pickLimparFiltros = () => { PICK.setor = null; PICK.sub2 = null; PICK.fil = {}; };
 const PICK_SECS = [['rf', 'Renda fixa', 'i-rf'], ['td', 'Tesouro Nacional', 'i-td'], ['ac', 'Ações, FIIs e BDRs', 'i-stock'], ['xp', 'Fundos XP', 'i-star'], ['prev', 'Previdência XP', 'i-umbrella'], ['cvm', 'Outros fundos', 'i-layers']];
 const PICK_LIQ = [[null, 'Liquidez livre', 'qualquer prazo de resgate'], [0, 'Até D+0', 'resgate no mesmo dia'], [1, 'Até D+1', 'um dia útil'], [5, 'Até D+5', 'uma semana'], [30, 'Até D+30', 'um mês'], [60, 'Até D+60', 'dois meses'], [90, 'Até D+90', 'três meses']];
 const ehPrev = (f) => f.xp_tipo === 'Previdência';
@@ -3793,12 +3897,26 @@ function pickClasses(sec, sub) {
   const n = new Map(); S.index.forEach(f => { if (f.xp_tipo === sub && !ehPrev(f) && pickOk(f)) { const c = classeXPCanon(f.xp_classe || '') || 'sem classe'; n.set(c, (n.get(c) || 0) + 1); } });
   return [...n.keys()].sort((a, b) => a.localeCompare(b, 'pt-BR')).map(c => ({ id: c, lbl: classeXPLabel(c, sub) || c, n: n.get(c) }));
 }
+// setores (ações) ou segmentos (FIIs) presentes na aba, com contagem sob a busca atual; subsetores dentro do setor escolhido
+function pickSetores(tp, setor) {
+  const nq = norm(PICK.q || ''); const n = new Map();
+  S.acoes.forEach(a => { if ((a.tipo === 'bdr' ? 'bdr' : a.tipo === 'fii' ? 'fii' : 'acao') !== tp || !a.setor) return; if (nq && !a.busca.includes(nq)) return; if (setor && a.setor !== setor) return; const k = setor ? a.subsetor : a.setor; if (!k) return; n.set(k, (n.get(k) || 0) + 1); });
+  return [...n.keys()].sort((x, y) => x.localeCompare(y, 'pt-BR')).map(k => ({ id: k, lbl: k, n: n.get(k) }));
+}
+// faixas mín./máx.: só as chaves que existem na aba valem; quem não tem o dado fica de fora quando há filtro nele
+function pickAplicarFiltros(itens, tp) {
+  const P = PICK; let out = itens;
+  if (tp !== 'bdr' && P.setor) out = out.filter(i => i.setor === P.setor && (!P.sub2 || tp !== 'acao' || i.subsetor === P.sub2));
+  const chaves = new Set(pickColunas('ac', tp).map(c => c.k));
+  Object.entries(P.fil).forEach(([k, f]) => { if (!f || !chaves.has(k) || (f.min == null && f.max == null)) return; out = out.filter(i => { const v = pickValor(i, k); return v != null && (f.min == null || v >= f.min) && (f.max == null || v <= f.max); }); });
+  return out;
+}
 function pickItens() {
   const { sec, sub, cls, liq, q } = PICK; const nq = norm(q || ''); const out = [];
   if (sec === 'rf') { const tp = sub || 'pcdi'; RF_TAXAS[tp].forEach(tx => out.push({ key: 'rf:' + rfId(tp, tx, ''), kind: 'rf', nome: RF_NOMES[tp](tx), sub: RF_IDX[tp], liq: 0 })); if (PICK.atual && PICK.atual.kind === 'rf' && PICK.atual.data && !out.some(o => o.key === PICK.atual.key)) out.unshift({ key: PICK.atual.key, kind: 'rf', nome: PICK.atual.data.nomeLongo || PICK.atual.data.nome, sub: PICK.atual.data.indexador, liq: 0 }); return out.filter(o => !nq || norm(o.nome).includes(nq)); }
   if (sec === 'ac') { const tp = sub || 'acao'; S.acoes.forEach(a => { if ((a.tipo === 'bdr' ? 'bdr' : a.tipo === 'fii' ? 'fii' : 'acao') !== tp) return; if (nq && !a.busca.includes(nq)) return; out.push({ key: 'ac:' + a.ticker, kind: 'acao', nome: a.ticker + ' · ' + a.nome, sub: (a.tipo === 'bdr' ? 'BDR' : a.tipo === 'fii' ? 'FII' : 'Ação ' + (a.especi || '')) + (a.liq ? ' · R$ ' + compactR(a.liq) + '/dia' : '') + (a.premio != null ? ' · ' + (BM_LBL[a.bm] || 'Ibov') + ' ' + (a.premio >= 0 ? '+' : '−') + fmtNum(Math.abs(a.premio), 1) + ' p.p.' : ''), ret: a.ret12, r: { 12: a.ret12, 24: a.ret24, 36: a.ret36 }, vol: a.vol12, sharpe: a.sharpe12, co: a.co12, bm: a.bm, liq: null,
       // fundamentos (pipeline): FIIs com DY 12 m e P/VP; ações com P/VPA, EV/EBITDA e crescimento de PL, EBITDA e receita em 12/24/36 m
-      fd: { dy12: a.dy12, pvp: a.pvp, pvpa: a.pvpa, ev: a.ev_ebitda, gpl12: a.g_pl12, gpl24: a.g_pl24, gpl36: a.g_pl36, geb12: a.g_eb12, geb24: a.g_eb24, geb36: a.g_eb36, grec12: a.g_rec12, grec24: a.g_rec24, grec36: a.g_rec36, fin: !!a.fin, dt: a.dt_fund } }); }); out.sort((x, y) => (y.ret == null ? -1e9 : y.ret) - (x.ret == null ? -1e9 : x.ret)); return out; }
+      fd: { dy12: a.dy12, pvp: a.pvp, pvpa: a.pvpa, ev: a.ev_ebitda, gpl12: a.g_pl12, gpl24: a.g_pl24, gpl36: a.g_pl36, geb12: a.g_eb12, geb24: a.g_eb24, geb36: a.g_eb36, grec12: a.g_rec12, grec24: a.g_rec24, grec36: a.g_rec36, fin: !!a.fin, dt: a.dt_fund }, setor: a.setor || null, subsetor: a.subsetor || null, seg: a.seg || null }); }); out.sort((x, y) => (y.ret == null ? -1e9 : y.ret) - (x.ret == null ? -1e9 : x.ret)); return pickAplicarFiltros(out, tp); }
   if (sec === 'td') { (S.tesouro || []).filter(t => !sub || String(t.fam) === sub).sort((x, y) => x.venc.localeCompare(y.venc)).forEach(t => { if (nq && !t.busca.includes(nq)) return; out.push({ key: 'td:' + t.id, kind: 'tesouro', nome: t.nome, sub: taxaTD(t) + ' · vence ' + t.venc.slice(0, 4), ret: t.ret12, r: { 12: t.ret12, 24: t.ret24, 36: t.ret36 }, vol: t.vol12, sharpe: t.sharpe12, co: t.co12, bm: t.indexador === 'PRE' ? null : t.indexador === 'IPCA' ? 'ipca' : 'cdi', liq: 0 }); }); return out; }
   S.index.forEach(f => {
     if (sec === 'xp') { if (!f.xp_tipo || ehPrev(f)) return; if (sub && f.xp_tipo !== sub) return; if (cls && (classeXPCanon(f.xp_classe || '') || 'sem classe') !== cls) return; }
@@ -3837,7 +3955,7 @@ function renderPicker() {
   const liq = liqApi.el;
   const x = el('button', 'x'); x.type = 'button'; x.setAttribute('aria-label', 'Fechar'); x.append(icon('i-x', 12)); x.addEventListener('click', fecharPicker);
   head.append(el('span', 'tt', P.atual ? 'Trocar ' + (P.atual.data ? P.atual.data.nome : '') : 'Adicionar ativo'), q, liq, x); root.append(head);
-  const body = el('div', 'pbody'); const nav = el('div', 'pnav'); PICK_SECS.forEach(([id, lbl, ic]) => { const b = el('button'); b.type = 'button'; b.append(icon(ic, 13), el('span', null, lbl)); b.setAttribute('aria-pressed', P.sec === id ? 'true' : 'false'); b.addEventListener('click', () => { P.sec = id; P.sub = null; P.cls = null; P.q = ''; renderPicker(); }); nav.append(b); }); body.append(nav);
+  const body = el('div', 'pbody'); const nav = el('div', 'pnav'); PICK_SECS.forEach(([id, lbl, ic]) => { const b = el('button'); b.type = 'button'; b.append(icon(ic, 13), el('span', null, lbl)); b.setAttribute('aria-pressed', P.sec === id ? 'true' : 'false'); b.addEventListener('click', () => { P.sec = id; P.sub = null; P.cls = null; P.q = ''; pickLimparFiltros(); renderPicker(); }); nav.append(b); }); body.append(nav);
   const main = el('div', 'pmain'); const fichas = el('div', 'pfichas'); main.append(fichas); P.fichas = fichas;
   const lista = el('div', 'plist'); main.append(lista); body.append(main); root.append(body);
   P.lista = lista; renderFichas(); renderLista();
@@ -3845,7 +3963,8 @@ function renderPicker() {
 }
 function renderFichas() {
   const P = PICK; const main = P.fichas; if (!main) return; main.innerHTML = '';
-  const subs = pickSubs(P.sec); if (subs.length) { const row = el('div', 'pchips'); const all = el('button'); all.type = 'button'; all.textContent = P.sec === 'rf' || P.sec === 'ac' ? '' : 'Todos'; if (P.sec !== 'rf' && P.sec !== 'ac') { all.setAttribute('aria-pressed', !P.sub ? 'true' : 'false'); all.addEventListener('click', () => { P.sub = null; P.cls = null; renderFichas(); renderLista(); }); row.append(all); } subs.forEach(sb => { const b = el('button'); b.type = 'button'; b.append(document.createTextNode(sb.lbl)); if (sb.n) b.append(el('small', null, String(sb.n))); b.setAttribute('aria-pressed', P.sub === sb.id || (P.sec === 'rf' && !P.sub && sb.id === 'pcdi') || (P.sec === 'ac' && !P.sub && sb.id === 'acao') ? 'true' : 'false'); b.addEventListener('click', () => { P.sub = sb.id; P.cls = null; renderFichas(); renderLista(); }); row.append(b); }); main.append(row); }
+  const subs = pickSubs(P.sec); if (subs.length) { const row = el('div', 'pchips'); const all = el('button'); all.type = 'button'; all.textContent = P.sec === 'rf' || P.sec === 'ac' ? '' : 'Todos'; if (P.sec !== 'rf' && P.sec !== 'ac') { all.setAttribute('aria-pressed', !P.sub ? 'true' : 'false'); all.addEventListener('click', () => { P.sub = null; P.cls = null; renderFichas(); renderLista(); }); row.append(all); } subs.forEach(sb => { const b = el('button'); b.type = 'button'; b.append(document.createTextNode(sb.lbl)); if (sb.n) b.append(el('small', null, String(sb.n))); b.setAttribute('aria-pressed', P.sub === sb.id || (P.sec === 'rf' && !P.sub && sb.id === 'pcdi') || (P.sec === 'ac' && !P.sub && sb.id === 'acao') ? 'true' : 'false'); b.addEventListener('click', () => { if (P.sub !== sb.id) pickLimparFiltros(); P.sub = sb.id; P.cls = null; renderFichas(); renderLista(); }); row.append(b); }); main.append(row); }
+  if (P.sec === 'ac') renderFiltrosRV(main);
   const classes = pickClasses(P.sec, P.sub); if (classes.length) { const row = el('div', 'pchips sub'); const all = el('button'); all.type = 'button'; all.textContent = 'Todas as classes'; all.setAttribute('aria-pressed', !P.cls ? 'true' : 'false'); all.addEventListener('click', () => { P.cls = null; renderFichas(); renderLista(); }); row.append(all); classes.forEach(c => { const b = el('button'); b.type = 'button'; b.append(document.createTextNode(c.lbl), el('small', null, String(c.n))); b.setAttribute('aria-pressed', P.cls === c.id ? 'true' : 'false'); b.addEventListener('click', () => { P.cls = c.id; renderFichas(); renderLista(); }); row.append(b); }); main.append(row); }
 }
 // colunas da lista por seção: além de retorno e risco, os fundamentos de FIIs (DY 12 m, P/VP) e de ações (P/VPA, EV/EBITDA,
@@ -3882,6 +4001,52 @@ function pickCelFund(it, c, max) {
   return w;
 }
 const mesBR = (ym) => { const [y, m] = ym.split('-'); return ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'][+m - 1] + '/' + y; };
+// Renda Variável: chips de setor (ações) ou segmento (FIIs), subsetor dentro do setor, e a faixa de filtros mín./máx. por indicador
+const PICK_FIL_UN = { pct: ['%', 100], mult: ['×', 1], num: ['', 1] };
+function pickFiltroDefs(tp) {
+  const defs = [];
+  PICK_W.forEach(W => defs.push({ k: String(W), lbl: 'Retorno ' + W + 'm', un: 'pct' }));
+  defs.push({ k: 'vol', lbl: 'Volatilidade', un: 'pct' }, { k: 'sharpe', lbl: 'Sharpe', un: 'num' }, { k: 'co', lbl: 'Co Ibov', un: 'pct' });
+  pickColunas('ac', tp).forEach(c => { if (c.cls.startsWith('pbf')) defs.push({ k: c.k, lbl: c.g === 'Fundamentos' || c.g === 'Valuation' ? c.lbl : c.g.replace('Crescimento d', 'Cresc. d') + ' ' + c.lbl, un: c.cls.includes('mult') ? 'mult' : 'pct' }); });
+  return defs;
+}
+function renderFiltrosRV(main) {
+  const P = PICK; const tp = P.sub || 'acao';
+  if (tp !== 'bdr') {
+    const setores = pickSetores(tp, null);
+    if (setores.length) {
+      const row = el('div', 'pchips sub setores'); const all = el('button'); all.type = 'button'; all.textContent = tp === 'fii' ? 'Todos os segmentos' : 'Todos os setores'; all.setAttribute('aria-pressed', !P.setor ? 'true' : 'false'); all.addEventListener('click', () => { P.setor = null; P.sub2 = null; renderFichas(); renderLista(); }); row.append(all);
+      setores.forEach(st => { const b = el('button'); b.type = 'button'; b.append(document.createTextNode(st.lbl), el('small', null, String(st.n))); b.setAttribute('aria-pressed', P.setor === st.id ? 'true' : 'false'); b.addEventListener('click', () => { P.setor = P.setor === st.id ? null : st.id; P.sub2 = null; renderFichas(); renderLista(); }); row.append(b); });
+      main.append(row);
+      if (tp === 'acao' && P.setor) { const subs = pickSetores(tp, P.setor); if (subs.length > 1) { const r2 = el('div', 'pchips sub subsetores'); const a2 = el('button'); a2.type = 'button'; a2.textContent = 'Todos os subsetores'; a2.setAttribute('aria-pressed', !P.sub2 ? 'true' : 'false'); a2.addEventListener('click', () => { P.sub2 = null; renderFichas(); renderLista(); }); r2.append(a2); subs.forEach(sb => { const b = el('button'); b.type = 'button'; b.append(document.createTextNode(sb.lbl), el('small', null, String(sb.n))); b.setAttribute('aria-pressed', P.sub2 === sb.id ? 'true' : 'false'); b.addEventListener('click', () => { P.sub2 = P.sub2 === sb.id ? null : sb.id; renderFichas(); renderLista(); }); r2.append(b); }); main.append(r2); } }
+    }
+  }
+  // barra: botão Filtros (com o número de faixas ativas), contagem de resultados e, aberta, os campos mín./máx.
+  const bar = el('div', 'pfilbar'); const bt = el('button', 'pfil-btn'); bt.type = 'button'; bt.setAttribute('aria-expanded', P.filOn ? 'true' : 'false'); bt.append(icon('i-sliders', 12), document.createTextNode('Filtros')); const nAt = pickFiltrosAtivos(); if (nAt) bt.append(el('b', 'badge', String(nAt)));
+  bt.addEventListener('click', () => { P.filOn = !P.filOn; renderFichas(); });
+  const cnt = el('span', 'pfil-n'); cnt.id = 'pfil-n'; bar.append(bt, cnt);
+  if (nAt || P.setor) { const lp = el('button', 'pfil-clear'); lp.type = 'button'; lp.textContent = 'Limpar'; lp.addEventListener('click', () => { pickLimparFiltros(); renderFichas(); renderLista(); }); bar.append(lp); }
+  main.append(bar);
+  if (!P.filOn) return;
+  const box = el('div', 'pfil'); box.setAttribute('role', 'group'); box.setAttribute('aria-label', 'Filtros por indicador');
+  pickFiltroDefs(tp).forEach(d => {
+    const [suf, esc] = PICK_FIL_UN[d.un]; const f = P.fil[d.k] || {}; const it = el('div', 'pf'); it.append(el('span', 'lbl', d.lbl));
+    const campo = (qual, ph) => { const inp = el('input'); inp.type = 'text'; inp.inputMode = 'decimal'; inp.placeholder = ph; inp.setAttribute('aria-label', d.lbl + ' ' + (qual === 'min' ? 'mínimo' : 'máximo') + (suf ? ' em ' + suf : '')); const v = f[qual]; if (v != null) inp.value = fmtNum(v * esc, d.un === 'mult' ? 2 : 1);
+      const aplicar = () => { const t = inp.value.trim().replace(/\./g, '').replace(',', '.').replace(/[^\d.\-]/g, ''); const n = t === '' ? null : parseFloat(t); const cur = P.fil[d.k] || {}; cur[qual] = n == null || isNaN(n) ? null : n / esc; P.fil[d.k] = cur; renderLista(); sincronizarFiltros(); };
+      inp.addEventListener('change', aplicar); inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { aplicar(); inp.blur(); } }); return inp; };
+    const wrap = el('span', 'campos'); wrap.append(campo('min', 'mín'), el('i', null, 'a'), campo('max', 'máx')); if (suf) wrap.append(el('u', null, suf)); it.append(wrap); if (f.min != null || f.max != null) it.classList.add('on'); box.append(it);
+  });
+  main.append(box);
+}
+// contagem "N de M" ao lado do botão Filtros e o número no selo, sem redesenhar os campos (para não perder o foco)
+function sincronizarFiltros() {
+  const P = PICK; const cnt = document.getElementById('pfil-n'); if (!cnt) return; const tp = P.sub || 'acao'; const nq = norm(P.q || '');
+  const total = S.acoes.filter(a => (a.tipo === 'bdr' ? 'bdr' : a.tipo === 'fii' ? 'fii' : 'acao') === tp && (!nq || a.busca.includes(nq))).length; const n = pickItens().length;
+  cnt.textContent = n === total ? total + (total === 1 ? ' ativo' : ' ativos') : n + ' de ' + total;
+  const bar = cnt.parentElement; const bt = bar.querySelector('.pfil-btn'); const nAt = pickFiltrosAtivos(); if (bt) { const old = bt.querySelector('.badge'); if (old) old.remove(); if (nAt) bt.append(el('b', 'badge', String(nAt))); }
+  let lp = bar.querySelector('.pfil-clear'); if ((nAt || P.setor) && !lp) { lp = el('button', 'pfil-clear'); lp.type = 'button'; lp.textContent = 'Limpar'; lp.addEventListener('click', () => { pickLimparFiltros(); renderFichas(); renderLista(); }); bar.append(lp); } else if (!(nAt || P.setor) && lp) lp.remove();
+  const box = cnt.parentElement.parentElement.querySelector('.pfil'); if (box) [...box.querySelectorAll('.pf')].forEach((pf, i) => { const d = pickFiltroDefs(tp)[i]; const f = (d && P.fil[d.k]) || {}; pf.classList.toggle('on', f.min != null || f.max != null); });
+}
 function renderLista() {
   const P = PICK; const lista = P.lista; if (!lista) return; lista.innerHTML = '';
   const itens = pickItens(); const LIM = 200;
@@ -3940,6 +4105,7 @@ function renderLista() {
   if (!vis.length) { const semPrazos = P.liq != null && !S.index.some(f => f.xp_liq != null); lista.append(el('div', 'pvazio', semPrazos ? 'Esta base não trouxe os prazos de resgate; recarregue a página para atualizar os dados.' : P.liq != null ? 'Nenhum ativo com esse prazo de resgate nesta seção.' : 'Nada encontrado nesta seção.')); }
   else if (itens.length > LIM) lista.append(el('div', 'pvazio', 'Mostrando os ' + LIM + ' de maior retorno em ' + itens.length + '; use a busca para refinar.'));
   if (P.sec === 'rf') { const foot = el('div', 'pfoot'); const bt = el('button', 'mini'); bt.type = 'button'; bt.textContent = 'Outra taxa, emissor ou vencimento…'; bt.addEventListener('click', () => { fecharPicker(); abrirRF(P.sub || 'pcdi'); }); foot.append(bt); lista.append(foot); }
+  if (P.sec === 'ac') sincronizarFiltros();
   if (!lista._scx) { lista._scx = true; lista.addEventListener('scroll', () => sombrasLista(lista), { passive: true }); }
   requestAnimationFrame(() => sombrasLista(lista));
 }
@@ -3955,7 +4121,7 @@ function posicionarPicker() {
 function abrirPicker(atual, anchor, secInicial) {
   const P = PICK; fecharPicker(); fecharMsel();
   if (!P.el) { P.el = el('div', 'pick'); P.el.setAttribute('role', 'dialog'); P.el.setAttribute('aria-label', 'Escolher ativo'); document.body.append(P.el); }
-  P.atual = atual || null; P.anchor = anchor; P.q = ''; P.liq = null;
+  P.atual = atual || null; P.anchor = anchor; P.q = ''; P.liq = null; pickLimparFiltros(); P.filOn = false;
   const cid = atual ? classeDe(atual) : null;
   if (cid) { const [t, a, b] = cid.split('|'); if (t === 'rf') { P.sec = 'rf'; P.sub = a; P.cls = null; } else if (t === 'td') { P.sec = 'td'; P.sub = a; P.cls = null; } else if (t === 'ac') { P.sec = 'ac'; P.sub = a; P.cls = null; } else if (t === 'xp') { if (a === 'Previdência') { P.sec = 'prev'; P.sub = b || 'sem classe'; P.cls = null; } else { P.sec = 'xp'; P.sub = a; P.cls = b || 'sem classe'; } } else { P.sec = 'cvm'; P.sub = a; P.cls = null; } }
   else if (secInicial) { P.sec = secInicial; P.sub = null; P.cls = null; }
@@ -4093,7 +4259,7 @@ async function abrirPerfil(s) {
   if (s.kind === 'acao') {
     const d = sec(f.tipo === 'bdr' ? 'BDR' : f.tipo === 'fii' ? 'Fundo imobiliário' : 'Ação', 'i-stock');
     paras(d, f.tipo === 'fii' ? 'Cota de fundo de investimento imobiliário negociada na B3. A série usa a cotação com os rendimentos mensais reinvestidos (informe mensal da CVM) e os desdobramentos incorporados; a referência na comparação e na projeção é o IFIX. Rendimentos isentos de imposto de renda para pessoa física nas condições da lei.' : f.tipo === 'bdr' ? 'Brazilian Depositary Receipt: certificado negociado na B3 que representa ações de uma empresa estrangeira, em reais. A cotação acompanha o preço da ação no exterior e o câmbio; por isso a referência na comparação e na projeção é o S&P 500 em reais.' : 'Ação negociada na B3. A série de preços é a cotação ajustada por proventos (dividendos e juros sobre capital próprio reinvestidos) e por desdobramentos e grupamentos, para ficar comparável à cota de um fundo. A referência na comparação e na projeção é o Ibovespa.');
-    const dl = el('div', 'pf-facts'); [['Último preço', f.preco != null ? 'R$ ' + fmtNum(f.preco, 2) : null], ['Volume médio', f.liq ? 'R$ ' + compactR(f.liq) + '/dia' : null], ['Excesso sobre o índice', f.premio != null ? (f.premio >= 0 ? '+' : '−') + fmtNum(Math.abs(f.premio), 1) + ' p.p. a.a. em ' + (f.premio_w || 36) + ' meses' : null], ['Liquidez', 'D+2 (liquidação na B3)'], ['Imposto', f.tipo === 'fii' ? '20% sobre o ganho na venda; rendimentos isentos para pessoa física' : '15% sobre o ganho (20% em day trade); isenção até R$ 20 mil vendidos no mês para ações']].forEach(([k, v]) => { if (v) { const it = el('div'); it.append(el('b', null, v), el('span', null, k)); dl.append(it); } }); d.append(dl);
+    const dl = el('div', 'pf-facts'); [[f.tipo === 'fii' ? 'Segmento' : 'Setor', f.tipo === 'fii' ? f.setor : [f.setor, f.subsetor, f.seg].filter((x, i, a) => x && a.indexOf(x) === i).join(' · ') || null], ['Último preço', f.preco != null ? 'R$ ' + fmtNum(f.preco, 2) : null], ['Volume médio', f.liq ? 'R$ ' + compactR(f.liq) + '/dia' : null], ['Excesso sobre o índice', f.premio != null ? (f.premio >= 0 ? '+' : '−') + fmtNum(Math.abs(f.premio), 1) + ' p.p. a.a. em ' + (f.premio_w || 36) + ' meses' : null], ['Liquidez', 'D+2 (liquidação na B3)'], ['Imposto', f.tipo === 'fii' ? '20% sobre o ganho na venda; rendimentos isentos para pessoa física' : '15% sobre o ganho (20% em day trade); isenção até R$ 20 mil vendidos no mês para ações']].forEach(([k, v]) => { if (v) { const it = el('div'); it.append(el('b', null, v), el('span', null, k)); dl.append(it); } }); d.append(dl);
     secFundamentos(sec, f);
   }
   if (s.kind === 'rf') {
