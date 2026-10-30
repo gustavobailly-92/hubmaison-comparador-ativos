@@ -719,7 +719,8 @@ def carregar_acoes(datas: list[date], hoje: date, offline: str | None, cache: st
                 time.sleep(PAUSA_B3)
                 emissores[cod] = eventos_empresa(cod, pasta, hoje)
             ev = emissores[cod] or {}
-            setor, subsetor, seg = ev.get("setor"), ev.get("subsetor"), ev.get("seg")
+            # (o cache de eventos guarda os textos; a limpeza do espaço antes da vírgula vale também para o que já foi gravado)
+            setor, subsetor, seg = (re.sub(r"\s+,", ",", x) if x else x for x in (ev.get("setor"), ev.get("subsetor"), ev.get("seg")))
             if ev.get("erro") or ev.get("cash") is None:
                 ajuste = "sem proventos"
                 n_sem_evento += 1
