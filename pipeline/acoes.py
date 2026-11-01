@@ -65,10 +65,39 @@ def _sem_acento(t: str) -> str:
     return unicodedata.normalize("NFKD", t or "").encode("ascii", "ignore").decode()
 
 
+# rótulos da B3 abreviados ou sem acento, reescritos para leitura (a chave é o texto já com as vírgulas restauradas)
+ROTULO_B3 = {
+    "Serv.Méd.Hospit., Análises e Diagnósticos": "Hospitais, Clínicas e Diagnósticos",
+    "Máq. e Equip. Industriais": "Máquinas e Equipamentos Industriais",
+    "Máq. e Equip. Construção e Agrícolas": "Máquinas Agrícolas e de Construção",
+    "Açucar e Alcool": "Açúcar e Álcool",
+    "Hoteis e Restaurantes": "Hotéis e Restaurantes",
+    "Restaurante e Similares": "Restaurantes e Similares",
+}
+# correções pontuais, por código de emissor: (setor, subsetor, segmento). A B3 põe Hypera e Blau (fabricantes) junto com
+# farmácias e distribuidoras em "Comércio e Distribuição", e deixa Neogrid, T4F e TC sem classificação.
+SETOR_CORRIGIDO = {
+    "HYPE": ("Saúde", "Medicamentos e Outros Produtos", "Medicamentos e Outros Produtos"),
+    "BLAU": ("Saúde", "Medicamentos e Outros Produtos", "Medicamentos e Outros Produtos"),
+    "NGRD": ("Tecnologia da Informação", "Programas e Serviços", "Programas e Serviços"),
+    "SHOW": ("Consumo Cíclico", "Viagens e Lazer", "Produção de Eventos e Shows"),
+    "TRAD": ("Tecnologia da Informação", "Programas e Serviços", "Programas e Serviços"),
+}
+
+
+def _rotulo_b3(x: str | None) -> str | None:
+    if not x:
+        return x
+    x = re.sub(r"\s+,", ",", x).strip()
+    return ROTULO_B3.get(x, x)
+
+
 def _classificacao_b3(txt: str | None) -> tuple[str | None, str | None, str | None]:
     """"Setor / Subsetor / Segmento" da API de empresas da B3, com as vírgulas restauradas."""
     if not txt:
         return None, None, None
+    # "Serv.Méd.Hospit..Análises": a vírgula depois de uma abreviação vira um segundo ponto, sem espaço
+    txt = re.sub(r"\.\.(?=\S)", "., ", str(txt))
     partes = []
     for parte in str(txt).split("/"):
         toks = parte.split(". ")
@@ -79,7 +108,7 @@ def _classificacao_b3(txt: str | None) -> tuple[str | None, str | None, str | No
         partes.append(out.strip() or None)
     while len(partes) < 3:
         partes.append(None)
-    return partes[0], partes[1], partes[2]
+    return partes[0], _rotulo_b3(partes[1]), _rotulo_b3(partes[2])
 
 
 TIJOLO = {"Logística", "Shoppings", "Lajes corporativas", "Residencial", "Hospital", "Hotel", "Renda urbana", "Educacional", "Agências bancárias"}
@@ -187,6 +216,8 @@ def _ler_cotahist(raw: bytes, por_ticker: dict, pregoes: set, apenas: set | None
                     continue
                 if not re.fullmatch(r"[A-Z0-9]{4}\d{1,2}", ticker):
                     continue
+                if tipo == "acao" and not re.fullmatch(r"[A-Z0-9]{4}([3-8]|11)", ticker):
+                    continue   # recibos e direitos de subscrição, bônus e classes provisórias (AZUL97, AZUL98...)
                 d = linha[2:10]
                 dia = f"{d[:4]}-{d[4:6]}-{d[6:8]}"
                 try:
@@ -668,6 +699,7 @@ def _nome_bonito(nomres: str, especi: str, longo: str | None) -> str:
         base = re.sub(r"\s+(S\.?A\.?|SA|LTDA\.?|INC\.?|CORP\.?|PLC|N\.?V\.?)$", "", base, flags=re.I).strip(" -.")
     if not base:
         base = nomres.title().replace("Sa ", "SA ").strip()
+    base = re.sub(r"\b([DL]) (Or|Oreal|Agua)\b", r"\1'\2", base)   # Rede D'Or, L'Oreal (o COTAHIST não tem apóstrofo)
     suf = {"ON": "ON", "PN": "PN", "PNA": "PNA", "PNB": "PNB", "PNC": "PNC", "PND": "PND", "UNT": "UNT"}.get(especi, "")
     if especi.startswith("CI") and not re.search(r"\bFII\b|imobili", base, re.I):
         suf = "FII"
@@ -719,8 +751,11 @@ def carregar_acoes(datas: list[date], hoje: date, offline: str | None, cache: st
                 time.sleep(PAUSA_B3)
                 emissores[cod] = eventos_empresa(cod, pasta, hoje)
             ev = emissores[cod] or {}
-            # (o cache de eventos guarda os textos; a limpeza do espaço antes da vírgula vale também para o que já foi gravado)
-            setor, subsetor, seg = (re.sub(r"\s+,", ",", x) if x else x for x in (ev.get("setor"), ev.get("subsetor"), ev.get("seg")))
+            # o cache de eventos guarda os textos da B3; a limpeza e as correções valem também para o que já foi gravado
+            if cod in SETOR_CORRIGIDO:
+                setor, subsetor, seg = SETOR_CORRIGIDO[cod]
+            elif ev.get("setor"):
+                setor, subsetor, seg = _classificacao_b3(" / ".join(x or "" for x in (ev.get("setor"), ev.get("subsetor"), ev.get("seg"))))
             if ev.get("erro") or ev.get("cash") is None:
                 ajuste = "sem proventos"
                 n_sem_evento += 1
