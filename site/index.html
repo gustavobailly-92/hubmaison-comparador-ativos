@@ -638,8 +638,6 @@ body.sheet-open{overflow:hidden}
 .pick .pchips button[aria-pressed="true"] small{color:rgba(7,14,28,.6)}
 .pick .pchips.sub button{font-size:11px;padding:3px 9px}
 /* Renda Variável: setores/segmentos, barra de filtros e os campos mín./máx. por indicador */
-.pick .pchips.setores,.pick .pchips.subsetores{padding-top:2px}
-.pick .pchips.subsetores{padding-inline-start:24px}
 .pick .pfilbar{display:flex;align-items:center;gap:10px;padding:8px 12px 2px}
 .pick .pfil-btn{display:inline-flex;align-items:center;gap:6px;background:transparent;border:1px solid var(--line);border-radius:999px;color:var(--text-2);padding:4px 11px 4px 9px;font-size:11.5px;font-family:var(--font);cursor:pointer;transition:border-color .15s,color .15s,background .15s}
 .pick .pfil-btn svg{width:12px;height:12px;color:var(--muted)}
@@ -1042,7 +1040,6 @@ html[data-pv=clean] .pick .pchips button{background:transparent;border-color:tra
 html[data-pv=clean] .pick .pchips button:hover{border-color:transparent;background:rgba(178,203,230,.07);color:var(--text)}
 html[data-pv=clean] .pick .pchips button[aria-pressed="true"]{background:rgba(178,203,230,.14);color:var(--text);border-color:transparent}
 html[data-pv=clean] .pick .pchips button[aria-pressed="true"] small{color:var(--muted)}
-html[data-pv=clean] .pick .pchips.setores,html[data-pv=clean] .pick .pchips.subsetores{padding-top:0}
 html[data-pv=clean] .pick .pfilbar{padding-top:6px}
 html[data-pv=clean] .pick .pfil-btn{border-color:transparent;background:rgba(178,203,230,.07)}
 html[data-pv=clean] .pick .pfil-btn:hover,html[data-pv=clean] .pick .pfil-btn[aria-expanded="true"]{background:rgba(178,203,230,.12);border-color:transparent}
@@ -1111,6 +1108,107 @@ html[data-pv=clean] .selo,html[data-pv=clean] .rank td .sub2 .selo,html[data-pv=
 html[data-pv=clean] .kpi .idx,html[data-pv=clean] .kpi .row .sh{background:rgba(178,203,230,.07)}
 /* celular: a pílula de status desce para baixo da marca em vez de encavalar o título */
 @media (max-width:560px){header .row{flex-wrap:wrap;gap:10px 16px}.status{text-align:left;width:100%}header.wrap{padding-top:28px}}
+
+/* v21 · setores e segmentos ilustrados: mosaico de setores e painel do setor com os subsetores */
+.pick .sx-ic{--h:215;display:inline-grid;place-items:center;flex:none;width:28px;height:28px;border-radius:9px;background:hsl(var(--h) 42% 60% / .15);color:hsl(var(--h) 62% 77%)}
+.pick .sx-ic svg{width:15px;height:15px}
+.pick .sx-med{font-variant-numeric:tabular-nums;color:var(--muted)}
+.pick .sx-med.pos{color:#7DD6B6}.pick .sx-med.neg{color:#EBA0A0}
+.pick .sx-tx{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pick .sx-tx b{font-size:12px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pick .sx-tx small{display:flex;gap:6px;font-size:10.5px;color:var(--muted);white-space:nowrap}
+@keyframes sx-in{from{opacity:0;translate:0 -3px}to{opacity:1;translate:0 0}}
+.pick .sx-mosaic{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:6px;padding:8px 12px 2px}
+.pick .sx-tile{--h:215;position:relative;display:flex;align-items:center;gap:10px;min-width:0;padding:8px 10px 9px;border:0;border-radius:11px;background:rgba(178,203,230,.045);color:var(--text-2);font-family:var(--font);text-align:start;cursor:pointer;overflow:hidden;transition:background-color .15s,box-shadow .15s}
+.pick .sx-tile::after{content:"";position:absolute;inset-inline-start:10px;bottom:0;height:2px;width:var(--w,0);max-width:calc(100% - 20px);border-radius:2px 2px 0 0;background:hsl(var(--h) 55% 68% / .5)}
+.pick .sx-tile:hover{background:rgba(178,203,230,.085);box-shadow:inset 0 0 0 1px hsl(var(--h) 50% 68% / .35)}
+.pick .sx-tile:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.pick .sx-drill{--h:215;margin:8px 12px 2px;border-radius:13px;padding:6px 8px 9px;background:linear-gradient(135deg,hsl(var(--h) 42% 55% / .14),hsl(var(--h) 42% 55% / .03) 62%);box-shadow:inset 0 0 0 1px hsl(var(--h) 42% 68% / .22);animation:sx-in .22s cubic-bezier(.2,0,0,1)}
+.pick .sx-top{display:flex;align-items:center;gap:10px}
+.pick .sx-back{display:inline-flex;align-items:center;gap:5px;flex:none;border:0;background:transparent;color:var(--muted);font:500 11.5px var(--font);padding:6px 9px 6px 6px;border-radius:8px;cursor:pointer}
+.pick .sx-back svg{rotate:90deg}
+.pick .sx-back:hover{color:var(--text);background:rgba(178,203,230,.08)}
+.pick .sx-ttl{display:flex;align-items:center;gap:10px;min-width:0;flex:1;padding-inline-start:12px;border-inline-start:1px solid rgba(178,203,230,.14)}
+.pick .sx-ttl .sx-tx b{font-size:13px;font-weight:600}
+.pick .sx-x{flex:none;width:26px;height:26px;border-radius:50%;border:0;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer}
+.pick .sx-x:hover{background:rgba(178,203,230,.12);color:var(--text)}
+.pick .sx-comp{display:flex;gap:2px;height:4px;margin:9px 4px 9px;border-radius:999px;overflow:hidden}
+.pick .sx-comp i{display:block;height:100%;background:hsl(var(--h) 52% var(--l) / .9);transition:opacity .15s}
+.pick .sx-comp.has-sel i:not(.on){opacity:.28}
+.pick .sx-subs{display:flex;flex-wrap:wrap;gap:4px}
+.pick .sx-sub{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:999px;background:transparent;color:var(--text-2);font:11.5px var(--font);padding:4px 10px;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(178,203,230,.12);transition:background-color .15s,box-shadow .15s,color .15s}
+.pick .sx-sub i{width:7px;height:7px;border-radius:50%;background:hsl(var(--h) 52% var(--l))}
+.pick .sx-sub small{font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums}
+.pick .sx-sub:hover{color:var(--text);box-shadow:inset 0 0 0 1px hsl(var(--h) 45% 68% / .45)}
+.pick .sx-sub[aria-pressed="true"]{background:hsl(var(--h) 42% 60% / .22);color:var(--text);box-shadow:inset 0 0 0 1px hsl(var(--h) 45% 70% / .5)}
+.pick .sx-sub[aria-pressed="true"] small{color:var(--text-2)}
+/* v21 · clique inclui ou retira direto: linha marcada na cor do ativo, check e bandeja com a composição */
+.pick .pitem{transition:background-color .15s}
+.pick .pitem.in{--rt:color-mix(in srgb,var(--c) 10%,transparent)}
+.pick .pitem.in.alt{--rt:color-mix(in srgb,var(--c) 13%,transparent)}
+.pick .pitem.in:hover{--rt:color-mix(in srgb,var(--c) 16%,transparent)}
+.pick .pitem.in > .nm{box-shadow:inset 3px 0 0 var(--c)}
+.pick .pitem .nm.nome:hover b,.pick .pitem .nome:hover b{text-decoration:none}
+.pick .nml{display:flex;align-items:center;gap:6px;min-width:0}
+.pick .pinf{flex:none;width:20px;height:20px;border-radius:50%;border:0;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;opacity:0;transition:opacity .15s,background-color .15s,color .15s}
+.pick .pitem:hover .pinf,.pick .pinf:focus-visible{opacity:1}
+.pick .pinf:hover{background:rgba(178,203,230,.14);color:var(--text)}
+@media (hover:none){.pick .pinf{opacity:.75}}
+.pick .ptog{position:relative;width:24px;height:24px;border-radius:50%;border:1px solid rgba(178,203,230,.2);background:transparent;color:var(--text-2);display:grid;place-items:center;cursor:pointer;transition:background-color .15s,border-color .15s,color .15s}
+.pick .ptog > span{grid-area:1/1;display:grid;place-items:center;transition:opacity .3s cubic-bezier(.2,0,0,1),scale .3s cubic-bezier(.2,0,0,1),filter .3s cubic-bezier(.2,0,0,1)}
+.pick .ptog .ok,.pick .ptog .rm{opacity:0;scale:.25;filter:blur(4px)}
+.pick .pitem:hover .ptog{border-color:rgba(91,152,230,.7);color:var(--text)}
+.pick .ptog:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pick .pitem.in .ptog{background:var(--c);border-color:var(--c);color:#0B1628}
+.pick .pitem.in .ptog .add{opacity:0;scale:.25;filter:blur(4px)}
+.pick .pitem.in .ptog .ok{opacity:1;scale:1;filter:blur(0)}
+.pick .pitem.in:not(.just):hover .ptog{background:rgba(224,122,122,.22);border-color:transparent;color:#F0A2A2}
+.pick .pitem.in:not(.just):hover .ptog .ok{opacity:0;scale:.25;filter:blur(4px)}
+.pick .pitem.in:not(.just):hover .ptog .rm{opacity:1;scale:1;filter:blur(0)}
+.pick .plist.cheia .pitem:not(.in) .ptog{opacity:.35}
+.bandeja{display:flex;align-items:center;gap:12px;min-width:0}
+.bandeja .bj-info{display:flex;align-items:baseline;gap:5px;flex:0 1 auto;min-width:0;white-space:nowrap;font-size:12px;color:var(--muted)}
+.bandeja .bj-info b{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums}
+.bandeja .bj-hint{color:var(--muted);font-size:12px;white-space:normal;flex:1}
+.bandeja .bj-chips{display:flex;gap:4px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);padding-inline-end:22px}
+.bandeja .bj-chips::-webkit-scrollbar{display:none}
+.bandeja .bj-chip{--c:#5B98E6;display:inline-flex;align-items:center;gap:6px;flex:none;max-width:210px;height:26px;padding:0 3px 0 9px;border-radius:999px;background:rgba(178,203,230,.08);font-size:11.5px;color:var(--text-2)}
+.bandeja .bj-chip.novo{animation:bj-in .28s cubic-bezier(.2,0,0,1)}
+@keyframes bj-in{from{opacity:0;scale:.85;filter:blur(3px)}to{opacity:1;scale:1;filter:blur(0)}}
+.bandeja .bj-chip i{width:7px;height:7px;border-radius:50%;background:var(--c);flex:none}
+.bandeja .bj-chip .tx{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bandeja .bj-chip.carregando i{animation:bj-pulso 1s ease-in-out infinite}
+@keyframes bj-pulso{50%{opacity:.3}}
+.bandeja .bj-x{width:20px;height:20px;border-radius:50%;border:0;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;flex:none}
+.bandeja .bj-x:hover{background:rgba(224,122,122,.22);color:#F0A2A2}
+.bandeja .bj-ok{flex:none;padding:7px 16px}
+.bandeja.flash .bj-info{animation:bj-flash .7s}
+@keyframes bj-flash{30%{color:#F0A2A2}}
+.pick .pdone{padding:9px 12px 9px 16px;border-top:1px solid var(--line);background:rgba(7,14,28,.22)}
+.sheet-bar.bandeja{justify-content:flex-start}
+.modal .td-bj{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+@media (max-width:560px){.bandeja{flex-wrap:wrap;gap:8px}.bandeja .bj-chips{order:3;flex-basis:100%}.bandeja .bj-ok{margin-inline-start:auto}}
+.rank tbody tr{cursor:pointer}
+.rank tbody tr.in{background:color-mix(in srgb,var(--c,#5B98E6) 8%,transparent)}
+.rank tbody tr.in td:first-child{box-shadow:inset 3px 0 0 var(--c,#5B98E6)}
+.rank .rinfo{display:inline-grid;place-items:center;width:20px;height:20px;margin-inline-start:4px;vertical-align:-4px;border-radius:50%;border:0;background:transparent;color:var(--muted);cursor:pointer;opacity:0;transition:opacity .15s,background-color .15s}
+.rank tr:hover .rinfo,.rank .rinfo:focus-visible{opacity:1}
+.rank .rinfo:hover{background:rgba(178,203,230,.14);color:var(--text)}
+@media (hover:none){.rank .rinfo{opacity:.75}}
+.rank .nmlink{cursor:inherit}
+.rank .nmlink:hover{text-decoration:none}
+#m-perfil{z-index:85}
+.pf-acts{margin-top:10px}
+.pf-add{--c:#5B98E6;display:inline-flex;align-items:center;gap:7px;border:0;border-radius:999px;background:var(--text-2);color:var(--deep);font:600 12.5px var(--font);padding:7px 14px 7px 11px;cursor:pointer;transition:background-color .15s,color .15s,box-shadow .15s}
+.pf-add[disabled]{opacity:.45;cursor:default}
+.pf-add.in{background:transparent;color:var(--text);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c) 70%,transparent)}
+.pf-add.in i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.pf-add .rm{display:none}
+.pf-add.in:hover{box-shadow:inset 0 0 0 1px rgba(224,122,122,.6);color:#F0A2A2}
+.pf-add.in:hover .ok{display:none}.pf-add.in:hover .rm{display:inline}
+.iconx{width:28px;height:28px;border-radius:50%;border:0;background:transparent;color:var(--muted);display:inline-grid;place-items:center;cursor:pointer;transition:background-color .15s,color .15s}
+.iconx:hover{background:rgba(178,203,230,.12);color:var(--text)}
+.iconx:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 </style>
 </head>
 <body>
@@ -1165,6 +1263,22 @@ html[data-pv=clean] .kpi .idx,html[data-pv=clean] .kpi .row .sh{background:rgba(
 <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6l8-3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 8v8M8.5 12h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
 <symbol id="i-building" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 7h2M14 7h2M8 11h2M14 11h2M8 15h2M14 15h2M10 21v-3h4v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
 <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-sx-ind" viewBox="0 0 24 24"><path d="M3.5 20V11l5 3v-3l5 3V5.5h4.5V20z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M2.5 20h19M7 17h1.5M11.5 17H13" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+<symbol id="i-sx-com" viewBox="0 0 24 24"><circle cx="12" cy="10" r="1.6" fill="currentColor"/><path d="M12 11.6V20.5M9 20.5h6M8.6 6.6a4.8 4.8 0 0 0 0 6.8M15.4 6.6a4.8 4.8 0 0 1 0 6.8M5.8 3.8a8.8 8.8 0 0 0 0 12.4M18.2 3.8a8.8 8.8 0 0 1 0 12.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+<symbol id="i-sx-cic" viewBox="0 0 24 24"><path d="M5 8h14l-1.1 11.2a1.5 1.5 0 0 1-1.5 1.3H7.6a1.5 1.5 0 0 1-1.5-1.3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 10.5V7a3 3 0 0 1 6 0v3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+<symbol id="i-sx-ncic" viewBox="0 0 24 24"><path d="M5 19.5c0-8.2 5-13.3 14.5-14 0 9.1-5.2 14-13.6 14z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M5 19.5l7.5-7.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+<symbol id="i-sx-fin" viewBox="0 0 24 24"><path d="M3.5 9.5L12 4.5l8.5 5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M6 12v5M10 12v5M14 12v5M18 12v5M3.5 20h17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+<symbol id="i-sx-mat" viewBox="0 0 24 24"><path d="M12 3.5l7.5 4.2v8.6L12 20.5l-7.5-4.2V7.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M4.8 7.9L12 12l7.2-4.1M12 12v8.3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+<symbol id="i-sx-pet" viewBox="0 0 24 24"><path d="M12 3.5c3.6 4.4 6 7.8 6 10.6a6 6 0 0 1-12 0c0-2.8 2.4-6.2 6-10.6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.3 14.5a2.8 2.8 0 0 0 2.4 2.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+<symbol id="i-sx-sau" viewBox="0 0 24 24"><path d="M12 20s-7.8-4.6-7.8-10.2A4.3 4.3 0 0 1 12 7.3a4.3 4.3 0 0 1 7.8 2.5C19.8 15.4 12 20 12 20z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M6.8 12.3h2.6l1.3-2.2 2 4.2 1.3-2h3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-sx-uti" viewBox="0 0 24 24"><path d="M13.2 3L5.5 13.6h6.1L10.8 21l7.7-10.6h-6.1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="i-sx-box" viewBox="0 0 24 24"><path d="M2.5 6.5h11.5v9.5H2.5zM14 9.5h4.2l3.3 3.6V16H14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="6.5" cy="17.5" r="1.8" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17" cy="17.5" r="1.8" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+<symbol id="i-sx-home" viewBox="0 0 24 24"><path d="M4 11l8-6.5 8 6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 9.6V20h12V9.6M10 20v-5h4v5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="i-sx-store" viewBox="0 0 24 24"><path d="M4 9.5l1.5-5h13l1.5 5M4 9.5h16M4 9.5a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0 2.7 2.7 0 0 0 5.3 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M5.5 12.5V20h13v-7.5M10 20v-4.5h4V20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+<symbol id="i-sx-crane" viewBox="0 0 24 24"><path d="M6.5 20.5V4M3 4h17M6.5 7.5L10.5 4M16 4v6M14.5 10h3v2.6h-3zM3.5 20.5h6.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-sx-bed" viewBox="0 0 24 24"><path d="M3.5 18.5V6.5M3.5 14h17v4.5M20.5 14v-2.2a2.8 2.8 0 0 0-2.8-2.8H11v5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7.3" cy="11.2" r="1.7" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+<symbol id="i-sx-cap" viewBox="0 0 24 24"><path d="M2.5 9.5L12 5l9.5 4.5L12 14z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M6.5 11.5v4.2c1.5 1.4 3.4 2.1 5.5 2.1s4-.7 5.5-2.1v-4.2M21.5 9.5v5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
 </defs></svg>
 <header class="wrap">
   <div class="row">
@@ -1225,9 +1339,9 @@ html[data-pv=clean] .kpi .idx,html[data-pv=clean] .kpi .row .sh{background:rgba(
         <div class="card hidden" id="persp">
           <div class="head porthead">
             <div class="port-l"><span class="pico" aria-hidden="true"><svg><use href="#i-alloc"/></svg></span><h2 class="sr-only">Portfólio</h2>
-              <div class="money big"><input id="rel-total" type="text" inputmode="decimal" placeholder="R$ 500.000" autocomplete="off" aria-label="Valor total em reais"><span class="stp"><button type="button" data-d="-1" aria-label="Diminuir">−</button><button type="button" data-d="1" aria-label="Aumentar">+</button></span></div>
+              <div class="money big"><input id="rel-total" type="text" inputmode="decimal" placeholder="R$ 1.000.000" autocomplete="off" aria-label="Valor total em reais"><span class="stp"><button type="button" data-d="-1" aria-label="Diminuir">−</button><button type="button" data-d="1" aria-label="Aumentar">+</button></span></div>
             </div>
-            <div class="tools"><button class="mini hidden" type="button" id="cart-eq">Pesos iguais</button><button class="linkbtn" id="persp-close" type="button">fechar</button></div>
+            <div class="tools"><button class="mini hidden" type="button" id="cart-eq">Pesos iguais</button><button class="iconx" id="persp-close" type="button" aria-label="Fechar o Portfólio" title="Fechar o Portfólio"><svg width="12" height="12" aria-hidden="true"><use href="#i-x"/></svg></button></div>
           </div>
           <div class="tbl" style="margin-top:2px"><table id="tb-persp"></table></div>
           <div class="cart-foot"><div class="cart-mode" id="cart-mode" role="group" aria-label="Rebalanceamento"><span>Carteira</span><button data-m="bh" aria-pressed="true" title="Compra no início e nunca rebalanceia">sem rebalanceamento</button><button data-m="rebal" aria-pressed="false" title="Pesos mantidos constantes (rebalanceamento diário)">com pesos constantes</button></div><p class="note" id="cart-note"></p></div>
@@ -1362,7 +1476,7 @@ html[data-pv=clean] .kpi .idx,html[data-pv=clean] .kpi .row .sh{background:rgba(
     <button class="x sheet-x" type="button" data-close-sheet aria-label="Fechar"><svg width="14" height="14"><use href="#i-x"/></svg></button>
   <div class="card sheet-card" id="ranking">
     <div class="head">
-      <div><h2><svg><use href="#i-trophy"/></svg>Ranking dos fundos da XP</h2><p class="sub" id="rank-sub">Clique no cabeçalho para ordenar e em "Comparar" para levar o fundo à comparação.</p></div>
+      <div><h2><svg><use href="#i-trophy"/></svg>Ranking dos fundos da XP</h2><p class="sub" id="rank-sub">Clique no fundo para incluí-lo na comparação (ou retirá-lo); o ícone de informação abre os detalhes. Clique no cabeçalho para ordenar.</p></div>
     </div>
     <div class="tabs" id="rank-tabs" role="tablist"></div>
     <div class="selrow">
@@ -1373,7 +1487,7 @@ html[data-pv=clean] .kpi .idx,html[data-pv=clean] .kpi .row .sh{background:rgba(
     <div style="text-align:center;margin-top:8px"><button class="linkbtn" id="rank-more" type="button">Mostrar todos</button></div>
   </div>
 
-    <div class="sheet-bar hidden" id="rank-bar"><span id="rank-bar-t"></span><span class="acts"><button class="btn" type="button" id="rank-bar-go">Ver comparação</button></span></div>
+    <div class="sheet-bar bandeja" id="rank-bar"></div>
   </div>
 </div>
 <div class="sheet" id="sh-coe" role="dialog" aria-modal="true" aria-label="COEs da XP">
@@ -1435,6 +1549,7 @@ html[data-pv=clean] .kpi .idx,html[data-pv=clean] .kpi .row .sh{background:rgba(
     <div class="fam">Vencimento</div>
     <div class="tgrid" id="td-venc"></div>
     <div class="foot"><span class="small" id="td-info"></span></div>
+    <div class="bandeja td-bj" id="td-bj"></div>
   </div>
 </div>
 
@@ -1564,6 +1679,10 @@ const dBR = (iso) => iso ? iso.slice(8, 10) + '/' + iso.slice(5, 7) + '/' + iso.
 const dCurta = (iso) => MESES[+iso.slice(5, 7) - 1] + '/' + iso.slice(2, 4);
 const mesLbl = (ym) => MESES[+ym.slice(5, 7) - 1] + '/' + ym.slice(2, 4);
 const norm = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+// busca compacta: ignora apóstrofo, ponto, hífen e espaço ("rede dor", "d'or" e "d or" acham a Rede D'Or)
+const compacto = (s) => String(s || '').replace(/[^a-z0-9]/g, '');
+const casaBusca = (a, nq) => a.busca.includes(nq) || (a.buscaC || '').includes(compacto(nq));
+const tipoRV = (a) => a.tipo === 'bdr' ? 'bdr' : a.tipo === 'fii' ? 'fii' : 'acao';
 const anual = (ret, meses) => (ret == null || meses <= 0) ? null : Math.pow(1 + ret, 12 / meses) - 1;
 const anosAte = (iso) => (new Date(iso) - new Date(S.meta.referencia)) / 3.156e10;
 
@@ -1574,7 +1693,7 @@ async function carregar() {
     const [meta, idx, acj] = await Promise.all([getJSON('meta.json'), getJSON('index.json'), getJSON('acoes.json').catch(() => null)]);
     S.meta = meta;
     // ações e BDRs da B3 (cotação ajustada): ticker, nome, janelas, prêmio histórico sobre o benchmark
-    S.acoes = acj && acj.acoes ? acj.acoes.map(r => { const o = {}; acj.colunas.forEach((k, i) => o[k] = r[i]); o.busca = norm(o.ticker + ' ' + o.nome + ' ' + (o.tipo === 'bdr' ? 'bdr' : o.tipo === 'fii' ? 'fii fundo imobiliario imobiliarios' : 'acao acoes bolsa b3')); return o; }) : [];
+    S.acoes = acj && acj.acoes ? acj.acoes.map(r => { const o = {}; acj.colunas.forEach((k, i) => o[k] = r[i]); o.busca = norm(o.ticker + ' ' + o.nome + ' ' + (o.tipo === 'bdr' ? 'bdr' : o.tipo === 'fii' ? 'fii fundo imobiliario imobiliarios' : 'acao acoes bolsa b3')); o.buscaC = compacto(norm(o.ticker + ' ' + o.nome)); return o; }) : [];
     S.calIdx = new Map(meta.calendario.map((d, i) => [d, i]));
     const c = idx.colunas;
     S.index = idx.fundos.map(r => { const o = {}; c.forEach((k, i) => o[k] = r[i]); o.busca = norm(o.nome) + ' ' + o.cnpj + ' ' + norm(o.gestor) + ' ' + norm(o.xp_classe); return o; });
@@ -1710,7 +1829,7 @@ function buscar(t) {
   const tesouro = toks.length ? S.tesouro.filter(x => !S.sel.some(s => s.key === 'td:' + x.id) && has(x.busca)).sort((a, b) => (a.fam - b.fam) || a.venc.localeCompare(b.venc)).slice(0, tituloPrimeiro ? 16 : 10) : [];
   // ações e BDRs: o ticker exato vem primeiro; depois nome ou ticker parcial
   const acoes = [];
-  if (toks.length) { const tk = toks.join('').toUpperCase(); const exato = S.acoes.find(a => a.ticker === tk && !S.sel.some(s => s.key === 'ac:' + a.ticker)); if (exato) acoes.push(exato); for (const a of S.acoes) { if (acoes.length >= 6) break; if (a === exato || S.sel.some(s => s.key === 'ac:' + a.ticker)) continue; if (has(a.busca)) acoes.push(a); } }
+  if (toks.length) { const tk = toks.join('').toUpperCase(); const exato = S.acoes.find(a => a.ticker === tk && !S.sel.some(s => s.key === 'ac:' + a.ticker)); if (exato) acoes.push(exato); for (const a of S.acoes) { if (acoes.length >= 6) break; if (a === exato || S.sel.some(s => s.key === 'ac:' + a.ticker)) continue; if (has(a.busca) || toks.every(k => compacto(k).length > 1 && a.buscaC.includes(compacto(k)))) acoes.push(a); } }
   const bench = toks.length ? S.benchmarks.filter(x => !S.bench.includes(x.id) && has(x.busca)).slice(0, 5) : [];
   if (toks.length && 'cdi'.includes(toks[0]) && !S.cdi) bench.unshift({ id: 'cdi', nome: 'CDI', desc: 'Certificado de Depósito Interbancário', ret12: ret12CDI() });
   const rf = parseRF(t);
@@ -1769,18 +1888,18 @@ inp.addEventListener('keydown', (e) => {
   else if (e.key === 'Escape') fecharRes();
 });
 document.addEventListener('click', (e) => { if (!e.target.closest('.search')) fecharRes(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') e.__modal = !!document.querySelector('.modal.on'); }, true);
 document.addEventListener('keydown', (e) => { if (e.key === '/' && !/input|select|textarea/i.test(document.activeElement.tagName)) { e.preventDefault(); inp.focus(); } if (e.key === 'Escape') fecharModais(); });
 document.querySelectorAll('[data-act]').forEach(b => b.addEventListener('click', (e) => { e.preventDefault(); const a = b.dataset.act; if (a === 'tesouro') abrirTesouro(); else if (a === 'rf') abrirRF(); else if (a === 'ranking') abrirSheet('ranking'); else if (a === 'acoes') { if (typeof abrirPicker === 'function') abrirPicker(null, b, 'ac'); } else if (a === 'coe') abrirSheet('coe'); else if (a === 'carteira') irParaCarteira(); }));
 // leva à Diversificação; com menos de 2 ativos, abre o ranking para escolher
 function irParaCarteira() {
   const prontos = S.sel.filter(s => s.data);
-  if (prontos.length < 2) { abrirSheet('ranking'); const t = $('rank-bar-t'); $('rank-bar').classList.remove('hidden'); t.textContent = prontos.length ? '1 ativo na comparação: escolha mais um para montar a carteira' : 'Escolha pelo menos dois fundos para montar a carteira'; return; }
+  if (prontos.length < 2) { abrirSheet('ranking'); rankBandeja(prontos.length ? '1 ativo na comparação: escolha mais um para montar a carteira.' : 'Escolha pelo menos dois fundos para montar a carteira.'); return; }
   fecharSheets(); if (!S.persp) togglePersp(true); else setTimeout(() => $('kpis').scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
 }
 function abrirSheet(qual) { fecharModais(); const sh = $('sh-' + qual); sh.classList.add('on'); document.body.classList.add('sheet-open'); sh.scrollTop = 0; if (qual === 'ranking') { renderRanking(); } if (qual === 'coe' && S.coeSel) { setTimeout(() => { if (S.coeSel) selecionarCOE(S.coeSel, false); }, 50); } }
 function fecharSheets() { document.querySelectorAll('.sheet.on').forEach(s => s.classList.remove('on')); document.body.classList.remove('sheet-open'); }
 document.querySelectorAll('.sheet').forEach(sh => sh.addEventListener('click', (e) => { if (e.target === sh || e.target.closest('[data-close-sheet]')) fecharSheets(); }));
-$('rank-bar-go').addEventListener('click', () => { fecharSheets(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
 // ------------------------------------------------------------------ seleção de ativos
 function nomeDe(s) { if (s.data) return s.data.nome; if (s.kind === 'rf') { const { tipo, taxa, emissor } = rfPartes(s.key); return RF_NOMES[tipo] ? rfNome(tipo, taxa, emissor) : s.key; } if (s.kind === 'fundo') { const m = S.index.find(f => f.cnpj === s.key); return m ? m.nome : s.key; } if (s.kind === 'tesouro') { const m = S.tesouro.find(t => 'td:' + t.id === s.key); return m ? m.nome : s.key; } if (s.kind === 'acao') { const m = S.acoes.find(a => 'ac:' + a.ticker === s.key); return m ? m.nome : s.key.slice(3); } return s.key; }
@@ -1788,15 +1907,22 @@ const TIPO_LBL = { fundo: 'Fundo', tesouro: 'Tesouro Nacional', rf: 'Renda fixa'
 const tipoLbl = (s) => s.kind === 'acao' && s.data ? (s.data.tipo === 'bdr' ? 'BDR' : s.data.tipo === 'fii' ? 'FII' : 'Ação') : TIPO_LBL[s.kind] || '';
 async function adicionar(key, kind) {
   if (S.sel.length >= MAX || S.sel.some(s => s.key === key)) return;
-  fecharRes(); inp.value = ''; fecharModais();
+  fecharRes(); inp.value = '';   // as janelas (seletor, Tesouro, ranking, perfil) continuam abertas para o próximo clique
   const usadas = new Set(S.sel.map(s => s.cor));
   const item = { key, kind, cor: CORES.find(c => !usadas.has(c)), data: null };
-  S.sel.push(item); renderChips();
+  S.sel.push(item); renderChips(); atualizarBandejas();
   try { item.data = kind === 'fundo' ? await carregarFundo(key) : kind === 'tesouro' ? await carregarTesouro(key.slice(3)) : kind === 'acao' ? await carregarAcao(key.slice(3)) : await rendaFixa(key.slice(3)); }
-  catch (e) { console.error(e); S.sel = S.sel.filter(s => s !== item); renderChips(); return; }
-  renderChips(); gravarURL(); render(); renderRanking();
+  catch (e) { console.error(e); S.sel = S.sel.filter(s => s !== item); renderChips(); atualizarBandejas(); return; }
+  if (!S.sel.includes(item)) return;   // retirado enquanto carregava
+  renderChips(); gravarURL(); render(); renderRanking(); atualizarBandejas();
 }
-function remover(key) { S.sel = S.sel.filter(s => s.key !== key); delete S.cart.pesos[key]; delete S.cart.trava[key]; renderChips(); gravarURL(); render(); renderRanking(); }
+function remover(key) { S.sel = S.sel.filter(s => s.key !== key); delete S.cart.pesos[key]; delete S.cart.trava[key]; renderChips(); gravarURL(); render(); renderRanking(); atualizarBandejas(); }
+// mantém em dia o que estiver aberto: linhas do seletor, vencimentos do Tesouro, botão do perfil (o ranking se redesenha sozinho)
+function atualizarBandejas() {
+  try { if (PICK.el && PICK.el.classList.contains('on')) pickMarcar(); } catch (e) { /* seletor ainda não montado */ }
+  if ($('m-tesouro').classList.contains('on')) montarTesouro();
+  if ($('m-perfil').classList.contains('on')) perfilBotao();
+}
 function renderChips() {
   const n = S.sel.length;
   inp.placeholder = n >= MAX ? 'Limite de ' + MAX + ' ativos na comparação' : n ? 'Adicionar outro ativo (fundo, ação, FII, Tesouro, benchmark ou renda fixa)' : 'Fundo, CNPJ, ação ou FII (ex.: PETR4, HGLG11), título do Tesouro, benchmark ou renda fixa';
@@ -1823,8 +1949,9 @@ function montarTesouro() {
   const box = $('td-venc'); box.innerHTML = '';
   lista.sort((a, b) => a.venc.localeCompare(b.venc)).forEach(t => { const b = el('button', 'tchip'); b.type = 'button'; const dentro = S.sel.some(s => s.key === 'td:' + t.id);
     b.append(el('b', null, t.venc.slice(0, 4)), el('small', null, fmtNum(anosAte(t.venc), 1) + ' anos · ' + taxaTD(t)), el('small', null, t.ret12 != null ? pctSign(t.ret12) + ' em 12 m' : ''));
-    b.setAttribute('aria-pressed', dentro ? 'true' : 'false'); b.disabled = dentro || S.sel.length >= MAX; b.addEventListener('click', () => adicionar('td:' + t.id, 'tesouro')); box.append(b); });
-  $('td-info').textContent = !lista.length ? 'Nenhum título nesta família.' : S.sel.length >= MAX ? 'Limite de ' + MAX + ' ativos na comparação. Remova um para adicionar outro título.' : 'Taxa de compra do Tesouro Transparente em ' + dBR(lista[0].ate) + '. Clique no vencimento para adicionar à comparação.';
+    b.setAttribute('aria-pressed', dentro ? 'true' : 'false'); b.disabled = !dentro && S.sel.length >= MAX; b.title = dentro ? 'Na comparação: clique para retirar' : 'Incluir na comparação'; b.addEventListener('click', () => { if (S.sel.some(s => s.key === 'td:' + t.id)) remover('td:' + t.id); else adicionar('td:' + t.id, 'tesouro'); montarTesouro(); }); box.append(b); });
+  $('td-info').textContent = !lista.length ? 'Nenhum título nesta família.' : S.sel.length >= MAX ? 'Limite de ' + MAX + ' ativos na comparação. Retire um para incluir outro título.' : 'Taxa de compra do Tesouro Transparente em ' + dBR(lista[0].ate) + '. Cada clique no vencimento inclui ou retira o título; a janela continua aberta.';
+  bandeja($('td-bj'), () => { $('m-tesouro').classList.remove('on'); irParaComparacao(); }, 'Clique nos vencimentos para montá-la.');
 }
 function abrirTesouro() { montarTesouro(); $('m-tesouro').classList.add('on'); }
 function montarRF() {
@@ -1852,11 +1979,11 @@ function emissorDe(txt) { const t = norm(String(txt || '').replace(/^(cdb|lci|lc
 function logoEmissor(txt, cls) { const e = emissorDe(txt); if (!e || e.logo !== 'p') return null; const wrap = el('span'); wrap.style.display = 'contents'; const img = new Image(); img.className = 'glogo' + (cls ? ' ' + cls : ''); img.alt = e.nome; img.title = e.nome; img.loading = 'lazy'; img.decoding = 'async'; img.addEventListener('error', () => img.remove()); img.src = DATA + '/logos/' + e.slug + '.png'; wrap.append(img); return wrap; }
 function logoTesouro(cls) { return logoEmissor('Tesouro Nacional', cls); }
 function abrirRF(tipo) { if (tipo) { S.rf.tipo = tipo; $('rf-taxa').value = tipo === 'pcdi' ? 110 : tipo === 'pre' ? 14 : 7; } montarRF(); $('m-rf').classList.add('on'); setTimeout(() => $('rf-taxa').focus(), 50); }
-$('rf-add').addEventListener('click', () => { const t = parseFloat(String($('rf-taxa').value).replace(/\s/g, '').replace(',', '.')); if (!(t > 0)) return; adicionar('rf:' + rfId(S.rf.tipo, t, emissorCompleto(), $('rf-venc').value), 'rf'); $('rf-venc').value = ''; $('rf-emissor').value = ''; $('rf-emissor-logo').innerHTML = ''; });
+$('rf-add').addEventListener('click', () => { const t = parseFloat(String($('rf-taxa').value).replace(/\s/g, '').replace(',', '.')); if (!(t > 0)) return; $('m-rf').classList.remove('on'); adicionar('rf:' + rfId(S.rf.tipo, t, emissorCompleto(), $('rf-venc').value), 'rf'); $('rf-venc').value = ''; $('rf-emissor').value = ''; $('rf-emissor-logo').innerHTML = ''; });
 $('rf-emissor').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('rf-add').click(); });
 $('rf-taxa').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('rf-add').click(); });
 function fecharModais() { document.querySelectorAll('.modal.on').forEach(m => m.classList.remove('on')); }
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && document.querySelector('.sheet.on') && !document.querySelector('.modal.on')) fecharSheets(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && document.querySelector('.sheet.on') && !e.__modal) fecharSheets(); });
 document.querySelectorAll('.modal').forEach(m => { m.addEventListener('click', (e) => { if (e.target === m || e.target.closest('[data-close]')) m.classList.remove('on'); }); });
 
 // ------------------------------------------------------------------ benchmarks (painel agrupado)
@@ -2562,21 +2689,24 @@ function renderRanking() {
   const escR = { '12': heatEscala(mostrar.map(f => f.ret12)), '24': heatEscala(mostrar.map(f => valJanela(f, 'ret24', '24'))), '36': heatEscala(mostrar.map(f => valJanela(f, 'ret36', '36'))) };
   const ref = idxAte(S.meta.referencia);
   mostrar.forEach((f, k) => {
-    const tr = el('tr'); tr.dataset.cnpj = f.cnpj; const dentro = S.sel.some(s => s.key === f.cnpj); if (dentro) tr.className = 'in';
+    const tr = el('tr'); tr.dataset.cnpj = f.cnpj; const selF = S.sel.find(s => s.key === f.cnpj); const dentro = !!selF; if (dentro) { tr.className = 'in'; tr.style.setProperty('--c', selF.cor); }
+    tr.title = dentro ? 'Na comparação: clique para retirar' : 'Clique para incluir na comparação'; tr.addEventListener('click', (e) => { if (e.target.closest('button,a,input,select')) return; rankAlternar(f.cnpj); });
     tr.append(el('td', null, String(k + 1)));
-    const tdn = el('td'); const fn = el('div', 'fn'); const lg = logoGestora(f, 'lg'); if (lg) fn.append(lg); const nd = el('div'); const nome = el('span', 'nmlink'); nome.append(document.createTextNode(f.nome)); if (f.xp_top) nome.append(el('span', 'tag', 'Top XP')); nome.title = 'Ver os detalhes de ' + f.nome; nome.addEventListener('click', (e) => { e.stopPropagation(); abrirPerfilKey('fundo', f.cnpj); }); nd.append(nome, el('span', 'sub2', [classeXPLabel(classeXPCanon(f.xp_classe || ''), f.xp_tipo), f.gestor].filter(Boolean).join(' · '))); fn.append(nd); tdn.append(fn); tdn.title = 'Adicionar ' + f.nome + ' à comparação'; tdn.addEventListener('click', () => { if (!dentro && S.sel.length < MAX) adicionar(f.cnpj, 'fundo'); }); tr.append(tdn);
+    const tdn = el('td'); const fn = el('div', 'fn'); const lg = logoGestora(f, 'lg'); if (lg) fn.append(lg); const nd = el('div'); const nome = el('span', 'nmlink'); nome.append(document.createTextNode(f.nome)); if (f.xp_top) nome.append(el('span', 'tag', 'Top XP')); const inf = el('button', 'rinfo'); inf.type = 'button'; inf.title = 'Ver os detalhes'; inf.setAttribute('aria-label', 'Ver os detalhes de ' + f.nome); inf.append(icon('i-info', 12)); inf.addEventListener('click', (e) => { e.stopPropagation(); abrirPerfilKey('fundo', f.cnpj); }); nome.append(inf); nd.append(nome, el('span', 'sub2', [classeXPLabel(classeXPCanon(f.xp_classe || ''), f.xp_tipo), f.gestor].filter(Boolean).join(' · '))); fn.append(nd); tdn.append(fn); tr.append(tdn);
     // 12 / 24 / 36 meses: mini-gráfico + rentabilidade na ponta (o gráfico entra quando a linha aparece na tela)
     [['12', f.ret12], ['24', valJanela(f, 'ret24', '24')], ['36', valJanela(f, 'ret36', '36')]].forEach(([w, v]) => { const td = el('td', 'ht'); if (v != null) td.style.background = heatBg(v, escR[w].maxPos, escR[w].maxNeg); const sp = el('span', 'spk'); sp.dataset.w = w; const svg = svgEl('svg', { viewBox: '0 0 76 24', 'aria-hidden': 'true' }); const tx = el('span', 'txt'); const e = el('span', 'e' + (v == null ? '' : v >= 0 ? ' pos' : ' neg'), v != null ? pctSign(v) : ''); e.dataset.v = v == null ? '' : v; const rel = relTexto(f, +w, v); const r = el('span', 'rel' + (rel ? (rel.pos ? ' pos' : ' neg') : ''), rel ? rel.t : ''); tx.append(e, r); sp.append(svg, tx); td.append(sp); tr.append(td); });
     tr.append(vbCell(f.vol12 != null ? pct(f.vol12) : null, f.vol12 != null ? f.vol12 / maxVol : null, 'vol', true));
     const shNA = f.vol12 != null && f.vol12 < 0.004; tr.append(vbCell(shNA ? '—' : (f.sharpe12 != null ? fmtNum(f.sharpe12, 2) : null), shNA || f.sharpe12 == null ? null : f.sharpe12 / maxSh, 'sh', false, shNA ? 'Acompanha o CDI: volatilidade abaixo de 0,4% a.a.' : null));
     tr.append(vbCell(money(f.pl), f.pl != null ? Math.sqrt(f.pl) / maxPl : null, 'pl', false));
-    const tda = el('td'); const b = el('button', 'add' + (dentro ? ' rm' : ''), dentro ? 'Retirar' : 'Comparar'); b.type = 'button'; b.title = dentro ? 'Tirar da comparação' : 'Adicionar à comparação'; b.disabled = !dentro && S.sel.length >= MAX; b.addEventListener('click', () => { if (dentro) { remover(f.cnpj); renderRanking(); } else adicionar(f.cnpj, 'fundo'); }); tda.append(b); tr.append(tda);
+    const tda = el('td'); const b = el('button', 'add' + (dentro ? ' rm' : ''), dentro ? 'Retirar' : 'Comparar'); b.type = 'button'; b.title = dentro ? 'Tirar da comparação' : 'Adicionar à comparação'; b.disabled = !dentro && S.sel.length >= MAX; b.addEventListener('click', (e) => { e.stopPropagation(); rankAlternar(f.cnpj); }); tda.append(b); tr.append(tda);
     tbody.append(tr);
     const p = S.cache.get('f:' + f.cnpj); if (p && p.__v) desenharSparksLinha(tr, p.__v, ref); else rankIO().observe(tr);
   });
   tb.append(tbody);
-  const n = S.sel.length; $('rank-bar').classList.toggle('hidden', !n); $('rank-bar-t').textContent = n + (n === 1 ? ' ativo na comparação' : ' ativos na comparação') + (n >= MAX ? ' (limite)' : '');
+  rankBandeja();
 }
+function rankAlternar(cnpj) { if (S.sel.some(s => s.key === cnpj)) remover(cnpj); else if (S.sel.length < MAX) { adicionar(cnpj, 'fundo'); renderRanking(); } else { const bj = $('rank-bar'); bj.classList.remove('flash'); void bj.offsetWidth; bj.classList.add('flash'); } }
+function rankBandeja(nota) { const box = $('rank-bar'); if (box) bandeja(box, () => { fecharSheets(); irParaComparacao(); }, 'Clique nos fundos para montá-la: cada clique inclui ou retira.', nota); }
 function vbCell(txt, frac, cls, negativo, title) {
   const td = el('td', cls); if (txt == null) { td.className = 'na'; td.textContent = 'n/d'; return td; }
   const vb = el('div', 'vb'); vb.append(el('span', 'v', txt)); if (title) td.title = title;
@@ -3147,8 +3277,8 @@ async function gerarRelatorio() {
   // a aba precisa abrir ainda no clique (bloqueio de pop-up); o conteúdo entra depois do simulador preparado
   const w = window.open('', '_blank'); if (!w) { alert('O navegador bloqueou a nova aba. Permita pop-ups para gerar o relatório.'); return; }
   w.document.write('<!DOCTYPE html><html><head><meta charset="utf-8"><title>Gerando…</title></head><body style="background:#070E1C;color:#B2CBE6;font-family:system-ui;padding:40px">Gerando o relatório…</body></html>');
-  const total = lerTotal(); const cliente = ($('rel-cliente').value || '').trim();
-  if (!total) { $('rel-total').focus(); $('rel-total').style.borderColor = 'var(--s2)'; return; }
+  // sem valor informado, o relatório sai com R$ 1.000.000 hipotético, avisado na capa e na primeira página
+  let total = lerTotal(); const hipotetico = !total; if (hipotetico) total = 1000000; const cliente = ($('rel-cliente').value || '').trim();
   S.rel.total = total; S.rel.cliente = cliente;
   const cal = S.meta.calendario, ref = idxAte(S.meta.referencia), J12 = janela12();
   const itens = pesosAtuais(); const soma = itens.reduce((a, x) => a + (x.w || 0), 0) || 1;
@@ -3322,7 +3452,7 @@ tr.tot td{font-weight:700;border-top:2px solid var(--line-2);border-bottom:0}
   const html = [];
   html.push(`<section class="pg capa"><svg class="capa-m" viewBox="0 0 660 446" aria-hidden="true"><use href="#wm"/></svg><div class="capa-top">${logoMaison}<span>Private</span></div>
     <div class="capa-body"><div class="eyebrow">Planejamento de investimentos</div><h1>${esc(cliente || 'Proposta de carteira')}</h1><div class="data">${dataHoje}</div><hr class="gold">
-    <div class="capa-stats"><div><span class="t">Valor</span><b>${kv(total)}</b></div>${temProj ? `<div><span class="t">Horizonte</span><b>${hLbl}</b></div>` : ''}</div></div>
+    <div class="capa-stats"><div><span class="t">${hipotetico ? 'Valor hipotético' : 'Valor'}</span><b>${kv(total)}</b></div>${temProj ? `<div><span class="t">Horizonte</span><b>${hLbl}</b></div>` : ''}</div></div>
     <div class="capa-qr"><div class="qr"><svg viewBox="-2.5 -2.5 ${QR_WA.n + 5} ${QR_WA.n + 5}" aria-label="QR code do WhatsApp da Maison"><path d="${QR_WA.d}" stroke="currentColor" stroke-width="0.95" stroke-linecap="round" fill="none"/><path d="${QR_WA.fin}" fill="currentColor" fill-rule="evenodd"/></svg></div><div class="qr-t"><svg class="qr-m" viewBox="0 -1 660 446" aria-hidden="true"><use href="#wm"/></svg><b>Equipe Maison</b></div></div>
     <div class="capa-foot"><span>Gustavo Bailly Develly Rocha · gustavo.bailly@maisoninvest.com.br</span><span>Niterói/RJ · hubmaison.com</span></div></section>`);
   // resumo
@@ -3333,7 +3463,7 @@ tr.tot td{font-weight:700;border-top:2px solid var(--line-2);border-bottom:0}
     <div class="card">${tab}<p class="note" style="margin-top:6px">Perspectiva de 1 ano pelo simulador (patamares do Focus de ${S.meta.focus ? dBR(S.meta.focus.data) : dBR(S.meta.referencia)}). Volatilidade da carteira nos últimos 12 meses: ${mC.vol != null ? pct(mC.vol) : 'n/d'}; maior queda no período: ${pct(mC.mdd || 0)}.</p></div>
     <div class="card"><div class="alloc"><div class="grp a"><h3 style="margin-top:0">Alocação por ativo</h3><div class="donutwrap">${svgDonut}<div class="dl">${porPeso.map(l => `<span class="sw" style="background:${corAloc.get(l.s.key)}"></span><span class="n">${esc(l.s.data.nome)}</span><b>${fmtNum(l.share * 100, 1)}%</b>`).join('')}</div></div></div>
     <div class="grp b"><h3 style="margin-top:0">Alocação por tipo</h3><div class="donutwrap">${svgDonutTipo}<div class="dl">${porTipo.map(p => `<span class="sw" style="background:${p.cor}"></span><span class="n">${esc(p.nome)}</span><b>${fmtNum(p.valor / total * 100, 1)}%</b>`).join('')}</div></div></div></div></div>
-    <p class="note">Rentabilidades com base na performance dos últimos 12 meses, líquidas de taxas e brutas de imposto de renda. Rentabilidade passada não é garantia de rentabilidade futura.</p>`, 'Planejamento de investimentos'));
+    <p class="note">${hipotetico ? 'Valor hipotético de R$ 1.000.000, usado porque o valor da carteira não foi informado; as proporções valem para qualquer valor. ' : ''}Rentabilidades com base na performance dos últimos 12 meses, líquidas de taxas e brutas de imposto de renda. Rentabilidade passada não é garantia de rentabilidade futura.</p>`, 'Planejamento de investimentos'));
   // rentabilidade estimada
   html.push(P(`<h2>Rentabilidade passada</h2><p class="sub">O que a carteira proposta teria rendido, mês a mês, nos últimos 12 meses, com os pesos mantidos constantes. Base: ${dBR(cal[ini])} a ${dBR(cal[fim])}.</p>
     <div class="card"><div class="chart">${svgMensal}</div></div>
@@ -3698,7 +3828,7 @@ async function renderPersp() {
   const coCell = (retArr, i0, i1) => { const td = el('td', 'num'); const co = ibovDoc && retArr ? pearson(retArr, ibovDoc.ret, { ini: Math.max(i0, ibovDoc.firstIdx || 0), fim: Math.min(i1, ibovDoc.ateIdx) }) : null; if (co != null) td.append(el('span', 'badge ' + (Math.abs(co) >= 0.5 ? 'neg' : 'neu'), fmtNum(co * 100, 0) + '%')); else td.textContent = '–'; return td; };
   cartUI.linhas = {}; pesosAtuais();
   series.forEach((s2, k) => { const sel = prontos[k]; const m = mp[k]; const tr = el('tr'); const td0 = el('td', 'swapcell'); td0.dataset.key = sel.key; td0.style.setProperty('--c', s2.cor); const n = el('span', 'n');
-    const sp = el('span', 'nmlink', s2.nome); sp.title = sel.kind === 'rf' ? s2.nome : s2.nome + ' — clique para ver os detalhes'; if (sel.kind !== 'rf') sp.addEventListener('click', (e) => { e.stopPropagation(); abrirPerfil(sel); });
+    const sp = el('span', 'nmlink', s2.nome); sp.title = sel.kind === 'rf' ? s2.nome : s2.nome + ': clique para ver os detalhes'; if (sel.kind !== 'rf') sp.addEventListener('click', (e) => { e.stopPropagation(); abrirPerfil(sel); });
     if (temPesos) { const ring = el('span', 'ring'); ring.style.setProperty('--p', String(S.cart.pesos[sel.key] || 0)); const lp = linhaPeso(sel, ring); n.append(ring, sp); td0.append(n, lp.r); }
     else { const i = el('i'); i.style.background = s2.cor; n.append(i, sp); td0.append(n); }
     const x = el('button', 'xrm'); x.type = 'button'; x.title = 'Remover da comparação'; x.setAttribute('aria-label', 'Remover ' + s2.nome); x.append(icon('i-x', 10)); x.addEventListener('click', () => remover(sel.key)); n.append(x);
@@ -3886,7 +4016,7 @@ const ehPrev = (f) => f.xp_tipo === 'Previdência';
 const pickOk = (f) => { const { liq, q } = PICK; if (liq != null && !(f.xp_liq != null && f.xp_liq <= liq)) return false; const nq = norm(q || ''); return !nq || norm(f.nome + ' ' + (f.gestor || '')).includes(nq); };
 function pickSubs(sec) {
   if (sec === 'rf') return [['pcdi', '% do CDI'], ['pre', 'Prefixado'], ['ipca', 'IPCA+']].map(([id, lbl]) => ({ id, lbl }));
-  if (sec === 'ac') { const nq = norm(PICK.q || ''); const n = { acao: 0, fii: 0, bdr: 0 }; S.acoes.forEach(a => { if (!nq || a.busca.includes(nq)) n[a.tipo === 'bdr' ? 'bdr' : a.tipo === 'fii' ? 'fii' : 'acao']++; }); return [['acao', 'Ações'], ['fii', 'FIIs'], ['bdr', 'BDRs']].map(([id, lbl]) => ({ id, lbl, n: n[id] })).filter(x => x.n || x.id === PICK.sub); }
+  if (sec === 'ac') { const nq = norm(PICK.q || ''); const n = { acao: 0, fii: 0, bdr: 0 }; S.acoes.forEach(a => { if (!nq || casaBusca(a, nq)) n[tipoRV(a)]++; }); return [['acao', 'Ações'], ['fii', 'FIIs'], ['bdr', 'BDRs']].map(([id, lbl]) => ({ id, lbl, n: n[id] })).filter(x => x.n || x.id === PICK.sub); }
   if (sec === 'td') { const fams = new Map(); (S.tesouro || []).forEach(t => fams.set(t.fam, (fams.get(t.fam) || 0) + 1)); return [...fams.keys()].sort((a, b) => a - b).map(f => ({ id: String(f), lbl: TD_FAM_LBL[f], n: fams.get(f) })); }
   if (sec === 'xp') { const ordem = (S.meta.xp_tipos || []).filter(t => t !== 'Previdência'); const n = new Map(); S.index.forEach(f => { if (f.xp_tipo && !ehPrev(f) && pickOk(f)) n.set(f.xp_tipo, (n.get(f.xp_tipo) || 0) + 1); }); return ordem.map(t => ({ id: t, lbl: t, n: n.get(t) || 0 })).filter(x => x.n || x.id === PICK.sub); }
   if (sec === 'prev') { const n = new Map(); S.index.forEach(f => { if (ehPrev(f) && pickOk(f)) { const c = classeXPCanon(f.xp_classe || '') || 'sem classe'; n.set(c, (n.get(c) || 0) + 1); } }); return [...n.keys()].sort((a, b) => a.localeCompare(b, 'pt-BR')).map(c => ({ id: c, lbl: classeXPLabel(c, 'Previdência') || c, n: n.get(c) })); }
@@ -3898,10 +4028,59 @@ function pickClasses(sec, sub) {
   return [...n.keys()].sort((a, b) => a.localeCompare(b, 'pt-BR')).map(c => ({ id: c, lbl: classeXPLabel(c, sub) || c, n: n.get(c) }));
 }
 // setores (ações) ou segmentos (FIIs) presentes na aba, com contagem sob a busca atual; subsetores dentro do setor escolhido
+// cada grupo traz a contagem, a mediana do retorno de 12 meses, o ícone e a matiz do setor; ordem do maior para o menor
 function pickSetores(tp, setor) {
-  const nq = norm(PICK.q || ''); const n = new Map();
-  S.acoes.forEach(a => { if ((a.tipo === 'bdr' ? 'bdr' : a.tipo === 'fii' ? 'fii' : 'acao') !== tp || !a.setor) return; if (nq && !a.busca.includes(nq)) return; if (setor && a.setor !== setor) return; const k = setor ? a.subsetor : a.setor; if (!k) return; n.set(k, (n.get(k) || 0) + 1); });
-  return [...n.keys()].sort((x, y) => x.localeCompare(y, 'pt-BR')).map(k => ({ id: k, lbl: k, n: n.get(k) }));
+  const nq = norm(PICK.q || ''); const g = new Map();
+  S.acoes.forEach(a => { if (tipoRV(a) !== tp || !a.setor) return; if (nq && !casaBusca(a, nq)) return; if (setor && a.setor !== setor) return; const k = setor ? a.subsetor : a.setor; if (!k) return; if (!g.has(k)) g.set(k, []); g.get(k).push(a.ret12); });
+  return [...g.entries()].map(([k, rs]) => ({ id: k, lbl: k, n: rs.length, med: medianaDe(rs), ...setorVis(setor || k) })).sort((x, y) => y.n - x.n || x.lbl.localeCompare(y.lbl, 'pt-BR'));
+}
+const medianaDe = (xs) => { const v = xs.filter(x => x != null && isFinite(x)).sort((a, b) => a - b); if (!v.length) return null; const m = v.length >> 1; return v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2; };
+// ícone e matiz (HSL) por setor da B3 e por segmento de FII; matizes discretas, o cinza-azulado do site continua dominante
+const SETOR_VIS = {
+  'Bens Industriais': ['i-sx-ind', 28], 'Comunicações': ['i-sx-com', 232], 'Consumo Cíclico': ['i-sx-cic', 318], 'Consumo não Cíclico': ['i-sx-ncic', 104],
+  'Financeiro': ['i-sx-fin', 210], 'Materiais Básicos': ['i-sx-mat', 14], 'Petróleo, Gás e Biocombustíveis': ['i-sx-pet', 184], 'Saúde': ['i-sx-sau', 350],
+  'Tecnologia da Informação': ['i-chip', 268], 'Utilidade Pública': ['i-sx-uti', 46], 'Outros': ['i-grid', 215],
+  'Recebíveis (papel)': ['i-bond', 210], 'Híbrido': ['i-layers', 268], 'Fundo de fundos': ['i-pie', 190], 'Logística': ['i-sx-box', 28], 'Lajes corporativas': ['i-building', 232],
+  'Shoppings': ['i-sx-cic', 318], 'Residencial': ['i-sx-home', 104], 'Hospital': ['i-sx-sau', 350], 'Renda urbana': ['i-sx-store', 46], 'Desenvolvimento': ['i-sx-crane', 14],
+  'Hotel': ['i-sx-bed', 184], 'Agronegócio': ['i-sx-ncic', 88], 'Educacional': ['i-sx-cap', 38], 'Infraestrutura': ['i-sx-uti', 46], 'Agências bancárias': ['i-sx-fin', 210]
+};
+const setorVis = (nome) => { const v = SETOR_VIS[nome]; if (v) return { ic: v[0], h: v[1] }; let h = 7; for (const c of String(nome)) h = (h * 31 + c.charCodeAt(0)) % 360; return { ic: 'i-grid', h }; };
+const rotTipo = (tp, n) => tp === 'fii' ? (n === 1 ? 'FII' : 'FIIs') : (n === 1 ? 'ação' : 'ações');
+function sxIcone(v, sz) { const s = el('span', 'sx-ic'); s.style.setProperty('--h', v.h); s.append(icon(v.ic, sz || 15)); return s; }
+function sxMed(m) { const s = el('span', 'sx-med' + (m == null ? '' : m >= 0 ? ' pos' : ' neg'), m == null ? '–' : pctSign(m, 1)); s.title = 'Mediana do retorno em 12 meses'; return s; }
+const sxDica = (st, tp) => st.lbl + ': ' + st.n + ' ' + rotTipo(tp, st.n) + (st.med != null ? ', mediana de ' + pctSign(st.med, 1) + ' em 12 meses' : '');
+const pickSetorSel = (id) => { const P = PICK; P.setor = id; P.sub2 = null; renderFichas(); renderLista(); };
+const pickSubSel = (id) => { PICK.sub2 = id; renderFichas(); renderLista(); };
+// mosaico: um ladrilho por setor (ícone, nome, quantidade, mediana em 12 m e barra de peso); escolhido o setor, o mosaico
+// recolhe num painel do setor com a composição em subsetores e as fichas de subsetor dentro dele
+function renderSetoresMosaico(main, tp) {
+  const P = PICK; const setores = pickSetores(tp, null); if (!setores.length) return;
+  const grupo = tp === 'fii' ? 'Segmentos' : 'Setores';
+  if (!P.setor) {
+    const grid = el('div', 'sx-mosaic'); grid.setAttribute('role', 'group'); grid.setAttribute('aria-label', grupo);
+    const maxN = Math.max(...setores.map(x => x.n));
+    setores.forEach(st => { const b = el('button', 'sx-tile'); b.type = 'button'; b.style.setProperty('--h', st.h); b.style.setProperty('--w', (st.n / maxN * 100).toFixed(1) + '%');
+      const tx = el('span', 'sx-tx'); tx.append(el('b', null, st.lbl)); const meta = el('small'); meta.append(el('span', null, st.n + ' ' + rotTipo(tp, st.n)), sxMed(st.med)); tx.append(meta);
+      b.append(sxIcone(st), tx); b.title = sxDica(st, tp); b.addEventListener('click', () => pickSetorSel(st.id)); grid.append(b); });
+    main.append(grid); return;
+  }
+  const st = setores.find(x => x.id === P.setor) || { id: P.setor, lbl: P.setor, n: 0, med: null, ...setorVis(P.setor) };
+  const box = el('div', 'sx-drill'); box.style.setProperty('--h', st.h);
+  const top = el('div', 'sx-top');
+  const back = el('button', 'sx-back'); back.type = 'button'; back.append(icon('i-chev', 12), document.createTextNode(grupo)); back.title = 'Voltar para todos os ' + grupo.toLowerCase(); back.addEventListener('click', () => pickSetorSel(null));
+  const ttl = el('div', 'sx-ttl'); const tt = el('span', 'sx-tx'); tt.append(el('b', null, st.lbl)); const meta = el('small'); meta.append(el('span', null, st.n + ' ' + rotTipo(tp, st.n) + ' · mediana em 12 meses'), sxMed(st.med)); tt.append(meta); ttl.append(sxIcone(st), tt);
+  const x = el('button', 'sx-x'); x.type = 'button'; x.setAttribute('aria-label', 'Limpar ' + (tp === 'fii' ? 'segmento' : 'setor')); x.title = 'Limpar'; x.append(icon('i-x', 10)); x.addEventListener('click', () => pickSetorSel(null));
+  top.append(back, ttl, x); box.append(top);
+  const subs = tp === 'acao' ? pickSetores(tp, P.setor) : [];
+  if (subs.length > 1) {
+    const tons = subs.map((_, i) => (74 - i * (34 / Math.max(1, subs.length - 1))).toFixed(0) + '%');
+    const comp = el('div', 'sx-comp' + (P.sub2 ? ' has-sel' : '')); comp.setAttribute('aria-hidden', 'true');
+    subs.forEach((sb, i) => { const seg = el('i', P.sub2 === sb.id ? 'on' : null); seg.style.flex = String(sb.n); seg.style.setProperty('--l', tons[i]); seg.title = sb.lbl + ': ' + sb.n; comp.append(seg); }); box.append(comp);
+    const row = el('div', 'sx-subs'); row.setAttribute('role', 'group'); row.setAttribute('aria-label', 'Subsetores de ' + st.lbl);
+    const mk = (id, lbl, n, tom) => { const b = el('button', 'sx-sub'); b.type = 'button'; if (tom) { const d = el('i'); d.style.setProperty('--l', tom); b.append(d); } b.append(document.createTextNode(lbl), el('small', null, String(n))); b.setAttribute('aria-pressed', (P.sub2 || null) === id ? 'true' : 'false'); b.addEventListener('click', () => pickSubSel(id && P.sub2 === id ? null : id)); return b; };
+    row.append(mk(null, 'Todo o setor', st.n)); subs.forEach((sb, i) => { const b = mk(sb.id, sb.lbl, sb.n, tons[i]); b.title = sxDica(sb, tp); row.append(b); }); box.append(row);
+  }
+  main.append(box);
 }
 // faixas mín./máx.: só as chaves que existem na aba valem; quem não tem o dado fica de fora quando há filtro nele
 function pickAplicarFiltros(itens, tp) {
@@ -3914,7 +4093,7 @@ function pickAplicarFiltros(itens, tp) {
 function pickItens() {
   const { sec, sub, cls, liq, q } = PICK; const nq = norm(q || ''); const out = [];
   if (sec === 'rf') { const tp = sub || 'pcdi'; RF_TAXAS[tp].forEach(tx => out.push({ key: 'rf:' + rfId(tp, tx, ''), kind: 'rf', nome: RF_NOMES[tp](tx), sub: RF_IDX[tp], liq: 0 })); if (PICK.atual && PICK.atual.kind === 'rf' && PICK.atual.data && !out.some(o => o.key === PICK.atual.key)) out.unshift({ key: PICK.atual.key, kind: 'rf', nome: PICK.atual.data.nomeLongo || PICK.atual.data.nome, sub: PICK.atual.data.indexador, liq: 0 }); return out.filter(o => !nq || norm(o.nome).includes(nq)); }
-  if (sec === 'ac') { const tp = sub || 'acao'; S.acoes.forEach(a => { if ((a.tipo === 'bdr' ? 'bdr' : a.tipo === 'fii' ? 'fii' : 'acao') !== tp) return; if (nq && !a.busca.includes(nq)) return; out.push({ key: 'ac:' + a.ticker, kind: 'acao', nome: a.ticker + ' · ' + a.nome, sub: (a.tipo === 'bdr' ? 'BDR' : a.tipo === 'fii' ? 'FII' : 'Ação ' + (a.especi || '')) + (a.liq ? ' · R$ ' + compactR(a.liq) + '/dia' : '') + (a.premio != null ? ' · ' + (BM_LBL[a.bm] || 'Ibov') + ' ' + (a.premio >= 0 ? '+' : '−') + fmtNum(Math.abs(a.premio), 1) + ' p.p.' : ''), ret: a.ret12, r: { 12: a.ret12, 24: a.ret24, 36: a.ret36 }, vol: a.vol12, sharpe: a.sharpe12, co: a.co12, bm: a.bm, liq: null,
+  if (sec === 'ac') { const tp = sub || 'acao'; S.acoes.forEach(a => { if (tipoRV(a) !== tp) return; if (nq && !casaBusca(a, nq)) return; out.push({ key: 'ac:' + a.ticker, kind: 'acao', nome: a.ticker + ' · ' + a.nome, sub: (a.tipo === 'bdr' ? 'BDR' : a.tipo === 'fii' ? 'FII' : 'Ação ' + (a.especi || '')) + (a.liq ? ' · R$ ' + compactR(a.liq) + '/dia' : '') + (a.premio != null ? ' · ' + (BM_LBL[a.bm] || 'Ibov') + ' ' + (a.premio >= 0 ? '+' : '−') + fmtNum(Math.abs(a.premio), 1) + ' p.p.' : ''), ret: a.ret12, r: { 12: a.ret12, 24: a.ret24, 36: a.ret36 }, vol: a.vol12, sharpe: a.sharpe12, co: a.co12, bm: a.bm, liq: null,
       // fundamentos (pipeline): FIIs com DY 12 m e P/VP; ações com P/VPA, EV/EBITDA e crescimento de PL, EBITDA e receita em 12/24/36 m
       fd: { dy12: a.dy12, pvp: a.pvp, pvpa: a.pvpa, ev: a.ev_ebitda, gpl12: a.g_pl12, gpl24: a.g_pl24, gpl36: a.g_pl36, geb12: a.g_eb12, geb24: a.g_eb24, geb36: a.g_eb36, grec12: a.g_rec12, grec24: a.g_rec24, grec36: a.g_rec36, fin: !!a.fin, dt: a.dt_fund }, setor: a.setor || null, subsetor: a.subsetor || null, seg: a.seg || null }); }); out.sort((x, y) => (y.ret == null ? -1e9 : y.ret) - (x.ret == null ? -1e9 : x.ret)); return pickAplicarFiltros(out, tp); }
   if (sec === 'td') { (S.tesouro || []).filter(t => !sub || String(t.fam) === sub).sort((x, y) => x.venc.localeCompare(y.venc)).forEach(t => { if (nq && !t.busca.includes(nq)) return; out.push({ key: 'td:' + t.id, kind: 'tesouro', nome: t.nome, sub: taxaTD(t) + ' · vence ' + t.venc.slice(0, 4), ret: t.ret12, r: { 12: t.ret12, 24: t.ret24, 36: t.ret36 }, vol: t.vol12, sharpe: t.sharpe12, co: t.co12, bm: t.indexador === 'PRE' ? null : t.indexador === 'IPCA' ? 'ipca' : 'cdi', liq: 0 }); }); return out; }
@@ -3958,6 +4137,7 @@ function renderPicker() {
   const body = el('div', 'pbody'); const nav = el('div', 'pnav'); PICK_SECS.forEach(([id, lbl, ic]) => { const b = el('button'); b.type = 'button'; b.append(icon(ic, 13), el('span', null, lbl)); b.setAttribute('aria-pressed', P.sec === id ? 'true' : 'false'); b.addEventListener('click', () => { P.sec = id; P.sub = null; P.cls = null; P.q = ''; pickLimparFiltros(); renderPicker(); }); nav.append(b); }); body.append(nav);
   const main = el('div', 'pmain'); const fichas = el('div', 'pfichas'); main.append(fichas); P.fichas = fichas;
   const lista = el('div', 'plist'); main.append(lista); body.append(main); root.append(body);
+  if (!P.atual) { const bj = el('div', 'bandeja pdone'); bj.setAttribute('aria-live', 'polite'); root.append(bj); }
   P.lista = lista; renderFichas(); renderLista();
   setTimeout(() => q.focus({ preventScroll: true }), 30);
 }
@@ -4012,15 +4192,7 @@ function pickFiltroDefs(tp) {
 }
 function renderFiltrosRV(main) {
   const P = PICK; const tp = P.sub || 'acao';
-  if (tp !== 'bdr') {
-    const setores = pickSetores(tp, null);
-    if (setores.length) {
-      const row = el('div', 'pchips sub setores'); const all = el('button'); all.type = 'button'; all.textContent = tp === 'fii' ? 'Todos os segmentos' : 'Todos os setores'; all.setAttribute('aria-pressed', !P.setor ? 'true' : 'false'); all.addEventListener('click', () => { P.setor = null; P.sub2 = null; renderFichas(); renderLista(); }); row.append(all);
-      setores.forEach(st => { const b = el('button'); b.type = 'button'; b.append(document.createTextNode(st.lbl), el('small', null, String(st.n))); b.setAttribute('aria-pressed', P.setor === st.id ? 'true' : 'false'); b.addEventListener('click', () => { P.setor = P.setor === st.id ? null : st.id; P.sub2 = null; renderFichas(); renderLista(); }); row.append(b); });
-      main.append(row);
-      if (tp === 'acao' && P.setor) { const subs = pickSetores(tp, P.setor); if (subs.length > 1) { const r2 = el('div', 'pchips sub subsetores'); const a2 = el('button'); a2.type = 'button'; a2.textContent = 'Todos os subsetores'; a2.setAttribute('aria-pressed', !P.sub2 ? 'true' : 'false'); a2.addEventListener('click', () => { P.sub2 = null; renderFichas(); renderLista(); }); r2.append(a2); subs.forEach(sb => { const b = el('button'); b.type = 'button'; b.append(document.createTextNode(sb.lbl), el('small', null, String(sb.n))); b.setAttribute('aria-pressed', P.sub2 === sb.id ? 'true' : 'false'); b.addEventListener('click', () => { P.sub2 = P.sub2 === sb.id ? null : sb.id; renderFichas(); renderLista(); }); r2.append(b); }); main.append(r2); } }
-    }
-  }
+  if (tp !== 'bdr') renderSetoresMosaico(main, tp);
   // barra: botão Filtros (com o número de faixas ativas), contagem de resultados e, aberta, os campos mín./máx.
   const bar = el('div', 'pfilbar'); const bt = el('button', 'pfil-btn'); bt.type = 'button'; bt.setAttribute('aria-expanded', P.filOn ? 'true' : 'false'); bt.append(icon('i-sliders', 12), document.createTextNode('Filtros')); const nAt = pickFiltrosAtivos(); if (nAt) bt.append(el('b', 'badge', String(nAt)));
   bt.addEventListener('click', () => { P.filOn = !P.filOn; renderFichas(); sincronizarFiltros(); });
@@ -4041,7 +4213,7 @@ function renderFiltrosRV(main) {
 // contagem "N de M" ao lado do botão Filtros e o número no selo, sem redesenhar os campos (para não perder o foco)
 function sincronizarFiltros() {
   const P = PICK; const cnt = document.getElementById('pfil-n'); if (!cnt) return; const tp = P.sub || 'acao'; const nq = norm(P.q || '');
-  const total = S.acoes.filter(a => (a.tipo === 'bdr' ? 'bdr' : a.tipo === 'fii' ? 'fii' : 'acao') === tp && (!nq || a.busca.includes(nq))).length; const n = pickItens().length;
+  const total = S.acoes.filter(a => tipoRV(a) === tp && (!nq || casaBusca(a, nq))).length; const n = pickItens().length;
   cnt.textContent = n === total ? total + (total === 1 ? ' ativo' : ' ativos') : n + ' de ' + total;
   const bar = cnt.parentElement; const bt = bar.querySelector('.pfil-btn'); const nAt = pickFiltrosAtivos(); if (bt) { const old = bt.querySelector('.badge'); if (old) old.remove(); if (nAt) bt.append(el('b', 'badge', String(nAt))); }
   let lp = bar.querySelector('.pfil-clear'); if ((nAt || P.setor) && !lp) { lp = el('button', 'pfil-clear'); lp.type = 'button'; lp.textContent = 'Limpar'; lp.addEventListener('click', () => { pickLimparFiltros(); renderFichas(); renderLista(); }); bar.append(lp); } else if (!(nAt || P.setor) && lp) lp.remove();
@@ -4083,9 +4255,10 @@ function renderLista() {
   }
   vis.forEach((it, idx) => {
     const jaTem = S.sel.some(x => x.key === it.key); const ehAtual = P.atual && P.atual.key === it.key;
-    const b = el('div', 'pitem' + (temBarras ? '' : ' simples') + (idx % 2 ? ' alt' : ''));
-    const nmb = el('div', 'nm' + (it.kind !== 'rf' ? ' nome' : '')); const n1 = el('b', null, it.nome); n1.title = it.kind !== 'rf' ? it.nome + ' — clique para ver os detalhes' : it.nome; nmb.append(n1);
-    if (it.kind !== 'rf') nmb.addEventListener('click', (e) => { e.stopPropagation(); abrirPerfilKey(it.kind, it.key); }); const subTxt = [it.sub, it.liq != null && it.kind === 'fundo' ? 'D+' + fmtNum(it.liq, 0) : null].filter(Boolean).join(' · '); if (subTxt) nmb.append(el('small', null, subTxt)); b.append(nmb);
+    const b = el('div', 'pitem' + (temBarras ? '' : ' simples') + (idx % 2 ? ' alt' : '')); b.dataset.key = it.key;
+    // nome: o clique na linha inteira inclui ou retira; o "i" ao lado do nome abre os detalhes
+    const nmb = el('div', 'nm' + (it.kind !== 'rf' ? ' nome' : '')); const l1 = el('span', 'nml'); const n1 = el('b', null, it.nome); n1.title = it.nome; l1.append(n1); nmb.append(l1);
+    if (it.kind !== 'rf') { const inf = el('button', 'pinf'); inf.type = 'button'; inf.title = 'Ver os detalhes'; inf.setAttribute('aria-label', 'Ver os detalhes de ' + it.nome); inf.append(icon('i-info', 12)); inf.addEventListener('click', (e) => { e.stopPropagation(); abrirPerfilKey(it.kind, it.key); }); l1.append(inf); } const subTxt = [it.sub, it.liq != null && it.kind === 'fundo' ? 'D+' + fmtNum(it.liq, 0) : null].filter(Boolean).join(' · '); if (subTxt) nmb.append(el('small', null, subTxt)); b.append(nmb);
     if (temBarras) cols.forEach(c => {
       if (/^\d+$/.test(c.k)) b.append(pickCelJanela(it, +c.k, mx[+c.k], esc[+c.k]));
       else if (c.k === 'vol') b.append(pickBar('pbv', it.vol, mxV, it.vol == null ? null : pct(it.vol)));
@@ -4093,8 +4266,14 @@ function renderLista() {
       else if (c.k === 'co') { const cc = el('div', 'pbc'); const bd = el('b', it.co != null && Math.abs(it.co) >= 0.5 ? 'alto' : '', it.co == null ? '–' : fmtNum(it.co * 100, 0) + '%'); cc.title = 'Correlação dos retornos diários com o Ibovespa em 12 meses'; cc.append(bd); b.append(cc); }
       else b.append(pickCelFund(it, c, mxF[c.k]));
     });
-    // ação da linha: "+" acrescenta (a linha inteira também responde ao clique); "×" retira o que já está na comparação
+    // ação da linha: no modo "adicionar", um botão só (+, ✓ e × no hover) e a linha inteira alternam a presença na comparação,
+    // sem fechar o seletor; no modo "trocar", o clique troca o ativo e fecha
     const act = el('div', 'pact');
+    if (!P.atual) {
+      const tg = el('button', 'ptog'); tg.type = 'button'; const sp = (cls, ic, w) => { const x = el('span', cls); x.append(icon(ic, w)); return x; }; tg.append(sp('add', 'i-plus', 11), sp('ok', 'i-check', 12), sp('rm', 'i-x', 10)); act.append(tg); b.append(act);
+      b.addEventListener('click', () => pickAlternar(it, b)); b.addEventListener('mouseleave', () => b.classList.remove('just'));
+      lista.append(b); return;
+    }
     if (jaTem || ehAtual) { const x = el('button', 'xrm'); x.type = 'button'; x.title = 'Retirar da comparação'; x.setAttribute('aria-label', 'Retirar ' + it.nome + ' da comparação'); x.append(icon('i-x', 10)); x.addEventListener('click', (e) => { e.stopPropagation(); remover(it.key); if (ehAtual) fecharPicker(); else renderLista(); }); act.append(x); }
     else { const add = el('button', 'padd'); add.type = 'button'; add.title = P.atual ? 'Trocar por este ativo' : 'Adicionar à comparação'; add.setAttribute('aria-label', (P.atual ? 'Trocar por ' : 'Adicionar ') + it.nome + (P.atual ? '' : ' à comparação')); add.append(icon(P.atual ? 'i-swap' : 'i-plus', 11)); act.append(add); }
     b.append(act);
@@ -4106,15 +4285,47 @@ function renderLista() {
   else if (itens.length > LIM) lista.append(el('div', 'pvazio', 'Mostrando os ' + LIM + ' de maior retorno em ' + itens.length + '; use a busca para refinar.'));
   if (P.sec === 'rf') { const foot = el('div', 'pfoot'); const bt = el('button', 'mini'); bt.type = 'button'; bt.textContent = 'Outra taxa, emissor ou vencimento…'; bt.addEventListener('click', () => { fecharPicker(); abrirRF(P.sub || 'pcdi'); }); foot.append(bt); lista.append(foot); }
   if (P.sec === 'ac') sincronizarFiltros();
+  pickMarcar();
   if (!lista._scx) { lista._scx = true; lista.addEventListener('scroll', () => sombrasLista(lista), { passive: true }); }
   requestAnimationFrame(() => sombrasLista(lista));
 }
+// inclui ou retira o ativo da linha; o seletor continua aberto para escolher o próximo
+function pickAlternar(it, row) {
+  if (S.sel.some(s => s.key === it.key)) remover(it.key);
+  else { if (S.sel.length >= MAX) { const bj = PICK.el && PICK.el.querySelector('.pdone'); if (bj) { bj.classList.remove('flash'); void bj.offsetWidth; bj.classList.add('flash'); } return; } adicionar(it.key, it.kind); if (row) row.classList.add('just'); }
+  pickMarcar();
+}
+// marca as linhas que estão na comparação (cor do ativo, check) e redesenha a bandeja; não reconstrói a lista (mantém a rolagem)
+function pickMarcar() {
+  const P = PICK; if (!P.el || !P.el.classList.contains('on') || !P.lista || P.atual) return;
+  const cor = new Map(S.sel.map(s => [s.key, s.cor]));
+  P.lista.querySelectorAll('.pitem[data-key]').forEach(r => { const c = cor.get(r.dataset.key); r.classList.toggle('in', !!c); if (c) r.style.setProperty('--c', c); else r.classList.remove('just');
+    const tg = r.querySelector('.ptog'); if (tg) { const nm = r.querySelector('.nml b').textContent; tg.setAttribute('aria-pressed', c ? 'true' : 'false'); tg.setAttribute('aria-label', (c ? 'Retirar ' : 'Incluir ') + nm + (c ? ' da comparação' : ' na comparação')); tg.title = c ? 'Na comparação: clique para retirar' : S.sel.length >= MAX ? 'Limite de ' + MAX + ' ativos na comparação' : 'Incluir na comparação'; } });
+  P.lista.classList.toggle('cheia', S.sel.length >= MAX);
+  const bj = P.el.querySelector('.pdone'); if (bj) bandeja(bj, () => { fecharPicker(); irParaComparacao(); }, 'Clique nos ativos para montá-la: cada clique inclui ou retira, sem fechar esta janela.');
+}
+// bandeja da composição (seletor, ranking e Tesouro): quantos ativos, uma ficha por ativo com × e o botão Concluir
+const nomeCurto = (s) => s.kind === 'acao' ? s.key.slice(3) : nomeDe(s);
+function bandeja(box, aoConcluir, vazio, nota) {
+  const antes = box._keys || new Set(); box.innerHTML = ''; const n = S.sel.length;
+  const info = el('div', 'bj-info');
+  if (nota) info.append(el('span', 'bj-hint', nota));
+  else if (!n) { info.append(el('b', null, 'Comparação vazia.'), el('span', 'bj-hint', vazio)); }
+  else info.append(el('b', null, n + (n === 1 ? ' ativo' : ' ativos')), el('span', null, n >= MAX ? 'na comparação (limite)' : 'na comparação'));
+  box.append(info);
+  if (n) { const ch = el('div', 'bj-chips'); S.sel.forEach(s => { const c = el('span', 'bj-chip' + (s.data ? '' : ' carregando') + (antes.size && !antes.has(s.key) ? ' novo' : '')); c.style.setProperty('--c', s.cor); c.title = nomeDe(s); c.append(el('i'), el('span', 'tx', nomeCurto(s)));
+      const x = el('button', 'bj-x'); x.type = 'button'; x.title = 'Retirar da comparação'; x.setAttribute('aria-label', 'Retirar ' + nomeDe(s) + ' da comparação'); x.append(icon('i-x', 9)); x.addEventListener('click', (e) => { e.stopPropagation(); remover(s.key); }); c.append(x); ch.append(c); });
+    box.append(ch); const ok = el('button', 'btn bj-ok'); ok.type = 'button'; ok.textContent = 'Concluir'; ok.addEventListener('click', aoConcluir); box.append(ok); }
+  box._keys = new Set(S.sel.map(s => s.key)); if (!antes.size) box._keys.add('');
+}
+// depois de concluir, leva a página aos cartões da comparação se eles não estiverem à vista
+function irParaComparacao() { const k = $('kpis'); if (!k || !S.sel.length) return; const r = k.getBoundingClientRect(); if (r.top < 0 || r.top > window.innerHeight * 0.55) setTimeout(() => k.scrollIntoView({ behavior: 'smooth', block: 'center' }), 60); }
 // sombras nas bordas das colunas fixas enquanto houver conteúdo escondido de cada lado
 function sombrasLista(lista) { const max = lista.scrollWidth - lista.clientWidth; lista.classList.toggle('scx', lista.scrollLeft > 1); lista.classList.toggle('scxe', max - lista.scrollLeft > 1); }
 function posicionarPicker() {
-  const P = PICK; if (!P.el || !P.anchor) return; const r = P.anchor.getBoundingClientRect(); const W = Math.min(1040, window.innerWidth - 16); P.el.style.width = W + 'px';
-  if (window.innerWidth < 720) { P.el.style.left = '8px'; P.el.style.top = '8px'; P.el.style.width = (window.innerWidth - 16) + 'px'; P.el.style.maxHeight = (window.innerHeight - 16) + 'px'; return; }
-  const left = Math.max(8, Math.min(r.left, window.innerWidth - W - 8)); P.el.style.left = left + 'px';
+  const P = PICK; if (!P.el || !P.anchor) return; const r = P.anchor.getBoundingClientRect(); const VW = document.documentElement.clientWidth || window.innerWidth; const W = Math.min(1040, VW - 16); P.el.style.width = W + 'px';
+  if (window.innerWidth < 720) { P.el.style.left = '8px'; P.el.style.top = '8px'; P.el.style.width = (VW - 16) + 'px'; P.el.style.maxHeight = (window.innerHeight - 16) + 'px'; return; }
+  const left = Math.max(8, Math.min(r.left, VW - W - 8)); P.el.style.left = left + 'px';
   const h = Math.min(P.el.offsetHeight, window.innerHeight * 0.8); const abaixo = window.innerHeight - r.bottom - 10;
   P.el.style.top = (h <= abaixo || r.top < h + 10 ? Math.min(r.bottom + 6, window.innerHeight - h - 8) : r.top - h - 6) + 'px';
 }
@@ -4129,8 +4340,8 @@ function abrirPicker(atual, anchor, secInicial) {
   P.el.classList.add('on'); renderPicker(); posicionarPicker(); requestAnimationFrame(posicionarPicker);
 }
 function fecharPicker() { const P = PICK; if (P.el && P.el.classList.contains('on')) { P.el.classList.remove('on'); P.el.innerHTML = ''; if (P.anchor && P.anchor.isConnected) P.anchor.focus({ preventScroll: true }); } P.anchor = null; }
-document.addEventListener('pointerdown', (e) => { const P = PICK; if (P.el && P.el.classList.contains('on') && !P.el.contains(e.target) && !(P.anchor && P.anchor.contains(e.target))) fecharPicker(); });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && PICK.el && PICK.el.classList.contains('on')) fecharPicker(); });
+document.addEventListener('pointerdown', (e) => { const P = PICK; if (P.el && P.el.classList.contains('on') && !P.el.contains(e.target) && !(P.anchor && P.anchor.contains(e.target)) && !e.target.closest('.modal.on')) fecharPicker(); });
+document.addEventListener('keydown', (e) => { if (e.key !== 'Escape' || e.__modal || !PICK.el || !PICK.el.classList.contains('on')) return; fecharPicker(); });
 window.addEventListener('resize', () => { if (PICK.el && PICK.el.classList.contains('on')) posicionarPicker(); });
 // botão da linha: abre o seletor para trocar o ativo (com `atual`) ou adicionar um novo
 // "Ibov + 4,2 p.p." editável na linha do simulador: prêmio da ação sobre o índice na projeção
@@ -4244,13 +4455,23 @@ async function abrirPerfilKey(kind, key) {
     abrirPerfil({ kind, key, data });
   } catch (e) { console.error(e); }
 }
+// botão do perfil: "Adicionar à comparação" ou, já incluído, "Na comparação" (o hover mostra "Retirar")
+function perfilBotao() {
+  const s = $('m-perfil')._s; const box = $('pf-acts'); if (!box || !s) return; box.innerHTML = ''; if (s.kind === 'rf') return;
+  const sel = S.sel.find(x => x.key === s.key); const b = el('button', 'pf-add' + (sel ? ' in' : '')); b.type = 'button';
+  if (sel) { b.style.setProperty('--c', sel.cor); b.append(el('i'), el('span', 'ok', 'Na comparação'), el('span', 'rm', 'Retirar da comparação')); b.title = 'Clique para retirar da comparação'; }
+  else { b.append(icon('i-plus', 11), document.createTextNode('Adicionar à comparação')); b.disabled = S.sel.length >= MAX; if (b.disabled) b.title = 'Limite de ' + MAX + ' ativos na comparação'; }
+  b.addEventListener('click', () => { if (S.sel.some(x => x.key === s.key)) remover(s.key); else adicionar(s.key, s.kind); perfilBotao(); });
+  box.append(b);
+}
 async function abrirPerfil(s) {
   const m = $('m-perfil'); const box = $('perfil-body'); box.innerHTML = ''; m.classList.add('on');
   const f = s.data; const head = el('div', 'pf-head');
   const lg = s.kind === 'fundo' ? logoGestora(f, 'xl') : s.kind === 'rf' ? logoEmissor(f.emissor, 'xl') : s.kind === 'acao' ? logoAcao(f, 'xl') : logoTesouro('xl'); if (lg) head.append(lg);
   const ht = el('div'); const h2 = el('h2', null, f.nomeLongo || f.nome); ht.append(h2);
   ht.append(el('p', 'sub', s.kind === 'fundo' ? [f.gestor_curto || f.gestor, f.xp ? [f.xp.tipo, f.xp.classe].filter(Boolean).join(' · ') : f.classe].filter(Boolean).join(' · ') : s.kind === 'tesouro' ? 'Tesouro Nacional · vence em ' + dBR(f.venc) : s.kind === 'acao' ? f.ticker + ' · ' + (f.tipo === 'bdr' ? 'BDR' : 'Ação ' + (f.especi || '')) + ' · B3' : (emissorDe(f.emissor) ? emissorDe(f.emissor).tipo + ' · ' : '') + f.indexador + (f.venc ? ' · vence em ' + dBR(f.venc) : '')));
-  head.append(ht); box.append(head);
+  const acts = el('div', 'pf-acts'); acts.id = 'pf-acts'; ht.append(acts); m._s = s;
+  head.append(ht); box.append(head); perfilBotao();
   const wait = el('p', 'pf-wait', 'Carregando perfil…'); box.append(wait);
   let P; try { P = await perfilDe(s); } catch (e) { P = { gestora: null, gestores: [], fundo: null }; }
   wait.remove(); if (!m.classList.contains('on')) return;
