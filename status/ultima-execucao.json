@@ -1,6 +1,6 @@
 {
   "referencia": "2026-10-29",
-  "gerado": "2026-11-01T14:56:53Z",
+  "gerado": "2026-11-01T16:14:00Z",
   "fundos_publicados": 10202,
   "fundos_na_matriz": 16451,
   "fundos_xp": 1010,
@@ -32,7 +32,7 @@
     "^BVSP",
     "URTH"
   ],
-  "acoes": 1060,
+  "acoes": 1057,
   "bdrs": 463,
   "fiis": 278,
   "descartados_parados": 465,
@@ -168,5 +168,5 @@
     "CDI sem valor em 22 dias do calendário (tratados como 0)",
     "ações: 33 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 758
+  "duracao_s": 834
 }
