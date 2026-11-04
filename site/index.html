@@ -1206,6 +1206,21 @@ html[data-pv=clean] .kpi .idx,html[data-pv=clean] .kpi .row .sh{background:rgba(
 .pf-add .rm{display:none}
 .pf-add.in:hover{box-shadow:inset 0 0 0 1px rgba(224,122,122,.6);color:#F0A2A2}
 .pf-add.in:hover .ok{display:none}.pf-add.in:hover .rm{display:inline}
+.eqbtn{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 15px 0 7px;border:0;border-radius:13px;background:rgba(178,203,230,.055);box-shadow:inset 0 0 0 1px rgba(178,203,230,.1);color:var(--text-2);font-family:var(--font);text-align:start;cursor:pointer;transition:background-color .15s,box-shadow .15s}
+.eqbtn.hidden{display:none}
+.eqbtn:hover{background:rgba(178,203,230,.1);box-shadow:inset 0 0 0 1px rgba(226,190,121,.4)}
+.eqbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.eqbtn .eq-ic{flex:none;width:31px;height:31px;border-radius:9px;display:grid;place-items:center;background:radial-gradient(circle at 30% 25%,rgba(212,162,74,.3),rgba(212,162,74,.07) 72%);box-shadow:inset 0 0 0 1px rgba(212,162,74,.26);color:#E2BE79}
+.eqbtn .eq-ic rect{fill:currentColor;transform-box:fill-box;transform-origin:50% 100%;transform:scaleY(var(--s));transition:transform .45s cubic-bezier(.2,0,0,1)}
+.eqbtn .eq-ic .eq-ln{stroke:currentColor;stroke-width:1;stroke-dasharray:1.5 1.5;opacity:0;transition:opacity .3s}
+.eqbtn:hover .eq-ic rect,.eqbtn[aria-pressed="true"] .eq-ic rect{transform:scaleY(.58)}
+.eqbtn:hover .eq-ic .eq-ln,.eqbtn[aria-pressed="true"] .eq-ic .eq-ln{opacity:.7}
+.eqbtn .eq-t{display:flex;flex-direction:column;line-height:1.2}
+.eqbtn .eq-t b{font-size:12.5px;font-weight:600;color:var(--text)}
+.eqbtn .eq-t small{font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.eqbtn[aria-pressed="true"]{background:transparent;box-shadow:inset 0 0 0 1px rgba(178,203,230,.07);cursor:default}
+.eqbtn[aria-pressed="true"] .eq-ic{background:rgba(125,214,182,.1);box-shadow:inset 0 0 0 1px rgba(125,214,182,.22);color:#7DD6B6}
+@media (prefers-reduced-motion:reduce){.eqbtn .eq-ic rect{transition:none}}
 .iconx{width:28px;height:28px;border-radius:50%;border:0;background:transparent;color:var(--muted);display:inline-grid;place-items:center;cursor:pointer;transition:background-color .15s,color .15s}
 .iconx:hover{background:rgba(178,203,230,.12);color:var(--text)}
 .iconx:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -1227,7 +1242,12 @@ html[data-pv=clean] .kpi .idx,html[data-pv=clean] .kpi .row .sh{background:rgba(
 .fgc .bar u{position:absolute;top:-3px;bottom:-3px;width:2px;margin-inline-start:-1px;border-radius:1px;background:rgba(232,240,250,.8)}
 .fgc .ft{font-size:10.5px;line-height:1.4;color:var(--muted)}
 .fgc .ft b{font-weight:600;color:var(--text-2);font-variant-numeric:tabular-nums}
-.fgc .ft .esp{color:#7DD6B6}
+.fgc .ft .esp{color:#7DD6B6;font-weight:600;font-variant-numeric:tabular-nums}
+.fgc .ft.linha{display:flex;align-items:center;flex-wrap:nowrap;white-space:nowrap;gap:4px;letter-spacing:-.005em}
+.fgc .ft .sep{display:inline-block;flex:none;width:7px;height:1px;margin:0 1px;background:currentColor;opacity:.6}
+.fgc .ft .ajusta{margin-inline-start:auto}
+#tb-persp td.swapcell:has(.fgc:not([hidden])){min-width:268px;max-width:272px}
+.fgc{max-width:262px}
 .fgc .acao{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .fgc .ajusta{border:0;border-radius:999px;background:rgba(224,122,122,.18);color:#F6B8B8;font:600 10.5px var(--font);padding:3px 9px;cursor:pointer}
 .fgc .ajusta:hover{background:rgba(224,122,122,.3);color:#fff}
@@ -1516,9 +1536,9 @@ html[data-pv=clean] .kpi .idx,html[data-pv=clean] .kpi .row .sh{background:rgba(
         <div class="card hidden" id="persp">
           <div class="head porthead">
             <div class="port-l"><span class="pico" aria-hidden="true"><svg><use href="#i-alloc"/></svg></span><h2 class="sr-only">Portfólio</h2>
-              <div class="money big"><input id="rel-total" type="text" inputmode="decimal" placeholder="R$ 1.000.000" autocomplete="off" aria-label="Valor total em reais"><span class="stp"><button type="button" data-d="-1" aria-label="Diminuir">−</button><button type="button" data-d="1" aria-label="Aumentar">+</button></span></div>
+              <div class="money big"><input id="rel-total" type="text" inputmode="decimal" placeholder="R$ 1.000.000" autocomplete="off" aria-label="Valor total em reais"><span class="stp"><button type="button" data-d="-1" aria-label="Diminuir">−</button><button type="button" data-d="1" aria-label="Aumentar">+</button></span></div><button class="eqbtn hidden" type="button" id="cart-eq" aria-pressed="false"><span class="eq-ic" aria-hidden="true"><svg viewBox="0 0 20 20" width="18" height="18"><line class="eq-ln" x1="1.5" x2="18.5" y1="9.5" y2="9.5"/><rect x="2.2" y="4" width="2.8" height="13" rx="1.2" style="--s:.42"/><rect x="6.6" y="4" width="2.8" height="13" rx="1.2" style="--s:1"/><rect x="11" y="4" width="2.8" height="13" rx="1.2" style="--s:.68"/><rect x="15.4" y="4" width="2.8" height="13" rx="1.2" style="--s:.26"/></svg></span><span class="eq-t"><b>Pesos iguais</b><small id="cart-eq-sub"></small></span></button>
             </div>
-            <div class="tools"><button class="mini hidden" type="button" id="cart-eq">Pesos iguais</button><button class="iconx" id="persp-close" type="button" aria-label="Fechar o Portfólio" title="Fechar o Portfólio"><svg width="12" height="12" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+            <div class="tools"><button class="iconx" id="persp-close" type="button" aria-label="Fechar o Portfólio" title="Fechar o Portfólio"><svg width="12" height="12" aria-hidden="true"><use href="#i-x"/></svg></button></div>
           </div>
           <div class="tbl" style="margin-top:2px"><table id="tb-persp"></table></div>
           <section class="fgc-painel" id="fgc-painel" aria-label="Cobertura do FGC" hidden></section>
@@ -2160,7 +2180,11 @@ function renderFichaRF() {
   const kv = el('div', 'rf-f-kv'); const linha = (k, v) => { const d = el('div'); d.append(document.createTextNode(k), el('b', null, v)); kv.append(d); };
   const pronto = ok && simPronto(); const M = venc ? mesesAte(venc) : null; const prazo = M ? (M >= 12 ? fmtNum(M / 12, M % 12 ? 1 : 0) + (M === 12 ? ' ano' : ' anos') : M + (M === 1 ? ' mês' : ' meses')) : null;
   linha('Vencimento', venc ? dBR(venc) + ' · ' + prazo : 'sem vencimento');
-  if (pronto) { const Mp = M || 12; const ix = idxRF(tipo, t, Mp); linha(M ? 'Até o vencimento' : 'Em 12 meses', pctSign(ix[Mp] - 1)); linha('Equivale a', fmtNum((Math.pow(ix[Mp], 12 / Mp) - 1) * 100, 2) + '% a.a.'); linha('R$ 10 mil viram', 'R$ ' + fmtNum(Math.round(10000 * ix[Mp]), 0)); }
+  let ixF = null, MpF = null;
+  if (pronto) { const Mp = M || 12; const ix = idxRF(tipo, t, Mp, venc || null); ixF = ix; MpF = Mp;
+    linha('Dias úteis', fmtNum(ix.du, 0) + (M ? '' : ' em 12 meses'));
+    if (tipo !== 'pre') linha((tipo === 'pcdi' ? 'CDI' : 'IPCA') + ' previsto, média', fmtNum(mediaTaxa(tipo === 'pcdi' ? 'cdi' : 'ipca', Mp), 2) + '% a.a.');
+    linha(M ? 'Até o vencimento' : 'Em 12 meses', pctSign(ix[Mp] - 1)); linha('Equivale a', fmtNum((Math.pow(ix[Mp], 252 / Math.max(1, ix.du)) - 1) * 100, 2) + '% a.a.'); linha('R$ 10 mil viram', 'R$ ' + fmtNum(Math.round(10000 * ix[Mp]), 0)); }
   f.append(kv);
   // FGC: papel coberto → quanto cabe neste título sem o saldo passar de R$ 250 mil; descontando o que a carteira já tem do mesmo emissor
   const fg = el('div', 'rf-f-fgc'); const tx = el('div');
@@ -2168,15 +2192,15 @@ function renderFichaRF() {
   else if (!FGC_COM.includes(papel)) { fg.classList.add('sem'); fg.append(icon('i-fgc-x', 18)); tx.append(el('b', null, papel + ' não tem garantia do FGC'), el('small', null, 'O risco é do emissor, sem o seguro de R$ 250 mil.')); }
   else if (!pronto) { fg.append(icon('i-fgc', 18)); tx.append(el('b', null, papel + ' tem garantia do FGC'), el('small', null, 'Até R$ 250 mil por CPF e conglomerado, com principal e rendimentos.')); }
   else {
-    const Mf = M || (S.sim.h || 120); const ix = idxRF(tipo, t, Mf); const cap = FGC_LIM / ix[Mf];
+    const Mf = M || (S.sim.h || 120); const ix = idxRF(tipo, t, Mf, venc || null); const cap = FGC_LIM / ix[Mf];
     let cabe = cap, ja = null;
     if (em.nome) { const R = fgcCalc(); const g = R.grupos.find(x => x.chave === em.chave); if (g && g.comValor) { ja = g.aplicado; let esp = Infinity; for (let k = 0; k <= Mf; k++) esp = Math.min(esp, (FGC_LIM - (g.B[k] || 0)) / ix[k]); cabe = esp; } }
     if (cabe < 0) fg.classList.add('over');
     fg.append(icon(cabe < 0 ? 'i-fgc-x' : 'i-fgc', 18));
-    tx.append(el('b', null, cabe < 0 ? 'Sem espaço no FGC deste emissor' : 'Cabem até ' + milR(cabe) + ' no FGC'), el('small', null, (ja ? 'A carteira já tem ' + milR(ja) + ' em ' + em.nome + '. ' : '') + 'Para o saldo, com rendimentos, não passar de R$ 250 mil ' + (M ? 'até o vencimento' : 'no horizonte de ' + simLbl(Mf)) + '.'));
+    tx.append(el('b', null, cabe < 0 ? 'Sem capacity no FGC deste emissor' : 'Capacity no FGC: ' + milR(cabe)), el('small', null, (ja ? 'A carteira já tem ' + milR(ja) + ' em ' + em.nome + '. ' : '') + 'Para o saldo, com rendimentos, não passar de R$ 250 mil ' + (M ? 'até o vencimento' : 'no horizonte de ' + simLbl(Mf)) + '.'));
   }
   fg.append(tx); f.append(fg);
-  if (pronto && tipo !== 'pre') f.append(el('div', 'rf-f-nota', (tipo === 'pcdi' ? 'CDI' : 'IPCA') + ' pelos patamares do simulador (média de ' + fmtNum(mediaTaxa(tipo === 'pcdi' ? 'cdi' : 'ipca', M || 12), 2) + '% a.a. no prazo).'));
+  if (ixF) f.append(el('div', 'rf-f-nota', tipo === 'pcdi' ? 'Conta diária: o CDI de cada mês vira taxa ao dia, (1 + CDI)^(1/252) − 1, multiplicada por ' + fmtNum(t, t % 1 ? 1 : 0) + '% e capitalizada em ' + fmtNum(ixF.du, 0) + ' dias úteis. CDI pelos patamares do simulador (Focus ou o que você editar).' : tipo === 'pre' ? 'Conta em dias úteis: (1 + taxa)^(' + fmtNum(ixF.du, 0) + '/252).' : 'Conta em dias úteis: IPCA previsto e juro fixo capitalizados em ' + fmtNum(ixF.du, 0) + ' dias úteis. IPCA pelos patamares do simulador.'));
 }
 function mediaTaxa(k, M) { const v = simRow(k).v; let a = 1; for (let i = 1; i <= M; i++) a *= 1 + mensal(nivelEm(v, i)); return (Math.pow(a, 12 / M) - 1) * 100; }
 // o campo "Emissor" guarda o nome do banco; o papel escolhido (CDB, LCI...) entra na frente no nome do ativo ("CDB BMG")
@@ -3321,7 +3345,9 @@ function renderCarteira() {
   const prontos = S.sel.filter(s => s.data);
   const cart = calcularCarteira();
   const itens = pesosAtuais();
-  $('cart-eq').classList.toggle('hidden', !S.persp || itens.length < 2 || pesosIguais());
+  { const eq = $('cart-eq'); const igual = itens.length >= 2 && pesosIguais(); eq.classList.toggle('hidden', !S.persp || itens.length < 2); eq.setAttribute('aria-pressed', igual ? 'true' : 'false');
+    const cada = itens.length ? fmtNum(100 / itens.length, (100 / itens.length) % 1 ? 1 : 0) + '%' : ''; $('cart-eq-sub').textContent = igual ? cada + ' em cada, aplicado' : cada + ' em cada ativo';
+    eq.title = igual ? 'Os pesos já estão iguais' : 'Distribui ' + cada + ' para cada um dos ' + itens.length + ' ativos e destrava todos'; }
   [...$('cart-mode').querySelectorAll('button')].forEach(x => x.setAttribute('aria-pressed', x.dataset.m === S.cart.modo ? 'true' : 'false'));
   atualizarLinhas(itens); renderFGC();
   const nota = $('cart-note');
@@ -3365,12 +3391,43 @@ const FGC_COM = ['CDB', 'RDB', 'LCI', 'LCA', 'LCD', 'LC', 'LH'];
 const RX_PAPEL = /^\s*(cdb|rdb|lci|lca|lcd|lc|lh|lfs|lf|lig|cri|cra|deb[êe]ntures?|dpge)\b\s*/i;
 function papelDe(txt) { const m = String(txt || '').match(RX_PAPEL); if (!m) return null; const p = norm(m[1]).toUpperCase(); return /^DEBENTURE/.test(p) ? 'Debênture' : p === 'LFS' ? 'LF' : p; }
 function emissorBase(txt) { const t = String(txt || '').replace(RX_PAPEL, '').trim(); const e = t ? emissorDe(t) : null; const nome = e ? e.nome : t; return { nome, chave: norm(nome), e }; }
-function mesesAte(venc) { const d = (new Date(venc + 'T00:00:00Z') - new Date(S.meta.referencia + 'T00:00:00Z')) / 86400000; return Math.max(1, Math.round(d / 30.4375)); }
+// meses do grid até o vencimento: o menor M em que a data da base + M meses alcança o vencimento (o último trecho termina no próprio vencimento)
+function mesesAte(venc) { const ref = S.meta.referencia; let m = 1; while (m < 720 && dataMais(ref, m) < venc) m++; return m; }
+// dias úteis pelo calendário nacional (fins de semana e feriados nacionais, como o calendário da ANBIMA): Páscoa pelo algoritmo de Meeus
+const _feriados = {}, _du = new Map();
+function feriadosAno(y) {
+  if (_feriados[y]) return _feriados[y];
+  const a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
+  const mes = Math.floor((h + l - 7 * m + 114) / 31), dia = ((h + l - 7 * m + 114) % 31) + 1; const pascoa = Date.UTC(y, mes - 1, dia), D = 86400000;
+  const set = new Set(['01-01', '04-21', '05-01', '09-07', '10-12', '11-02', '11-15', '12-25'].map(md => y + '-' + md)); if (y >= 2024) set.add(y + '-11-20');
+  [-48, -47, -2, 60].forEach(n => set.add(new Date(pascoa + n * D).toISOString().slice(0, 10)));   // carnaval (segunda e terça), sexta-feira santa, Corpus Christi
+  return (_feriados[y] = set);
+}
+// dias úteis no intervalo (d0, d1]
+function diasUteis(d0, d1) {
+  const ch = d0 + '|' + d1; if (_du.has(ch)) return _du.get(ch);
+  const D = 86400000; let t = Date.parse(d0 + 'T00:00:00Z'); const fim = Date.parse(d1 + 'T00:00:00Z'); let n = 0;
+  while ((t += D) <= fim) { const dt = new Date(t), wd = dt.getUTCDay(); if (wd === 0 || wd === 6) continue; if (feriadosAno(dt.getUTCFullYear()).has(dt.toISOString().slice(0, 10))) continue; n++; }
+  _du.set(ch, n); return n;
+}
 const milR = (v) => v == null || !isFinite(v) ? '–' : Math.abs(v) >= 1e6 ? 'R$ ' + fmtNum(v / 1e6, 2) + ' mi' : Math.abs(v) >= 1e4 ? 'R$ ' + fmtNum(Math.round(v / 1000), 0) + ' mil' : 'R$ ' + fmtNum(Math.round(v), 0);
 // patamares de CDI e IPCA do simulador prontos (sem abrir o Portfólio, usa o padrão: Focus ou o nível de hoje)
 function simPronto() { if (simRow('cdi').v[1] == null && S.prem && S.prem.cdi != null) simPadrao(false); return simRow('cdi').v[0] != null && simRow('ipca').v[0] != null; }
 // índice mês a mês de um título de renda fixa pelos patamares do simulador (mesma conta da projeção)
-function idxRF(tipo, taxa, M) { const rc = simRow('cdi').v, ri = simRow('ipca').v; const idx = [1]; for (let t = 1; t <= M; t++) { const r = tipo === 'pcdi' ? taxa / 100 * mensal(nivelEm(rc, t)) : tipo === 'pre' ? mensal(taxa) : (1 + mensal(nivelEm(ri, t))) * (1 + mensal(taxa)) - 1; idx.push(idx[t - 1] * (1 + r)); } return idx; }
+// em dias úteis, como o mercado conta: % do CDI = CDI do mês convertido em taxa diária, (1 + CDI)^(1/252) − 1, vezes o percentual,
+// capitalizado pelos dias úteis do mês; prefixado = (1 + taxa)^(du/252); IPCA+ = (1 + IPCA)^(du/252) × (1 + taxa)^(du/252).
+// idx[t] é o valor no fim do mês t (o último mês termina no vencimento, quando há); idx.du guarda o total de dias úteis.
+function idxRF(tipo, taxa, M, venc) {
+  const rc = simRow('cdi').v, ri = simRow('ipca').v, ref = S.meta.referencia; const idx = [1]; let duTot = 0, ant = ref;
+  for (let t = 1; t <= M; t++) {
+    const fimMes = t === M && venc ? venc : dataMais(ref, t); const du = diasUteis(ant, fimMes); ant = fimMes; duTot += du;
+    const f = tipo === 'pcdi' ? Math.pow(1 + taxa / 100 * (Math.pow(1 + nivelEm(rc, t) / 100, 1 / 252) - 1), du)
+      : tipo === 'pre' ? Math.pow(1 + taxa / 100, du / 252)
+      : Math.pow((1 + nivelEm(ri, t) / 100) * (1 + taxa / 100), du / 252);
+    idx.push(idx[t - 1] * f);
+  }
+  idx.du = duTot; return idx;
+}
 function fgcCalc() {
   const total = typeof lerTotal === 'function' ? lerTotal() : null; const H = S.sim.h || 120; const grupos = new Map(); const porKey = {};
   const prontos = S.sel.filter(x => x.data);
@@ -3379,7 +3436,7 @@ function fgcCalc() {
     if (!papel) { porKey[x.key] = { tipo: em.nome ? 'sempapel' : 'nada' }; return; }
     if (!FGC_COM.includes(papel)) { porKey[x.key] = { tipo: 'sem', papel }; return; }
     if (!em.nome) { porKey[x.key] = { tipo: 'semEmissor', papel }; return; }
-    const semVenc = !x.data.venc; const M = semVenc ? H : mesesAte(x.data.venc); const idx = idxRF(x.data.tipo, x.data.taxa, M);
+    const semVenc = !x.data.venc; const M = semVenc ? H : mesesAte(x.data.venc); const idx = idxRF(x.data.tipo, x.data.taxa, M, semVenc ? null : x.data.venc);
     const w = prontos.length === 1 ? 100 : S.cart.pesos[x.key]; const v = total && w != null ? total * w / 100 : null;
     const it = { tipo: 'fgc', s: x, papel, em, M, idx, semVenc, v, cap: FGC_LIM / idx[M] };
     if (!grupos.has(em.chave)) grupos.set(em.chave, { nome: em.nome, chave: em.chave, e: em.e, itens: [] }); grupos.get(em.chave).itens.push(it); porKey[x.key] = it;
@@ -3398,6 +3455,8 @@ function fgcCalc() {
   return { total, grupos: [...grupos.values()], porKey, coberto, H };
 }
 const quandoTxt = (it, H) => it.semVenc ? 'no horizonte de ' + simLbl(H) : 'no vencimento, ' + mesLbl(mesMais(S.meta.referencia, it.M));
+// data do saldo no medidor: o mês do vencimento (ou do fim do horizonte, quando o título não tem vencimento)
+const dataTxt = (it) => it.semVenc ? mesLbl(mesMais(S.meta.referencia, it.M)) + ' (horizonte)' : mesLbl(it.s.data.venc.slice(0, 7));
 // medidor na linha do título: barra do saldo do emissor (este título na cor dele, os outros hachurados) contra a marca de R$ 250 mil
 function fgcLinha(u, R, key) {
   const box = u.el; const it = R.porKey[key]; box.innerHTML = ''; box.className = 'fgc'; box.removeAttribute('title'); box.onclick = null; u.tr.classList.remove('fgc-over');
@@ -3406,7 +3465,7 @@ function fgcLinha(u, R, key) {
   if (it.tipo === 'sem') { box.classList.add('sem'); hd.append(icon('i-fgc-x', 13), el('span', null, it.papel + ' não tem garantia do FGC')); box.title = 'O FGC garante CDB, RDB, LCI, LCA, LCD, LC e LH. ' + it.papel + ' fica de fora.'; box.append(hd); return; }
   if (it.tipo !== 'fgc') { box.classList.add('info'); hd.append(icon('i-fgc', 13), el('span', null, it.tipo === 'sempapel' ? 'Informe o papel (CDB, LCI, LCA…) para conferir o FGC' : 'Informe o emissor para conferir o FGC')); box.append(hd); return; }
   const g = it.g; const quando = quandoTxt(it, R.H); const ft = el('div', 'ft');
-  if (it.v == null) { box.classList.add('cap'); hd.append(icon('i-fgc', 13), el('b', null, 'FGC'), el('span', 'em', 'cabem até ' + milR(it.cap))); ft.append(document.createTextNode('neste título para ficar em R$ 250 mil ' + quando + '. Informe o valor total para ver o uso.')); box.append(hd, ft); return; }
+  if (it.v == null) { box.classList.add('cap'); hd.append(icon('i-fgc', 13), el('b', null, 'FGC'), el('span', 'em', g.nome)); ft.append(document.createTextNode('capacity '), el('b', null, milR(it.cap)), document.createTextNode(' até ' + dataTxt(it))); box.title = 'Quanto cabe neste título para o saldo, com rendimentos, não passar de R$ 250 mil. Informe o valor total para ver o uso.'; box.append(hd, ft); return; }
   const est = g.estado; box.classList.add(est); if (est === 'over') u.tr.classList.add('fgc-over');
   hd.append(icon(est === 'over' ? 'i-fgc-x' : 'i-fgc', 13), el('b', null, 'FGC'), el('span', 'em', g.nome + (g.itens.length > 1 ? ' · ' + g.itens.length + ' títulos' : '')), el('span', 'pc', fmtNum(g.pico / FGC_LIM * 100, 0) + '%'));
   const esc = Math.max(FGC_LIM * 1.25, g.pico * 1.04); const pc = (v) => Math.max(0, Math.min(100, v / esc * 100)).toFixed(2) + '%';
@@ -3414,17 +3473,18 @@ function fgcLinha(u, R, key) {
   if (g.pico - it.noPico > 1) { const o = el('i', 'out'); o.style.left = pc(it.noPico); o.style.width = pc(g.pico - it.noPico); bar.append(o); }
   if (g.excesso > 0.5) { const x = el('i', 'ex'); x.style.left = pc(FGC_LIM); x.style.width = pc(g.excesso); bar.append(x); }
   const mk = el('u'); mk.style.left = pc(FGC_LIM); bar.append(mk);
+  // uma linha só: acima do limite, quanto passa (e o ajuste); dentro, o saldo na data e o capacity que ainda falta
+  ft.classList.add('linha');
   if (est === 'over') {
-    ft.append(document.createTextNode('Passa '), el('b', null, milR(g.excesso)), document.createTextNode(' do limite' + (g.tCruza > 0 ? ' a partir de ' + mesLbl(mesMais(S.meta.referencia, g.tCruza)) : ' desde a aplicação') + '.'));
-    const ac = el('div', 'acao'); const cabe = it.maxAqui; ac.append(el('span', 'ft', cabe > 0 ? 'Cabem até ' + milR(cabe) + ' neste título.' : 'Os outros títulos de ' + g.nome + ' já passam do limite.'));
-    const lin = cartUI.linhas[key]; const total = R.total;
-    if (lin && cabe > 0 && total) { const b = el('button', 'ajusta', 'Ajustar ao FGC'); b.type = 'button'; b.title = 'Reduz este título para ' + milR(cabe) + '; a diferença vai para o último ativo destravado'; b.addEventListener('click', (e) => { e.stopPropagation(); lin.aplicar(Math.max(0, Math.floor(cabe / total * 1000) / 10), true); }); ac.append(b); }
-    box.append(hd, bar, ft, ac);
+    ft.append(document.createTextNode('Passa '), el('b', null, milR(g.excesso)));
+    const cabe = it.maxAqui; const lin = cartUI.linhas[key]; const total = R.total;
+    if (lin && cabe > 0 && total) { const b = el('button', 'ajusta', 'Ajustar'); b.type = 'button'; b.title = 'Ajustar ao FGC: reduz este título para ' + milR(cabe) + '; a diferença vai para o último ativo destravado'; b.addEventListener('click', (e) => { e.stopPropagation(); lin.aplicar(Math.max(0, Math.floor(cabe / total * 1000) / 10), true); }); ft.append(b); }
+    box.append(hd, bar, ft);
   } else {
-    ft.append(el('b', null, milR(it.saldo)), document.createTextNode(' ' + quando + ' · espaço '), el('span', 'esp', milR(Math.max(0, it.espaco))));
+    ft.append(el('b', null, milR(it.saldo)), document.createTextNode(' em ' + dataTxt(it)), el('i', 'sep'), document.createTextNode('capacity '), el('span', 'esp', milR(Math.max(0, it.espaco))));
     box.append(hd, bar, ft);
   }
-  box.title = g.nome + ': saldo projetado do emissor, com principal e rendimentos, chega a ' + reais(g.pico) + (g.tPico ? ' em ' + mesLbl(mesMais(S.meta.referencia, g.tPico)) : '') + '. Limite do FGC: R$ 250.000 por CPF e conglomerado. Clique para ver o painel.';
+  box.title = g.nome + ': saldo projetado do emissor, com principal e rendimentos, chega a ' + reais(g.pico) + (g.tPico ? ' em ' + mesLbl(mesMais(S.meta.referencia, g.tPico)) : '') + (est === 'over' ? (g.tCruza > 0 ? ' e passa o limite a partir de ' + mesLbl(mesMais(S.meta.referencia, g.tCruza)) : ' e passa o limite desde a aplicação') + '. Cabem até ' + milR(Math.max(0, it.maxAqui)) + ' neste título' : '') + '. Limite do FGC: R$ 250.000 por CPF e conglomerado. Clique para ver o painel.';
   box.onclick = () => { const pn = $('fgc-painel'); const r = pn && pn.querySelector('.fp-row[data-em="' + CSS.escape(g.chave) + '"]'); if (r) { r.scrollIntoView({ behavior: 'smooth', block: 'center' }); r.classList.remove('flash'); void r.offsetWidth; r.classList.add('flash'); setTimeout(() => r.classList.remove('flash'), 1600); } };
 }
 // curva do saldo do emissor até o último vencimento, com a linha do limite e o ponto em que cruza
@@ -3467,7 +3527,7 @@ function fgcPainel(pn, R) {
     const lb = el('div', 'lb'); const l0 = el('span', null, 'R$ 0'); l0.style.left = '0'; const l1 = el('span', null, '250 mil'); l1.style.left = pc(FGC_LIM); lb.append(l0, l1); bw.append(tr, lb); r.append(bw);
     const cv = el('div', 'fp-cv'); cv.append(fgcCurva(g)); cv.title = 'Saldo do emissor mês a mês até ' + mesLbl(mesMais(S.meta.referencia, g.T)) + (g.tCruza > 0 ? '; passa o limite em ' + mesLbl(mesMais(S.meta.referencia, g.tCruza)) : ''); r.append(cv);
     const st = el('div', 'fp-st'); st.append(el('b', null, milR(g.pico)), el('small', null, 'pico ' + (g.tPico ? 'em ' + mesLbl(mesMais(S.meta.referencia, g.tPico)) : 'hoje')));
-    const chip = el('span', 'fp-chip', g.estado === 'over' ? 'passa ' + milR(g.excesso) : 'espaço ' + milR(Math.max(0, Math.min(...g.itens.map(i => i.espaco))))); chip.title = g.estado === 'over' ? 'Para caber: até ' + milR(g.cabe) + ' aplicados em ' + g.nome : 'Quanto ainda dá para aplicar em ' + g.nome + ' sem o saldo passar de R$ 250 mil'; st.append(chip); r.append(st);
+    const chip = el('span', 'fp-chip', g.estado === 'over' ? 'passa ' + milR(g.excesso) : 'capacity ' + milR(Math.max(0, Math.min(...g.itens.map(i => i.espaco))))); chip.title = g.estado === 'over' ? 'Para caber: até ' + milR(g.cabe) + ' aplicados em ' + g.nome : 'Quanto ainda dá para aplicar em ' + g.nome + ' sem o saldo passar de R$ 250 mil'; st.append(chip); r.append(st);
     lista.append(r);
   });
   pn.append(lista);
@@ -3511,7 +3571,7 @@ function focarCarteira(key, fixo) {
   document.querySelectorAll('#tb-persp .swapcell[data-key]').forEach(r => r.classList.toggle('dim', key != null && key !== '__cart' && r.dataset.key !== key));
 }
 $('cart-mode').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.cart.modo = b.dataset.m; gravarURL(); renderCarteira(); atualizarCarteiraVisual(); if (typeof atualizarCarteiraSim === 'function') atualizarCarteiraSim(); });
-$('cart-eq').addEventListener('click', () => { const prontos = S.sel.filter(s => s.data); S.cart.trava = {}; prontos.forEach(s => S.cart.pesos[s.key] = 100 / prontos.length); normalizarPesos(prontos); gravarURL(); renderCarteira(); atualizarCarteiraVisual(); if (typeof atualizarCarteiraSim === 'function') atualizarCarteiraSim(); });
+$('cart-eq').addEventListener('click', () => { if ($('cart-eq').getAttribute('aria-pressed') === 'true') return; const prontos = S.sel.filter(s => s.data); S.cart.trava = {}; prontos.forEach(s => S.cart.pesos[s.key] = 100 / prontos.length); normalizarPesos(prontos); gravarURL(); renderCarteira(); atualizarCarteiraVisual(); if (typeof atualizarCarteiraSim === 'function') atualizarCarteiraSim(); });
 
 window.__cmp = { S, sharesAtuais, minimoDe, cartUI, taxaDe, resgateDe, remover, adicionar, togglePersp, abrirPerfilKey: (k, key) => abrirPerfilKey(k, key), pickFil: () => PICK.fil };
 
@@ -4034,9 +4094,10 @@ function simularAtivo(s, H, ipcaDoc, imabDoc) {
   const out = { nome: f.nome, cor: s.cor, kind: s.kind, bm: bmDeSel(s), idx: [1], sigma: 0, texto: '', agio: {} };
   const acum = (fn) => { for (let t = 1; t <= H; t++) out.idx[t] = out.idx[t - 1] * (1 + fn(t)); };
   if (s.kind === 'rf') {
-    if (f.tipo === 'pcdi') { acum(t => f.taxa / 100 * cdi(t)); out.texto = fmtNum(f.taxa, 1) + '% do CDI, com o CDI indo de ' + nivTxt(rc, H) + '.'; }
-    else if (f.tipo === 'pre') { acum(() => mensal(f.taxa)); out.texto = 'Juro fixo de ' + fmtNum(f.taxa, 2) + '% a.a., sem marcação a mercado.'; }
-    else { acum(t => (1 + ipca(t)) * (1 + mensal(f.taxa)) - 1); out.texto = 'IPCA (' + nivTxt(ri, H) + ') mais ' + fmtNum(f.taxa, 2) + '% a.a.'; }
+    out.idx = idxRF(f.tipo, f.taxa, H, null); delete out.idx.du;
+    if (f.tipo === 'pcdi') out.texto = fmtNum(f.taxa, 1) + '% do CDI diário (taxa ao ano convertida por 252 dias úteis), com o CDI indo de ' + nivTxt(rc, H) + '.';
+    else if (f.tipo === 'pre') out.texto = 'Juro fixo de ' + fmtNum(f.taxa, 2) + '% a.a. sobre 252 dias úteis, sem marcação a mercado.';
+    else out.texto = 'IPCA (' + nivTxt(ri, H) + ') mais ' + fmtNum(f.taxa, 2) + '% a.a., em dias úteis.';
     return out;
   }
   const mj = janelaBase(f); const j = mj ? mj.j : null;
