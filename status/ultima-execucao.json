@@ -1,9 +1,9 @@
 {
-  "referencia": "2026-11-03",
-  "gerado": "2026-11-05T20:51:43Z",
-  "fundos_publicados": 10202,
-  "fundos_na_matriz": 16447,
-  "fundos_xp": 1010,
+  "referencia": "2026-11-04",
+  "gerado": "2026-11-06T20:12:21Z",
+  "fundos_publicados": 10217,
+  "fundos_na_matriz": 16457,
+  "fundos_xp": 1009,
   "benchmarks": [
     "ipca",
     "ipca6",
@@ -32,13 +32,13 @@
     "^BVSP",
     "URTH"
   ],
-  "acoes": 1057,
-  "bdrs": 463,
-  "fiis": 278,
-  "descartados_parados": 452,
-  "descartados_poucos_cotistas": 5769,
-  "descartados_historico_curto": 24,
-  "dias_calendario": 2573,
+  "acoes": 1056,
+  "bdrs": 465,
+  "fiis": 276,
+  "descartados_parados": 437,
+  "descartados_poucos_cotistas": 5770,
+  "descartados_historico_curto": 33,
+  "dias_calendario": 2574,
   "meses_processados": [
     "201609",
     "201610",
@@ -166,7 +166,8 @@
   ],
   "avisos": [
     "CDI sem valor em 21 dias do calendário (tratados como 0)",
+    "Tesouro Direto: o arquivo do Tesouro Transparente parou em 27/10/2026",
     "ações: 33 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 967
+  "duracao_s": 1014
 }
