@@ -42,7 +42,7 @@ Saída do pipeline (`dist/data/`):
 | `perfis/fundos/<cnpj>.json` | por fundo: estratégia, equipe, gestores, categorias, vídeo, atribuição de performance e posicionamento atual |
 | `emissores.json` | catálogo de emissores de renda fixa com o slug do ícone em `logos/` |
 | `status.json` | contagens e avisos da execução |
-| `resultados/<ticker>.json` | post diário de resultados da Maison Invest (uma ação por arquivo, no formato do template do carrossel): série dos 16 últimos trimestres em R$ bilhões (receita, EBITDA e lucro do trimestre; PL, dívida bruta e ativo total no fim do trimestre), P/VP, P/L e EV/EBITDA com a data da cotação, destaque da capa, data de entrega do ITR/DFP à CVM e as linhas de fonte |
+| `resultados/<ticker>.json` | post diário de resultados da Maison Invest (uma ação por arquivo, no formato do template do carrossel): série dos 16 últimos trimestres em R$ bilhões (receita, EBITDA e lucro do trimestre; PL, dívida bruta e ativo total no fim do trimestre), P/VP, P/L e EV/EBITDA com a data da cotação, `historico` (preço sem proventos ajustado por desdobramentos, P/VP e EV/EBITDA hoje e 12, 24 e 36 meses antes; os múltiplos passados usam o balanço do mesmo trimestre de cada ano e o número de ações atual), destaque da capa, data de entrega do ITR/DFP à CVM e as linhas de fonte |
 | `resultados/index.json` | uma linha por ação com JSON de resultados: período, documento (ITR/DFP), data de entrega à CVM (primeira versão e a mais recente), valor de mercado e liquidez, da entrega mais recente para a mais antiga |
 
 Métricas por janela: rentabilidade acumulada, CDI no mesmo período e % do CDI, volatilidade anualizada,

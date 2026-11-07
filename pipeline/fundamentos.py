@@ -298,7 +298,7 @@ def _serie(d: dict, fim: str, e_fin: bool, lc: str) -> dict:
     """Série dos TRIMESTRES_SERIE trimestres até `fim`: receita, EBITDA e lucro do trimestre; PL, dívida bruta e ativo
     total no fim do trimestre. Bancos e seguradoras sem receita, EBITDA e dívida (planos de contas diferentes)."""
     datas = _datas_trimestres(fim, TRIMESTRES_SERIE + 1)   # +1: o trimestre anterior ao primeiro, para a diferença
-    s: dict = {"datas": datas[1:], "receita": [], "ebitda": [], "lucro": [], "pl": [], "divida": [], "ativo": []}
+    s: dict = {"datas": datas[1:], "receita": [], "ebitda": [], "lucro": [], "pl": [], "divida": [], "caixa": [], "ativo": []}
     for tp, t in zip(datas[:-1], datas[1:]):
         eb, da = _no_trimestre(d, t, tp, "ebit"), _no_trimestre(d, t, tp, "da")
         lq = _no_trimestre(d, t, tp, lc)
@@ -312,6 +312,8 @@ def _serie(d: dict, fim: str, e_fin: bool, lc: str) -> dict:
         s["pl"].append(pl)
         # como no comparador, sem a conta de empréstimos a dívida é zero (quando há balanço no trimestre)
         s["divida"].append(None if e_fin or pl is None else (dc or 0.0) + (dn or 0.0))
+        cx, ap = _val(d, t, "caixa"), _val(d, t, "aplic")
+        s["caixa"].append(None if e_fin or pl is None else (cx or 0.0) + (ap or 0.0))
         s["ativo"].append(_val(d, t, "ativo"))
     return s
 
@@ -399,7 +401,7 @@ def _serie_sintetica(k: int, pl: float, e_fin: bool, fim: str) -> dict:
     """Série fictícia de 16 trimestres que termina nos valores atuais do sintético; a companhia k % 7 == 3 sai de
     prejuízo para lucro (exercita o n.m. do post)."""
     n = TRIMESTRES_SERIE
-    s: dict = {"datas": _datas_trimestres(fim, n), "receita": [], "ebitda": [], "lucro": [], "pl": [], "divida": [], "ativo": []}
+    s: dict = {"datas": _datas_trimestres(fim, n), "receita": [], "ebitda": [], "lucro": [], "pl": [], "divida": [], "caixa": [], "ativo": []}
     for j in range(n):
         f = (1 + 0.02 * (1 + k % 3)) ** (j - (n - 1))
         saz = 1 + 0.04 * ((j % 4) - 1.5) / 1.5
@@ -408,6 +410,7 @@ def _serie_sintetica(k: int, pl: float, e_fin: bool, fim: str) -> dict:
         s["lucro"].append(0.12 * pl / 4 * f * saz - (0.06 * pl if k % 7 == 3 and j < 7 else 0.0))
         s["pl"].append(pl * f ** 0.5)
         s["divida"].append(None if e_fin else 0.6 * pl * (1 - 0.01 * (n - 1 - j)))
+        s["caixa"].append(None if e_fin else 0.25 * pl)
         s["ativo"].append(3.2 * pl * f ** 0.4)
     return s
 
@@ -466,7 +469,8 @@ def _por_extenso(v: float) -> str:
     return f"R$ {a:,.0f}".replace(",", ".")
 
 
-def doc_resultado(ticker: str, nome: str, setor: str | None, cvm: int | None, f: dict | None, ind: dict, mcap: float | None, data_cotacao: str) -> dict | None:
+def doc_resultado(ticker: str, nome: str, setor: str | None, cvm: int | None, f: dict | None, ind: dict, mcap: float | None, data_cotacao: str,
+                  hist: dict | None = None) -> dict | None:
     """JSON de uma companhia no formato do template do carrossel (valores em bilhões de reais; série de 16 trimestres)."""
     s = (f or {}).get("serie")
     if not s or s["pl"][-1] is None:
@@ -498,4 +502,6 @@ def doc_resultado(ticker: str, nome: str, setor: str | None, cvm: int | None, f:
         "fontes": {"demonstracoes": fonte_dem,
                    "multiplos": f"Cálculo Maison Hub com a cotação de fechamento na B3 em {_dmy(data_cotacao)} e as demonstrações entregues à CVM"},
         "entrega": {"primeira": ent[0], "ultima": ent[1], "versao": ent[2], "doc": doc},
+        # hoje e 12, 24 e 36 meses antes: preço (sem proventos, ajustado por desdobramentos), P/VP e EV/EBITDA
+        "historico": hist,
     }
