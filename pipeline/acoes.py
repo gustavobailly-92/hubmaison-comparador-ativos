@@ -711,7 +711,7 @@ def carregar_acoes(datas: list[date], hoje: date, offline: str | None, cache: st
     q e qp (np.array no calendário: com e sem proventos reinvestidos)."""
     if offline:
         out = _sinteticas(datas)
-        _fundamentos_sinteticos(out, hoje)
+        _fundamentos_sinteticos(out, hoje, datas)
         return out, {"pregoes": len(datas), "ultimo_pregao": datas[-1].isoformat(), "papeis_no_arquivo": 13, "fonte": "sintético"}
     pasta = os.path.join(cache, "acoes")
     os.makedirs(pasta, exist_ok=True)
@@ -828,7 +828,7 @@ def carregar_acoes(datas: list[date], hoje: date, offline: str | None, cache: st
         avisos.append(f"ações: {n_sem_evento} papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)")
     # fundamentos das companhias (ITR/DFP da CVM) e indicadores de valuation por papel
     try:
-        aplicar_fundamentos(out, emissores, hoje, cache, avisos)
+        aplicar_fundamentos(out, emissores, hoje, cache, avisos, datas=datas)
     except Exception as e:  # noqa: BLE001
         avisos.append(f"fundamentos (CVM): {e}")
     info["fonte"] = "B3 COTAHIST + eventos B3 + CVM (FII, ITR/DFP)"
@@ -853,7 +853,70 @@ def _fund_fii(dy: dict | None, vp: dict | None, preco: float | None, hoje: date)
     return out
 
 
-def aplicar_fundamentos(papeis: list[dict], emissores: dict[str, dict | None], hoje: date, cache: str, avisos: list[str], offline: bool = False) -> None:
+def _valor_mercado(p_on, p_pn, n_on: float, n_pn: float, n_tot: float) -> float | None:
+    """Ações ON × preço da ON + ações PN × preço da PN; com uma classe só negociada, ela precifica as duas."""
+    if not (p_on or p_pn):
+        return None
+    if n_on or n_pn:
+        return n_on * (p_on or p_pn) + n_pn * (p_pn or p_on)
+    return n_tot * (p_on or p_pn) if n_tot else None
+
+
+def _meses_antes(d: date, meses: int) -> date:
+    import calendar
+    t = d.year * 12 + d.month - 1 - meses
+    y, m = divmod(t, 12)
+    return date(y, m + 1, min(d.day, calendar.monthrange(y, m + 1)[1]))
+
+
+MESES_HIST = 36   # janela do histórico de preço e múltiplos do post de resultados (mês a mês)
+
+
+def _historico_multiplos(lista: list[dict], f: dict | None, ind: dict, acoes_n: tuple, datas: list[date]) -> dict | None:
+    """Preço, P/VP e EV/EBITDA mês a mês nos últimos 36 meses (37 pontos, do mais antigo a hoje; 12, 24 e 36 meses antes
+    caem nos índices 24, 12 e 0). O preço é o fechamento sem proventos, ajustado por desdobramentos (base de ações de hoje),
+    no último pregão até a data; o valor de mercado passado usa o número de ações atual (não capta emissões e recompras).
+    Em cada data vale o balanço do último trimestre que, com a mesma defasagem de hoje entre o fim do trimestre e a cotação,
+    já estaria divulgado: 12, 24 e 36 meses antes usam o mesmo trimestre de cada ano do último divulgado. Hoje = os
+    múltiplos do comparador."""
+    s = (f or {}).get("serie")
+    if not s or not datas or not f.get("dt"):
+        return None
+    from datetime import timedelta
+    on = next((p for p in lista if p["especi"] == "ON"), None)
+    pn = next((p for p in lista if p["especi"].startswith("PN")), None)
+    ref = datas[-1]
+    lag = (ref - date.fromisoformat(f["dt"])).days
+    publ = [date.fromisoformat(x) + timedelta(days=lag - 2) for x in s["datas"]]   # 2 dias de folga (anos bissextos)
+    idx, pvp, eve, quando = [], [], [], []
+    for m in range(MESES_HIST, -1, -1):
+        t = _meses_antes(ref, m) if m else ref
+        i = len(datas) - 1 if m == 0 else bisect.bisect_right(datas, t) - 1
+        if i < 0:
+            idx.append(None); pvp.append(None); eve.append(None); quando.append(t.isoformat())
+            continue
+        idx.append(i)
+        quando.append(datas[i].isoformat())
+        if m == 0:
+            pvp.append(ind.get("pvpa")); eve.append(ind.get("ev_ebitda"))
+            continue
+        pr = lambda p: None if p is None or np.isnan(p["qp"][i]) else float(p["qp"][i])  # noqa: E731
+        mcap = _valor_mercado(pr(on), pr(pn), *acoes_n)
+        j = bisect.bisect_right(publ, datas[i]) - 1
+        pl = s["pl"][j] if j >= 0 else None
+        pvp.append(round(mcap / pl, 2) if mcap and pl and pl > 0 else None)
+        eb = s["ebitda"][j - 3:j + 1] if j >= 3 else []
+        eb12 = sum(eb) if len(eb) == 4 and all(x is not None for x in eb) else None
+        div, cx = (s["divida"][j], s["caixa"][j]) if j >= 0 else (None, None)
+        if mcap and eb12 and eb12 > 0 and div is not None and not f.get("fin"):
+            eve.append(round((mcap + div - (cx or 0.0)) / eb12, 2))
+        else:
+            eve.append(None)
+    return {"datas": quando, "pvp": pvp, "ev_ebitda": eve, "_idx": idx}
+
+
+def aplicar_fundamentos(papeis: list[dict], emissores: dict[str, dict | None], hoje: date, cache: str, avisos: list[str], offline: bool = False,
+                        datas: list[date] | None = None) -> None:
     """Ações: P/VPA, EV/EBITDA e crescimentos de PL, EBITDA e receita (12/24/36 m) pelas demonstrações da CVM.
     Valor de mercado = ações ON × preço da ON + ações PN × preço da PN (número de ações pela B3); quando só uma classe
     é negociada, o total de ações vale pelo preço dela. BDRs e units sem ON/PN negociadas ficam sem indicadores."""
@@ -880,17 +943,20 @@ def aplicar_fundamentos(papeis: list[dict], emissores: dict[str, dict | None], h
         p_on = next((p["preco"] for p in lista if p["especi"] == "ON"), None)
         p_pn = next((p["preco"] for p in lista if p["especi"].startswith("PN")), None)
         n_on, n_pn, n_tot = ac.get("on") or 0.0, ac.get("pn") or 0.0, ac.get("total") or 0.0
-        mcap = None
-        if p_on or p_pn:
-            if n_on or n_pn:
-                mcap = n_on * (p_on or p_pn) + n_pn * (p_pn or p_on)
-            elif n_tot:
-                mcap = n_tot * (p_on or p_pn)
+        mcap = _valor_mercado(p_on, p_pn, n_on, n_pn, n_tot)
         ind = fd.indicadores(f, mcap)
         if mcap:
             ind["mcap"] = round(mcap)
+        hist = _historico_multiplos(lista, f, ind, (n_on, n_pn, n_tot), datas) if datas else None
         for p in lista:
             p["fund"] = ind
+            # para o JSON do post de resultados (build_data grava em resultados/): companhia, fundamentos, valor de
+            # mercado e o histórico de múltiplos, com o preço deste papel
+            h = None
+            if hist:
+                h = {**hist, "preco": [None if i is None or np.isnan(p["qp"][i]) else round(float(p["qp"][i]), 2) for i in hist["_idx"]]}
+                h.pop("_idx")
+            p["_res"] = (cvm, f, mcap, h)
             n += 1
     log(f"  fundamentos: {n} papéis com indicadores ({len(fund)} companhias)")
 
@@ -932,7 +998,7 @@ def _sinteticas(datas: list[date]) -> list[dict]:
     return out
 
 
-def _fundamentos_sinteticos(papeis: list[dict], hoje: date) -> None:
+def _fundamentos_sinteticos(papeis: list[dict], hoje: date, datas: list[date] | None = None) -> None:
     """Base de teste: indicadores fictícios pelo mesmo caminho da base real (emissores sintéticos + fundamentos.sintetico)."""
     emissores: dict[str, dict] = {}
     for k, p in enumerate(papeis):
@@ -953,7 +1019,7 @@ def _fundamentos_sinteticos(papeis: list[dict], hoje: date) -> None:
     for cod, ev in emissores.items():
         if cod == "TAEE":
             ev["acoes"] = {"on": 0.0, "pn": 0.0, "total": 1.0e9}
-    aplicar_fundamentos(papeis, emissores, hoje, "", [], offline=True)
+    aplicar_fundamentos(papeis, emissores, hoje, "", [], offline=True, datas=datas)
 
 
 def premio_sobre(janelas_ativo: dict, janelas_bench: dict) -> tuple[float | None, int | None]:
