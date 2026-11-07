@@ -91,6 +91,21 @@ jobs:
           ls dist/data/fundos | wc -l
           ls dist/data/acoes | wc -l
 
+      # JSONs do post diário de resultados (um por ação + index.json) numa branch própria, sobrescrita a cada execução:
+      # quem não alcança o GitHub Pages lê pelo git (git clone --depth 1 --branch resultados ...). Falhar aqui não impede a publicação.
+      - name: Publicar a branch resultados
+        continue-on-error: true
+        run: |
+          [ -f dist/data/resultados/index.json ] || { echo "sem resultados nesta execução"; exit 0; }
+          rm -rf /tmp/resultados && mkdir -p /tmp/resultados && cp -r dist/data/resultados/. /tmp/resultados/
+          cd /tmp/resultados
+          git init -q -b resultados
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "resultados: execução ${{ github.run_id }}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" HEAD:resultados
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

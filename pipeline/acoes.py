@@ -891,6 +891,7 @@ def aplicar_fundamentos(papeis: list[dict], emissores: dict[str, dict | None], h
             ind["mcap"] = round(mcap)
         for p in lista:
             p["fund"] = ind
+            p["_res"] = (cvm, f, mcap)   # para o JSON do post de resultados (build_data grava em resultados/)
             n += 1
     log(f"  fundamentos: {n} papéis com indicadores ({len(fund)} companhias)")
 

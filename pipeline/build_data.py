@@ -35,6 +35,7 @@ import pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fontes_extras as fx  # noqa: E402
 import acoes as ac  # noqa: E402
+import fundamentos as fd  # noqa: E402
 
 CVM_INF = "https://dados.cvm.gov.br/dados/FI/DOC/INF_DIARIO/DADOS/"
 CVM_CAD = "https://dados.cvm.gov.br/dados/FI/CAD/DADOS/cad_fi.csv"
@@ -729,7 +730,7 @@ def main() -> int:
 
     hoje = date.fromisoformat(args.hoje) if args.hoje else date.today()
     os.makedirs(args.out, exist_ok=True)
-    for sub in ("fundos", "bench", "tesouro", "hist", "acoes"):
+    for sub in ("fundos", "bench", "tesouro", "hist", "acoes", "resultados"):
         os.makedirs(os.path.join(args.out, sub), exist_ok=True)
     os.makedirs(args.cache, exist_ok=True)
     avisos: list[str] = []
@@ -1139,8 +1140,9 @@ def main() -> int:
             avisos.append(f"ações e BDRs falharam: {e}")
             papeis = []
         n_bdr = n_fii = 0
+        res_indice = []   # post diário de resultados: um JSON por ação em resultados/ e o índice com a data de entrega à CVM
         for p in papeis:
-            extra = {k: v for k, v in p.items() if k not in ("q", "qp", "sessoes", "possiveis")}
+            extra = {k: v for k, v in p.items() if k not in ("q", "qp", "sessoes", "possiveis", "_res")}
             d = doc_serie(p["q"], extra)
             if not d:
                 continue
@@ -1169,6 +1171,16 @@ def main() -> int:
                                g("g_rec", 0), g("g_rec", 1), g("g_rec", 2), 1 if f.get("fin") else 0, f.get("dt_fund"),
                                # classificação setorial (B3) nas ações; segmento de atuação nos FIIs (B3, CVM ou pelo nome)
                                p.get("setor"), p.get("subsetor"), p.get("seg")])
+            if p.get("_res"):
+                cvm_r, f_r, mcap_r = p["_res"]
+                r = fd.doc_resultado(p["ticker"], p["nome"], p.get("setor"), cvm_r, f_r, f, mcap_r, d["ate"])
+                if r:
+                    with open(os.path.join(args.out, "resultados", f"{p['ticker']}.json"), "w", encoding="utf-8") as fh:
+                        json.dump(r, fh, ensure_ascii=False, separators=(",", ":"))
+                    e = r["entrega"]
+                    res_indice.append({"ticker": p["ticker"], "empresa": r["empresa"], "cvm": cvm_r, "setor": r["setor"], "periodo": r["periodo"],
+                                       "dt": (f_r or {}).get("dt"), "doc": e["doc"], "entrega": e["primeira"], "ultima": e["ultima"], "versao": e["versao"],
+                                       "valor_mercado": r["multiplos"]["valor_mercado"], "liq": round(p["liq"]), "financeira": r["financeira"]})
             if p["tipo"] == "bdr":
                 n_bdr += 1
             elif p["tipo"] == "fii":
@@ -1179,6 +1191,11 @@ def main() -> int:
                                    "dy12", "pvp", "pvpa", "ev_ebitda", "g_pl12", "g_pl24", "g_pl36", "g_eb12", "g_eb24", "g_eb36",
                                    "g_rec12", "g_rec24", "g_rec36", "fin", "dt_fund", "setor", "subsetor", "seg"],
                        "acoes": acoes_rows, "info": acoes_info}, fh, ensure_ascii=False, separators=(",", ":"))
+        res_indice.sort(key=lambda x: (x["entrega"] or "", x["valor_mercado"] or 0), reverse=True)
+        with open(os.path.join(args.out, "resultados", "index.json"), "w", encoding="utf-8") as fh:
+            json.dump({"gerado": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"), "referencia": hoje.isoformat(), "companhias": res_indice},
+                      fh, ensure_ascii=False, separators=(",", ":"))
+        log(f"  resultados: {len(res_indice)} papéis com o JSON do post ({sum(1 for x in res_indice if x['entrega'])} com data de entrega à CVM)")
         n_fund = sum(1 for r in acoes_rows if r[18] is not None or r[20] is not None or r[22] is not None)
         n_setor = sum(1 for r in acoes_rows if r[33] is not None)
         log(f"  {len(acoes_rows)} papéis publicados ({len(acoes_rows) - n_bdr - n_fii} ações, {n_bdr} BDRs, {n_fii} FIIs); {n_fund} com fundamentos, {n_setor} com setor")
