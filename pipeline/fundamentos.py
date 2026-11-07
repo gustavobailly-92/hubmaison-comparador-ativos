@@ -498,10 +498,11 @@ def doc_resultado(ticker: str, nome: str, setor: str | None, cvm: int | None, f:
                   "divida": bi(s["divida"]), "ativos": bi(s["ativo"])},
         "lucro_base": f.get("lucro_base"),
         "multiplos": {"pvp": ind.get("pvpa"), "pl": ind.get("p_l"), "ev_ebitda": ind.get("ev_ebitda"), "data_cotacao": data_cotacao,
-                      "fonte": "Comparador de Ativos Maison Hub", "valor_mercado": round(mcap) if mcap else None},
+                      "fonte": "B3 e CVM", "valor_mercado": round(mcap) if mcap else None},
         "fontes": {"demonstracoes": fonte_dem,
-                   "multiplos": f"Cálculo Maison Hub com a cotação de fechamento na B3 em {_dmy(data_cotacao)} e as demonstrações entregues à CVM"},
+                   "multiplos": f"Cálculo com a cotação de fechamento na B3 em {_dmy(data_cotacao)} e as demonstrações entregues à CVM"},
         "entrega": {"primeira": ent[0], "ultima": ent[1], "versao": ent[2], "doc": doc},
-        # hoje e 12, 24 e 36 meses antes: preço (sem proventos, ajustado por desdobramentos), P/VP e EV/EBITDA
+        # mês a mês nos últimos 36 meses (37 pontos; 12, 24 e 36 meses antes nos índices 24, 12 e 0): preço (sem proventos,
+        # ajustado por desdobramentos), P/VP e EV/EBITDA
         "historico": hist,
     }

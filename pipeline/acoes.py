@@ -862,42 +862,52 @@ def _valor_mercado(p_on, p_pn, n_on: float, n_pn: float, n_tot: float) -> float 
     return n_tot * (p_on or p_pn) if n_tot else None
 
 
-def _anos_antes(d: date, anos: int) -> date:
+def _meses_antes(d: date, meses: int) -> date:
     import calendar
-    return date(d.year - anos, d.month, min(d.day, calendar.monthrange(d.year - anos, d.month)[1]))
+    t = d.year * 12 + d.month - 1 - meses
+    y, m = divmod(t, 12)
+    return date(y, m + 1, min(d.day, calendar.monthrange(y, m + 1)[1]))
+
+
+MESES_HIST = 36   # janela do histórico de preço e múltiplos do post de resultados (mês a mês)
 
 
 def _historico_multiplos(lista: list[dict], f: dict | None, ind: dict, acoes_n: tuple, datas: list[date]) -> dict | None:
-    """Hoje e 12, 24 e 36 meses antes: P/VP e EV/EBITDA da companhia. O preço é o fechamento sem proventos, ajustado por
-    desdobramentos (base de ações de hoje), no último pregão até a data; o valor de mercado passado usa o número de ações
-    atual (não capta emissões e recompras). PL, dívida, caixa e EBITDA de 12 meses vêm do mesmo trimestre 1, 2 e 3 anos
-    antes do último divulgado. Hoje = os múltiplos do comparador."""
+    """Preço, P/VP e EV/EBITDA mês a mês nos últimos 36 meses (37 pontos, do mais antigo a hoje; 12, 24 e 36 meses antes
+    caem nos índices 24, 12 e 0). O preço é o fechamento sem proventos, ajustado por desdobramentos (base de ações de hoje),
+    no último pregão até a data; o valor de mercado passado usa o número de ações atual (não capta emissões e recompras).
+    Em cada data vale o balanço do último trimestre que, com a mesma defasagem de hoje entre o fim do trimestre e a cotação,
+    já estaria divulgado: 12, 24 e 36 meses antes usam o mesmo trimestre de cada ano do último divulgado. Hoje = os
+    múltiplos do comparador."""
     s = (f or {}).get("serie")
-    if not s or not datas:
+    if not s or not datas or not f.get("dt"):
         return None
-    n = len(s["pl"]) - 1
+    from datetime import timedelta
     on = next((p for p in lista if p["especi"] == "ON"), None)
     pn = next((p for p in lista if p["especi"].startswith("PN")), None)
     ref = datas[-1]
+    lag = (ref - date.fromisoformat(f["dt"])).days
+    publ = [date.fromisoformat(x) + timedelta(days=lag - 2) for x in s["datas"]]   # 2 dias de folga (anos bissextos)
     idx, pvp, eve, quando = [], [], [], []
-    for k in range(4):
-        i = len(datas) - 1 if k == 0 else bisect.bisect_right(datas, _anos_antes(ref, k)) - 1
+    for m in range(MESES_HIST, -1, -1):
+        t = _meses_antes(ref, m) if m else ref
+        i = len(datas) - 1 if m == 0 else bisect.bisect_right(datas, t) - 1
         if i < 0:
-            idx.append(None); pvp.append(None); eve.append(None); quando.append(None)
+            idx.append(None); pvp.append(None); eve.append(None); quando.append(t.isoformat())
             continue
         idx.append(i)
         quando.append(datas[i].isoformat())
-        if k == 0:
+        if m == 0:
             pvp.append(ind.get("pvpa")); eve.append(ind.get("ev_ebitda"))
             continue
         pr = lambda p: None if p is None or np.isnan(p["qp"][i]) else float(p["qp"][i])  # noqa: E731
         mcap = _valor_mercado(pr(on), pr(pn), *acoes_n)
-        j = n - 4 * k
+        j = bisect.bisect_right(publ, datas[i]) - 1
         pl = s["pl"][j] if j >= 0 else None
         pvp.append(round(mcap / pl, 2) if mcap and pl and pl > 0 else None)
         eb = s["ebitda"][j - 3:j + 1] if j >= 3 else []
         eb12 = sum(eb) if len(eb) == 4 and all(x is not None for x in eb) else None
-        div, cx = (s["divida"][j], s.get("caixa", [None] * (n + 1))[j]) if j >= 0 else (None, None)
+        div, cx = (s["divida"][j], s["caixa"][j]) if j >= 0 else (None, None)
         if mcap and eb12 and eb12 > 0 and div is not None and not f.get("fin"):
             eve.append(round((mcap + div - (cx or 0.0)) / eb12, 2))
         else:
