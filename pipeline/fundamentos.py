@@ -18,7 +18,7 @@ Com isso, o acumulado de 12 meses (LTM) em um trimestre = YTD do trimestre + ano
 trimestre do ano anterior; EBITDA = EBIT + D&A. Os crescimentos comparam o LTM (ou o PL) mais recente com o de 4, 8 e
 12 trimestres antes. Bancos e seguradoras (receita de intermediação financeira ou de seguros na DRE, ou PL fora da conta 2.03)
 ficam só com o PL e o seu crescimento.
-Para o post diário de resultados (doc_resultado), cada companhia leva também a série dos 16 últimos trimestres (valor do
+Para o post diário de resultados (doc_resultado), cada companhia leva também a série dos 17 últimos trimestres (valor do
 trimestre de receita, EBITDA e lucro; PL, dívida e ativo no fim do trimestre), o P/L e a data em que a CVM recebeu o ITR/DFP.
 """
 from __future__ import annotations
@@ -46,7 +46,8 @@ DIAS_CACHE_CORRENTE = 1     # o extrato do ano corrente é renovado a cada execu
 DIAS_CACHE_FECHADO = 90     # anos fechados: a CVM regera os ZIPs antigos com reapresentações; um refresh por trimestre basta
 EXTRATO_VERSAO = 3          # formato do extrato em cache; muda quando a leitura das contas muda (2 = contas confirmadas pelo nome;
                             # 3 = lucro, ativo total e a data de recebimento de cada documento)
-TRIMESTRES_SERIE = 16       # trimestres na série do post de resultados (36 meses de variação + 3 de folga para o acumulado)
+TRIMESTRES_SERIE = 17       # trimestres na série do post de resultados: 13 nas barras (36 meses) + 4 para a variação de 12 meses
+                            # da primeira barra e para o acumulado de 12 meses 36 meses antes
 # (campo, código da conta, começo do nome normalizado): o nome confirma a conta, porque bancos e seguradoras usam outro
 # plano no balanço (PL em 2.07 ou 2.08; 2.02.01 = Depósitos; 2.01.04 = Capitalização) e outro na DRE (3.05 = resultado
 # antes dos tributos). O PL é reconhecido pelo nome em qualquer conta de segundo nível.
@@ -321,7 +322,7 @@ def _serie(d: dict, fim: str, e_fin: bool, lc: str) -> dict:
 def calcular(dados_cvm: dict, fin: dict, hoje: date, receb: dict | None = None) -> dict[int, dict]:
     """Por código CVM: o último trimestre com DRE, PL/dívida/caixa desse trimestre, LTM de receita e EBITDA, e os
     crescimentos de 12/24/36 meses. Consolidado quando existe; individual como reserva. Para o post de resultados:
-    a série de 16 trimestres, o lucro de 12 meses (P/L) e a data de entrega do documento à CVM."""
+    a série de 17 trimestres, o lucro de 12 meses (P/L) e a data de entrega do documento à CVM."""
     out: dict[int, dict] = {}
     cvms = {k[0] for k in dados_cvm}
     for cvm in cvms:
@@ -398,7 +399,7 @@ def carregar(cvms: set[int], hoje: date, cache: str, avisos: list[str]) -> dict[
 
 
 def _serie_sintetica(k: int, pl: float, e_fin: bool, fim: str) -> dict:
-    """Série fictícia de 16 trimestres que termina nos valores atuais do sintético; a companhia k % 7 == 3 sai de
+    """Série fictícia de 17 trimestres que termina nos valores atuais do sintético; a companhia k % 7 == 3 sai de
     prejuízo para lucro (exercita o n.m. do post)."""
     n = TRIMESTRES_SERIE
     s: dict = {"datas": _datas_trimestres(fim, n), "receita": [], "ebitda": [], "lucro": [], "pl": [], "divida": [], "caixa": [], "ativo": []}
@@ -471,7 +472,7 @@ def _por_extenso(v: float) -> str:
 
 def doc_resultado(ticker: str, nome: str, setor: str | None, cvm: int | None, f: dict | None, ind: dict, mcap: float | None, data_cotacao: str,
                   hist: dict | None = None) -> dict | None:
-    """JSON de uma companhia no formato do template do carrossel (valores em bilhões de reais; série de 16 trimestres)."""
+    """JSON de uma companhia no formato do template do carrossel (valores em bilhões de reais; série de 17 trimestres)."""
     s = (f or {}).get("serie")
     if not s or s["pl"][-1] is None:
         return None
