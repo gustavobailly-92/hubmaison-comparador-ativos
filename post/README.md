@@ -52,6 +52,8 @@ só com fato documentado (fato relevante ou comunicado na CVM).
 ## Antes de entregar
 
 - Olhar todas as telas: texto cortado, sobreposição, "n/d" inesperado, logo ilegível.
+- Nome da empresa: o índice traz o nome curto da B3 ("Santander Br", "Ambev S/A", "Jsl"); corrigir `empresa` no JSON
+  para o nome usual ("Santander Brasil", "Ambev", "JSL") antes de renderizar.
 - Conferir no JSON: `entrega.versao` (reapresentação aparece na linha de fonte), `financeira`, `multiplos.data_cotacao`.
 - Valor muito fora da escala da empresa (receita que dobra num trimestre, lucro maior que a receita): avisar o Gustavo
   em vez de entregar como pronto.
