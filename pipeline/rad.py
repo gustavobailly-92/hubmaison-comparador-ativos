@@ -26,7 +26,7 @@ import fontes_extras as fx
 
 BASE = "https://www.rad.cvm.gov.br/ENET/"
 DIAS_RAD = 21        # cobre com folga a semana de atraso dos dados abertos
-PARALELO = 4         # downloads simultâneos do RAD
+PARALELO = 3         # downloads simultâneos; o RAD recusa os que passam do limite dele, e baixar() tenta de novo
 UA_NAV = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
 PLANILHAS = {"Ativo": "BPA", "Passivo": "BPP", "Resultado Periodo": "DRE", "Valor Adicionado": "DVA"}
 log = fx.log
@@ -235,7 +235,15 @@ def complementar(dados: dict, fin: dict, receb: dict, cvms: set[int], hoje: date
         try:
             if not hasattr(local, "s"):
                 local.s = _Sessao()
-            lido = ler_documento(local.s.abrir(doc["url"]))
+            # com outro download em curso, o RAD devolve na hora a página de consulta em vez do ZIP: espera e tenta de novo
+            for tentativa in range(8):
+                raw = local.s.abrir(doc["url"])
+                if raw[:2] == b"PK":
+                    break
+                time.sleep(4 + 6 * tentativa)
+            else:
+                raise RuntimeError("o RAD devolveu a página de consulta em vez do arquivo, 8 vezes")
+            lido = ler_documento(raw)
             json.dump(lido, open(arq, "w", encoding="utf-8"), ensure_ascii=False)
             return lido, None, True
         except Exception as e:  # noqa: BLE001
