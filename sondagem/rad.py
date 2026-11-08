@@ -58,6 +58,8 @@ def main() -> None:
     regs = [r for r in d.get("dados", "").split("$&&*") if r.strip()]
     log("ITR entregues de", ini, "a", fim, ":", len(regs))
     alvo = None
+    regs = [r for r in regs if "ITR - " in r or "DFP - " in r]
+    log("só ITR e DFP:", len(regs))
     for r in regs[:400]:
         c = [x.strip() for x in r.split("$&")]
         dl = re.search(r"OpenDownloadDocumentos\(([^)]*)\)", c[10] if len(c) > 10 else "")
@@ -79,6 +81,29 @@ def main() -> None:
         mostra_zip(data, 0)
 
 
+def le_xlsx(data):
+    """Planilhas do DadosDocumento.xlsx: {nome: [linhas]}, só com a biblioteca padrão."""
+    z = zipfile.ZipFile(io.BytesIO(data))
+    sst = [re.sub("<[^>]+>", "", s) for s in re.findall(r"<x:si>(.*?)</x:si>", z.read("xl/sharedStrings.xml").decode("utf-8"), re.S)]
+    wb = z.read("xl/workbook.xml").decode("utf-8")
+    rels = dict(re.findall(r'Id="([^"]+)"[^>]*Target="([^"]+)"', z.read("xl/_rels/workbook.xml.rels").decode("utf-8")))
+    rels.update({k: v for v, k in re.findall(r'Target="([^"]+)"[^>]*Id="([^"]+)"', z.read("xl/_rels/workbook.xml.rels").decode("utf-8"))})
+    out = {}
+    for nome, rid in re.findall(r'<x:sheet name="([^"]+)"[^>]*r:id="([^"]+)"', wb):
+        alvo = rels.get(rid, "")
+        xml = z.read("xl/" + alvo.lstrip("/").replace("xl/", "")).decode("utf-8")
+        linhas = []
+        for row in re.findall(r"<x:row[^>]*>(.*?)</x:row>", xml, re.S):
+            cel = []
+            for attrs, corpo in re.findall(r"<x:c([^>]*)>(.*?)</x:c>", row, re.S):
+                v = re.search(r"<x:v>(.*?)</x:v>", corpo, re.S)
+                v = v.group(1) if v else re.sub("<[^>]+>", "", corpo)
+                cel.append(sst[int(v)] if 't="s"' in attrs and v.isdigit() else v)
+            linhas.append(cel)
+        out[nome] = linhas
+    return out
+
+
 def mostra_zip(data, nivel):
     try:
         z = zipfile.ZipFile(io.BytesIO(data))
@@ -88,9 +113,15 @@ def mostra_zip(data, nivel):
     for i in z.infolist():
         log("  " * nivel + f"- {i.filename} ({i.file_size} bytes)")
         b = z.read(i)
+        if i.filename == "DadosDocumento.xlsx":
+            for nome, linhas in le_xlsx(b).items():
+                log(f"  PLANILHA {nome}: {len(linhas)} linhas")
+                for ln in linhas[:60 if ("Cons" in nome or "Composi" in nome) else 4]:
+                    log("     ", " | ".join(c[:60] for c in ln))
+            continue
         if i.filename.lower().endswith((".zip", ".itr", ".dfp")) or b[:2] == b"PK":
             mostra_zip(b, nivel + 1)
-        elif i.filename.lower().endswith(".xml") and nivel < 3:
+        elif i.filename.lower().endswith(".xml") and nivel < 3 and i.file_size < 100000:
             t = b.decode("utf-8", "replace")
             log("  " * nivel + "  início:", t[:1500].replace("\n", " "))
             if "InfoFinaDFin" in i.filename or "<NumeroConta>" in t:
