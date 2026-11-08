@@ -22,11 +22,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: python sondagem/teste_velocidade.py 2>&1 | tee sondagem/log_velocidade.txt
+      - run: pip install --quiet pandas numpy pillow
+      - run: |
+          set -o pipefail
+          python sondagem/teste_velocidade.py 2>&1 | tee sondagem/log_velocidade.txt
       - if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f sondagem/teste_velocidade.txt sondagem/log_velocidade.txt || true
+          git add -f sondagem/*.txt || true
           git commit -m "teste de velocidade: execução ${{ github.run_id }}" || echo "nada a gravar"
           git push origin HEAD:rad-rapido
