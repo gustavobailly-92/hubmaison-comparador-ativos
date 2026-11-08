@@ -63,7 +63,7 @@ BPAT;BPAT33;BCO PATAGONIA S.A.;BPAT.png;png 450x450;alextchatalov/logos-acoes-b3
 BPHA;BPHA3;BRASIL PHARMA S.A.;BPHA.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;branco;ok
 BRAP;BRAP3 BRAP4;BRADESPAR S.A.;BRAP.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;cor;ok
 BRAV;BRAV3;Brava Energia Participações S.A.;BRAV.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;branco;desatualizado: mostra a marca anterior (3R Petroleum)
-BRBI;BRBI3 BRBI4 BRBI11;BR ADVISORY PARTNERS PARTICIPAÇÕES S.A.;BRBI.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;branco;ok
+BRBI;BRBI3 BRBI4 BRBI11;BR ADVISORY PARTNERS PARTICIPAÇÕES S.A.;BRBI.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;branco;verificar: imagem original borrada
 BRFS;BRFS3;BRF S.A.;BRFS.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;cor;ok
 BRGE;BRGE3 BRGE11 BRGE12 BRGE5 BRGE6 BRGE7 BRGE8;CONSORCIO ALFA DE ADMINISTRACAO S.A.;BRGE.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;branco;ok
 BRIV;BRIV3 BRIV4;BCO ALFA DE INVESTIMENTO S.A.;BRIV.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;branco;ok
@@ -134,8 +134,8 @@ DEXP;DEXP3 DEXP4;DEXXOS PARTICIPACOES S.A.;DEXP.png;png 450x450;alextchatalov/lo
 DIRR;DIRR3;DIRECIONAL ENGENHARIA S.A.;DIRR.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;cor;ok
 DMMO;DMMO3;DOMMO ENERGIA S.A.;DMMO.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;branco;ok
 DMVF;DMVF3;D1000 VAREJO FARMA PARTICIPAÇÕES S.A.;DMVF.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;cor;ok
-DOHL;DOHL3 DOHL4;DOHLER S.A.;DOHL.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;branco;ok
-DOTZ;DOTZ3;Dotz S.A.;DOTZ.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;branco;ok
+DOHL;DOHL3 DOHL4;DOHLER S.A.;DOHL.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;branco;verificar: placa original em degradê, a transparência falhou
+DOTZ;DOTZ3;Dotz S.A.;DOTZ.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;placa;ok
 DTCY;DTCY3 DTCY4;DTCOM - DIRECT TO COMPANY S.A.;DTCY.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;branco;ok
 DXCO;DXCO3;DURATEX S.A.;DXCO.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;branco;ok
 EALT;EALT3 EALT4;ELECTRO ACO ALTONA S.A.;EALT.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;branco;ok
@@ -376,7 +376,7 @@ SULA;SULA3 SULA4 SULA11;SUL AMERICA S.A.;SULA.png;png 450x450;alextchatalov/logo
 SUZB;SUZB3;SUZANO S.A.;SUZB.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;branco;ok
 SYNE;SYNE3;SYN PROP E TECH S.A.;SYNE.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;branco;ok
 TAEE;TAEE3 TAEE4 TAEE11;TRANSMISSORA ALIANÇA DE ENERGIA ELÉTRICA S.A.;TAEE.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;branco;ok
-TASA;TASA3 TASA4;TAURUS ARMAS S.A.;TASA.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;cor;ok
+TASA;TASA3 TASA4;TAURUS ARMAS S.A.;TASA.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;placa;ok
 TCNO;TCNO3 TCNO4;TECNOSOLO ENGENHARIA S.A.;TCNO.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;branco;ok
 TCSA;TCSA3;TECNISA S.A.;TCSA.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;branco;ok
 TECN;TECN3;TECHNOS S.A.;TECN.png;png 450x450;alextchatalov/logos-acoes-b3 (set/2026);uniforme;cor;ok
