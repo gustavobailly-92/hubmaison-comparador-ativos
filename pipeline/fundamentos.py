@@ -390,6 +390,13 @@ def carregar(cvms: set[int], hoje: date, cache: str, avisos: list[str]) -> dict[
             fin.update({c: True for c in fin_ano if c in cvms})
             receb.update(receb_ano)
             n_arq += 1
+    # dados abertos são semanais: os ITR/DFP entregues depois da última atualização vêm do RAD, no mesmo dia (RAD=0 desliga)
+    if os.environ.get("RAD", "1") != "0":
+        import rad
+        try:
+            rad.complementar(dados, fin, receb, cvms, hoje, cache, avisos)
+        except Exception as e:  # noqa: BLE001
+            avisos.append(f"RAD (CVM): {e}")
     res = calcular(dados, fin, hoje, receb)
     n_ent = sum(1 for r in res.values() if r.get("entrega"))
     n_luc = sum(1 for r in res.values() if r.get("lucro12") is not None)
@@ -502,7 +509,8 @@ def doc_resultado(ticker: str, nome: str, setor: str | None, cvm: int | None, f:
                       "fonte": "B3 e CVM", "valor_mercado": round(mcap) if mcap else None},
         "fontes": {"demonstracoes": fonte_dem,
                    "multiplos": f"Cálculo com a cotação de fechamento na B3 em {_dmy(data_cotacao)} e as demonstrações entregues à CVM"},
-        "entrega": {"primeira": ent[0], "ultima": ent[1], "versao": ent[2], "doc": doc},
+        "entrega": {"primeira": ent[0], "ultima": ent[1], "versao": ent[2], "doc": doc,
+                    "hora": ent[4] if len(ent) > 4 else None},   # hora da entrega, quando o documento veio do RAD
         # mês a mês nos últimos 36 meses (37 pontos; 12, 24 e 36 meses antes nos índices 24, 12 e 0): preço (sem proventos,
         # ajustado por desdobramentos), P/VP e EV/EBITDA
         "historico": hist,
