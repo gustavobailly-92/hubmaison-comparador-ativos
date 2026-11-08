@@ -14,9 +14,11 @@ import io
 import json
 import os
 import re
+import threading
 import time
 import urllib.request
 import zipfile
+from concurrent.futures import ThreadPoolExecutor
 from datetime import date, timedelta
 from http.cookiejar import CookieJar
 
@@ -24,6 +26,7 @@ import fontes_extras as fx
 
 BASE = "https://www.rad.cvm.gov.br/ENET/"
 DIAS_RAD = 21        # cobre com folga a semana de atraso dos dados abertos
+PARALELO = 3         # downloads simultâneos; o RAD recusa os que passam do limite dele, e baixar() tenta de novo
 UA_NAV = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
 PLANILHAS = {"Ativo": "BPA", "Passivo": "BPP", "Resultado Periodo": "DRE", "Valor Adicionado": "DVA"}
 log = fx.log
@@ -187,36 +190,75 @@ def complementar(dados: dict, fin: dict, receb: dict, cvms: set[int], hoje: date
     pasta = os.path.join(cache, "rad")
     os.makedirs(pasta, exist_ok=True)
     s = _Sessao()
-    docs, falhas = [], 0
+    t0 = time.time()
+    docs, falhas, de_cache = [], 0, 0
     for i in range(DIAS_RAD + 1):   # um dia por consulta: a resposta do RAD traz todos os documentos do período, sem paginação
         dia = hoje - timedelta(days=i)
+        arq_l = os.path.join(pasta, f"lista-{dia.isoformat()}.json")
+        if i >= 2 and os.path.exists(arq_l):   # dia fechado há mais de um dia: a lista não muda mais
+            docs += json.load(open(arq_l, encoding="utf-8"))
+            de_cache += 1
+            continue
         try:
-            docs += listar(dia, dia, s)
+            lista = listar(dia, dia, s)
         except Exception as e:  # noqa: BLE001
             falhas += 1
             if falhas == 1:
                 avisos.append(f"RAD (CVM): busca de {dia.isoformat()} falhou: {e}")
+            continue
+        docs += lista
+        if i >= 1:   # ontem já fechou; a partir de amanhã esta lista vem do cache
+            json.dump(lista, open(arq_l, "w", encoding="utf-8"), ensure_ascii=False)
     if not docs and falhas:
         return 0
-    docs.sort(key=lambda x: (x["cvm"], x["ref"], x["versao"]))
-    n = 0
-    for doc in docs:
-        cvm, ref, ver = doc["cvm"], doc["ref"], doc["versao"]
-        if cvm not in cvms or not ref:
-            continue
-        k = f"{cvm}:{ref}"
-        r = receb.get(k)
-        if r is not None and (r[2] or 0) >= ver:
+    t_lista = time.time() - t0
+
+    # por companhia e período: a versão mais recente dá os números; a primeira entrega dá a data e a hora
+    grupos: dict = {}
+    for d in docs:
+        if d["cvm"] in cvms and d["ref"]:
+            grupos.setdefault((d["cvm"], d["ref"]), []).append(d)
+    pend = []
+    for (cvm, ref), ds in grupos.items():
+        ult = max(ds, key=lambda x: x["versao"])
+        r = receb.get(f"{cvm}:{ref}")
+        if r is not None and (r[2] or 0) >= ult["versao"]:
             continue   # o extrato semanal já tem esta versão
+        pend.append((ult, min(x["entrega"] for x in ds), r))
+
+    local = threading.local()
+
+    def baixar(doc: dict):
         arq = os.path.join(pasta, re.sub(r"[^\w.-]", "_", doc["protocolo"]) + ".json")
+        if os.path.exists(arq):
+            return json.load(open(arq, encoding="utf-8")), None, False
         try:
-            if os.path.exists(arq):
-                lido = json.load(open(arq, encoding="utf-8"))
+            if not hasattr(local, "s"):
+                local.s = _Sessao()
+            # com outro download em curso, o RAD devolve na hora a página de consulta em vez do ZIP: espera e tenta de novo
+            for tentativa in range(8):
+                raw = local.s.abrir(doc["url"])
+                if raw[:2] == b"PK":
+                    break
+                time.sleep(4 + 6 * tentativa)
             else:
-                lido = ler_documento(s.abrir(doc["url"]))
-                json.dump(lido, open(arq, "w", encoding="utf-8"), ensure_ascii=False)
+                raise RuntimeError("o RAD devolveu a página de consulta em vez do arquivo, 8 vezes")
+            lido = ler_documento(raw)
+            json.dump(lido, open(arq, "w", encoding="utf-8"), ensure_ascii=False)
+            return lido, None, True
         except Exception as e:  # noqa: BLE001
-            avisos.append(f"RAD (CVM): {doc['empresa'][:40]} {doc['doc']} {ref}: {e}")
+            return None, e, True
+
+    t1 = time.time()
+    with ThreadPoolExecutor(max_workers=PARALELO) as ex:   # o RAD responde devagar (ZIP de ~7 MB por documento)
+        res = list(ex.map(baixar, [p[0] for p in pend]))
+    t_dl = time.time() - t1
+    n = baixados = 0
+    for (doc, primeira, r), (lido, erro, baixou) in zip(pend, res):
+        baixados += baixou
+        cvm, ref, ver = doc["cvm"], doc["ref"], doc["versao"]
+        if erro is not None:
+            avisos.append(f"RAD (CVM): {doc['empresa'][:40]} {doc['doc']} {ref}: {erro}")
             continue
         ini = lido.get("ini_ano") or f"{ref[:4]}-01-01"
         for tipo, cod, ds, v in lido["linhas"]:
@@ -228,11 +270,13 @@ def complementar(dados: dict, fin: dict, receb: dict, cvms: set[int], hoje: date
                 fin[cvm] = True
             if campo:
                 fd._guardar(dados, cvm, lido["escopo"], ref, campo, ini if tipo in ("DRE", "DVA") else "", ver, v)
-        dia, hora = doc["entrega"][:10], doc["entrega"][11:16] or None
+        k = f"{cvm}:{ref}"
+        dia, hora = primeira[:10], primeira[11:16] or None
         if r is None:
-            receb[k] = [dia, dia, ver, doc["doc"], hora]
+            receb[k] = [dia, doc["entrega"][:10], ver, doc["doc"], hora]
         else:
-            receb[k] = [r[0] or dia, dia, ver, r[3] or doc["doc"], r[4] if len(r) > 4 else None]
+            receb[k] = [r[0] or dia, doc["entrega"][:10], ver, r[3] or doc["doc"], r[4] if len(r) > 4 else None]
         n += 1
-    log(f"  RAD (CVM): {len(docs)} ITR/DFP entregues nos últimos {DIAS_RAD} dias, {n} acrescentados ao extrato semanal")
+    log(f"  RAD (CVM): {len(docs)} ITR/DFP nos últimos {DIAS_RAD} dias (listas em {t_lista:.0f}s, {de_cache} dias do cache); "
+        f"{len(pend)} fora do extrato semanal, {baixados} baixados em {t_dl:.0f}s, {n} acrescentados")
     return n
