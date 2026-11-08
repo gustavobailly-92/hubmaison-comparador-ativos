@@ -55,6 +55,22 @@ Para uma empresa específica, pular o `selecionar.py` e usar o JSON do ticker. C
 `"capa": {"tipo": "noticia"}` e `"noticia": {"titulo", "data", "fonte"}`, só com fato documentado (fato relevante ou
 comunicado na CVM).
 
+### No GitHub Actions (sem rodar código na sessão)
+
+A tarefa agendada não consegue executar os scripts clonados (o filtro de segurança da sessão barra código baixado).
+Por isso a geração roda no workflow **Gerar posts de resultados** (`.github/workflows/gerar-posts.yml`, na main):
+depois de cada execução de **Atualizar dados e publicar**, ou por disparo manual, ele faz checkout desta branch,
+roda `post/gerar.sh` (preparar, selecionar, renderizar, `para_posts.py` e `checagem.py`) e grava em `posts`
+`AAAA-MM-DD/TICKER-PERIODO/` com os JPEG, a `legenda.txt` e o `avisos.txt`. A sessão só clona `posts`, olha as telas
+e o `avisos.txt` e manda para o Gustavo. Para refazer uma empresa (nome corrigido em `post/nomes.csv`, por exemplo),
+disparar o workflow com `tickers` (ex.: `MOVI3 RANI3`); pastas já publicadas não são refeitas.
+
+- Marcas da Maison: `post/marca/` (`symbol.png` e `invest-xp.png`, tirados da skill maison); sem elas, `preparar.sh`
+  procura a skill.
+- Nome usual: `post/nomes.csv` (código de 4 letras; nome). Sem linha, fica o nome curto da B3 e o `avisos.txt` avisa.
+- `checagem.py` só aponta (lucro de trimestres seguidos que se anulam, zero exato, lucro maior que a receita, receita
+  que dobra, dado ausente, reapresentação); não corrige nenhum número.
+
 ### Mesmo dia
 
 Com o RAD (PR #2 do comparador), o `index.json` traz cada ITR/DFP no dia da entrega, com a hora (`hora`). 92% das

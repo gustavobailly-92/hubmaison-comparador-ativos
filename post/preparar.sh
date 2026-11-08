@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Prepara a pasta de trabalho do carrossel de resultados: estilos, fontes Montserrat (npm), marcas da Maison (da skill
-# maison, que precisa estar instalada na conta) e a biblioteca de logos das empresas.
+# Prepara a pasta de trabalho do carrossel de resultados: estilos, fontes Montserrat (npm), marcas da Maison (de
+# post/marca ou, sem ela, da skill maison) e a biblioteca de logos das empresas.
 # Uso: bash post/preparar.sh /caminho/da/pasta
 set -euo pipefail
 AQUI=$(cd "$(dirname "$0")" && pwd)
@@ -14,16 +14,23 @@ if [ ! -f "$W/fonts/montserrat-latin-700-normal.woff2" ]; then
   cp "$W"/node_modules/@fontsource/montserrat/files/montserrat-latin-{200,300,400,500,600,700}-normal.woff2 "$W/fonts/"
 fi
 
-L=$(find / -path "*maison/assets/logos/invest-xp/cor-negativo.png" 2>/dev/null | head -1 || true)
-if [ -z "$L" ]; then echo "ERRO: logos da Maison não encontrados (a skill maison precisa estar instalada)"; exit 1; fi
-L=$(dirname "$L")/..
+# Marcas da Maison: primeiro as do repositório (post/marca, usadas no GitHub Actions); sem elas, as da skill maison.
+if [ -f "$AQUI/marca/symbol.png" ] && [ -f "$AQUI/marca/invest-xp.png" ]; then
+  cp "$AQUI/marca/symbol.png" "$AQUI/marca/invest-xp.png" "$W/assets/"
+  L=""
+else
+  L=$(find / -path "*maison/assets/logos/invest-xp/cor-negativo.png" 2>/dev/null | head -1 || true)
+  if [ -z "$L" ]; then echo "ERRO: logos da Maison não encontrados (nem post/marca nem a skill maison)"; exit 1; fi
+  L=$(dirname "$L")/..
+fi
 python3 - "$L" "$W/assets" <<'EOF'
 import sys
 from PIL import Image
 import numpy as np
 L, A = sys.argv[1], sys.argv[2]
-Image.open(f"{L}/seguros/horizontal-negativo.png").convert("RGBA").crop((0, 0, 823, 560)).save(f"{A}/symbol.png")
-Image.open(f"{L}/invest-xp/cor-negativo.png").convert("RGBA").save(f"{A}/invest-xp.png")
+if L:
+    Image.open(f"{L}/seguros/horizontal-negativo.png").convert("RGBA").crop((0, 0, 823, 560)).save(f"{A}/symbol.png")
+    Image.open(f"{L}/invest-xp/cor-negativo.png").convert("RGBA").save(f"{A}/invest-xp.png")
 n = np.random.default_rng(7).normal(128, 40, (256, 256)).clip(0, 255).astype("uint8")
 Image.fromarray(np.dstack([n, n, n, np.full((256, 256), 230, "uint8")]), "RGBA").save(f"{A}/grain.png")
 EOF
