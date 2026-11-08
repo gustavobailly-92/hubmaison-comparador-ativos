@@ -1,0 +1,29 @@
+name: Sondagem do RAD (CVM)
+
+# Teste da ingestão no mesmo dia: só roda nesta branch de teste, lê o RAD e grava a saída na própria branch.
+on:
+  push:
+    branches: [sondagem-rad]
+    paths: ["sondagem/rad.py", ".github/workflows/sondagem-rad.yml"]
+
+permissions:
+  contents: write
+
+jobs:
+  sondar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Sondar o RAD
+        run: python sondagem/rad.py sondagem/saida.txt
+      - name: Gravar a saída na branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sondagem/saida.txt
+          git commit -m "sondagem: saída da execução ${{ github.run_id }}" || echo "nada a gravar"
+          git push origin HEAD:sondagem-rad
