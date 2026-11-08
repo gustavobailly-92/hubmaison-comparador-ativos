@@ -7,7 +7,7 @@ AQUI=$(cd "$(dirname "$0")" && pwd)
 W=${1:?informe a pasta de trabalho}
 mkdir -p "$W/assets" "$W/fonts" "$W/logos"
 cp "$AQUI/styles.css" "$W/"
-cp "$AQUI"/logos/*.svg "$AQUI"/logos/*.png "$W/logos/" 2>/dev/null || true
+python3 -I "$AQUI/placa.py" "$AQUI/logos" "$W/logos"
 
 if [ ! -f "$W/fonts/montserrat-latin-700-normal.woff2" ]; then
   (cd "$W" && { [ -f package.json ] || npm init -y >/dev/null; } && npm install --silent @fontsource/montserrat@5.0.19 >/dev/null)
@@ -27,4 +27,4 @@ Image.open(f"{L}/invest-xp/cor-negativo.png").convert("RGBA").save(f"{A}/invest-
 n = np.random.default_rng(7).normal(128, 40, (256, 256)).clip(0, 255).astype("uint8")
 Image.fromarray(np.dstack([n, n, n, np.full((256, 256), 230, "uint8")]), "RGBA").save(f"{A}/grain.png")
 EOF
-echo "pasta pronta: $W ($(ls "$W/logos" | wc -l) logos na biblioteca)"
+echo "pasta pronta: $W"

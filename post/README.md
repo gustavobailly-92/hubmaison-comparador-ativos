@@ -18,8 +18,9 @@ diária e a skill `resultado-empresa-maison` seguem o que está aqui.
 
 ## Telas
 
-1. Capa: marca da Invest, logo da empresa, "Resultado do 3T26 · data de entrega à CVM" e o destaque
-   (receita líquida; lucro para bancos e seguradoras).
+1. Capa: marca da Invest, logo da empresa, "Resultado do 3T26 · data de entrega à CVM", o destaque
+   (receita líquida; lucro para bancos e seguradoras) e a maior variação contra o mesmo trimestre do ano anterior,
+   para cima ou para baixo, entre receita, EBITDA, lucro, PL, dívida e ativo (n.m. fica de fora).
 2. O trimestre em números, contra o mesmo trimestre do ano anterior.
 3. 12, 24 e 36 meses: receita, EBITDA e lucro somados em 12 meses; PL, dívida e ativo no fim do trimestre.
 4. e 5. Barras por trimestre (13 trimestres) com o valor em cima; em destaque o mesmo trimestre de cada ano, com a
@@ -61,9 +62,15 @@ só com fato documentado (fato relevante ou comunicado na CVM).
 
 ## Logos
 
-Biblioteca em `post/logos/<4 letras do ticker>.svg` ou `.png` (ex.: `VALE.svg`, `PETR.png`): arquivo oficial do site
-de RI ou do kit de imprensa, versão clara para fundo escuro, fundo transparente. Nunca redesenhar nem vetorizar à mão.
-Sem arquivo, a capa mostra o espaço tracejado e o render avisa qual arquivo falta.
+Biblioteca em `post/logos/<4 letras do ticker>.png` (ex.: `VALE.png`), uma por companhia, com o índice em
+`post/logos/indice.csv` (código, tickers, razão social, arquivo, fonte e status). Origem: coleção pública
+github.com/alextchatalov/logos-acoes-b3 (levantamento de setembro de 2026), PNG 450x450 com a marca oficial sobre a
+placa branca ou na cor da marca. O `placa.py` recorta a margem e mantém a placa; nada é recolorido nem redesenhado.
+
+- Status diferente de "ok" (desatualizado ou verificar) fica fora da capa: o render mostra o espaço e avisa.
+- Para trocar ou corrigir: salvar o arquivo oficial (site de RI ou kit de imprensa) como `<código>.svg` ou `.png`
+  nesta pasta e pôr "ok" no status. Um `.svg` tem preferência sobre o `.png` do mesmo código.
+- Nunca redesenhar nem vetorizar à mão.
 
 ## Limites conhecidos
 

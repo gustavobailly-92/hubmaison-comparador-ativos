@@ -46,6 +46,12 @@ export function calcula(d) {
     out.yoy13 = out.yoy13 || {};
     out.yoy13[k] = Array.from({ length: 13 }, (_, j) => { const i = n - 12 + j; return i - 4 >= 0 ? pct(S[k][i], S[k][i - 4]) : null; });
   }
+  // capa: o indicador com a maior variação, para cima ou para baixo, contra o mesmo trimestre do ano anterior
+  // (trimestre para receita, EBITDA e lucro; fim do trimestre para PL, dívida e ativo); n.m. fica de fora
+  for (const k of [...fluxo, ...estoque].filter(tem)) {
+    const a = S[k][n], b = S[k][n - 4], r = pct(a, b);
+    if (r != null && !Number.isNaN(r) && (!out.capa || Math.abs(r) > Math.abs(out.capa.r))) out.capa = { k, a, b, r, estoque: estoque.includes(k) };
+  }
   return out;
 }
 
@@ -128,9 +134,10 @@ const EBITDA_DEF = 'Resultado antes do resultado financeiro e dos tributos, mais
 const NMX =' n.m.: não mensurável, PL, lucro ou EBITDA de 12 meses negativo, ou múltiplo acima de 100x.';
 const LEGAL = 'Conteúdo informativo, sem recomendação de compra ou venda. Maison Invest, assessora de investimentos credenciada à XP Investimentos. Ouvidoria XP: 0800 722 3730.';
 
-function logoEmpresa(d, h = 150) {
-  if (d.logo) return `<img src="${d.logo}" alt="${d.empresa}" style="height:${h}px;max-width:620px;object-fit:contain;display:block">`;
-  return `<div style="height:${h}px;width:440px;border:2px dashed rgba(147,172,198,.5);display:grid;place-items:center;color:var(--sky);font-size:22px;font-weight:600;letter-spacing:.2em">LOGO DA EMPRESA (SVG)</div>`;
+function logoEmpresa(d, h = d.logoH || 150) {
+  // logo oficial na placa com o fundo da própria marca (recortada por preparar.sh); sem recolorir nem redesenhar
+  if (d.logo) return `<img src="${d.logo}" alt="${d.empresa}" style="height:${h}px;max-width:620px;object-fit:contain;display:block;border-radius:18px">`;
+  return `<div style="height:${h}px;width:440px;border:2px dashed rgba(147,172,198,.5);display:grid;place-items:center;color:var(--sky);font-size:22px;font-weight:600;letter-spacing:.2em">LOGO DA EMPRESA</div>`;
 }
 const head = (d, i, n) => `<div class="top"><div class="kicker"><i class="leg"></i>${d.ticker} · ${d.periodo}</div><div class="count">${String(i).padStart(2, '0')} / ${String(n).padStart(2, '0')}</div></div>`;
 const foot = (i, n) => `<div class="bottom"><div class="prog">${Array.from({ length: n }, (_, j) => `<i class="${j + 1 === i ? 'on' : ''}"></i>`).join('')}</div><img class="sym" src="assets/symbol.png" alt=""></div>`;
@@ -151,7 +158,11 @@ export function telas(d) {
   T.push(`<img class="legs" src="assets/symbol.png" style="left:520px;top:420px;height:1100px;opacity:.05"><div class="frame"><div class="top">${invest}<div class="swipe">Arraste <svg viewBox="0 0 56 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h54M47 1l7 6-7 6"/></svg></div></div>
     <div style="margin-top:150px">${logoEmpresa(d)}<div style="margin-top:40px;display:flex;gap:22px;align-items:baseline"><span style="font-size:34px;font-weight:600;letter-spacing:.06em">${d.ticker}</span><span style="font-size:28px;color:var(--mist)">${d.empresa}</span></div></div>
     <div style="margin-top:auto"><div class="kicker" style="margin-bottom:34px"><i class="leg"></i>${noticia ? 'Notícia · ' + fdate(d.noticia.data) : 'Resultado do ' + d.periodo + (d.divulgacao ? ' · ' + fdate(d.divulgacao) : '')}</div>
-    <h2 style="max-width:900px">${(noticia ? d.noticia.titulo : (d.capa.destaque || 'Resultado do ' + d.periodo + '.')).replace(/R\$ ?[\d.,]+( (mi|bi|milhões|bilhões|mil))?/g, x => `<span style="white-space:nowrap">${x}</span>`)}</h2>${noticia ? src('Fonte: ' + d.noticia.fonte) : ''}</div>
+    <h2 style="max-width:900px">${(noticia ? d.noticia.titulo : (d.capa.destaque || 'Resultado do ' + d.periodo + '.')).replace(/R\$ ?[\d.,]+( (mi|bi|milhões|bilhões|mil))?/g, x => `<span style="white-space:nowrap">${x}</span>`)}</h2>${noticia ? src('Fonte: ' + d.noticia.fonte) : ''}
+    ${noticia || !c.capa ? '' : (() => { const m = c.capa, ant = d.trimestres[d.trimestres.length - 5], fim = m.estoque ? 'no fim do ' : 'no ';
+      return `<div style="margin-top:44px;padding-top:30px;border-top:1px solid var(--hair)"><div style="font-size:18px;font-weight:600;letter-spacing:.2em;color:var(--sky);text-transform:uppercase">Maior variação contra o ${ant}</div>
+      <div style="margin-top:16px;display:flex;align-items:center;gap:26px"><div style="color:var(--accent);display:flex;align-items:center;gap:8px">${ARW(m.r, 46)}<span style="font-size:76px;font-weight:500;letter-spacing:-.02em;font-variant-numeric:tabular-nums">${fpct(m.r)}</span></div>
+      <div><div style="font-size:30px;font-weight:600">${LABEL[m.k]}</div><div style="font-size:22px;color:var(--mist);margin-top:6px">${brl(m.a)} ${fim}${d.periodo}, contra ${brl(m.b)} ${fim}${ant}</div></div></div></div>`; })()}</div>
     <div style="margin-top:60px">${foot(1, N).replace('<img class="sym" src="assets/symbol.png" alt="">', '')}</div></div>`);
   // 2 o trimestre
   T.push(`<div class="frame">${head(d, 2, N)}<h3 style="margin-top:100px">O ${d.periodo} em números.</h3>
@@ -238,6 +249,8 @@ export function legenda(d) {
   L.push(`${d.ticker} | Resultado do ${d.periodo}`, '');
   const modo = d.grafico === 'barras' ? 'barras' : 'linha';
   for (const k of ['receita', 'ebitda', 'lucro']) if (c.tri[k]) L.push(`${LABEL[k]}: ${brl(c.tri[k].v)} (${fpct(c.tri[k].yoy)} vs ${base})`);
+  if (c.capa && d.capa.tipo !== 'noticia') { const m = c.capa, fim = m.estoque ? 'no fim do ' : 'no ';
+    L.push(`Maior variação contra o ${base}: ${m.k === 'ebitda' ? 'EBITDA' : LABEL[m.k].toLowerCase()}, ${fpct(m.r)} (${brl(m.a)} ${fim}${d.periodo}, contra ${brl(m.b)} ${fim}${base}).`); }
   L.push('', `Variação em 12, 24 e 36 meses${modo === 'linha' ? ' (receita, EBITDA e lucro somados em 12 meses)' : ' (trimestre contra o mesmo trimestre)'}:`);
   for (const k of Object.keys(c.hor[modo])) L.push(`${LABEL[k]}: ${c.hor[modo][k].map(h => fpct(h.r)).join(' | ')}`);
   if (H) {
@@ -265,7 +278,9 @@ if (process.argv[1] && process.argv[1].endsWith('empresa.mjs')) {
   if (process.env.GRAFICO) d.grafico = process.env.GRAFICO;
   // logo oficial da biblioteca (logos/<4 letras do ticker>.svg ou .png, versão clara); sem arquivo, a capa mostra o espaço
   if (!d.logo) for (const ext of ['svg', 'png']) { const l = `logos/${d.ticker.slice(0, 4)}.${ext}`; if (fs.existsSync(path.join(STUDIO, l))) { d.logo = l; break; } }
-  if (!d.logo) console.log(`aviso: sem logo para ${d.ticker} (logos/${d.ticker.slice(0, 4)}.svg ou .png)`);
+  if (!d.logo) console.log(`aviso: sem logo para ${d.ticker} (falta logos/${d.ticker.slice(0, 4)}.svg ou .png, ou está marcado como desatualizado no indice.csv)`);
+  // logo em png: altura pela resolução útil da placa (até 1,4x), para não ampliar demais um arquivo pequeno
+  try { const t = JSON.parse(fs.readFileSync(path.join(STUDIO, 'logos', 'tamanhos.json'), 'utf8'))[d.ticker.slice(0, 4)]; if (d.logo && d.logo.endsWith('.png') && t) d.logoH = Math.min(150, Math.round(t[1] * 1.4)); } catch {}
   const outDir = path.resolve(process.argv[3] || 'saida'); fs.mkdirSync(outDir, { recursive: true });
   const html = `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><link rel="stylesheet" href="styles.css"></head><body>${telas(d).join('')}</body></html>`;
   const f = path.join(STUDIO, '_empresa.html'); fs.writeFileSync(f, html);
