@@ -42,14 +42,32 @@ REPO=https://github.com/gustavobailly-92/hubmaison-comparador-ativos
 B=$HOME/post-resultados; rm -rf $B && mkdir -p $B && cd $B
 git clone -q --depth 1 --branch post-template $REPO codigo
 git clone -q --depth 1 --branch resultados $REPO dados
+git clone -q --depth 1 --branch posts $REPO posts
 bash codigo/post/preparar.sh $B/w
-python3 codigo/post/selecionar.py dados/index.json            # empresas do dia (até 3)
+python3 codigo/post/selecionar.py dados/index.json --posts posts      # entregas à CVM das últimas 36 horas, sem repetir
 MAISON_WORK=$B/w node codigo/post/empresa.mjs dados/<TICKER>.json saida/<TICKER>-<periodo>
+python3 -I codigo/post/para_posts.py saida/<TICKER>-<periodo> posts <AAAA-MM-DD> <TICKER>-<periodo>
 ```
 
-Sai `01.png` a `08.png` (ou `07.png`) e `legenda.txt`. Para uma empresa específica, pular o `selecionar.py` e usar o
-JSON do ticker. Capa de notícia: no JSON, `"capa": {"tipo": "noticia"}` e `"noticia": {"titulo", "data", "fonte"}`,
-só com fato documentado (fato relevante ou comunicado na CVM).
+Sai `01.png` a `08.png` (ou `07.png`) e `legenda.txt`; `para_posts.py` converte para JPEG na branch `posts`
+(`AAAA-MM-DD/TICKER-PERIODO/`), de onde o workflow **Publicar no Instagram** (branch main) publica depois do ok.
+Para uma empresa específica, pular o `selecionar.py` e usar o JSON do ticker. Capa de notícia: no JSON,
+`"capa": {"tipo": "noticia"}` e `"noticia": {"titulo", "data", "fonte"}`, só com fato documentado (fato relevante ou
+comunicado na CVM).
+
+### Mesmo dia
+
+Com o RAD (PR #2 do comparador), o `index.json` traz cada ITR/DFP no dia da entrega, com a hora (`hora`). 92% das
+companhias divulgam após o fechamento, e o ITR chega à CVM entre 18h e 22h; as que divulgam antes da abertura entregam
+de madrugada ou cedo. Para pegar os números logo depois:
+
+1. Disparar a atualização: `gh workflow run atualizar.yml --repo gustavobailly-92/hubmaison-comparador-ativos --ref main`
+   e esperar a execução terminar (uns 15 minutos); clonar `resultados` de novo.
+2. Selecionar, renderizar, levar para `posts` e enviar ao Gustavo.
+3. Só depois do ok dele, para cada carrossel aprovado:
+   `gh workflow run postar-instagram.yml --repo gustavobailly-92/hubmaison-comparador-ativos --ref main -f pasta=AAAA-MM-DD/TICKER-PERIODO`
+
+O calendário da temporada (data e horário previstos, com a fonte de cada data) fica em `post/calendario/`.
 
 ## Antes de entregar
 
@@ -84,8 +102,8 @@ Diretório em `post/logos/`, uma companhia por código de 4 letras do ticker (ex
 
 ## Limites conhecidos
 
-- A CVM atualiza os dados abertos de ITR e DFP uma vez por semana (domingo), e o workflow roda de terça a sábado: o
-  post sai de 2 a 9 dias depois da entrega. A data de entrega aparece na capa e na fonte.
+- Sem o RAD, os dados abertos de ITR e DFP da CVM são semanais (domingo) e o post sairia de 2 a 9 dias depois da
+  entrega. Com o RAD, sai no mesmo dia. A data de entrega aparece na capa e na fonte.
 - Os horários agendados do GitHub Actions atrasam (nas execuções de novembro de 2026, de 5 a 7 horas): a execução das 10:07 roda
   entre 15h e 17h30.
 - Múltiplos passados usam o número de ações de hoje (não captam emissões e recompras).

@@ -1,60 +1,82 @@
 #!/usr/bin/env python3
-"""Escolhe as empresas do post do dia a partir do index.json da branch resultados.
+"""Escolhe as empresas a postar a partir do index.json da branch resultados.
 
-A CVM publica os dados abertos de ITR e DFP uma vez por semana (domingo de manhã), e o workflow só roda de terça a
-sábado; por isso o lote da semana entra na branch na terça. Lote = companhias com a primeira entrega à CVM nos 7 dias
-que terminam na entrega mais recente do índice. Dentro do lote: uma ação por companhia (a mais negociada), em ordem de
-valor de mercado; terça pega as N primeiras, quarta as N seguintes, e assim até sábado, sem repetir empresa na semana.
-Se a entrega mais recente tiver mais de 9 dias, não há lote novo (a branch ainda não recebeu a atualização da CVM).
+Com a leitura do RAD (CVM), o index.json traz cada ITR/DFP no mesmo dia da entrega, com a hora. Entram as companhias
+cuja primeira entrega do período mais recente caiu nas últimas --horas (padrão 36), uma ação por companhia (a mais
+negociada), da entrega mais recente para a mais antiga e, no mesmo dia, por valor de mercado. Ficam de fora as que já
+têm pasta na branch posts (já preparadas ou publicadas), para nenhuma empresa repetir. Sem limite por dia, a não ser
+que se passe --max.
 
-Uso: python3 selecionar.py index.json [AAAA-MM-DD] [--n 3]
-Saída (JSON): {"hoje", "gerado", "branch_de_hoje", "lote": {"de", "ate", "empresas"}, "fatia", "tickers", "aviso"}
+Uso: python3 selecionar.py index.json [--posts PASTA_DA_BRANCH_POSTS] [--horas 36] [--max 0] [--agora AAAA-MM-DDTHH:MM]
+Saída (JSON): {"agora", "gerado", "branch_atualizada", "desde", "tickers": [...], "ja_preparados": [...], "aviso"}
 """
 import argparse
 import json
-from datetime import date, timedelta
+import os
+from datetime import datetime, timedelta, timezone
+
+BRT = timezone(timedelta(hours=-3))
+
+
+def preparados(pasta: str | None) -> set[str]:
+    """Pastas TICKER-PERIODO já existentes em qualquer data da branch posts."""
+    out = set()
+    if not pasta or not os.path.isdir(pasta):
+        return out
+    for dia in os.listdir(pasta):
+        p = os.path.join(pasta, dia)
+        if os.path.isdir(p) and len(dia) == 10 and dia[4] == "-":
+            out.update(os.listdir(p))
+    return out
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("indice")
-    ap.add_argument("hoje", nargs="?")
-    ap.add_argument("--n", type=int, default=3)
+    ap.add_argument("--posts")
+    ap.add_argument("--horas", type=float, default=36)
+    ap.add_argument("--max", type=int, default=0)
+    ap.add_argument("--agora")
     a = ap.parse_args()
-    n = a.n
+    agora = datetime.fromisoformat(a.agora).replace(tzinfo=BRT) if a.agora else datetime.now(BRT)
+    desde = agora - timedelta(hours=a.horas)
     ix = json.load(open(a.indice, encoding="utf-8"))
-    hoje = date.fromisoformat(a.hoje) if a.hoje else date.today()
-    gerado = (ix.get("gerado") or "")[:10]
-    cias = [c for c in ix["companhias"] if c.get("entrega")]
-    out = {"hoje": hoje.isoformat(), "gerado": gerado, "branch_de_hoje": gerado == hoje.isoformat(),
-           "lote": None, "fatia": None, "tickers": [], "aviso": None}
-    if not cias:
-        out["aviso"] = "índice sem datas de entrega"
-        print(json.dumps(out, ensure_ascii=False, indent=1))
-        return
-    ultima = max(date.fromisoformat(c["entrega"]) for c in cias)
-    if (hoje - ultima).days > 9:
-        out["aviso"] = (f"sem lote novo: a entrega mais recente no índice é de {ultima.isoformat()}; "
-                        "a atualização semanal da CVM ainda não chegou à branch")
-        print(json.dumps(out, ensure_ascii=False, indent=1))
-        return
-    de = ultima - timedelta(days=6)
+    gerado = ix.get("gerado") or ""
+    try:
+        idade = (datetime.now(timezone.utc) - datetime.fromisoformat(gerado.replace("Z", "+00:00"))).total_seconds() / 3600
+    except ValueError:
+        idade = None
+    feitos = preparados(a.posts)
     por_cia: dict = {}
-    for c in cias:
-        if de <= date.fromisoformat(c["entrega"]) <= ultima:
-            atual = por_cia.get(c["cvm"])
-            if atual is None or (c.get("liq") or 0) > (atual.get("liq") or 0):
-                por_cia[c["cvm"]] = c
-    lote = sorted(por_cia.values(), key=lambda c: -(c.get("valor_mercado") or 0))
-    fatia = max(0, min(4, hoje.weekday() - 1))  # terça = 0 ... sábado = 4 (domingo e segunda: 0)
-    escolha = lote[fatia * n:(fatia + 1) * n]
-    out.update({"lote": {"de": de.isoformat(), "ate": ultima.isoformat(), "empresas": len(lote)}, "fatia": fatia + 1,
-                "tickers": [{"ticker": c["ticker"], "empresa": c["empresa"], "periodo": c["periodo"], "doc": c["doc"],
-                             "entrega": c["entrega"], "versao": c.get("versao"), "valor_mercado": c.get("valor_mercado"),
-                             "financeira": c.get("financeira")} for c in escolha]})
-    if not escolha:
-        out["aviso"] = f"o lote de {de.isoformat()} a {ultima.isoformat()} tem {len(lote)} empresas; já cobertas nos dias anteriores"
-    print(json.dumps(out, ensure_ascii=False, indent=1))
+    for c in ix["companhias"]:
+        if not c.get("entrega"):
+            continue
+        quando = datetime.fromisoformat(f"{c['entrega']}T{c.get('hora') or '12:00'}").replace(tzinfo=BRT)
+        if not desde <= quando <= agora + timedelta(minutes=5):
+            continue
+        atual = por_cia.get(c["cvm"])
+        if atual is None or (c.get("liq") or 0) > (atual[1].get("liq") or 0):
+            por_cia[c["cvm"]] = (quando, c)
+    lista = sorted(por_cia.values(), key=lambda x: (x[0].date(), x[1].get("valor_mercado") or 0), reverse=True)
+    escolha, ja = [], []
+    for quando, c in lista:
+        chave = f"{c['ticker']}-{c['periodo']}"
+        if chave in feitos:
+            ja.append(chave)
+            continue
+        escolha.append({"ticker": c["ticker"], "empresa": c["empresa"], "periodo": c["periodo"], "doc": c["doc"],
+                        "entrega": c["entrega"], "hora": c.get("hora"), "versao": c.get("versao"),
+                        "valor_mercado": c.get("valor_mercado"), "financeira": c.get("financeira"), "pasta": chave})
+    if a.max:
+        escolha = escolha[:a.max]
+    aviso = None
+    if idade is not None and idade > 26:
+        aviso = f"a branch resultados foi gerada há {idade:.0f} horas: os dados podem estar atrasados"
+    elif not escolha:
+        aviso = f"nenhuma entrega nova à CVM desde {desde.strftime('%d/%m %H:%M')}"
+    print(json.dumps({"agora": agora.strftime("%Y-%m-%dT%H:%M"), "gerado": gerado,
+                      "branch_atualizada": idade is not None and idade <= 26, "desde": desde.strftime("%Y-%m-%dT%H:%M"),
+                      "tickers": escolha, "ja_preparados": ja, "aviso": aviso}, ensure_ascii=False, indent=1))
 
 
 if __name__ == "__main__":
