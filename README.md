@@ -150,8 +150,13 @@ python pipeline/build_data.py --offline /tmp/base_teste --out dist/data
 - **Dados**: GitHub Pages deste repositório (`https://gustavobailly-92.github.io/hubmaison-comparador-ativos/`), regravado a cada execução.
 - **Resultados das companhias**: branch `resultados` deste repositório (só os JSONs de `resultados/`, um commit por execução, sobrescrito).
 - **Instagram da Maison Invest**: o workflow **Publicar no Instagram** (`postar-instagram.yml`, só manual) publica um carrossel já aprovado pela API oficial do Instagram (login do Instagram, `graph.instagram.com`). O carrossel fica na branch `posts`, em `AAAA-MM-DD/TICKER-PERIODO/` (`01.jpg` a `08.jpg` e `legenda.txt`); as imagens vão pela URL pública do raw do GitHub e, depois de publicar, o workflow grava `publicado.json` com o link. Precisa dos segredos `IG_USER_ID` e `IG_ACCESS_TOKEN` (token de longa duração, 60 dias; quando vence, o workflow avisa) e aceita a variável `IG_API_VERSION` (padrão v27.0). Só é disparado depois do ok do Gustavo para cada carrossel.
-- **Página**: o mesmo `site/index.html` vai para a Hostinger em `hubmaison.com/comparadordeativos/index.html`.
-  Fora do GitHub Pages a página lê os dados pela URL absoluta acima (constante `REPO_DATA` no início do script).
+- **Hostinger**: a cada execução, o passo **Publicar na Hostinger** envia por SSH (rsync) a página para
+  `hubmaison.com/comparadordeativos/index.html` e os dados para `hubmaison.com/comparadordeativos/data/`. No hubmaison.com
+  a página lê os dados de `/comparadordeativos/data` (mesma origem, sem CORS); só fora dele usa a URL do GitHub Pages
+  (constante `REPO_DATA`). Precisa dos segredos do repositório `HOSTINGER_SSH_HOST`, `HOSTINGER_SSH_PORT` (na Hostinger,
+  normalmente 65002), `HOSTINGER_SSH_USER`, `HOSTINGER_SSH_KEY` (chave privada cuja pública está cadastrada no hPanel) e
+  `HOSTINGER_DESTINO` (pasta a partir do diretório inicial do SSH, por exemplo
+  `domains/hubmaison.com/public_html/comparadordeativos`). Sem eles, o passo é pulado com um aviso.
 
 Para forçar uma atualização fora do horário: aba **Actions** → "Atualizar dados e publicar" → **Run workflow**.
 O resultado de cada execução fica em `status/ultima-execucao.json` e `status/log.txt`.

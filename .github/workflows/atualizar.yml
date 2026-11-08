@@ -91,6 +91,35 @@ jobs:
           ls dist/data/fundos | wc -l
           ls dist/data/acoes | wc -l
 
+      # Página e dados em hubmaison.com/comparadordeativos/ por SSH (rsync), na mesma origem da página: não depende do
+      # GitHub Pages nem de CORS, e o repositório pode ficar privado. Só envia arquivos com conteúdo diferente (--checksum),
+      # troca tudo de uma vez no fim (--delay-updates) e apaga da pasta data/ o que saiu da base (--delete). Os outros
+      # arquivos da pasta na Hostinger (tesouro-precos.php) não são tocados. Sem os segredos configurados, o passo é pulado.
+      - name: Publicar na Hostinger
+        timeout-minutes: 30
+        env:
+          SSH_HOST: ${{ secrets.HOSTINGER_SSH_HOST }}
+          SSH_PORT: ${{ secrets.HOSTINGER_SSH_PORT }}
+          SSH_USER: ${{ secrets.HOSTINGER_SSH_USER }}
+          SSH_KEY: ${{ secrets.HOSTINGER_SSH_KEY }}
+          DESTINO: ${{ secrets.HOSTINGER_DESTINO }}
+        run: |
+          if [ -z "$SSH_KEY" ] || [ -z "$SSH_HOST" ] || [ -z "$SSH_USER" ] || [ -z "$DESTINO" ]; then
+            echo "::warning::segredos da Hostinger não configurados; publicação na Hostinger pulada"
+            exit 0
+          fi
+          SSH_PORT="${SSH_PORT:-65002}"
+          DESTINO="${DESTINO%/}"
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/hostinger && chmod 600 ~/.ssh/hostinger
+          ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          SSH="ssh -i $HOME/.ssh/hostinger -p $SSH_PORT -o BatchMode=yes"
+          $SSH "$SSH_USER@$SSH_HOST" "mkdir -p '$DESTINO/data'"
+          # dados primeiro, página depois: a página nova nunca abre antes da base que ela espera
+          rsync -rlz --checksum --delete --delay-updates --stats -e "$SSH" dist/data/ "$SSH_USER@$SSH_HOST:$DESTINO/data/" | tail -20
+          rsync -z --checksum -e "$SSH" dist/index.html "$SSH_USER@$SSH_HOST:$DESTINO/index.html"
+          echo "- Hostinger: publicado em \`$DESTINO\`" >> $GITHUB_STEP_SUMMARY
+
       # JSONs do post diário de resultados (um por ação + index.json) numa branch própria, sobrescrita a cada execução:
       # quem não alcança o GitHub Pages lê pelo git (git clone --depth 1 --branch resultados ...). Falhar aqui não impede a publicação.
       - name: Publicar a branch resultados

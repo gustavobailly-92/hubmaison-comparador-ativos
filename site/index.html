@@ -1784,7 +1784,10 @@ html[data-pv=clean] .kpi .idx,html[data-pv=clean] .kpi .row .sh{background:rgba(
 // ------------------------------------------------------------------ configuração
 const REPO_DATA = 'https://gustavobailly-92.github.io/hubmaison-comparador-ativos/data';
 const local = location.hostname.endsWith('github.io') || location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:';
-const DATA = local ? './data' : REPO_DATA;
+// na Hostinger os dados ficam ao lado da página (mesma origem, sem depender de CORS); o caminho é absoluto porque
+// hubmaison.com/comparadordeativos (sem barra no fim) faria './data' apontar para a raiz do domínio
+const hostinger = /(^|\.)hubmaison\.com$/.test(location.hostname);
+const DATA = hostinger ? '/comparadordeativos/data' : local ? './data' : REPO_DATA;
 const CORES = ['#5B98E6', '#D4A24A', '#B08CF0', '#43B893', '#F08A6A', '#6ED3E6', '#E9C46A', '#9AD36A', '#F296C6', '#8DA3C7'];
 const COR_CDI = '#93ACC6';
 const CORES_BENCH = { cdi: '#93ACC6', ipca: '#E07A7A', ipca6: '#F2A0A0', poupanca: '#7FB5A4', dolar: '#C9B48A', ibov: '#F0C674', ifix: '#D98CB3', imab: '#C1A1E8', irfm: '#8ED0C9', sp500: '#8FB8FF', sp500brl: '#6C8FE0', nasdaq: '#C7A6FF', nasdaqbrl: '#A585E6', msci: '#9FD7C8', mscibrl: '#68B39F', ouro: '#F2D28B', ourobrl: '#D9B45C', btc: '#F5A25D' };
