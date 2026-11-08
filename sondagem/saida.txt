@@ -2,38 +2,22 @@ categorias: 0
 código ITR: None
 msgErro:  | chaves: ['__type', 'temErro', 'expirouSessao', 'msgErro', 'dados', 'SolicitarCaptcha']
 ITR entregues de 2026-11-03 a 2026-11-07 : 3172
+só ITR e DFP: 120
  | 02770-7 | AUTOMOB PARTICIPAÇÕES S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 22:26 |v 1 | dl: ['161955', '1', '027707ITR300920260100161955-72', 'ITR']
  | 02644-1 | SERENA ENERGIA S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 22:14 |v 1 | dl: ['161954', '1', '026441ITR300920260100161954-74', 'ITR']
- | 01265-3 | KLABIN S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261103</spanOrder> 03/11/2026 22:12 |v 14 | dl: ['161953', '14', '012653FRE202620261400161953-78', '']
  | 02003-6 | BRASILAGRO - CIA BRAS DE PROP AGRICOLAS | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 22:03 |v 1 | dl: ['161952', '1', '020036ITR300920260100161952-77', 'ITR']
  | 01837-6 | ISA ENERGIA BRASIL | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 19:38 |v 1 | dl: ['161951', '1', '018376ITR300920260100161951-77', 'ITR']
- | 00112-0 | BCO ESTADO DE SERGIPE S.A. - BANESE | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261103</spanOrder> 03/11/2026 19:32 |v 8 | dl: ['161950', '8', '001120FRE202620260800161950-70', '']
- | 02249-7 | QUALICORP CONSULTORIA E CORRETORA DE SEG | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261103</spanOrder> 03/11/2026 19:27 |v 10 | dl: ['161949', '10', '022497FRE202620261000161949-70', '']
- | 02012-5 | BRADSAÚDE S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261103</spanOrder> 03/11/2026 18:59 |v 7 | dl: ['161948', '7', '020125FRE202620260700161948-71', '']
  | 02351-5 | CONC DO AEROPORTO INTERNACIONAL DE GUARU | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 18:43 |v 1 | dl: ['161947', '1', '023515ITR300920260100161947-74', 'ITR']
- | 01934-8 | ITAU UNIBANCO HOLDING S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261103</spanOrder> 03/11/2026 18:41 |v 5 | dl: ['161946', '5', '019348FRE202620260500161946-78', '']
  | 02315-9 | BB SEGURIDADE PARTICIPAÇÕES S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 18:40 |v 1 | dl: ['161945', '1', '023159ITR300920260100161945-74', 'ITR']
  | 01934-8 | ITAU UNIBANCO HOLDING S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 18:36 |v 1 | dl: ['161944', '1', '019348ITR300920260100161944-70', 'ITR']
  | 00525-8 | RAIA DROGASIL S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 18:30 |v 1 | dl: ['161943', '1', '005258ITR300920260100161943-70', 'ITR']
  | 00845-1 | MARCOPOLO S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 18:10 |v 1 | dl: ['161942', '1', '008451ITR300920260100161942-75', 'ITR']
- | 01944-5 | CIA SANEAMENTO DE MINAS GERAIS-COPASA MG | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261103</spanOrder> 03/11/2026 18:06 |v 8 | dl: ['161941', '8', '019445FRE202620260800161941-71', '']
- | 02139-3 | CIA CELG DE PARTICIPACOES - CELGPAR | FCA - Formulário Cadastral | <spanOrder>20260101</spanOrder> 2026 | <spanOrder>20261103</spanOrder> 03/11/2026 17:35 |v 3 | dl: ['161940', '3', '021393FCA000020260300161940-76', 'FCA']
  | 01626-8 | MARINA DE IRACEMA PARK SA | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 16:28 |v 1 | dl: ['161939', '1', '016268ITR300920260100161939-72', 'ITR']
- | 02173-3 | CIELO S.A. -  INSTITUIÇÃO DE PAGAMENTO | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261103</spanOrder> 03/11/2026 15:19 |v 7 | dl: ['161938', '7', '021733FRE202620260700161938-76', '']
- | 02074-5 | SLC AGRICOLA S.A. | FCA - Formulário Cadastral | <spanOrder>20260101</spanOrder> 2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:31 |v 2 | dl: ['161937', '2', '020745FCA000020260200161937-77', 'FCA']
- | 02620-4 | BLUEFIT ACADEMIAS DE GINÁSTICA E PARTICI | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:50 |v 6 | dl: ['161936', '6', '026204FRE202620260600161936-78', '']
- | 02323-0 | RAIZEN ENERGIA S.A. | Informe do Código de Governança | <spanOrder>20270331</spanOrder> 31/03/2027 | <spanOrder>20261103</spanOrder> 03/11/2026 09:01 |v 1 | dl: ['161935', '1', '023230CGVN20270101V01161935-83', 'CGVN']
- | 02665-4 | TRANSMISSORA JOSÉ MARIA DE MACEDO DE ELE | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261104</spanOrder> 04/11/2026 22:49 |v 5 | dl: ['162024', '5', '026654FRE202620260500162024-67', '']
- | 02667-0 | ARGO VI TRANSMISSÃO DE ENERGIA S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261104</spanOrder> 04/11/2026 22:44 |v 5 | dl: ['162023', '5', '026670FRE202620260500162023-64', '']
- | 02666-2 | ARGO V TRANSMISSÃO DE ENERGIA S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261104</spanOrder> 04/11/2026 22:36 |v 6 | dl: ['162022', '6', '026662FRE202620260600162022-63', '']
- | 02421-0 | ARGO TRANSMISSÃO DE ENERGIA S/A | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261104</spanOrder> 04/11/2026 22:30 |v 7 | dl: ['162021', '7', '024210FRE202620260700162021-76', '']
- | 02412-0 | ARGO ENERGIA EMPREENDIMENTOS E PARTICIPA | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261104</spanOrder> 04/11/2026 22:20 |v 6 | dl: ['162020', '6', '024120FRE202620260600162020-68', '']
  | 01841-4 | PADTEC HOLDING S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 22:14 |v 1 | dl: ['162019', '1', '018414ITR300920260100162019-74', 'ITR']
  | 02747-2 | AXIA ENERGIA NORTE S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 22:13 |v 2 | dl: ['162018', '2', '027472ITR300920260200162018-71', 'ITR']
  | 01699-3 | EMAE - EMPRESA METROP. DE AGUAS E ENERGI | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 21:40 |v 1 | dl: ['162017', '1', '016993ITR300920260100162017-71', 'ITR']
  | 02114-8 | CONSTRUTORA TENDA S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 21:29 |v 1 | dl: ['162016', '1', '021148ITR300920260100162016-78', 'ITR']
  | 02747-2 | AXIA ENERGIA NORTE S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 21:24 |v 1 | dl: ['162015', '1', '027472ITR300920260100162015-74', 'ITR']
- | 02789-8 | CONCESSIONÁRIA DE RODOVIAS PRVIAS S.A. | FRE - Formulário de Referência | <spanOrder>20260331</spanOrder> 2026 | <spanOrder>20261104</spanOrder> 04/11/2026 21:00 |v 3 | dl: ['162014', '3', '027898FRE202620260300162014-78', '']
  | 02780-4 | TERP GLBL BRASIL I PARTICIPAÇÕES S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 20:51 |v 1 | dl: ['162013', '1', '027804ITR300920260100162013-73', 'ITR']
  | 02338-8 | AXIA ENERGIA UHE SANTO ANTÔNIO S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 20:45 |v 1 | dl: ['162012', '1', '023388ITR300920260100162012-72', 'ITR']
  | 00472-3 | CONSTRUTORA ADOLPHO LINDENBERG S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 20:33 |v 1 | dl: ['162011', '1', '004723ITR300920260100162011-72', 'ITR']
@@ -49,13 +33,11 @@ ITR entregues de 2026-11-03 a 2026-11-07 : 3172
  | 02429-5 | VIBRA ENERGIA S/A | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 20:01 |v 1 | dl: ['162001', '1', '024295ITR300920260100162001-75', 'ITR']
  | 02733-2 | HÉLIO VALGAS SOLAR PARTICIPAÇÕES S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 19:59 |v 1 | dl: ['162000', '1', '027332ITR300920260100162000-71', 'ITR']
  | 02628-0 | COMERC ENERGIA S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 19:59 |v 1 | dl: ['161999', '1', '026280ITR300920260100161999-84', 'ITR']
- | 00243-7 | AXIA ENERGIA S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261104</spanOrder> 04/11/2026 19:50 |v 18 | dl: ['161998', '18', '002437FRE202620261800161998-76', '']
  | 02484-8 | C&A MODAS S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 19:45 |v 1 | dl: ['161997', '1', '024848ITR300920260100161997-79', 'ITR']
  | 00243-7 | AXIA ENERGIA S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 19:39 |v 1 | dl: ['161996', '1', '002437ITR300920260100161996-78', 'ITR']
  | 02598-4 | COMPANHIA BRASILEIRA DE ALUMÍNIO | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 19:21 |v 1 | dl: ['161995', '1', '025984ITR300920260100161995-77', 'ITR']
  | 01482-6 | CIA BRASILEIRA DE DISTRIBUICAO | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 19:16 |v 1 | dl: ['161994', '1', '014826ITR300920260100161994-76', 'ITR']
  | 02426-0 | SMARTFIT ESCOLA DE GINÁSTICA E DANÇA S.A | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 19:16 |v 1 | dl: ['161993', '1', '024260ITR300920260100161993-78', 'ITR']
- | 02789-8 | CONCESSIONÁRIA DE RODOVIAS PRVIAS S.A. | FCA - Formulário Cadastral | <spanOrder>20260101</spanOrder> 2026 | <spanOrder>20261104</spanOrder> 04/11/2026 19:13 |v 3 | dl: ['161992', '3', '027898FCA000020260300161992-78', 'FCA']
  | 02109-1 | DEXCO S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 19:12 |v 1 | dl: ['161991', '1', '021091ITR300920260100161991-83', 'ITR']
  | 02692-1 | REGENERA RIO S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 19:09 |v 1 | dl: ['161990', '1', '026921ITR300920260100161990-83', 'ITR']
  | 02798-7 | ÁGUAS DO PARÁ D SPE S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 19:07 |v 1 | dl: ['161989', '1', '027987ITR300920260100161989-89', 'ITR']
@@ -72,47 +54,30 @@ ITR entregues de 2026-11-03 a 2026-11-07 : 3172
  | 02339-6 | AEGEA SANEAMENTO E PARTICIPAÇÕES S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 19:02 |v 1 | dl: ['161978', '1', '023396ITR300920260100161978-79', 'ITR']
  | 02415-5 | COMPANHIA ENERGÉTICA SINOP S/A | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 18:45 |v 1 | dl: ['161977', '1', '024155ITR300920260100161977-76', 'ITR']
  | 02218-7 | PRIO S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 18:40 |v 1 | dl: ['161976', '1', '022187ITR300920260100161976-74', 'ITR']
- | 02448-1 | TAPAJÓS TRANSMISSORA DE ENERGIA S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261104</spanOrder> 04/11/2026 18:29 |v 3 | dl: ['161975', '3', '024481FRE202620260300161975-74', '']
- | 02445-7 | BELÉM TRANSMISSORA DE ENERGIA S.A | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261104</spanOrder> 04/11/2026 18:28 |v 2 | dl: ['161974', '2', '024457FRE202620260200161974-75', '']
- | 00132-5 | BCO MERCANTIL DO BRASIL S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261104</spanOrder> 04/11/2026 18:26 |v 6 | dl: ['161973', '6', '001325FRE202620260600161973-77', '']
  | 01193-2 | IOCHPE MAXION S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 18:21 |v 1 | dl: ['161972', '1', '011932ITR300920260100161972-71', 'ITR']
  | 02260-8 | EMPREENDIMENTOS PAGUE MENOS S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 18:19 |v 1 | dl: ['161971', '1', '022608ITR300920260100161971-81', 'ITR']
  | 02079-6 | BCO DAYCOVAL S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 18:18 |v 1 | dl: ['161970', '1', '020796ITR300920260100161970-83', 'ITR']
  | 02669-7 | FOZ DO RIO CLARO ENERGIA S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 18:13 |v 1 | dl: ['161969', '1', '026697ITR300920260100161969-75', 'ITR']
- | 02759-6 | EPR SUL DE MINAS S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261104</spanOrder> 04/11/2026 18:08 |v 3 | dl: ['161968', '3', '027596FRE202620260300161968-71', '']
  | 02080-0 | TEGMA GESTAO LOGISTICA S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 18:08 |v 1 | dl: ['161967', '1', '020800ITR300920260100161967-78', 'ITR']
  | 01999-2 | TOTVS S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 18:08 |v 1 | dl: ['161966', '1', '019992ITR300920260100161966-78', 'ITR']
- | 02771-5 | EPR INFRAESTRUTURA PR S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261104</spanOrder> 04/11/2026 18:04 |v 4 | dl: ['161965', '4', '027715FRE202620260400161965-72', '']
  | 02297-7 | FERREIRA GOMES ENERGIA S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 18:04 |v 1 | dl: ['161964', '1', '022977ITR300920260100161964-75', 'ITR']
- | 02758-8 | EPR VIAS DO CAFÉ S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261104</spanOrder> 04/11/2026 17:59 |v 3 | dl: ['161963', '3', '027588FRE202620260300161963-75', '']
- | 02753-7 | EPR TRIÂNGULO S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261104</spanOrder> 04/11/2026 17:54 |v 4 | dl: ['161962', '4', '027537FRE202620260400161962-77', '']
  | 00971-7 | PORTUENSE FERRAGENS S/A | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261104</spanOrder> 04/11/2026 17:10 |v 1 | dl: ['161961', '1', '009717ITR300920260100161961-86', 'ITR']
- | 00090-6 | BCO BRADESCO S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261104</spanOrder> 04/11/2026 16:00 |v 10 | dl: ['161960', '10', '000906FRE202620261000161960-76', '']
- | 02383-3 | CONCESSIONÁRIA DE RODOVIA SUL-MATOGROSSE | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261104</spanOrder> 04/11/2026 13:38 |v 2 | dl: ['161959', '2', '023833FRE202620260200161959-79', '']
- | 00781-1 | JOAO FORTES ENGENHARIA S.A. - EM RECUPER | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261104</spanOrder> 04/11/2026 09:56 |v 2 | dl: ['161958', '2', '007811FRE202620260200161958-74', '']
- | 02554-2 | CVLB BRASIL S.A EM RECUPERAÇÃO JUDICAL | FCA - Formulário Cadastral | <spanOrder>20260101</spanOrder> 2026 | <spanOrder>20261104</spanOrder> 04/11/2026 08:11 |v 2 | dl: ['161957', '2', '025542FCA000020260200161957-74', 'FCA']
- | 02139-3 | CIA CELG DE PARTICIPACOES - CELGPAR | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261104</spanOrder> 04/11/2026 08:02 |v 3 | dl: ['161956', '3', '021393FRE202620260300161956-78', '']
  | 00538-0 | ELECTRO ACO ALTONA S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 23:09 |v 1 | dl: ['162085', '1', '005380ITR300920260100162085-73', 'ITR']
- | 02109-1 | DEXCO S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261105</spanOrder> 05/11/2026 23:08 |v 2 | dl: ['162084', '2', '021091FRE202620260200162084-68', '']
  | 02522-4 | 2W ECOBANK S.A. - EM RECUPERAÇÃO JUDICIA | DFP - Demonstrações Financeiras Padronizadas | <spanOrder>20251231</spanOrder> 31/12/2025 | <spanOrder>20261105</spanOrder> 05/11/2026 22:49 |v 1 | dl: ['162083', '1', '025224DFP311220250100162083-69', 'DFP']
  | 02514-3 | PACAEMBU CONSTRUTORA S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 21:06 |v 1 | dl: ['162082', '1', '025143ITR300920260100162082-76', 'ITR']
  | 08018-7 | AURA MINERALS INC. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 20:37 |v 1 | dl: ['162081', '1', '080187ITR300920260100162081-76', 'ITR']
  | 01973-9 | LOCALIZA RENT A CAR S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 20:21 |v 1 | dl: ['162080', '1', '019739ITR300920260100162080-79', 'ITR']
  | 01962-3 | DIAGNOSTICOS DA AMERICA S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 19:32 |v 1 | dl: ['162079', '1', '019623ITR300920260100162079-76', 'ITR']
- | 01197-5 | AZEVEDO E TRAVASSOS S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261105</spanOrder> 05/11/2026 19:16 |v 5 | dl: ['162078', '5', '011975FRE202620260500162078-77', '']
  | 02342-6 | SERENA GERAÇÃO S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 19:09 |v 1 | dl: ['162077', '1', '023426ITR300920260100162077-79', 'ITR']
  | 02537-2 | SENDAS DISTRIBUIDORA S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 19:08 |v 1 | dl: ['162076', '1', '025372ITR300920260100162076-71', 'ITR']
  | 02725-1 | INSPIRALI EDUCAÇÃO S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 19:01 |v 1 | dl: ['162075', '1', '027251ITR300920260100162075-78', 'ITR']
- | 01961-5 | GRENDENE S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:57 |v 6 | dl: ['162074', '6', '019615FRE202620260600162074-79', '']
  | 00934-2 | DIMED S.A. DISTRIBUIDORA DE MEDICAMENTOS | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:52 |v 1 | dl: ['162073', '1', '009342ITR300920260100162073-72', 'ITR']
  | 02754-5 | ASSURUÁ 4 E 5 HOLDING ENERGIA S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:47 |v 1 | dl: ['162072', '1', '027545ITR300920260100162072-79', 'ITR']
  | 01961-5 | GRENDENE S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:46 |v 1 | dl: ['162071', '1', '019615ITR300920260100162071-76', 'ITR']
  | 02077-0 | EZ TEC EMPREEND. E PARTICIPACOES S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:37 |v 1 | dl: ['162069', '1', '020770ITR300920260100162069-73', 'ITR']
- | 02484-8 | C&A MODAS S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:37 |v 8 | dl: ['162070', '8', '024848FRE202620260800162070-74', '']
  | 01398-6 | SUZANO S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:35 |v 1 | dl: ['162068', '1', '013986ITR300920260100162068-74', 'ITR']
  | 02578-0 | PETRORECÔNCAVO S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:31 |v 1 | dl: ['162067', '1', '025780ITR300920260100162067-70', 'ITR']
  | 02480-5 | VIVARA PARTICIPAÇÕES S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:30 |v 1 | dl: ['162066', '1', '024805ITR300920260100162066-70', 'ITR']
- | 02550-0 | BEMOBI MOBILE TECH S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:28 |v 7 | dl: ['162065', '7', '025500FRE202620260700162065-73', '']
  | 02538-0 | EZ INC INCORPORAÇÕES S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:23 |v 1 | dl: ['162064', '1', '025380ITR300920260100162064-76', 'ITR']
  | 02149-0 | ALUPAR INVESTIMENTO S/A | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:23 |v 1 | dl: ['162063', '1', '021490ITR300920260100162063-71', 'ITR']
  | 00634-3 | TUPY S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:14 |v 1 | dl: ['162062', '1', '006343ITR300920260100162062-70', 'ITR']
@@ -121,31 +86,19 @@ ITR entregues de 2026-11-03 a 2026-11-07 : 3172
  | 00813-3 | LOJAS RENNER S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:11 |v 1 | dl: ['162059', '1', '008133ITR300920260100162059-75', 'ITR']
  | 02235-7 | ALLOS S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:11 |v 1 | dl: ['162058', '1', '022357ITR300920260100162058-77', 'ITR']
  | 02324-8 | ANIMA HOLDING S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:11 |v 1 | dl: ['162057', '1', '023248ITR300920260100162057-73', 'ITR']
- | 02256-0 | INBRANDS S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:09 |v 5 | dl: ['162056', '5', '022560FRE202620260500162056-60', '']
  | 02359-0 | WIZ CO PARTICIPAÇÕES E CORRETAGEM DE SEG | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:08 |v 1 | dl: ['162055', '1', '023590ITR300920260100162055-72', 'ITR']
  | 02106-7 | MOURA DUBEUX ENGENHARIA S/A | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:07 |v 1 | dl: ['162054', '1', '021067ITR300920260100162054-79', 'ITR']
- | 01265-3 | KLABIN S.A. | FCA - Formulário Cadastral | <spanOrder>20260101</spanOrder> 2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:06 |v 2 | dl: ['162053', '2', '012653FCA000020260200162053-69', 'FCA']
  | 02503-8 | LOJAS QUERO QUERO S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:06 |v 1 | dl: ['162052', '1', '025038ITR300920260100162052-72', 'ITR']
- | 01882-1 | MOTIVA INFRAESTRUTURA DE MOBILIDADE S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:03 |v 6 | dl: ['162051', '6', '018821FRE202620260600162051-70', '']
  | 01964-0 | BRADESCO LEASING S.A. ARREND MERCANTIL | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:02 |v 1 | dl: ['162050', '1', '019640ITR300920260100162050-76', 'ITR']
- | 01265-3 | KLABIN S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:01 |v 15 | dl: ['162049', '15', '012653FRE202620261500162049-74', '']
  | 01444-3 | CIA SANEAMENTO BASICO EST SAO PAULO | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:01 |v 1 | dl: ['162048', '1', '014443ITR300920260100162048-70', 'ITR']
  | 02540-2 | HBR REALTY EMPREENDIMENTOS IMOBILIÁRIOS  | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:00 |v 1 | dl: ['162047', '1', '025402ITR300920260100162047-78', 'ITR']
  | 01269-6 | SANSUY S.A. INDUSTRIA DE PLASTICOS | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:00 |v 2 | dl: ['162046', '2', '012696ITR300920260200162046-77', 'ITR']
  | 02188-1 | FLEURY S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:00 |v 1 | dl: ['162045', '1', '021881ITR300920260100162045-79', 'ITR']
  | 02586-0 | BRBI BR PARTNERS S.A | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:00 |v 1 | dl: ['162044', '1', '025860ITR300920260100162044-72', 'ITR']
- | 02619-0 | CARAMURU ALIMENTOS S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261105</spanOrder> 05/11/2026 17:48 |v 4 | dl: ['162043', '4', '026190FRE202620260400162043-63', '']
- | 02551-8 | WESTWING COMÉRCIO VAREJISTA S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261105</spanOrder> 05/11/2026 17:14 |v 8 | dl: ['162042', '8', '025518FRE202620260800162042-62', '']
  | 01920-8 | CONC RIO-TERESOPOLIS S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 16:40 |v 1 | dl: ['162041', '1', '019208ITR300920260100162041-74', 'ITR']
  | 02506-2 | LAVVI EMPREENDIMENTOS IMOBILIÁRIOS S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 16:14 |v 2 | dl: ['162040', '2', '025062ITR300920260200162040-72', 'ITR']
- | 02704-9 | ORIZON MEIO AMBIENTE S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261105</spanOrder> 05/11/2026 15:20 |v 5 | dl: ['162039', '5', '027049FRE202620260500162039-70', '']
- | 02672-7 | IGUÁ RIO DE JANEIRO S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261105</spanOrder> 05/11/2026 13:31 |v 2 | dl: ['162038', '2', '026727FRE202620260200162038-65', '']
  | 00132-5 | BCO MERCANTIL DO BRASIL S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 12:07 |v 2 | dl: ['162037', '2', '001325ITR300920260200162037-68', 'ITR']
- | 00305-0 | AMPLA ENERGIA E SERVICOS S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261105</spanOrder> 05/11/2026 10:59 |v 3 | dl: ['162036', '3', '003050FRE202620260300162036-68', '']
- | 02673-5 | ÁGUAS DO RIO 1 SPE S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261105</spanOrder> 05/11/2026 10:38 |v 5 | dl: ['162035', '5', '026735FRE202620260500162035-63', '']
  | 02734-0 | CONSTRUTORA METROCASA S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 10:36 |v 1 | dl: ['162034', '1', '027340ITR300920260100162034-72', 'ITR']
- | 02003-6 | BRASILAGRO - CIA BRAS DE PROP AGRICOLAS | FRE - Formulário de Referência | <spanOrder>20260630</spanOrder> 2026 | <spanOrder>20261105</spanOrder> 05/11/2026 09:09 |v 9 | dl: ['162033', '9', '020036FRE202620260900162033-65', '']
- | 01421-4 | DIBENS LEASING S.A. - ARREND.MERCANTIL | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261105</spanOrder> 05/11/2026 08:33 |v 6 | dl: ['162032', '6', '014214FRE202620260600162032-69', '']
  | 01269-6 | SANSUY S.A. INDUSTRIA DE PLASTICOS | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 08:24 |v 1 | dl: ['162031', '1', '012696ITR300920260100162031-77', 'ITR']
  | 02760-0 | PORTO SERVIÇO S.A | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 06:48 |v 1 | dl: ['162029', '1', '027600ITR300920260100162029-75', 'ITR']
  | 02761-8 | PORTO SAÚDE PARTICIPAÇÕES S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 06:48 |v 1 | dl: ['162030', '1', '027618ITR300920260100162030-75', 'ITR']
@@ -153,357 +106,417 @@ ITR entregues de 2026-11-03 a 2026-11-07 : 3172
  | 02095-8 | BCO ABC BRASIL S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 06:27 |v 1 | dl: ['162027', '1', '020958ITR300920260100162027-70', 'ITR']
  | 00130-9 | BCO MERCANTIL DE INVESTIMENTOS S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 06:09 |v 1 | dl: ['162026', '1', '001309ITR300920260100162026-76', 'ITR']
  | 00132-5 | BCO MERCANTIL DO BRASIL S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 06:06 |v 1 | dl: ['162025', '1', '001325ITR300920260100162025-73', 'ITR']
- | 02535-6 | CONCESSIONÁRIA DAS RODOVIAS INTEGRADAS D | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261106</spanOrder> 06/11/2026 15:26 |v 2 | dl: ['162092', '2', '025356FRE202620260200162092-63', '']
- | 02685-9 | CONCESSIONÁRIA CATARINENSE DE RODOVIAS S | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261106</spanOrder> 06/11/2026 15:21 |v 2 | dl: ['162091', '2', '026859FRE202620260200162091-78', '']
- | 00122-8 | BCO NORDESTE DO BRASIL S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261106</spanOrder> 06/11/2026 14:49 |v 8 | dl: ['162090', '8', '001228FRE202620260800162090-76', '']
- | 01482-6 | CIA BRASILEIRA DE DISTRIBUICAO | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261106</spanOrder> 06/11/2026 14:04 |v 10 | dl: ['162089', '10', '014826FRE202620261000162089-79', '']
- | 01698-5 | EDP SÃO PAULO DISTRIBUIÇÃO DE ENERGIA S. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261106</spanOrder> 06/11/2026 13:56 |v 4 | dl: ['162088', '4', '016985FRE202620260400162088-76', '']
- | 02620-4 | BLUEFIT ACADEMIAS DE GINÁSTICA E PARTICI | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261106</spanOrder> 06/11/2026 09:53 |v 7 | dl: ['162087', '7', '026204FRE202620260700162087-76', '']
- | 01976-3 | EDP - ENERGIAS DO BRASIL S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261106</spanOrder> 06/11/2026 09:12 |v 5 | dl: ['162086', '5', '019763FRE202620260500162086-74', '']
- | 02072-9 | PARANA BCO S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261106</spanOrder> 06/11/2026 16:12 |v 4 | dl: ['162093', '4', '020729FRE202620260400162093-66', '']
- | 01663-2 | DEXXOS PARTICIPAÇÕES S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261106</spanOrder> 06/11/2026 16:56 |v 3 | dl: ['162094', '3', '016632FRE202620260300162094-64', '']
- | 01797-3 | COGNA EDUCAÇÃO S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261106</spanOrder> 06/11/2026 17:27 |v 6 | dl: ['162095', '6', '017973FRE202620260600162095-74', '']
- | 02382-5 | MOVIDA PARTICIPACOES SA | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261106</spanOrder> 06/11/2026 18:02 |v 8 | dl: ['162096', '8', '023825FRE202620260800162096-73', '']
  | 00604-1 | INVESTIMENTOS BEMGE S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261106</spanOrder> 06/11/2026 18:03 |v 1 | dl: ['162097', '1', '006041ITR300920260100162097-70', 'ITR']
  | 01045-6 | ALPARGATAS S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261106</spanOrder> 06/11/2026 18:03 |v 1 | dl: ['162098', '1', '010456ITR300920260100162098-77', 'ITR']
  | 01421-4 | DIBENS LEASING S.A. - ARREND.MERCANTIL | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261106</spanOrder> 06/11/2026 18:06 |v 1 | dl: ['162099', '1', '014214ITR300920260100162099-71', 'ITR']
- | 02161-0 | B3 S.A. - BRASIL, BOLSA, BALCÃO | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261106</spanOrder> 06/11/2026 18:08 |v 9 | dl: ['162100', '9', '021610FRE202620260900162100-72', '']
  | 02771-5 | EPR INFRAESTRUTURA PR S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261106</spanOrder> 06/11/2026 18:22 |v 1 | dl: ['162101', '1', '027715ITR300920260100162101-74', 'ITR']
- | 02782-0 | GRUPO SALTA EDUCAÇÃO S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261106</spanOrder> 06/11/2026 18:43 |v 2 | dl: ['162102', '2', '027820FRE202620260200162102-63', '']
  | 02431-7 | ZAMP SA | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261106</spanOrder> 06/11/2026 18:49 |v 1 | dl: ['162103', '1', '024317ITR300920260100162103-79', 'ITR']
- | 01486-9 | CIA ENERGETICA DO CEARA - COELCE | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261106</spanOrder> 06/11/2026 18:49 |v 4 | dl: ['162104', '4', '014869FRE202620260400162104-71', '']
- | 01417-6 | ELETROPAULO METROP. ELET. SAO PAULO S.A. | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261106</spanOrder> 06/11/2026 18:51 |v 2 | dl: ['162105', '2', '014176FRE202620260200162105-70', '']
- | 01630-6 | ROSSI RESIDENCIAL S.A. - EM RECUPERAÇÃO  | FRE - Formulário de Referência | <spanOrder>20261231</spanOrder> 2026 | <spanOrder>20261106</spanOrder> 06/11/2026 19:22 |v 3 | dl: ['162106', '3', '016306FRE202620260300162106-78', '']
- | 02591-7 | RAÍZEN S.A. | FRE - Formulário de Referência | <spanOrder>20270331</spanOrder> 2027 | <spanOrder>20261106</spanOrder> 06/11/2026 19:33 |v 3 | dl: ['162107', '3', '025917FRE202720270300162107-73', '']
  | 02753-7 | EPR TRIÂNGULO S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261106</spanOrder> 06/11/2026 20:20 |v 1 | dl: ['162108', '1', '027537ITR300920260100162108-72', 'ITR']
  | 02759-6 | EPR SUL DE MINAS S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261106</spanOrder> 06/11/2026 20:35 |v 1 | dl: ['162109', '1', '027596ITR300920260100162109-74', 'ITR']
  | 02758-8 | EPR VIAS DO CAFÉ S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261106</spanOrder> 06/11/2026 20:43 |v 1 | dl: ['162110', '1', '027588ITR300920260100162110-71', 'ITR']
  | 02772-3 | EPR LITORAL PIONEIRO S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261106</spanOrder> 06/11/2026 20:49 |v 1 | dl: ['162111', '1', '027723ITR300920260100162111-71', 'ITR']
  | 01923-2 | PRODUTORES ENERGET.DE MANSO S.A.- PROMAN | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261106</spanOrder> 06/11/2026 20:52 |v 1 | dl: ['162112', '1', '019232ITR300920260100162112-71', 'ITR']
- | 02323-0 | RAIZEN ENERGIA S.A. | FRE - Formulário de Referência | <spanOrder>20270331</spanOrder> 2027 | <spanOrder>20261106</spanOrder> 06/11/2026 20:53 |v 3 | dl: ['162113', '3', '023230FRE202720270300162113-65', '']
  | 02792-8 | EPR IGUAÇU S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261106</spanOrder> 06/11/2026 20:55 |v 1 | dl: ['162114', '1', '027928ITR300920260100162114-72', 'ITR']
  | 02807-0 | EPR PARANA S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261106</spanOrder> 06/11/2026 21:01 |v 1 | dl: ['162115', '1', '028070ITR300920260100162115-76', 'ITR']
  | 02786-3 | EPR VIA MINEIRA S.A. | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261106</spanOrder> 06/11/2026 21:15 |v 1 | dl: ['162116', '1', '027863ITR300920260100162116-72', 'ITR']
  | 02546-1 | GRUPO TOKY S.A. - EM RECUPERAÇÃO JUDICIA | ITR - Informações Trimestrais | <spanOrder>20260630</spanOrder> 30/06/2026 | <spanOrder>20261107</spanOrder> 07/11/2026 12:55 |v 3 | dl: ['162117', '3', '025461ITR300620260300162117-72', 'ITR']
  | 02546-1 | GRUPO TOKY S.A. - EM RECUPERAÇÃO JUDICIA | ITR - Informações Trimestrais | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261107</spanOrder> 07/11/2026 12:57 |v 1 | dl: ['162118', '1', '025461ITR300920260100162118-71', 'ITR']
- | 00908-3 | NORDON INDUSTRIAS METALURGICAS S.A. | Assembleia | <spanOrder>20261030</spanOrder> 30/10/2026 11:00 | <spanOrder>20261103</spanOrder> 03/11/2026 07:54 |v 1 | dl: ['1107615', '1', '1582909', 'IPE']
- | 02133-4 | NUTRIPLANT INDUSTRIA E COMERCIO S.A. | Documentos de Oferta de Distribuição Pública | <spanOrder>20261030</spanOrder> 30/10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:05 |v 1 | dl: ['1107616', '1', '1582910', 'IPE']
- | 01410-9 | RANDONCORP S.A. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:07 |v 1 | dl: ['1107617', '1', '1582911', 'IPE']
- | 01918-6 | SANEAMENTO DE GOIAS SA | Valores Mobiliários Negociados e Detidos | <spanOrder>20261001</spanOrder> 10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:08 |v 1 | dl: ['1107618', '1', '1582912', 'IPE']
- | 02534-8 | ELFA MEDICAMENTOS SA | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:16 |v 1 | dl: ['1107619', '1', '1582913', 'IPE']
- | 00908-3 | NORDON INDUSTRIAS METALURGICAS S.A. | Assembleia | <spanOrder>20261030</spanOrder> 30/10/2026 11:00 | <spanOrder>20261103</spanOrder> 03/11/2026 08:20 |v 1 | dl: ['1107620', '1', '1582914', 'IPE']
- | 02591-7 | RAIZEN S.A. | Comunicado ao Mercado | <spanOrder>20261102</spanOrder> 02/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:24 |v 1 | dl: ['1107621', '1', '1582915', 'IPE']
- | 00617-3 | TAURUS ARMAS S.A. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:31 |v 1 | dl: ['1107622', '1', '1582916', 'IPE']
- | 05010-5 | CITIGROUP INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:35 |v 1 | dl: ['1107623', '1', '1582917', 'IPE']
- | 05042-3 | VERIZON COMMUNICATIONS INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:35 |v 1 | dl: ['1107624', '1', '1582918', 'IPE']
- | 05013-0 | WELLS FARGO & COMPANY | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:35 |v 1 | dl: ['1107625', '1', '1582919', 'IPE']
- | 05057-1 | JPMORGAN CHASE & CO. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:35 |v 1 | dl: ['1107626', '1', '1582920', 'IPE']
- | 05132-2 | GOPRO, INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:35 |v 1 | dl: ['1107627', '1', '1582921', 'IPE']
- | 05009-1 | GOLDMAN SACHS GROUP INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:35 |v 1 | dl: ['1107628', '1', '1582922', 'IPE']
- | 05218-3 | VALLEY NATIONAL BANCORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:35 |v 1 | dl: ['1107629', '1', '1582923', 'IPE']
- | 05175-6 | DEUTSCHE BANK AKTIENGESELLSCHAFT | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:35 |v 1 | dl: ['1107630', '1', '1582924', 'IPE']
- | 05240-0 | NOMURA HOLDINGS INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:35 |v 1 | dl: ['1107631', '1', '1582925', 'IPE']
- | 05248-5 | SONY GROUP CORPORATION | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:35 |v 1 | dl: ['1107632', '1', '1582926', 'IPE']
- | 05303-1 | HCA HEALTHCARE INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:35 |v 1 | dl: ['1107633', '1', '1582927', 'IPE']
- | 05384-8 | GLOBAL PAYMENTS INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:35 |v 1 | dl: ['1107634', '1', '1582928', 'IPE']
- | 05492-5 | NEWS CORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:35 |v 1 | dl: ['1107635', '1', '1582929', 'IPE']
- | 05507-7 | REALTY INCOME CORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:36 |v 1 | dl: ['1107636', '1', '1582930', 'IPE']
- | 05618-9 | LEIDOS HOLDINGS INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:36 |v 1 | dl: ['1107637', '1', '1582931', 'IPE']
- | 05623-5 | MATCH GROUP INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:36 |v 1 | dl: ['1107638', '1', '1582932', 'IPE']
- | 05756-8 | PALANTIR TECHNOLOGIES INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:36 |v 1 | dl: ['1107639', '1', '1582933', 'IPE']
- | 05849-1 | STRATEGY INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:36 |v 1 | dl: ['1107640', '1', '1582934', 'IPE']
- | 05002-8 | SIGMA LITHIUM CORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:36 |v 1 | dl: ['1107641', '1', '1582935', 'IPE']
- | 02791-0 | ORANJEBTC S.A. - EDUCAÇÃO E INVESTIMENTO | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:42 |v 1 | dl: ['1107642', '1', '1582936', 'IPE']
- | 01431-1 | CIA PARANAENSE DE ENERGIA - COPEL | Fato Relevante | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:42 |v 1 | dl: ['1107643', '1', '1582937', 'IPE']
- | 02466-0 | BBM LOGISTICA S.A. | Valores Mobiliários Negociados e Detidos | <spanOrder>20261001</spanOrder> 10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:54 |v 1 | dl: ['1107644', '1', '1582938', 'IPE']
- | 02553-4 | OCEANPACT SERVICOS MARITIMOS S.A. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:59 |v 1 | dl: ['1107645', '1', '1582939', 'IPE']
- | 02043-5 | TECNISA S.A. | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 08:59 |v 1 | dl: ['1107646', '1', '1582940', 'IPE']
- | 00538-0 | ELECTRO ACO ALTONA S.A. | Valores Mobiliários Negociados e Detidos | <spanOrder>20260901</spanOrder> 09/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 09:00 |v 1 | dl: ['1107647', '1', '1582941', 'IPE']
- | 02598-4 | COMPANHIA BRASILEIRA DE ALUMÍNIO | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 09:02 |v 1 | dl: ['1107648', '1', '1582942', 'IPE']
- | 00538-0 | ELECTRO ACO ALTONA S.A. | Valores Mobiliários Negociados e Detidos | <spanOrder>20261001</spanOrder> 10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 09:07 |v 1 | dl: ['1107649', '1', '1582943', 'IPE']
- | 00577-0 | EUCATEX S.A. INDUSTRIA E COMERCIO | Valores Mobiliários Negociados e Detidos | <spanOrder>20261001</spanOrder> 10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 09:12 |v 1 | dl: ['1107650', '1', '1582944', 'IPE']
- | 01944-5 | CIA SANEAMENTO DE MINAS GERAIS-COPASA MG | Reunião da Administração | <spanOrder>20261022</spanOrder> 22/10/2026 14:00 | <spanOrder>20261103</spanOrder> 03/11/2026 09:16 |v 1 | dl: ['1107651', '1', '1582945', 'IPE']
- | 02591-7 | RAIZEN S.A. | Informações de Companhias em Recuperação Judicial ou Extrajudicial | <spanOrder>20261102</spanOrder> 02/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 09:26 |v 1 | dl: ['1107653', '1', '1582947', 'IPE']
- | 02439-2 | HAPVIDA PARTICIPACOES E INVESTIMENTOS SA | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 09:31 |v 1 | dl: ['1107654', '1', '1582948', 'IPE']
- | 02591-7 | RAIZEN S.A. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 09:36 |v 1 | dl: ['1107655', '1', '1582949', 'IPE']
- | 02660-3 | GSH CORP PARTICIPACOES S.A. | Valores Mobiliários Negociados e Detidos | <spanOrder>20261001</spanOrder> 10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 09:50 |v 1 | dl: ['1107656', '1', '1582950', 'IPE']
- | 02565-8 | AGROGALAXY PARTICIPAÇÕES S.A. | Valores Mobiliários Negociados e Detidos | <spanOrder>20261001</spanOrder> 10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 09:50 |v 1 | dl: ['1107657', '1', '1582951', 'IPE']
- | 02590-9 | EMCCAMP RESIDENCIAL S.A. | Valores Mobiliários Negociados e Detidos | <spanOrder>20261001</spanOrder> 10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 09:54 |v 1 | dl: ['1107658', '1', '1582952', 'IPE']
- | 05081-2 | VANECK EMERGING MARKETS HIGH YIELD BOND  | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 09:55 |v 1 | dl: ['1107659', '1', '1582953', 'IPE']
- | 02512-7 | COMPASS GAS E ENERGIA S.A. | Aviso aos Debenturistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:00 |v 1 | dl: ['1107660', '1', '1582954', 'IPE']
- | 02590-9 | EMCCAMP RESIDENCIAL S.A. | Valores Mobiliários Negociados e Detidos | <spanOrder>20261001</spanOrder> 10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:00 |v 1 | dl: ['1107661', '1', '1582955', 'IPE']
- | 05010-5 | CITIGROUP INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:35 |v 1 | dl: ['1107662', '1', '1582956', 'IPE']
- | 05073-3 | META PLATFORMS, INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:35 |v 1 | dl: ['1107663', '1', '1582957', 'IPE']
- | 05057-1 | JPMORGAN CHASE & CO. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:35 |v 1 | dl: ['1107664', '1', '1582958', 'IPE']
- | 05002-4 | APPLE INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:35 |v 1 | dl: ['1107665', '1', '1582959', 'IPE']
- | 05005-9 | BANK OF AMERICA CORPORATION | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:35 |v 1 | dl: ['1107666', '1', '1582960', 'IPE']
- | 05004-0 | PFIZER INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:35 |v 1 | dl: ['1107667', '1', '1582961', 'IPE']
- | 05004-0 | PFIZER INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:35 |v 1 | dl: ['1107668', '1', '1582962', 'IPE']
- | 05097-0 | THE WESTERN UNION COMPANY | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:35 |v 1 | dl: ['1107669', '1', '1582963', 'IPE']
- | 05180-2 | EQUINIX INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:35 |v 1 | dl: ['1107670', '1', '1582964', 'IPE']
- | 05224-8 | WATERS CORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:35 |v 1 | dl: ['1107671', '1', '1582965', 'IPE']
- | 05226-4 | YUM BRANDS INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:35 |v 1 | dl: ['1107672', '1', '1582966', 'IPE']
- | 05229-9 | BANCO BILBAO VIZCAYA ARGENTARIA SA | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:35 |v 1 | dl: ['1107673', '1', '1582967', 'IPE']
- | 05253-1 | TAIWAN SEMICONDUCTOR MANUFACTURING CO LT | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:35 |v 1 | dl: ['1107674', '1', '1582968', 'IPE']
- | 05237-0 | FRESENIUS MEDICAL CARE AG | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107675', '1', '1582969', 'IPE']
- | 05256-6 | KONINKLIJKE PHILIPS NV | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107676', '1', '1582970', 'IPE']
- | 05263-9 | ING GROEP NV | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107677', '1', '1582971', 'IPE']
- | 05272-8 | ARCHER-DANIELS-MIDLAND CO | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107678', '1', '1582972', 'IPE']
- | 05302-3 | FISERV INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107679', '1', '1582973', 'IPE']
- | 05318-0 | MARATHON PETROLEUM CORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107680', '1', '1582974', 'IPE']
- | 05339-2 | SYSCO CORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107681', '1', '1582975', 'IPE']
- | 05348-1 | XCEL ENERGY INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107682', '1', '1582976', 'IPE']
- | 05363-5 | BALL CORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107683', '1', '1582977', 'IPE']
- | 05376-7 | EATON CORP PLC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107684', '1', '1582978', 'IPE']
- | 05471-2 | HENRY SCHEIN INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107685', '1', '1582979', 'IPE']
- | 05450-0 | CARMAX INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107686', '1', '1582980', 'IPE']
- | 05499-2 | PINNACLE WEST CAPITAL CORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107687', '1', '1582981', 'IPE']
- | 05499-2 | PINNACLE WEST CAPITAL CORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107688', '1', '1582982', 'IPE']
- | 05535-2 | BROADRIDGE FINANCIAL SOLUTIONS INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107689', '1', '1582983', 'IPE']
- | 05558-1 | IPG PHOTONICS CORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107690', '1', '1582984', 'IPE']
- | 05552-2 | GARTNER INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107691', '1', '1582985', 'IPE']
- | 05552-2 | GARTNER INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107692', '1', '1582986', 'IPE']
- | 05572-7 | REVVITY, INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107693', '1', '1582987', 'IPE']
- | 05658-8 | BIONTECH SE | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107694', '1', '1582988', 'IPE']
- | 05669-3 | EQUINOR ASA | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107695', '1', '1582989', 'IPE']
- | 05696-0 | PRUDENTIAL PLC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:36 |v 1 | dl: ['1107696', '1', '1582990', 'IPE']
- | 05700-2 | RYANAIR HOLDINGS PLC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:37 |v 1 | dl: ['1107697', '1', '1582991', 'IPE']
- | 05706-1 | TEVA PHARMACEUTICAL INDUSTRIES LTD | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:37 |v 1 | dl: ['1107698', '1', '1582992', 'IPE']
- | 05718-5 | SIBANYE STILLWATER LTD | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:37 |v 1 | dl: ['1107699', '1', '1582993', 'IPE']
- | 05730-4 | SHOPIFY INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:37 |v 1 | dl: ['1107700', '1', '1582994', 'IPE']
- | 05730-4 | SHOPIFY INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:37 |v 1 | dl: ['1107701', '1', '1582995', 'IPE']
- | 05822-0 | DYNATRACE INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:37 |v 1 | dl: ['1107702', '1', '1582996', 'IPE']
- | 05822-0 | DYNATRACE INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:37 |v 1 | dl: ['1107703', '1', '1582997', 'IPE']
- | 05869-6 | REGAL REXNORD CORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:37 |v 1 | dl: ['1107704', '1', '1582998', 'IPE']
- | 05888-2 | UPSTART HOLDINGS INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:37 |v 1 | dl: ['1107705', '1', '1582999', 'IPE']
- | 05888-2 | UPSTART HOLDINGS INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:37 |v 1 | dl: ['1107706', '1', '1583000', 'IPE']
- | 05002-7 | PATRIA INVESTMENTS LTD | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:37 |v 1 | dl: ['1107707', '1', '1583001', 'IPE']
- | 05941-7 | RYMAN HOSPITALITY PROPERTIES INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:37 |v 1 | dl: ['1107708', '1', '1583002', 'IPE']
- | 05942-3 | APOLLO GLOBAL MANAGEMENT INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:37 |v 1 | dl: ['1107709', '1', '1583003', 'IPE']
- | 05945-0 | SK HYNIX INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 10:37 |v 1 | dl: ['1107710', '1', '1583004', 'IPE']
- | 02724-3 | CLI SUL S.A. | Valores Mobiliários Negociados e Detidos | <spanOrder>20261001</spanOrder> 10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:32 |v 1 | dl: ['1107711', '1', '1583005', 'IPE']
- | 02726-0 | CORREDOR LOGÍSTICA E INFRAESTRUTURA S.A. | Valores Mobiliários Negociados e Detidos | <spanOrder>20261001</spanOrder> 10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:32 |v 1 | dl: ['1107712', '1', '1583006', 'IPE']
- | 05010-9 | JPMORGAN EQUITY PREMIUM INCOME ETF | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:35 |v 1 | dl: ['1107713', '1', '1583007', 'IPE']
- | 05012-3 | JPMORGAN US TECH LEADERS ETF | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:35 |v 1 | dl: ['1107714', '1', '1583008', 'IPE']
- | 05013-4 | JPMORGAN ACTIVE GROWTH ETF | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:35 |v 1 | dl: ['1107715', '1', '1583009', 'IPE']
- | 05010-5 | CITIGROUP INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:35 |v 1 | dl: ['1107716', '1', '1583010', 'IPE']
- | 05054-7 | EBAY INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:35 |v 1 | dl: ['1107717', '1', '1583011', 'IPE']
- | 05057-1 | JPMORGAN CHASE & CO. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:35 |v 1 | dl: ['1107718', '1', '1583012', 'IPE']
- | 05127-6 | UBS GROUP AG | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:36 |v 1 | dl: ['1107719', '1', '1583013', 'IPE']
- | 05005-9 | BANK OF AMERICA CORPORATION | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:36 |v 1 | dl: ['1107720', '1', '1583014', 'IPE']
- | 05004-0 | PFIZER INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:36 |v 1 | dl: ['1107721', '1', '1583015', 'IPE']
- | 05153-5 | APTIV PLC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:36 |v 1 | dl: ['1107722', '1', '1583016', 'IPE']
- | 05258-2 | UNILEVER PLC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:36 |v 1 | dl: ['1107723', '1', '1583017', 'IPE']
- | 05237-0 | FRESENIUS MEDICAL CARE AG | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:36 |v 1 | dl: ['1107724', '1', '1583018', 'IPE']
- | 05644-8 | ZEBRA TECHNOLOGIES CORPORATION | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:36 |v 1 | dl: ['1107725', '1', '1583019', 'IPE']
- | 05655-3 | BARCLAYS PLC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:36 |v 1 | dl: ['1107726', '1', '1583020', 'IPE']
- | 05696-0 | PRUDENTIAL PLC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:36 |v 1 | dl: ['1107727', '1', '1583021', 'IPE']
- | 05726-6 | KINGSOFT CLOUD HOLDINGS LTD | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:36 |v 1 | dl: ['1107728', '1', '1583022', 'IPE']
- | 02724-3 | CLI SUL S.A. | Valores Mobiliários Negociados e Detidos | <spanOrder>20261001</spanOrder> 10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:47 |v 1 | dl: ['1107729', '1', '1583023', 'IPE']
- | 01122-3 | TEKA-TECELAGEM KUEHNRICH S.A. - EM RECUP | Assembleia | <spanOrder>20261028</spanOrder> 28/10/2026 14:30 | <spanOrder>20261103</spanOrder> 03/11/2026 11:47 |v 1 | dl: ['1107730', '1', '1583024', 'IPE']
- | 00520-7 | DOHLER S.A. | Reunião da Administração | <spanOrder>20261030</spanOrder> 30/10/2026 09:30 | <spanOrder>20261103</spanOrder> 03/11/2026 11:56 |v 1 | dl: ['1107731', '1', '1583025', 'IPE']
- | 05087-3 | KIMBERLY-CLARK CORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:58 |v 1 | dl: ['1107732', '1', '1583026', 'IPE']
- | 05086-5 | GENERAL DYNAMICS CORP. | Dados Econômico-Financeiros | <spanOrder>20261004</spanOrder> 04/10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:58 |v 1 | dl: ['1107733', '1', '1583027', 'IPE']
- | 05086-5 | GENERAL DYNAMICS CORP. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:58 |v 1 | dl: ['1107734', '1', '1583028', 'IPE']
- | 05096-2 | THE BANK OF NEW YORK MELLON CORPORATION | Dados Econômico-Financeiros | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:58 |v 1 | dl: ['1107735', '1', '1583029', 'IPE']
- | 05030-0 | AMERICAN EXPRESS COMPANY | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 11:58 |v 1 | dl: ['1107736', '1', '1583030', 'IPE']
- | 00092-2 | BCO AMAZONIA S.A. | Valores Mobiliários Negociados e Detidos | <spanOrder>20261001</spanOrder> 10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:01 |v 1 | dl: ['1107737', '1', '1583031', 'IPE']
- | 05010-5 | CITIGROUP INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:35 |v 1 | dl: ['1107738', '1', '1583032', 'IPE']
- | 05019-9 | PROCTER & GAMBLE COMPANY | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:35 |v 1 | dl: ['1107739', '1', '1583033', 'IPE']
- | 05042-3 | VERIZON COMMUNICATIONS INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:35 |v 1 | dl: ['1107740', '1', '1583034', 'IPE']
- | 05057-1 | JPMORGAN CHASE & CO. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:35 |v 1 | dl: ['1107741', '1', '1583035', 'IPE']
- | 05107-1 | ABBVIE INC. | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:35 |v 1 | dl: ['1107742', '1', '1583036', 'IPE']
- | 05005-9 | BANK OF AMERICA CORPORATION | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:35 |v 1 | dl: ['1107743', '1', '1583037', 'IPE']
- | 05003-2 | EXXONMOBIL HOLDINGS CORPORATION | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:35 |v 1 | dl: ['1107744', '1', '1583038', 'IPE']
- | 05159-4 | CANADIAN NATIONAL RAILWAY CO | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:35 |v 1 | dl: ['1107745', '1', '1583039', 'IPE']
- | 05181-0 | ESTEE LAUDER COMPANIES INC | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:35 |v 1 | dl: ['1107746', '1', '1583040', 'IPE']
- | 05207-8 | REGENERON PHARMACEUTICALS INC | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:35 |v 1 | dl: ['1107747', '1', '1583041', 'IPE']
- | 05225-6 | WESTERN ALLIANCE BANCORPORATION | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:36 |v 1 | dl: ['1107748', '1', '1583042', 'IPE']
- | 05293-0 | DOMINION ENERGY INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:36 |v 1 | dl: ['1107749', '1', '1583043', 'IPE']
- | 05299-0 | EXELON CORP | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:36 |v 1 | dl: ['1107750', '1', '1583044', 'IPE']
- | 05337-6 | GEN DIGITAL INC. | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:36 |v 1 | dl: ['1107751', '1', '1583045', 'IPE']
- | 05350-3 | ZIONS BANCORPORATION NA | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:36 |v 1 | dl: ['1107752', '1', '1583046', 'IPE']
- | 05377-5 | ENTERGY CORP | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:36 |v 1 | dl: ['1107753', '1', '1583047', 'IPE']
- | 05443-7 | AMETEK INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:36 |v 1 | dl: ['1107754', '1', '1583048', 'IPE']
- | 05505-0 | QUEST DIAGNOSTICS INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:36 |v 1 | dl: ['1107755', '1', '1583049', 'IPE']
- | 05458-5 | DOVER CORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:36 |v 1 | dl: ['1107756', '1', '1583050', 'IPE']
- | 05474-7 | ILLINOIS TOOL WORKS INC | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:36 |v 1 | dl: ['1107757', '1', '1583051', 'IPE']
- | 05562-0 | LABCORP HOLDINGS INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:36 |v 1 | dl: ['1107758', '1', '1583052', 'IPE']
- | 05572-7 | REVVITY, INC. | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:36 |v 1 | dl: ['1107759', '1', '1583053', 'IPE']
- | 05577-8 | ROCKWELL AUTOMATION INC | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:36 |v 1 | dl: ['1107760', '1', '1583054', 'IPE']
- | 05618-9 | LEIDOS HOLDINGS INC | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:36 |v 1 | dl: ['1107761', '1', '1583055', 'IPE']
- | 05631-6 | PAYCOM SOFTWARE INC | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:36 |v 1 | dl: ['1107762', '1', '1583056', 'IPE']
- | 05659-6 | BP PLC | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:36 |v 1 | dl: ['1107763', '1', '1583057', 'IPE']
- | 05754-1 | HUBSPOT INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:36 |v 1 | dl: ['1107764', '1', '1583058', 'IPE']
- | 05941-2 | KITE REALTY GROUP TRUST | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:36 |v 1 | dl: ['1107765', '1', '1583059', 'IPE']
- | 05942-6 | CAMECO CORP | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:36 |v 1 | dl: ['1107766', '1', '1583060', 'IPE']
- | 05946-0 | CONSTELLATION ENERGY CORP | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 12:36 |v 1 | dl: ['1107767', '1', '1583061', 'IPE']
- | 02078-8 | MARFRIG GLOBAL FOODS S.A. | Assembleia | <spanOrder>20261030</spanOrder> 30/10/2026 09:00 | <spanOrder>20261103</spanOrder> 03/11/2026 12:40 |v 2 | dl: ['1107768', '2', '1583062', 'IPE']
- | 05081-2 | VANECK EMERGING MARKETS HIGH YIELD BOND  | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 13:07 |v 2 | dl: ['1107769', '2', '1583063', 'IPE']
- | 02637-9 | MADERO INDUSTRIA E COMERCIO S.A. | Valores Mobiliários Negociados e Detidos | <spanOrder>20261001</spanOrder> 10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 13:25 |v 1 | dl: ['1107770', '1', '1583064', 'IPE']
- | 05010-5 | CITIGROUP INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 13:35 |v 1 | dl: ['1107771', '1', '1583065', 'IPE']
- | 05057-1 | JPMORGAN CHASE & CO. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 13:35 |v 1 | dl: ['1107772', '1', '1583066', 'IPE']
- | 05005-9 | BANK OF AMERICA CORPORATION | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 13:35 |v 1 | dl: ['1107773', '1', '1583067', 'IPE']
- | 05009-1 | GOLDMAN SACHS GROUP INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 13:36 |v 1 | dl: ['1107774', '1', '1583068', 'IPE']
- | 05200-0 | NORTHROP GRUMMAN CORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 13:36 |v 1 | dl: ['1107775', '1', '1583069', 'IPE']
- | 05240-0 | NOMURA HOLDINGS INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 13:36 |v 1 | dl: ['1107776', '1', '1583070', 'IPE']
- | 05341-4 | THE WILLIAMS COS INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 13:36 |v 1 | dl: ['1107777', '1', '1583071', 'IPE']
- | 05353-8 | AMEREN CORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 13:36 |v 1 | dl: ['1107778', '1', '1583072', 'IPE']
- | 05420-8 | PRUDENTIAL FINANCIAL INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 13:36 |v 1 | dl: ['1107779', '1', '1583073', 'IPE']
- | 05468-2 | FMC CORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 13:36 |v 1 | dl: ['1107780', '1', '1583074', 'IPE']
- | 05562-0 | LABCORP HOLDINGS INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 13:36 |v 1 | dl: ['1107781', '1', '1583075', 'IPE']
- | 05586-7 | THE SHERWIN-WILLIAMS CO | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 13:36 |v 1 | dl: ['1107782', '1', '1583076', 'IPE']
- | 05618-9 | LEIDOS HOLDINGS INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 13:36 |v 1 | dl: ['1107783', '1', '1583077', 'IPE']
- | 05692-8 | NOVO NORDISK A/S | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 13:36 |v 1 | dl: ['1107784', '1', '1583078', 'IPE']
- | 05718-5 | SIBANYE STILLWATER LTD | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 13:36 |v 1 | dl: ['1107785', '1', '1583079', 'IPE']
- | 05885-8 | TYLER TECHNOLOGIES INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 13:36 |v 1 | dl: ['1107786', '1', '1583080', 'IPE']
- | 02726-0 | CORREDOR LOGÍSTICA E INFRAESTRUTURA S.A. | Valores Mobiliários Negociados e Detidos | <spanOrder>20261001</spanOrder> 10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:07 |v 1 | dl: ['1107787', '1', '1583081', 'IPE']
- | 02423-6 | PRINER SERVIÇOS INDUSTRIAIS S.A. | Assembleia | <spanOrder>20261103</spanOrder> 03/11/2026 11:00 | <spanOrder>20261103</spanOrder> 03/11/2026 14:12 |v 1 | dl: ['1107788', '1', '1583082', 'IPE']
- | 05010-5 | CITIGROUP INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:35 |v 1 | dl: ['1107789', '1', '1583083', 'IPE']
- | 05013-0 | WELLS FARGO & COMPANY | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:35 |v 1 | dl: ['1107790', '1', '1583084', 'IPE']
- | 05057-1 | JPMORGAN CHASE & CO. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:35 |v 1 | dl: ['1107791', '1', '1583085', 'IPE']
- | 05005-9 | BANK OF AMERICA CORPORATION | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:36 |v 1 | dl: ['1107792', '1', '1583086', 'IPE']
- | 05009-1 | GOLDMAN SACHS GROUP INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:36 |v 1 | dl: ['1107793', '1', '1583087', 'IPE']
- | 05165-9 | CHURCH & DWIGHT CO INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:36 |v 1 | dl: ['1107794', '1', '1583088', 'IPE']
- | 05166-7 | CINCINNATI FINANCIAL CORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:36 |v 1 | dl: ['1107795', '1', '1583089', 'IPE']
- | 05258-2 | UNILEVER PLC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:36 |v 1 | dl: ['1107796', '1', '1583090', 'IPE']
- | 05240-0 | NOMURA HOLDINGS INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:36 |v 1 | dl: ['1107797', '1', '1583091', 'IPE']
- | 05298-1 | EOG RESOURCES INC | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:36 |v 1 | dl: ['1107798', '1', '1583092', 'IPE']
- | 05363-5 | BALL CORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:36 |v 1 | dl: ['1107799', '1', '1583093', 'IPE']
- | 05376-7 | EATON CORP PLC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:36 |v 1 | dl: ['1107800', '1', '1583094', 'IPE']
- | 05411-9 | NUCOR CORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:36 |v 1 | dl: ['1107801', '1', '1583095', 'IPE']
- | 05441-0 | BREAD FINANCIAL HOLDINGS, INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:36 |v 1 | dl: ['1107802', '1', '1583096', 'IPE']
- | 05454-2 | CMS ENERGY CORP | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:36 |v 1 | dl: ['1107803', '1', '1583097', 'IPE']
- | 05513-1 | STRYKER CORP | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:36 |v 1 | dl: ['1107804', '1', '1583098', 'IPE']
- | 05554-9 | GLOBE LIFE INC | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:36 |v 1 | dl: ['1107805', '1', '1583099', 'IPE']
- | 05586-7 | THE SHERWIN-WILLIAMS CO | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:36 |v 1 | dl: ['1107806', '1', '1583100', 'IPE']
- | 05714-2 | WPP PLC | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:36 |v 1 | dl: ['1107807', '1', '1583101', 'IPE']
- | 05053-9 | VTEX | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:36 |v 1 | dl: ['1107808', '1', '1583102', 'IPE']
- | 05941-7 | RYMAN HOSPITALITY PROPERTIES INC | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:37 |v 1 | dl: ['1107809', '1', '1583103', 'IPE']
- | 01872-4 | BRADESPAR S.A. | Dados Econômico-Financeiros | <spanOrder>20261030</spanOrder> 30/10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:37 |v 1 | dl: ['1107810', '1', '1583104', 'IPE']
- | 00670-0 | HOTEIS OTHON S.A. | Informações de Companhias em Recuperação Judicial ou Extrajudicial | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 14:40 |v 1 | dl: ['1107811', '1', '1583105', 'IPE']
- | 91751-1 | CONCESSIONÁRIA DE ILUMINAÇÃO PÚBLICA CON | Dados Econômico-Financeiros | <spanOrder>20211231</spanOrder> 31/12/2021 | <spanOrder>20261103</spanOrder> 03/11/2026 14:45 |v 1 | dl: ['1107812', '1', '1583106', 'IPE']
- | 91751-1 | CONCESSIONÁRIA DE ILUMINAÇÃO PÚBLICA CON | Dados Econômico-Financeiros | <spanOrder>20221231</spanOrder> 31/12/2022 | <spanOrder>20261103</spanOrder> 03/11/2026 14:47 |v 1 | dl: ['1107813', '1', '1583107', 'IPE']
- | 91751-1 | CONCESSIONÁRIA DE ILUMINAÇÃO PÚBLICA CON | Dados Econômico-Financeiros | <spanOrder>20231231</spanOrder> 31/12/2023 | <spanOrder>20261103</spanOrder> 03/11/2026 14:50 |v 1 | dl: ['1107814', '1', '1583108', 'IPE']
- | 91751-1 | CONCESSIONÁRIA DE ILUMINAÇÃO PÚBLICA CON | Dados Econômico-Financeiros | <spanOrder>20241231</spanOrder> 31/12/2024 | <spanOrder>20261103</spanOrder> 03/11/2026 14:53 |v 1 | dl: ['1107815', '1', '1583109', 'IPE']
- | 91751-1 | CONCESSIONÁRIA DE ILUMINAÇÃO PÚBLICA CON | Dados Econômico-Financeiros | <spanOrder>20251231</spanOrder> 31/12/2025 | <spanOrder>20261103</spanOrder> 03/11/2026 14:56 |v 1 | dl: ['1107816', '1', '1583110', 'IPE']
- | 00995-4 | ALFA HOLDINGS S.A. | Valores Mobiliários Negociados e Detidos | <spanOrder>20261001</spanOrder> 10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 15:10 |v 1 | dl: ['1107817', '1', '1583111', 'IPE']
- | 01686-1 | CIA CATARINENSE DE AGUAS E SANEAM.-CASAN | Valores Mobiliários Negociados e Detidos | <spanOrder>20261001</spanOrder> 10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 15:15 |v 1 | dl: ['1107818', '1', '1583112', 'IPE']
- | 00995-4 | ALFA HOLDINGS S.A. | Valores Mobiliários Negociados e Detidos | <spanOrder>20261001</spanOrder> 10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 15:20 |v 1 | dl: ['1107819', '1', '1583113', 'IPE']
- | 01336-6 | HAGA S.A. INDUSTRIA E COMERCIO | Valores Mobiliários Negociados e Detidos | <spanOrder>20261001</spanOrder> 10/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 15:20 |v 1 | dl: ['1107820', '1', '1583114', 'IPE']
- | 90058-6 | GDS SUBHOLDING S.A. | Assembleia | <spanOrder>20261026</spanOrder> 26/10/2026 10:00 | <spanOrder>20261103</spanOrder> 03/11/2026 15:33 |v 1 | dl: ['1107821', '1', '1583115', 'IPE']
- | 05010-5 | CITIGROUP INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 15:35 |v 1 | dl: ['1107822', '1', '1583116', 'IPE']
- | 05018-0 | FREEPORT-MCMORAN INC. | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 15:35 |v 1 | dl: ['1107823', '1', '1583117', 'IPE']
- | 05019-9 | PROCTER & GAMBLE COMPANY | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 15:35 |v 1 | dl: ['1107824', '1', '1583118', 'IPE']
- | 05042-3 | VERIZON COMMUNICATIONS INC. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 15:35 |v 1 | dl: ['1107825', '1', '1583119', 'IPE']
- | 05042-3 | VERIZON COMMUNICATIONS INC. | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 15:35 |v 1 | dl: ['1107826', '1', '1583120', 'IPE']
- | 05013-0 | WELLS FARGO & COMPANY | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 15:35 |v 1 | dl: ['1107827', '1', '1583121', 'IPE']
- | 05103-9 | BXP, INC. | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 15:35 |v 1 | dl: ['1107828', '1', '1583122', 'IPE']
- | 05057-1 | JPMORGAN CHASE & CO. | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 15:35 |v 1 | dl: ['1107829', '1', '1583123', 'IPE']
- | 05111-0 | CVS HEALTH CORPORATION | Aviso aos Acionistas | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 15:35 |v 1 | dl: ['1107830', '1', '1583124', 'IPE']
- | 05005-9 | BANK OF AMERICA CORPORATION | Comunicado ao Mercado | <spanOrder>20261103</spanOrder> 03/11/2026 | <spanOrder>20261103</spanOrder> 03/11/2026 15:35 |v 1 | dl: ['1107831', '1', '1583125', 'IPE']
+ | 01398-6 | SUZANO S.A. | Dados Econômico-Financeiros | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:36 |v 1 | dl: ['1109620', '1', '1584914', 'IPE']
+ | 01961-5 | GRENDENE S.A. | Dados Econômico-Financeiros | <spanOrder>20260930</spanOrder> 30/09/2026 | <spanOrder>20261105</spanOrder> 05/11/2026 18:51 |v 1 | dl: ['1109785', '1', '1585079', 'IPE']
 download: https://www.rad.cvm.gov.br/ENET/frmDownloadDocumento.aspx?Tela=ext&numSequencia=162068&numVersao=1&numProtocolo=013986ITR300920260100162068-74&descTipo=ITR&CodigoInstituicao=1
-bytes: 7341809 | content-type: text/html | disposition: None
+bytes: 7341807 | content-type: text/html | disposition: None
 - 013986ITR30-09-2026v1.xml (7548691 bytes)
-  início: <?xml version="1.0" encoding="utf-8"?> <XmlInformacoesTrimestraisFinanceiras xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">   <DadosEmpresa>     <CodigoCvm>013986</CodigoCvm>     <RazaoSocialEmpresa>SUZANO S.A.</RazaoSocialEmpresa>     <CnpjEmpresa>16404287000155</CnpjEmpresa>     <TipoEmpresa>1</TipoEmpresa>   </DadosEmpresa>   <Documento>     <TipoDocumento>3</TipoDocumento>     <TipoApresentacao>1</TipoApresentacao>     <NumeroExigencia />     <MotivoReapresentacao />     <VersaoDocumento>1</VersaoDocumento>     <ResponsavelDocumento>       <NomeResponsavel />       <DddResponsavel />       <TelefoneResponsavel />       <EmailResponsavel />     </ResponsavelDocumento>   </Documento>   <DadosITR>     <DataReferencia>30/09/2026</DataReferencia>     <DtInicioTrimestreAtual>01/07/2026</DtInicioTrimestreAtual>     <DtFimTrimestreAtual>30/09/2026</DtFimTrimestreAtual>     <DtInicioExercicioSocialCurso>01/01/2026</DtInicioExercicioSocialCurso>     <DtFimExercicioSocialCurso>31/12/2026</DtFimExercicioSocialCurso>     <DtInicioExercicioSocialAnterior>01/01/2025</DtInicioExercicioSocialAnterior>     <DtFimExercicioSocialAnterior>31/12/2025</DtFimExercicioSocialAnterior>     <Moeda>1</Moeda>     <EscalaMoeda>2</EscalaMoeda>     <EscalaQtdAcoes>1</EscalaQtdAcoes>     <TipoDemonstracao>2</TipoDemonstracao>     <VersaoPlanoContas>2</VersaoPlanoContas>     <Formulario>       <DadosEmpresa>         <C
-- 162068_013986_08112026013322.pdf (8530880 bytes)
+- 162068_013986_08112026013516.pdf (8530880 bytes)
 - DadosDocumento.xlsx (86882 bytes)
-  - [Content_Types].xml (3981 bytes)
-    início: <?xml version="1.0" encoding="UTF-8" standalone="yes"?> <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="bin" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.printerSettings"/><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/worksheets/sheet2.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/worksheets/sheet3.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/worksheets/sheet4.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/worksheets/sheet5.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/worksheets/sheet6.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/worksheets/sheet7.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartNam
-  - _rels/.rels (881 bytes)
-  - xl/workbook.xml (3481 bytes)
-    início: <?xml version="1.0" encoding="utf-8" standalone="yes"?><x:workbook xmlns:x15ac="http://schemas.microsoft.com/office/spreadsheetml/2010/11/ac" xmlns:xcalcf="http://schemas.microsoft.com/office/spreadsheetml/2018/calcfeatures" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x15="http://schemas.microsoft.com/office/spreadsheetml/2010/11/main" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr6="http://schemas.microsoft.com/office/spreadsheetml/2016/revision6" xmlns:xr10="http://schemas.microsoft.com/office/spreadsheetml/2016/revision10" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main" mc:Ignorable="x15 xr xr6 xr10 xr2"><x:fileVersion appName="xl" lastEdited="7" lowestEdited="7" rupBuild="29822" /><x:workbookPr defaultThemeVersion="166925" /><mc:AlternateContent xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"><mc:Choice Requires="x15"><x15ac:absPath xmlns:x15ac="http://schemas.microsoft.com/office/spreadsheetml/2010/11/ac" url="C:\work\enet\relatorios\ITRExcel\" /></mc:Choice></mc:AlternateContent><xr:revisionPtr revIDLastSave="0" documentId="13_ncr:1_{1CDBD4E8-A948-4337-8925-53BAD026E11A}" xr6:coauthVersionLast="47" xr6:coauthVersionMax="47" xr10:uidLastSave="{00000000-0000-0000-0000-000000000000}"></xr:revisionPtr><x:bookVi
-  - xl/_rels/workbook.xml.rels (3259 bytes)
-  - xl/worksheets/sheet1.xml (3523 bytes)
-    início: <?xml version="1.0" encoding="utf-8" standalone="yes"?><x:worksheet xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" xmlns:xr3="http://schemas.microsoft.com/office/spreadsheetml/2016/revision3" xr:uid="{00000000-0001-0000-0000-000000000000}" mc:Ignorable="x14ac xr xr2 xr3" xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><x:dimension ref="A1:L2" /><x:sheetViews><x:sheetView tabSelected="1" topLeftCell="D1" workbookViewId="0"><x:selection activeCell="I6" sqref="I6" /></x:sheetView></x:sheetViews><x:sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25" /><x:cols><x:col min="1" max="1" width="14.85546875" style="1" bestFit="1" customWidth="1" /><x:col min="2" max="2" width="35.28515625" style="1" bestFit="1" customWidth="1" /><x:col min="3" max="3" width="38" style="1" bestFit="1" customWidth="1" /><x:col min="4" max="4" width="24.42578125" style="1" bestFit="1" customWidth="1" /><x:col min="5" max="5" width="26.140625" style="1" bestFit="1" customWidth="1" /><x:col min="6" max="6" width="28.7109375" style="1" bestFit="1" customWidth="1" /><x:col min="7" max="7" width="15.28515625" style="1" bestFit="1" customWidth="1" /><x:col min="8"
-  - xl/worksheets/sheet2.xml (23633 bytes)
-    início: <?xml version="1.0" encoding="utf-8" standalone="yes"?><x:worksheet xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" xmlns:xr3="http://schemas.microsoft.com/office/spreadsheetml/2016/revision3" xr:uid="{00000000-0001-0000-0100-000000000000}" mc:Ignorable="x14ac xr xr2 xr3" xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><x:dimension ref="A1:E2" /><x:sheetViews><x:sheetView workbookViewId="0"><x:selection activeCell="E9" sqref="E9" /></x:sheetView></x:sheetViews><x:sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25" /><x:cols><x:col min="1" max="1" width="12.7109375" bestFit="1" customWidth="1" /><x:col min="2" max="2" width="15.140625" bestFit="1" customWidth="1" /><x:col min="3" max="3" width="20.140625" bestFit="1" customWidth="1" /><x:col min="4" max="4" width="22.28515625" bestFit="1" customWidth="1" /><x:col min="5" max="5" width="10.42578125" bestFit="1" customWidth="1" /></x:cols><x:sheetData><x:row r="1" spans="1:5" x14ac:dyDescent="0.25"><x:c r="A1" t="s"><x:v>8</x:v></x:c><x:c r="B1" t="s"><x:v>9</x:v></x:c><x:c r="C1" t="s"><x:v>10</x:v></x:c><x:c r="D1" t="s"><x:v>11</x:v></x:c><x:c r="E1" t="s"><x:v>4</x:v></x:c></x:
-  - xl/worksheets/sheet3.xml (38166 bytes)
-    início: <?xml version="1.0" encoding="utf-8" standalone="yes"?><x:worksheet xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" xmlns:xr3="http://schemas.microsoft.com/office/spreadsheetml/2016/revision3" xr:uid="{00000000-0001-0000-0200-000000000000}" mc:Ignorable="x14ac xr xr2 xr3" xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><x:dimension ref="A1:E2" /><x:sheetViews><x:sheetView workbookViewId="0"><x:selection activeCell="E2" sqref="E2" /></x:sheetView></x:sheetViews><x:sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25" /><x:cols><x:col min="1" max="1" width="12.7109375" bestFit="1" customWidth="1" /><x:col min="2" max="2" width="15.140625" bestFit="1" customWidth="1" /><x:col min="3" max="3" width="20.140625" bestFit="1" customWidth="1" /><x:col min="4" max="4" width="22.28515625" bestFit="1" customWidth="1" /><x:col min="5" max="5" width="8.42578125" bestFit="1" customWidth="1" /></x:cols><x:sheetData><x:row r="1" spans="1:5" x14ac:dyDescent="0.25"><x:c r="A1" t="s"><x:v>8</x:v></x:c><x:c r="B1" t="s"><x:v>9</x:v></x:c><x:c r="C1" t="s"><x:v>10</x:v></x:c><x:c r="D1" t="s"><x:v>11</x:v></x:c><x:c r="E1" t="s"><x:v>4</x:v></x:c></x:r
-  - xl/worksheets/sheet4.xml (12424 bytes)
-    início: <?xml version="1.0" encoding="utf-8" standalone="yes"?><x:worksheet xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" xmlns:xr3="http://schemas.microsoft.com/office/spreadsheetml/2016/revision3" xr:uid="{00000000-0001-0000-0300-000000000000}" mc:Ignorable="x14ac xr xr2 xr3" xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><x:dimension ref="A1:G2" /><x:sheetViews><x:sheetView workbookViewId="0"><x:selection activeCell="G2" sqref="A1:G2" /></x:sheetView></x:sheetViews><x:sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25" /><x:cols><x:col min="1" max="1" width="12.7109375" bestFit="1" customWidth="1" /><x:col min="2" max="2" width="15.140625" bestFit="1" customWidth="1" /><x:col min="3" max="3" width="20.140625" bestFit="1" customWidth="1" /><x:col min="4" max="4" width="30.28515625" bestFit="1" customWidth="1" /><x:col min="5" max="5" width="31.5703125" bestFit="1" customWidth="1" /><x:col min="6" max="6" width="33" bestFit="1" customWidth="1" /><x:col min="7" max="7" width="8.42578125" bestFit="1" customWidth="1" /></x:cols><x:sheetData><x:row r="1" spans="1:7" x14ac:dyDescent="0.25"><x:c r="A1" t="s"><x:v>8</x:v></x:c><x:c r="B1" 
-  - xl/worksheets/sheet5.xml (6499 bytes)
-    início: <?xml version="1.0" encoding="utf-8" standalone="yes"?><x:worksheet xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" xmlns:xr3="http://schemas.microsoft.com/office/spreadsheetml/2016/revision3" xr:uid="{00000000-0001-0000-0400-000000000000}" mc:Ignorable="x14ac xr xr2 xr3" xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><x:dimension ref="A1:G2" /><x:sheetViews><x:sheetView workbookViewId="0"><x:selection activeCell="G2" sqref="A1:G2" /></x:sheetView></x:sheetViews><x:sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25" /><x:cols><x:col min="1" max="1" width="12.7109375" bestFit="1" customWidth="1" /><x:col min="2" max="2" width="15.140625" bestFit="1" customWidth="1" /><x:col min="3" max="3" width="20.140625" bestFit="1" customWidth="1" /><x:col min="4" max="4" width="30.28515625" bestFit="1" customWidth="1" /><x:col min="5" max="5" width="31.5703125" bestFit="1" customWidth="1" /><x:col min="6" max="6" width="33" bestFit="1" customWidth="1" /><x:col min="7" max="7" width="8.42578125" bestFit="1" customWidth="1" /></x:cols><x:sheetData><x:row r="1" spans="1:7" x14ac:dyDescent="0.25"><x:c r="A1" t="s"><x:v>8</x:v></x:c><x:c r="B1" 
-  - xl/worksheets/sheet6.xml (19542 bytes)
-    início: <?xml version="1.0" encoding="utf-8" standalone="yes"?><x:worksheet xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" xmlns:xr3="http://schemas.microsoft.com/office/spreadsheetml/2016/revision3" xr:uid="{00000000-0001-0000-0500-000000000000}" mc:Ignorable="x14ac xr xr2 xr3" xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><x:dimension ref="A1:E2" /><x:sheetViews><x:sheetView workbookViewId="0"><x:selection sqref="A1:E2" /></x:sheetView></x:sheetViews><x:sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25" /><x:cols><x:col min="1" max="1" width="12.7109375" bestFit="1" customWidth="1" /><x:col min="2" max="2" width="15.140625" bestFit="1" customWidth="1" /><x:col min="3" max="3" width="30.28515625" bestFit="1" customWidth="1" /><x:col min="4" max="4" width="33" bestFit="1" customWidth="1" /><x:col min="5" max="5" width="8.42578125" bestFit="1" customWidth="1" /></x:cols><x:sheetData><x:row r="1" spans="1:5" x14ac:dyDescent="0.25"><x:c r="A1" t="s"><x:v>8</x:v></x:c><x:c r="B1" t="s"><x:v>9</x:v></x:c><x:c r="C1" t="s"><x:v>12</x:v></x:c><x:c r="D1" t="s"><x:v>13</x:v></x:c><x:c r="E1" t="s"><x:v>4</x:v></x:c></x:row><x:row r="2" span
-  - xl/worksheets/sheet7.xml (13771 bytes)
-    início: <?xml version="1.0" encoding="utf-8" standalone="yes"?><x:worksheet xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" xmlns:xr3="http://schemas.microsoft.com/office/spreadsheetml/2016/revision3" xr:uid="{00000000-0001-0000-0600-000000000000}" mc:Ignorable="x14ac xr xr2 xr3" xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><x:dimension ref="A1:E2" /><x:sheetViews><x:sheetView workbookViewId="0"><x:selection sqref="A1:E2" /></x:sheetView></x:sheetViews><x:sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25" /><x:cols><x:col min="1" max="1" width="12.7109375" bestFit="1" customWidth="1" /><x:col min="2" max="2" width="15.140625" bestFit="1" customWidth="1" /><x:col min="3" max="3" width="30.28515625" bestFit="1" customWidth="1" /><x:col min="4" max="4" width="33" bestFit="1" customWidth="1" /><x:col min="5" max="5" width="8.42578125" bestFit="1" customWidth="1" /></x:cols><x:sheetData><x:row r="1" spans="1:5" x14ac:dyDescent="0.25"><x:c r="A1" t="s"><x:v>8</x:v></x:c><x:c r="B1" t="s"><x:v>9</x:v></x:c><x:c r="C1" t="s"><x:v>12</x:v></x:c><x:c r="D1" t="s"><x:v>13</x:v></x:c><x:c r="E1" t="s"><x:v>4</x:v></x:c></x:row><x:row r="2" span
-  - xl/worksheets/sheet8.xml (18083 bytes)
-    início: <?xml version="1.0" encoding="utf-8" standalone="yes"?><x:worksheet xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" xmlns:xr3="http://schemas.microsoft.com/office/spreadsheetml/2016/revision3" xr:uid="{00000000-0001-0000-0700-000000000000}" mc:Ignorable="x14ac xr xr2 xr3" xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><x:dimension ref="A1:J2" /><x:sheetViews><x:sheetView workbookViewId="0" /></x:sheetViews><x:sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25" /><x:cols><x:col min="1" max="1" width="12.7109375" bestFit="1" customWidth="1" /><x:col min="3" max="3" width="18.140625" bestFit="1" customWidth="1" /><x:col min="4" max="4" width="55.140625" bestFit="1" customWidth="1" /><x:col min="5" max="5" width="19.42578125" bestFit="1" customWidth="1" /><x:col min="6" max="6" width="33" bestFit="1" customWidth="1" /><x:col min="7" max="7" width="27.28515625" bestFit="1" customWidth="1" /><x:col min="8" max="8" width="34.85546875" bestFit="1" customWidth="1" /><x:col min="9" max="9" width="23.140625" bestFit="1" customWidth="1" /></x:cols><x:sheetData><x:row r="1" spans="1:10" x14ac:dyDescent="0.25"><x:c r="A1" s="1" t="s"><x:v>11
-  - xl/worksheets/sheet9.xml (18734 bytes)
-    início: <?xml version="1.0" encoding="utf-8" standalone="yes"?><x:worksheet xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" xmlns:xr3="http://schemas.microsoft.com/office/spreadsheetml/2016/revision3" xr:uid="{881AFA4A-1B0D-43F4-AD6E-F8FFC31E2CF5}" mc:Ignorable="x14ac xr xr2 xr3" xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><x:dimension ref="A1:J2" /><x:sheetViews><x:sheetView workbookViewId="0"><x:selection activeCell="J1" sqref="A1:J2" /></x:sheetView></x:sheetViews><x:sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25" /><x:cols><x:col min="1" max="1" width="12.7109375" bestFit="1" customWidth="1" /><x:col min="2" max="2" width="15.140625" bestFit="1" customWidth="1" /><x:col min="3" max="3" width="18.140625" bestFit="1" customWidth="1" /><x:col min="4" max="4" width="55.140625" bestFit="1" customWidth="1" /><x:col min="5" max="5" width="19.42578125" bestFit="1" customWidth="1" /><x:col min="6" max="6" width="33" bestFit="1" customWidth="1" /><x:col min="7" max="7" width="32.28515625" bestFit="1" customWidth="1" /><x:col min="8" max="8" width="34.85546875" bestFit="1" customWidth="1" /><x:col min="9" max="9" width="23.140625" best
-  - xl/worksheets/sheet10.xml (2471 bytes)
-    início: <?xml version="1.0" encoding="UTF-8" standalone="yes"?> <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="x14ac xr xr2 xr3" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" xmlns:xr3="http://schemas.microsoft.com/office/spreadsheetml/2016/revision3" xr:uid="{00000000-0001-0000-0800-000000000000}"><dimension ref="A1:J2"/><sheetViews><sheetView workbookViewId="0"/></sheetViews><sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25"/><cols><col min="1" max="1" width="12.7109375" bestFit="1" customWidth="1"/><col min="2" max="2" width="15.140625" bestFit="1" customWidth="1"/><col min="3" max="3" width="18.140625" bestFit="1" customWidth="1"/><col min="4" max="4" width="55.140625" bestFit="1" customWidth="1"/><col min="5" max="5" width="19.42578125" bestFit="1" customWidth="1"/><col min="6" max="6" width="33" bestFit="1" customWidth="1"/><col min="7" max="7" width="32.28515625" bestFit="1" customWidth="1"/><col min="8" max="8" width="34.85546875" bestFit="1" customWidth="1"/><col min="9" max="9" width="23.140625" bestFit="1" customWidth="1"/><col min="10" max="10" width="8.42578125" bestFit="1" customWidth="1"/></co
-  - xl/worksheets/sheet11.xml (24031 bytes)
-    início: <?xml version="1.0" encoding="utf-8" standalone="yes"?><x:worksheet xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" xmlns:xr3="http://schemas.microsoft.com/office/spreadsheetml/2016/revision3" xr:uid="{1BD1A5E4-36EF-4F68-A5A1-4F8072EB7C34}" mc:Ignorable="x14ac xr xr2 xr3" xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><x:dimension ref="A1:E2" /><x:sheetViews><x:sheetView workbookViewId="0"><x:selection activeCell="E2" sqref="E2" /></x:sheetView></x:sheetViews><x:sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25" /><x:cols><x:col min="1" max="1" width="12.7109375" bestFit="1" customWidth="1" /><x:col min="2" max="2" width="15.140625" bestFit="1" customWidth="1" /><x:col min="3" max="3" width="20.140625" bestFit="1" customWidth="1" /><x:col min="4" max="4" width="22.28515625" bestFit="1" customWidth="1" /><x:col min="5" max="5" width="8.42578125" bestFit="1" customWidth="1" /></x:cols><x:sheetData><x:row r="1" spans="1:5" x14ac:dyDescent="0.25"><x:c r="A1" t="s"><x:v>8</x:v></x:c><x:c r="B1" t="s"><x:v>9</x:v></x:c><x:c r="C1" t="s"><x:v>10</x:v></x:c><x:c r="D1" t="s"><x:v>11</x:v></x:c><x:c r="E1" t="s"><x:v>4</x:v></x:c></x:r
-  - xl/worksheets/sheet12.xml (38252 bytes)
-    início: <?xml version="1.0" encoding="utf-8" standalone="yes"?><x:worksheet xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" xmlns:xr3="http://schemas.microsoft.com/office/spreadsheetml/2016/revision3" xr:uid="{AC4D5321-2A87-4C4D-810D-E25DAF3B2E86}" mc:Ignorable="x14ac xr xr2 xr3" xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><x:dimension ref="A1:E2" /><x:sheetViews><x:sheetView workbookViewId="0"><x:selection activeCell="E2" sqref="E2" /></x:sheetView></x:sheetViews><x:sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25" /><x:cols><x:col min="1" max="1" width="12.7109375" bestFit="1" customWidth="1" /><x:col min="2" max="2" width="15.140625" bestFit="1" customWidth="1" /><x:col min="3" max="3" width="20.140625" bestFit="1" customWidth="1" /><x:col min="4" max="4" width="22.28515625" bestFit="1" customWidth="1" /><x:col min="5" max="5" width="8.42578125" bestFit="1" customWidth="1" /></x:cols><x:sheetData><x:row r="1" spans="1:5" x14ac:dyDescent="0.25"><x:c r="A1" t="s"><x:v>8</x:v></x:c><x:c r="B1" t="s"><x:v>9</x:v></x:c><x:c r="C1" t="s"><x:v>10</x:v></x:c><x:c r="D1" t="s"><x:v>11</x:v></x:c><x:c r="E1" t="s"><x:v>4</x:v></x:c></x:r
-  - xl/worksheets/sheet13.xml (13234 bytes)
-    início: <?xml version="1.0" encoding="utf-8" standalone="yes"?><x:worksheet xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" xmlns:xr3="http://schemas.microsoft.com/office/spreadsheetml/2016/revision3" xr:uid="{FC6CEC48-D68C-40E0-8D54-1B7AE224BD2D}" mc:Ignorable="x14ac xr xr2 xr3" xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><x:dimension ref="A1:G2" /><x:sheetViews><x:sheetView workbookViewId="0"><x:selection activeCell="A2" sqref="A2" /></x:sheetView></x:sheetViews><x:sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25" /><x:cols><x:col min="1" max="1" width="12.7109375" bestFit="1" customWidth="1" /><x:col min="2" max="2" width="15.140625" bestFit="1" customWidth="1" /><x:col min="3" max="3" width="20.140625" bestFit="1" customWidth="1" /><x:col min="4" max="4" width="30.28515625" bestFit="1" customWidth="1" /><x:col min="5" max="5" width="31.5703125" bestFit="1" customWidth="1" /><x:col min="6" max="6" width="33" bestFit="1" customWidth="1" /><x:col min="7" max="7" width="8.42578125" bestFit="1" customWidth="1" /></x:cols><x:sheetData><x:row r="1" spans="1:7" x14ac:dyDescent="0.25"><x:c r="A1" t="s"><x:v>8</x:v></x:c><x:c r="B1" t="
-  - xl/worksheets/sheet14.xml (6519 bytes)
-    início: <?xml version="1.0" encoding="utf-8" standalone="yes"?><x:worksheet xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" xmlns:xr3="http://schemas.microsoft.com/office/spreadsheetml/2016/revision3" xr:uid="{92903B5C-638C-4821-9CC3-DCAEB2CD0209}" mc:Ignorable="x14ac xr xr2 xr3" xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><x:dimension ref="A1:G2" /><x:sheetViews><x:sheetView workbookViewId="0"><x:selection activeCell="A2" sqref="A2" /></x:sheetView></x:sheetViews><x:sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25" /><x:cols><x:col min="1" max="1" width="12.7109375" bestFit="1" customWidth="1" /><x:col min="2" max="2" width="15.140625" bestFit="1" customWidth="1" /><x:col min="3" max="3" width="20.140625" bestFit="1" customWidth="1" /><x:col min="4" max="4" width="30.28515625" bestFit="1" customWidth="1" /><x:col min="5" max="5" width="31.5703125" bestFit="1" customWidth="1" /><x:col min="6" max="6" width="33" bestFit="1" customWidth="1" /><x:col min="7" max="7" width="8.42578125" bestFit="1" customWidth="1" /></x:cols><x:sheetData><x:row r="1" spans="1:7" x14ac:dyDescent="0.25"><x:c r="A1" t="s"><x:v>8</x:v></x:c><x:c r="B1" t="
-  - xl/worksheets/sheet15.xml (19936 bytes)
-    início: <?xml version="1.0" encoding="utf-8" standalone="yes"?><x:worksheet xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" xmlns:xr3="http://schemas.microsoft.com/office/spreadsheetml/2016/revision3" xr:uid="{68EF5228-D592-48BD-B6C9-079AD2139DE2}" mc:Ignorable="x14ac xr xr2 xr3" xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><x:dimension ref="A1:E2" /><x:sheetViews><x:sheetView workbookViewId="0"><x:selection activeCell="A2" sqref="A2" /></x:sheetView></x:sheetViews><x:sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25" /><x:cols><x:col min="1" max="1" width="12.7109375" bestFit="1" customWidth="1" /><x:col min="2" max="2" width="15.140625" bestFit="1" customWidth="1" /><x:col min="3" max="3" width="30.28515625" bestFit="1" customWidth="1" /><x:col min="4" max="4" width="33" bestFit="1" customWidth="1" /><x:col min="5" max="5" width="8.42578125" bestFit="1" customWidth="1" /></x:cols><x:sheetData><x:row r="1" spans="1:5" x14ac:dyDescent="0.25"><x:c r="A1" t="s"><x:v>8</x:v></x:c><x:c r="B1" t="s"><x:v>9</x:v></x:c><x:c r="C1" t="s"><x:v>12</x:v></x:c><x:c r="D1" t="s"><x:v>13</x:v></x:c><x:c r="E1" t="s"><x:v>4</x:v></x:c></x:row><x:r
-  - xl/worksheets/sheet16.xml (14063 bytes)
-    início: <?xml version="1.0" encoding="utf-8" standalone="yes"?><x:worksheet xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" xmlns:xr3="http://schemas.microsoft.com/office/spreadsheetml/2016/revision3" xr:uid="{17E24810-1084-40A9-A473-9939BEF4108A}" mc:Ignorable="x14ac xr xr2 xr3" xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><x:dimension ref="A1:E2" /><x:sheetViews><x:sheetView workbookViewId="0"><x:selection activeCell="C2" sqref="C2" /></x:sheetView></x:sheetViews><x:sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25" /><x:cols><x:col min="1" max="1" width="12.7109375" bestFit="1" customWidth="1" /><x:col min="2" max="2" width="15.140625" bestFit="1" customWidth="1" /><x:col min="3" max="3" width="30.28515625" bestFit="1" customWidth="1" /><x:col min="4" max="4" width="33" bestFit="1" customWidth="1" /><x:col min="5" max="5" width="8.42578125" bestFit="1" customWidth="1" /></x:cols><x:sheetData><x:row r="1" spans="1:5" x14ac:dyDescent="0.25"><x:c r="A1" t="s"><x:v>8</x:v></x:c><x:c r="B1" t="s"><x:v>9</x:v></x:c><x:c r="C1" t="s"><x:v>12</x:v></x:c><x:c r="D1" t="s"><x:v>13</x:v></x:c><x:c r="E1" t="s"><x:v>4</x:v></x:c></x:row><x:r
-  - xl/worksheets/sheet17.xml (20262 bytes)
-    início: <?xml version="1.0" encoding="utf-8" standalone="yes"?><x:worksheet xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" xmlns:xr3="http://schemas.microsoft.com/office/spreadsheetml/2016/revision3" xr:uid="{9E853DE6-A1B4-4F29-AFCB-91D35163C074}" mc:Ignorable="x14ac xr xr2 xr3" xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><x:dimension ref="A1:J2" /><x:sheetViews><x:sheetView workbookViewId="0" /></x:sheetViews><x:sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25" /><x:cols><x:col min="1" max="1" width="12.7109375" bestFit="1" customWidth="1" /><x:col min="2" max="2" width="15.140625" bestFit="1" customWidth="1" /><x:col min="3" max="3" width="18.140625" bestFit="1" customWidth="1" /><x:col min="4" max="4" width="55.140625" bestFit="1" customWidth="1" /><x:col min="5" max="5" width="19.42578125" bestFit="1" customWidth="1" /><x:col min="6" max="6" width="33" bestFit="1" customWidth="1" /><x:col min="7" max="7" width="32.28515625" bestFit="1" customWidth="1" /><x:col min="8" max="8" width="34.85546875" bestFit="1" customWidth="1" /><x:col min="9" max="9" width="23.140625" bestFit="1" customWidth="1" /><x:col min="10" max="10" width=
-  - xl/worksheets/sheet18.xml (20318 bytes)
-    início: <?xml version="1.0" encoding="utf-8" standalone="yes"?><x:worksheet xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" xmlns:xr3="http://schemas.microsoft.com/office/spreadsheetml/2016/revision3" xr:uid="{1036D69E-DD8C-4CBA-AE79-8E3C33B1FC19}" mc:Ignorable="x14ac xr xr2 xr3" xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><x:dimension ref="A1:J2" /><x:sheetViews><x:sheetView workbookViewId="0"><x:selection sqref="A1:J1048576" /></x:sheetView></x:sheetViews><x:sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25" /><x:cols><x:col min="1" max="1" width="12.7109375" bestFit="1" customWidth="1" /><x:col min="2" max="2" width="15.140625" bestFit="1" customWidth="1" /><x:col min="3" max="3" width="18.140625" bestFit="1" customWidth="1" /><x:col min="4" max="4" width="55.140625" bestFit="1" customWidth="1" /><x:col min="5" max="5" width="19.42578125" bestFit="1" customWidth="1" /><x:col min="6" max="6" width="33" bestFit="1" customWidth="1" /><x:col min="7" max="7" width="32.28515625" bestFit="1" customWidth="1" /><x:col min="8" max="8" width="34.85546875" bestFit="1" customWidth="1" /><x:col min="9" max="9" width="23.140625" bestFit="1" cu
-  - xl/worksheets/sheet19.xml (1798 bytes)
-    início: <?xml version="1.0" encoding="UTF-8" standalone="yes"?> <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="x14ac xr xr2 xr3" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" xmlns:xr3="http://schemas.microsoft.com/office/spreadsheetml/2016/revision3" xr:uid="{FED78D6F-A689-4C26-A310-F298ECC8FEAA}"><dimension ref="A1:J2"/><sheetViews><sheetView workbookViewId="0"><selection sqref="A1:J2"/></sheetView></sheetViews><sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25"/><sheetData><row r="1" spans="1:10" x14ac:dyDescent="0.25"><c r="A1" t="s"><v>8</v></c><c r="B1" t="s"><v>9</v></c><c r="C1" t="s"><v>15</v></c><c r="D1" t="s"><v>16</v></c><c r="E1" t="s"><v>17</v></c><c r="F1" t="s"><v>18</v></c><c r="G1" t="s"><v>19</v></c><c r="H1" t="s"><v>20</v></c><c r="I1" t="s"><v>21</v></c><c r="J1" t="s"><v>4</v></c></row><row r="2" spans="1:10" x14ac:dyDescent="0.25"><c r="A2" s="1"/><c r="B2" s="1"/><c r="C2" s="1"/><c r="D2" s="1"/><c r="E2" s="1"/><c r="F2" s="1"/><c r="G2" s="1"/><c r="H2" s="1"/><c r="I2" s="1"/><c r="J2" s="1"/></row></sheetData><pageMargins left="0.511811024" right="0.511811024" top="0.78740157499
-  - xl/theme/theme1.xml (8452 bytes)
-    início: <?xml version="1.0" encoding="UTF-8" standalone="yes"?> <a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="Tema do Office 2013 - 2022"><a:themeElements><a:clrScheme name="Office 2013 - 2022"><a:dk1><a:sysClr val="windowText" lastClr="000000"/></a:dk1><a:lt1><a:sysClr val="window" lastClr="FFFFFF"/></a:lt1><a:dk2><a:srgbClr val="44546A"/></a:dk2><a:lt2><a:srgbClr val="E7E6E6"/></a:lt2><a:accent1><a:srgbClr val="4472C4"/></a:accent1><a:accent2><a:srgbClr val="ED7D31"/></a:accent2><a:accent3><a:srgbClr val="A5A5A5"/></a:accent3><a:accent4><a:srgbClr val="FFC000"/></a:accent4><a:accent5><a:srgbClr val="5B9BD5"/></a:accent5><a:accent6><a:srgbClr val="70AD47"/></a:accent6><a:hlink><a:srgbClr val="0563C1"/></a:hlink><a:folHlink><a:srgbClr val="954F72"/></a:folHlink></a:clrScheme><a:fontScheme name="Office 2013 - 2022"><a:majorFont><a:latin typeface="Calibri Light" panose="020F0302020204030204"/><a:ea typeface=""/><a:cs typeface=""/><a:font script="Jpan" typeface="游ゴシック Light"/><a:font script="Hang" typeface="맑은 고딕"/><a:font script="Hans" typeface="等线 Light"/><a:font script="Hant" typeface="新細明體"/><a:font script="Arab" typeface="Times New Roman"/><a:font script="Hebr" typeface="Times New Roman"/><a:font script="Thai" typeface="Tahoma"/><a:font script="Ethi" typeface="Nyala"/><a:font script="Beng" typeface="Vrinda"/><a:font script="Gujr" typeface="Shruti"/><a:font script="Khmr" typeface="MoolBoran"/><a:font script="Knda" typeface="Tunga"/><a:font script="G
-  - xl/styles.xml (1703 bytes)
-    início: <?xml version="1.0" encoding="UTF-8" standalone="yes"?> <styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="x14ac x16r2 xr" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:x16r2="http://schemas.microsoft.com/office/spreadsheetml/2015/02/main" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision"><fonts count="1" x14ac:knownFonts="1"><font><sz val="11"/><color theme="1"/><name val="Calibri"/><family val="2"/><scheme val="minor"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="49" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles><dxfs count="0"/><tableStyles count="0" defaultTableStyle="TableStyleMedium2" defaultPivotStyle="PivotStyleLight16"/><extLst><ext uri="{EB79DEF2-80B8-43e5-95BD-54CBDDF9020C}" xmlns:x14="http://schemas.microsoft.com/office/spreadsheetml/2009/9/main"><x14:slicerStyles defaultSlicerStyle="SlicerStyleLight1"/></ext><ext uri="{9260A
-  - xl/sharedStrings.xml (64653 bytes)
-    início: <?xml version="1.0" encoding="utf-8" standalone="yes"?><x:sst xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="142" uniqueCount="27"><x:si><x:t>Trimestre Atual</x:t></x:si><x:si><x:t>Total Capital Integralizado</x:t></x:si><x:si><x:t>Total Tesouraria</x:t></x:si><x:si><x:t>Acoes Ordinarias Capital Integralizado</x:t></x:si><x:si><x:t>Precisao</x:t></x:si><x:si><x:t>Acoes Preferenciais Capital Integralizado</x:t></x:si><x:si><x:t>Acoes Ordinarias Tesouraria</x:t></x:si><x:si><x:t>Acoes Preferenciais Tesouraria</x:t></x:si><x:si><x:t>Codigo Conta</x:t></x:si><x:si><x:t>Descricao Conta</x:t></x:si><x:si><x:t>Valor Trimestre Atual</x:t></x:si><x:si><x:t>Valor Exercicio Anterior</x:t></x:si><x:si><x:t>Valor Acumulado Atual Exercicio</x:t></x:si><x:si><x:t>Valor Acumulado Exercicio Anterior</x:t></x:si><x:si><x:t>Valor Trimestre Exercicio Anterior</x:t></x:si><x:si><x:t>Valor Capital Social</x:t></x:si><x:si><x:t>Valor Reservas Capital Opcoes Outorgadas Acoes Tesouraria</x:t></x:si><x:si><x:t>Valor Reservas Lucro</x:t></x:si><x:si><x:t>Valor Ajustes Avaliacao Patrimonial</x:t></x:si><x:si><x:t>Valor Lucros Prejuizos Acumulados</x:t></x:si><x:si><x:t>Valor Outros Resultados Abrangentes</x:t></x:si><x:si><x:t>Total Patrimonio Liquido</x:t></x:si><x:si><x:t>Data Apuracao Receita Bruta</x:t></x:si><x:si><x:t>Data Apuracao Receita Bruta Comparativo</x:t></x:si><x:si><x:t>Valor Receita Bruta Consolidada</x:t></x:si><x:si><x:t>Valor Receita Bruta Consolidada Comp
-  - xl/worksheets/_rels/sheet14.xml.rels (323 bytes)
-  - xl/worksheets/_rels/sheet15.xml.rels (323 bytes)
-  - xl/worksheets/_rels/sheet16.xml.rels (323 bytes)
-  - xl/worksheets/_rels/sheet17.xml.rels (323 bytes)
-  - xl/worksheets/_rels/sheet18.xml.rels (323 bytes)
-  - xl/worksheets/_rels/sheet19.xml.rels (323 bytes)
-  - xl/worksheets/_rels/sheet12.xml.rels (323 bytes)
-  - xl/worksheets/_rels/sheet4.xml.rels (322 bytes)
-  - xl/worksheets/_rels/sheet1.xml.rels (322 bytes)
-  - xl/worksheets/_rels/sheet2.xml.rels (322 bytes)
-  - xl/worksheets/_rels/sheet3.xml.rels (322 bytes)
-  - xl/worksheets/_rels/sheet5.xml.rels (322 bytes)
-  - xl/worksheets/_rels/sheet6.xml.rels (322 bytes)
-  - xl/worksheets/_rels/sheet7.xml.rels (322 bytes)
-  - xl/worksheets/_rels/sheet8.xml.rels (322 bytes)
-  - xl/worksheets/_rels/sheet9.xml.rels (322 bytes)
-  - xl/worksheets/_rels/sheet10.xml.rels (323 bytes)
-  - xl/worksheets/_rels/sheet11.xml.rels (323 bytes)
-  - xl/worksheets/_rels/sheet13.xml.rels (323 bytes)
-  - xl/printerSettings/printerSettings1.bin (4840 bytes)
-  - xl/printerSettings/printerSettings2.bin (4840 bytes)
-  - xl/printerSettings/printerSettings3.bin (4840 bytes)
-  - xl/printerSettings/printerSettings4.bin (4840 bytes)
-  - xl/printerSettings/printerSettings5.bin (4840 bytes)
-  - xl/printerSettings/printerSettings6.bin (4840 bytes)
-  - xl/printerSettings/printerSettings7.bin (4840 bytes)
-  - xl/printerSettings/printerSettings15.bin (4840 bytes)
-  - xl/printerSettings/printerSettings16.bin (4840 bytes)
-  - xl/printerSettings/printerSettings17.bin (4840 bytes)
-  - xl/printerSettings/printerSettings18.bin (4840 bytes)
-  - xl/printerSettings/printerSettings19.bin (4840 bytes)
-  - docMetadata/LabelInfo.xml (323 bytes)
-    início: <?xml version="1.0" encoding="utf-8" standalone="yes"?><clbl:labelList xmlns:clbl="http://schemas.microsoft.com/office/2020/mipLabelMetadata"><clbl:label id="{4aeda764-ac5d-4c78-8b24-fe1405747852}" enabled="1" method="Standard" siteId="{f9cfd8cb-c4a5-4677-b65d-3150dda310c9}" contentBits="2" removed="0" /></clbl:labelList>
-  - docProps/core.xml (641 bytes)
-    início: <?xml version="1.0" encoding="UTF-8" standalone="yes"?> <cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:creator>Vanessa Oliveira da Silva</dc:creator><cp:lastModifiedBy>Airton Oliveira Moreira</cp:lastModifiedBy><dcterms:created xsi:type="dcterms:W3CDTF">2021-01-04T19:39:01Z</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">2026-04-17T20:28:49Z</dcterms:modified></cp:coreProperties>
-  - xl/printerSettings/printerSettings11.bin (4840 bytes)
-  - docProps/app.xml (1543 bytes)
-    início: <?xml version="1.0" encoding="UTF-8" standalone="yes"?> <Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"><Application>Microsoft Excel</Application><DocSecurity>0</DocSecurity><ScaleCrop>false</ScaleCrop><HeadingPairs><vt:vector size="2" baseType="variant"><vt:variant><vt:lpstr>Planilhas</vt:lpstr></vt:variant><vt:variant><vt:i4>19</vt:i4></vt:variant></vt:vector></HeadingPairs><TitlesOfParts><vt:vector size="19" baseType="lpstr"><vt:lpstr>Composicao Capital</vt:lpstr><vt:lpstr>DF Ind Ativo</vt:lpstr><vt:lpstr>DF Ind Passivo</vt:lpstr><vt:lpstr>DF Ind Resultado Periodo</vt:lpstr><vt:lpstr>DF Ind Resultado Abrangente</vt:lpstr><vt:lpstr>DF Ind Fluxo de Caixa</vt:lpstr><vt:lpstr>DF Ind Valor Adicionado</vt:lpstr><vt:lpstr>DF Ind DMPL Atual</vt:lpstr><vt:lpstr>DF Ind DMPL Anterior</vt:lpstr><vt:lpstr>DF Ind DMPL Penultimo</vt:lpstr><vt:lpstr>DF Cons Ativo</vt:lpstr><vt:lpstr>DF Cons Passivo</vt:lpstr><vt:lpstr>DF Cons Resultado Periodo</vt:lpstr><vt:lpstr>DF Cons Resultado Abrangente</vt:lpstr><vt:lpstr>DF Cons Fluxo de Caixa</vt:lpstr><vt:lpstr>DF Cons Valor Adicionado</vt:lpstr><vt:lpstr>DF Cons DMPL Atual</vt:lpstr><vt:lpstr>DF Cons DMPL Anterior</vt:lpstr><vt:lpstr>DF Cons DMPL Penultimo</vt:lpstr></vt:vector></TitlesOfParts><Company></Company><LinksUpToDate>false</LinksUpToDate><SharedDoc>false</SharedDoc><HyperlinksChanged>false</HyperlinksChanged><A
-  - docProps/custom.xml (1517 bytes)
-    início: <?xml version="1.0" encoding="UTF-8" standalone="yes"?> <Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/custom-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="2" name="MSIP_Label_4aeda764-ac5d-4c78-8b24-fe1405747852_Enabled"><vt:lpwstr>true</vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="3" name="MSIP_Label_4aeda764-ac5d-4c78-8b24-fe1405747852_SetDate"><vt:lpwstr>2021-01-04T19:39:20Z</vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="4" name="MSIP_Label_4aeda764-ac5d-4c78-8b24-fe1405747852_Method"><vt:lpwstr>Standard</vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="5" name="MSIP_Label_4aeda764-ac5d-4c78-8b24-fe1405747852_Name"><vt:lpwstr>4aeda764-ac5d-4c78-8b24-fe1405747852</vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="6" name="MSIP_Label_4aeda764-ac5d-4c78-8b24-fe1405747852_SiteId"><vt:lpwstr>f9cfd8cb-c4a5-4677-b65d-3150dda310c9</vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="7" name="MSIP_Label_4aeda764-ac5d-4c78-8b24-fe1405747852_ActionId"><vt:lpwstr>708023fe-d204-43f3-beca-c24611bdb400</vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="8" name="MSIP_Label_4aeda764-ac5d-4c78-8b24-fe1405747852_ContentBits"><vt:lpwstr>2</vt:lpwstr></prope
-  - xl/printerSettings/printerSettings10.bin (4840 bytes)
-  - xl/printerSettings/printerSettings9.bin (4840 bytes)
-  - xl/printerSettings/printerSettings12.bin (4840 bytes)
-  - xl/printerSettings/printerSettings13.bin (4840 bytes)
-  - xl/printerSettings/printerSettings14.bin (4840 bytes)
-  - xl/printerSettings/printerSettings8.bin (4840 bytes)
+  PLANILHA Composicao Capital: 2 linhas
+      Trimestre Atual | Acoes Ordinarias Capital Integralizado | Acoes Preferenciais Capital Integralizado | Total Capital Integralizado | Acoes Ordinarias Tesouraria | Acoes Preferenciais Tesouraria | Total Tesouraria | Data Apuracao Receita Bruta | Data Apuracao Receita Bruta Comparativo | Valor Receita Bruta Consolidada | Valor Receita Bruta Consolidada Comparativo | Precisao
+      30/09/2026 | 1264117615 | 0 | 1264117615 | 32556893 | 0 | 32556893 | 30/09/2026 | 30/09/2025 | 49865656 | 44717590 | Unidade
+  PLANILHA DF Ind Ativo: 79 linhas
+      Codigo Conta | Descricao Conta | Valor Trimestre Atual | Valor Exercicio Anterior | Precisao
+      1 | Ativo Total | 169.279.795 | 163.908.054 | Mil
+      1.01 | Ativo Circulante | 35.465.702 | 35.068.852 | Mil
+      1.01.01 | Caixa e Equivalentes de Caixa | 3.877.388 | 4.153.115 | Mil
+  PLANILHA DF Ind Passivo: 130 linhas
+      Codigo Conta | Descricao Conta | Valor Trimestre Atual | Valor Exercicio Anterior | Precisao
+      2 | Passivo Total | 169.279.795 | 163.908.054 | Mil
+      2.01 | Passivo Circulante | 14.164.676 | 17.141.070 | Mil
+      2.01.01 | Obrigações Sociais e Trabalhistas | 973.756 | 955.213 | Mil
+  PLANILHA DF Ind Resultado Periodo: 29 linhas
+      Codigo Conta | Descricao Conta | Valor Trimestre Atual | Valor Acumulado Atual Exercicio | Valor Trimestre Exercicio Anterior | Valor Acumulado Exercicio Anterior | Precisao
+      3.01 | Receita de Venda de Bens e/ou Serviços | 10.864.857 | 30.000.401 | 9.374.891 | 31.329.696 | Mil
+      3.02 | Custo dos Bens e/ou Serviços Vendidos | -7.947.375 | -22.444.221 | -6.782.655 | -20.824.000 | Mil
+      3.03 | Resultado Bruto | 2.917.482 | 7.556.180 | 2.592.236 | 10.505.696 | Mil
+  PLANILHA DF Ind Resultado Abrangente: 13 linhas
+      Codigo Conta | Descricao Conta | Valor Trimestre Atual | Valor Acumulado Atual Exercicio | Valor Trimestre Exercicio Anterior | Valor Acumulado Exercicio Anterior | Precisao
+      4.01 | Lucro Líquido do Período | 2.103.937 | 8.209.902 | 1.953.516 | 13.298.971 | Mil
+      4.02 | Outros Resultados Abrangentes | -113.863 | -216.446 | 15.514 | -302.411 | Mil
+      4.02.01 | Efeito cambial na conversão das demonstrações financeiras de | -42.927 | -175.408 | -33.755 | -139.559 | Mil
+  PLANILHA DF Ind Fluxo de Caixa: 64 linhas
+      Codigo Conta | Descricao Conta | Valor Acumulado Atual Exercicio | Valor Acumulado Exercicio Anterior | Precisao
+      6.01 | Caixa Líquido Atividades Operacionais | 9.743.295 | 598.617 | Mil
+      6.01.01 | Caixa Gerado nas Operações | 13.637.244 | 15.696.671 | Mil
+      6.01.01.01 | Resultado do Período | 8.209.902 | 13.298.971 | Mil
+  PLANILHA DF Ind Valor Adicionado: 43 linhas
+      Codigo Conta | Descricao Conta | Valor Acumulado Atual Exercicio | Valor Acumulado Exercicio Anterior | Precisao
+      7.01 | Receitas | 35.051.314 | 36.041.481 | Mil
+      7.01.01 | Vendas de Mercadorias, Produtos e Serviços | 31.656.684 | 33.009.849 | Mil
+      7.01.02 | Outras Receitas | 1.650.025 | 177.807 | Mil
+  PLANILHA DF Ind DMPL Atual: 34 linhas
+      CodigoConta | DescricaoConta | Capital Social Integralizado | Reservas de Capital, Opções Outorgadas e Ações em Tesouraria | Reservas de Lucro | Lucros ou Prejuízos Acumulados | Outros Resultados Abrangentes | Patrimônio Líquido | Precisao
+      5.01 | Saldos Iniciais | 24.235.546 | -1.430.404 | 20.118.234 | 0 | 888.669 | 43.812.045 | Mil
+      5.02 | Ajustes de Exercícios Anteriores | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.03 | Saldos Iniciais Ajustados | 24.235.546 | -1.430.404 | 20.118.234 | 0 | 888.669 | 43.812.045 | Mil
+  PLANILHA DF Ind DMPL Anterior: 35 linhas
+      CodigoConta | DescricaoConta | Capital Social Integralizado | Reservas de Capital, Opções Outorgadas e Ações em Tesouraria | Reservas de Lucro | Lucros ou Prejuízos Acumulados | Outros Resultados Abrangentes | Patrimônio Líquido | Precisao | Precisao
+      5.01 | Saldos Iniciais | 19.235.546 | -1.278.971 | 12.978.898 | 0 | 1.348.796 | 32.284.269 | Mil
+      5.02 | Ajustes de Exercícios Anteriores | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.03 | Saldos Iniciais Ajustados | 19.235.546 | -1.278.971 | 12.978.898 | 0 | 1.348.796 | 32.284.269 | Mil
+  PLANILHA DF Ind DMPL Penultimo: 0 linhas
+  PLANILHA DF Cons Ativo: 80 linhas
+      Codigo Conta | Descricao Conta | Valor Trimestre Atual | Valor Exercicio Anterior | Precisao
+      1 | Ativo Total | 190.586.464 | 167.935.519 | Mil
+      1.01 | Ativo Circulante | 48.209.601 | 43.867.069 | Mil
+      1.01.01 | Caixa e Equivalentes de Caixa | 13.406.218 | 15.179.753 | Mil
+      1.01.02 | Aplicações Financeiras | 7.781.720 | 9.932.774 | Mil
+      1.01.02.01 | Aplicações Financeiras Avaliadas a Valor Justo através do Re | 7.781.720 | 9.932.774 | Mil
+      1.01.02.01.01 | Títulos para Negociação | 0 | 0 | Mil
+      1.01.02.01.02 | Títulos Designados a Valor Justo | 7.781.720 | 9.932.774 | Mil
+      1.01.02.02 | Aplicações Financeiras Avaliadas a Valor Justo através de Ou | 0 | 0 | Mil
+      1.01.02.03 | Aplicações Financeiras Avaliadas ao Custo Amortizado | 0 | 0 | Mil
+      1.01.03 | Contas a Receber | 8.469.460 | 6.560.607 | Mil
+      1.01.03.01 | Clientes | 8.469.460 | 6.560.607 | Mil
+      1.01.03.02 | Outras Contas a Receber | 0 | 0 | Mil
+      1.01.04 | Estoques | 10.825.515 | 8.155.847 | Mil
+      1.01.05 | Ativos Biológicos | 0 | 0 | Mil
+      1.01.06 | Tributos a Recuperar | 2.004.346 | 1.546.287 | Mil
+      1.01.06.01 | Tributos Correntes a Recuperar | 2.004.346 | 1.546.287 | Mil
+      1.01.06.01.01 | Imposto de Renda e Contribuição Social e recuperar | 1.172.183 | 659.202 | Mil
+      1.01.06.01.02 | Demais impostos a recuperar | 832.163 | 887.085 | Mil
+      1.01.06.01.03 | Tributos diferidos | 0 | 0 | Mil
+      1.01.07 | Despesas Antecipadas | 0 | 0 | Mil
+      1.01.08 | Outros Ativos Circulantes | 5.722.342 | 2.491.801 | Mil
+      1.01.08.01 | Ativos Não-Correntes a Venda | 0 | 0 | Mil
+      1.01.08.02 | Ativos de Operações Descontinuadas | 0 | 0 | Mil
+      1.01.08.03 | Outros | 5.722.342 | 2.491.801 | Mil
+      1.01.08.03.01 | Instrumentos financeiros derivativos | 4.108.590 | 1.556.978 | Mil
+      1.01.08.03.02 | Outros ativos | 1.492.531 | 858.005 | Mil
+      1.01.08.03.03 | Dividendos a Receber | 0 | 0 | Mil
+      1.01.08.03.05 | Adiantamento a fornecedores | 121.221 | 76.818 | Mil
+      1.01.08.03.08 | Ativos mantidos para venda | 0 | 0 | Mil
+      1.02 | Ativo Não Circulante | 142.376.863 | 124.068.450 | Mil
+      1.02.01 | Ativo Realizável a Longo Prazo | 43.619.491 | 40.274.905 | Mil
+      1.02.01.01 | Aplicações Financeiras Avaliadas a Valor Justo através do Re | 370.135 | 319.680 | Mil
+      1.02.01.01.01 | Títulos Designados a Valor Justo | 370.135 | 319.680 | Mil
+      1.02.01.02 | Aplicações Financeiras Avaliadas a Valor Justo através de Ou | 0 | 0 | Mil
+      1.02.01.03 | Aplicações Financeiras Avaliadas ao Custo Amortizado | 0 | 0 | Mil
+      1.02.01.04 | Contas a Receber | 0 | 0 | Mil
+      1.02.01.04.01 | Clientes | 0 | 0 | Mil
+      1.02.01.04.02 | Outras Contas a Receber | 0 | 0 | Mil
+      1.02.01.05 | Estoques | 0 | 0 | Mil
+      1.02.01.06 | Ativos Biológicos | 27.490.120 | 26.097.164 | Mil
+      1.02.01.07 | Tributos Diferidos | 946.252 | 1.504.014 | Mil
+      1.02.01.07.01 | Imposto de Renda e Contribuição Social Diferidos | 946.252 | 1.504.014 | Mil
+      1.02.01.08 | Despesas Antecipadas | 0 | 0 | Mil
+      1.02.01.09 | Créditos com Partes Relacionadas | 0 | 0 | Mil
+      1.02.01.09.01 | Créditos com Coligadas | 0 | 0 | Mil
+      1.02.01.09.03 | Créditos com Controladores | 0 | 0 | Mil
+      1.02.01.09.04 | Créditos com Outras Partes Relacionadas | 0 | 0 | Mil
+      1.02.01.09.06 | Outras Contas a Receber | 0 | 0 | Mil
+      1.02.01.09.09 | Demais impostos a recuperar | 0 | 0 | Mil
+      1.02.01.09.10 | Ganhos em operações com derivativos | 0 | 0 | Mil
+      1.02.01.10 | Outros Ativos Não Circulantes | 14.812.984 | 12.354.047 | Mil
+      1.02.01.10.01 | Ativos Não-Correntes a Venda | 0 | 0 | Mil
+      1.02.01.10.02 | Ativos de Operações Descontinuadas | 0 | 0 | Mil
+      1.02.01.10.03 | Instrumentos financeiros derivativos | 9.047.545 | 8.014.683 | Mil
+      1.02.01.10.04 | Demais impostos a recuperar | 814.204 | 945.699 | Mil
+      1.02.01.10.05 | Adiantamento a fornecedores | 3.294.943 | 2.788.262 | Mil
+      1.02.01.10.06 | Outras ativos | 438.826 | 187.102 | Mil
+      1.02.01.10.07 | Creditos a receber de precatórios | 0 | 0 | Mil
+      1.02.01.10.08 | Depósitos judiciais | 414.426 | 418.301 | Mil
+  PLANILHA DF Cons Passivo: 130 linhas
+      Codigo Conta | Descricao Conta | Valor Trimestre Atual | Valor Exercicio Anterior | Precisao
+      2 | Passivo Total | 190.586.464 | 167.935.519 | Mil
+      2.01 | Passivo Circulante | 19.014.414 | 13.772.871 | Mil
+      2.01.01 | Obrigações Sociais e Trabalhistas | 1.497.065 | 1.132.713 | Mil
+      2.01.01.01 | Obrigações Sociais | 87.830 | 116.072 | Mil
+      2.01.01.02 | Obrigações Trabalhistas | 1.409.235 | 1.016.641 | Mil
+      2.01.02 | Fornecedores | 8.728.141 | 5.141.386 | Mil
+      2.01.02.01 | Fornecedores Nacionais | 4.262.652 | 4.065.796 | Mil
+      2.01.02.02 | Fornecedores Estrangeiros | 4.465.489 | 1.075.590 | Mil
+      2.01.03 | Obrigações Fiscais | 771.950 | 458.248 | Mil
+      2.01.03.01 | Obrigações Fiscais Federais | 478.171 | 335.315 | Mil
+      2.01.03.01.01 | Imposto de Renda e Contribuição Social a Pagar | 380.075 | 218.238 | Mil
+      2.01.03.01.02 | Outras Obrigações Fiscais Federais | 98.096 | 117.077 | Mil
+      2.01.03.02 | Obrigações Fiscais Estaduais | 251.157 | 88.940 | Mil
+      2.01.03.03 | Obrigações Fiscais Municipais | 42.622 | 33.993 | Mil
+      2.01.04 | Empréstimos e Financiamentos | 4.639.876 | 3.004.905 | Mil
+      2.01.04.01 | Empréstimos e Financiamentos | 4.325.208 | 2.877.658 | Mil
+      2.01.04.01.01 | Em Moeda Nacional | 477.148 | 1.006.959 | Mil
+      2.01.04.01.02 | Em Moeda Estrangeira | 3.848.060 | 1.870.699 | Mil
+      2.01.04.02 | Debêntures | 314.668 | 127.247 | Mil
+      2.01.04.03 | Financiamento por Arrendamento | 0 | 0 | Mil
+      2.01.05 | Outras Obrigações | 3.377.382 | 4.035.619 | Mil
+      2.01.05.01 | Passivos com Partes Relacionadas | 0 | 0 | Mil
+      2.01.05.01.01 | Débitos com Coligadas | 0 | 0 | Mil
+      2.01.05.01.03 | Débitos com Controladores | 0 | 0 | Mil
+      2.01.05.01.04 | Débitos com Outras Partes Relacionadas | 0 | 0 | Mil
+      2.01.05.02 | Outros | 3.377.382 | 4.035.619 | Mil
+      2.01.05.02.01 | Dividendos e JCP a Pagar | 7.351 | 1.393.121 | Mil
+      2.01.05.02.02 | Dividendo Mínimo Obrigatório a Pagar | 0 | 0 | Mil
+      2.01.05.02.03 | Obrigações por Pagamentos Baseados em Ações | 0 | 0 | Mil
+      2.01.05.02.04 | Instrumentos financeiros derivativos | 1.192.092 | 1.205.029 | Mil
+      2.01.05.02.05 | Outros passivos | 1.206.374 | 579.659 | Mil
+      2.01.05.02.06 | Compromissos com Aquisição de Ativos | 0 | 0 | Mil
+      2.01.05.02.07 | Operações Comerciais com Fornecedores | 0 | 0 | Mil
+      2.01.05.02.08 | Adiantamento de Clientes | 0 | 0 | Mil
+      2.01.05.02.09 | Adiantamento referente Ativos Mantidos para Venda | 0 | 0 | Mil
+      2.01.05.02.10 | Contas a pagar com operações com arrendamento | 971.565 | 857.810 | Mil
+      2.01.06 | Provisões | 0 | 0 | Mil
+      2.01.06.01 | Provisões Fiscais Previdenciárias Trabalhistas e Cíveis | 0 | 0 | Mil
+      2.01.06.01.01 | Provisões Fiscais | 0 | 0 | Mil
+      2.01.06.01.02 | Provisões Previdenciárias e Trabalhistas | 0 | 0 | Mil
+      2.01.06.01.03 | Provisões para Benefícios a Empregados | 0 | 0 | Mil
+      2.01.06.01.04 | Provisões Cíveis | 0 | 0 | Mil
+      2.01.06.02 | Outras Provisões | 0 | 0 | Mil
+      2.01.06.02.01 | Provisões para Garantias | 0 | 0 | Mil
+      2.01.06.02.02 | Provisões para Reestruturação | 0 | 0 | Mil
+      2.01.06.02.03 | Provisões para Passivos Ambientais e de Desativação | 0 | 0 | Mil
+      2.01.07 | Passivos sobre Ativos Não-Correntes a Venda e Descontinuados | 0 | 0 | Mil
+      2.01.07.01 | Passivos sobre Ativos Não-Correntes a Venda | 0 | 0 | Mil
+      2.01.07.02 | Passivos sobre Ativos de Operações Descontinuadas | 0 | 0 | Mil
+      2.02 | Passivo Não Circulante | 114.126.525 | 110.210.475 | Mil
+      2.02.01 | Empréstimos e Financiamentos | 93.202.971 | 91.796.352 | Mil
+      2.02.01.01 | Empréstimos e Financiamentos | 83.691.582 | 82.616.953 | Mil
+      2.02.01.01.01 | Em Moeda Nacional | 16.599.954 | 14.130.296 | Mil
+      2.02.01.01.02 | Em Moeda Estrangeira | 67.091.628 | 68.486.657 | Mil
+      2.02.01.02 | Debêntures | 9.511.389 | 9.179.399 | Mil
+      2.02.01.03 | Financiamento por Arrendamento | 0 | 0 | Mil
+      2.02.01.03.01 | Contas a pagar por arrendamento | 0 | 0 | Mil
+      2.02.02 | Outras Obrigações | 13.011.079 | 14.538.920 | Mil
+      2.02.02.01 | Passivos com Partes Relacionadas | 0 | 0 | Mil
+  PLANILHA DF Cons Resultado Periodo: 31 linhas
+      Codigo Conta | Descricao Conta | Valor Trimestre Atual | Valor Acumulado Atual Exercicio | Valor Trimestre Exercicio Anterior | Valor Acumulado Exercicio Anterior | Precisao
+      3.01 | Receita de Venda de Bens e/ou Serviços | 16.515.544 | 39.074.093 | 12.153.145 | 37.001.961 | Mil
+      3.02 | Custo dos Bens e/ou Serviços Vendidos | -12.597.241 | -29.166.282 | -8.453.761 | -24.791.052 | Mil
+      3.03 | Resultado Bruto | 3.918.303 | 9.907.811 | 3.699.384 | 12.210.909 | Mil
+      3.04 | Despesas/Receitas Operacionais | -2.314.908 | -3.740.649 | -1.729.849 | -5.107.195 | Mil
+      3.04.01 | Despesas com Vendas | -1.206.435 | -2.771.626 | -849.961 | -2.443.093 | Mil
+      3.04.02 | Despesas Gerais e Administrativas | -1.146.358 | -2.385.784 | -664.953 | -1.985.970 | Mil
+      3.04.03 | Perdas pela Não Recuperabilidade de Ativos | 0 | 0 | 0 | 0 | Mil
+      3.04.04 | Outras Receitas Operacionais | 121.449 | 1.560.822 | 44.234 | 92.519 | Mil
+      3.04.05 | Outras Despesas Operacionais | -75.588 | -110.489 | -179.901 | -502.301 | Mil
+      3.04.06 | Resultado de Equivalência Patrimonial | -7.976 | -33.572 | -79.268 | -268.350 | Mil
+      3.05 | Resultado Antes do Resultado Financeiro e dos Tributos | 1.603.395 | 6.167.162 | 1.969.535 | 7.103.714 | Mil
+      3.06 | Resultado Financeiro | 1.146.114 | 5.752.130 | 1.051.781 | 13.172.959 | Mil
+      3.06.01 | Receitas Financeiras | 3.009.379 | 11.105.803 | 2.875.196 | 18.242.898 | Mil
+      3.06.02 | Despesas Financeiras | -1.863.265 | -5.353.673 | -1.823.415 | -5.069.939 | Mil
+      3.07 | Resultado Antes dos Tributos sobre o Lucro | 2.749.509 | 11.919.292 | 3.021.316 | 20.276.673 | Mil
+      3.08 | Imposto de Renda e Contribuição Social sobre o Lucro | -665.554 | -3.715.880 | -1.059.929 | -6.955.155 | Mil
+      3.08.01 | Corrente | -263.887 | -289.780 | -161.908 | -472.442 | Mil
+      3.08.02 | Diferido | -401.667 | -3.426.100 | -898.021 | -6.482.713 | Mil
+      3.09 | Resultado Líquido das Operações Continuadas | 2.083.955 | 8.203.412 | 1.961.387 | 13.321.518 | Mil
+      3.10 | Resultado Líquido de Operações Descontinuadas | 0 | 0 | 0 | 0 | Mil
+      3.10.01 | Lucro/Prejuízo Líquido das Operações Descontinuadas | 0 | 0 | 0 | 0 | Mil
+      3.10.02 | Ganhos/Perdas Líquidas sobre Ativos de Operações Descontinua | 0 | 0 | 0 | 0 | Mil
+      3.11 | Lucro/Prejuízo Consolidado do Período | 2.083.955 | 8.203.412 | 1.961.387 | 13.321.518 | Mil
+      3.11.01 | Atribuído a Sócios da Empresa Controladora | 2.103.937 | 8.209.902 | 1.953.516 | 13.298.971 | Mil
+      3.11.02 | Atribuído a Sócios Não Controladores | -19.982 | -6.490 | 7.871 | 22.547 | Mil
+      3.99 | Lucro por Ação - (Reais / Ação) | 0 | 0 | 0 | 0 | Mil
+      3.99.01 | Lucro Básico por Ação | 0 | 0 | 0 | 0 | Mil
+      3.99.01.01 | ON | 1,70815 | 6,65219 | 1,58063 | 10,75126 | Mil
+      3.99.02 | Lucro Diluído por Ação | 0 | 0 | 0 | 0 | Mil
+      3.99.02.01 | ON | 1,70416 | 6,63691 | 1,57671 | 10,72459 | Mil
+  PLANILHA DF Cons Resultado Abrangente: 13 linhas
+      Codigo Conta | Descricao Conta | Valor Trimestre Atual | Valor Acumulado Atual Exercicio | Valor Trimestre Exercicio Anterior | Valor Acumulado Exercicio Anterior | Precisao
+      4.01 | Lucro Líquido Consolidado do Período | 2.083.955 | 8.203.412 | 1.961.387 | 13.321.518 | Mil
+      4.02 | Outros Resultados Abrangentes | -107.964 | -210.547 | 15.514 | -302.411 | Mil
+      4.02.01 | Efeito cambial na conversão das demonstrações financeiras de | -42.079 | -174.560 | -33.755 | -139.559 | Mil
+      4.02.02 | Realização de variação cambial de investimento no exterior | 0 | 0 | 0 | -15.636 | Mil
+      4.02.03 | Efeito do valor justo de investimentos mensurados ao valor j | -76.190 | -47.115 | 48.856 | -148.284 | Mil
+      4.02.04 | Tributos diferidos sobre o valor justo de investimentos | -4 | 819 | 413 | 1.068 | Mil
+      4.02.07 | (Perda) Ganho Atuarial de benefícios pós emprego das control | 6.778 | 6.778 | 0 | 0 | Mil
+      4.02.08 | Imposto de Renda e Contribuição Social sobre a perda atuaria | -1.763 | -1.763 | 0 | 0 | Mil
+      4.02.09 | Hedge de fluxo de caixa | 5.294 | 5.294 | 0 | 0 | Mil
+      4.03 | Resultado Abrangente Consolidado do Período | 1.975.991 | 7.992.865 | 1.976.901 | 13.019.107 | Mil
+      4.03.01 | Atribuído a Sócios da Empresa Controladora | 1.990.074 | 7.993.456 | 1.969.030 | 12.996.560 | Mil
+      4.03.02 | Atribuído a Sócios Não Controladores | -14.083 | -591 | 7.871 | 22.547 | Mil
+  PLANILHA DF Cons Fluxo de Caixa: 65 linhas
+      Codigo Conta | Descricao Conta | Valor Acumulado Atual Exercicio | Valor Acumulado Exercicio Anterior | Precisao
+      6.01 | Caixa Líquido Atividades Operacionais | 11.394.314 | 12.792.522 | Mil
+      6.01.01 | Caixa Gerado nas Operações | 14.798.665 | 15.984.992 | Mil
+      6.01.01.01 | Resultado do Período | 8.203.412 | 13.321.518 | Mil
+      6.01.01.02 | Depreciação, Exaustão e Amortização | 9.674.850 | 8.226.217 | Mil
+      6.01.01.03 | Apropriação de encargos financeiros de arrendamento | 333.734 | 347.320 | Mil
+      6.01.01.04 | Resultado na alienação, baixa e provisão de ativos imobiliza | -146.036 | 272.228 | Mil
+      6.01.01.05 | Resultado de equivalência patrimonial | 33.572 | 268.350 | Mil
+      6.01.01.06 | Variações cambiais e monetárias, líquidas | -3.084.709 | -9.527.069 | Mil
+      6.01.01.07 | Despesas com juros sobre empréstimos, financiamentos e debên | 4.414.775 | 4.399.815 | Mil
+      6.01.01.08 | Prêmio sobre liquidações antecipadas | 204.416 | 89.026 | Mil
+      6.01.01.09 | Custos de empréstimos capitalizados | -50.725 | -205.409 | Mil
+      6.01.01.10 | Rendimentos sobre aplicações financeiras | -929.622 | -769.940 | Mil
+      6.01.01.11 | Amortização do custo de transação, ágio e deságio | 117.573 | 75.916 | Mil
+      6.01.01.12 | Ganhos (perdas) com derivativos, líquidos | -6.501.811 | -7.431.622 | Mil
+      6.01.01.13 | Atualização do valor justo dos ativos biológicos | -1.157.728 | 73.248 | Mil
+      6.01.01.14 | Imposto de renda e contribuição social diferidos | 3.426.100 | 6.482.713 | Mil
+      6.01.01.15 | Juros sobre passivo atuarial e custo do serviço corrente | 62.099 | 59.466 | Mil
+      6.01.01.16 | Provisão (reversão) de passivos judiciais, líquido | 66.768 | -41.620 | Mil
+      6.01.01.17 | Provisão para perda estimada com créditos de liquidação duvi | -23.920 | 103.502 | Mil
+      6.01.01.18 | Provisão (reversão) para perda de créditos do ICMS, líquida | 29.757 | 151.669 | Mil
+      6.01.01.19 | Constituição parcelamento do programa de redução de litigios | 0 | 0 | Mil
+      6.01.01.20 | Outras | 126.160 | 89.664 | Mil
+      6.01.02 | Variações nos Ativos e Passivos | 568.917 | 705.218 | Mil
+      6.01.02.01 | Contas a receber de clientes | 373.343 | 1.876.639 | Mil
+      6.01.02.02 | Estoques | -20.871 | -730.937 | Mil
+      6.01.02.03 | Tributos a recuperar | -362.928 | -334.268 | Mil
+      6.01.02.04 | Outros ativos | 161.063 | -128.619 | Mil
+      6.01.02.05 | Fornecedores | 642.961 | 101.422 | Mil
+      6.01.02.06 | Tributos a recolher | -136.897 | 287.155 | Mil
+      6.01.02.07 | Salários e encargos sociais | 4.427 | -164.546 | Mil
+      6.01.02.08 | Outros passivos | -92.181 | -201.628 | Mil
+      6.01.03 | Outros | -3.973.268 | -3.897.688 | Mil
+      6.01.03.01 | Pagamento de juros sobre empréstimos, financiamentos e debên | -4.447.630 | -4.753.232 | Mil
+      6.01.03.02 | Custos de empréstimos capitalizados pagos | 50.725 | 205.409 | Mil
+      6.01.03.03 | Juros recebidos sobre aplicações financeiras | 825.142 | 969.141 | Mil
+      6.01.03.04 | Pagamento de imposto de renda e contribuição social | -197.089 | -229.980 | Mil
+      6.01.03.05 | Prêmio sobre liquidações antecipadas | -204.416 | -89.026 | Mil
+      6.01.03.06 | Prêmio sobre liquidações antecipadas | 0 | 0 | Mil
+      6.02 | Caixa Líquido Atividades de Investimento | -10.857.393 | -4.804.917 | Mil
+      6.02.01 | Adições de imobilizado | -2.239.468 | -3.424.570 | Mil
+      6.02.02 | Adições de intangível | -452.371 | -59.574 | Mil
+      6.02.03 | Adições de ativos biológicos | -5.508.253 | -6.281.750 | Mil
+      6.02.04 | Recebimentos por venda de ativo imobilizado e biológico | 330.882 | 114.236 | Mil
+      6.02.05 | Aumento de capital em controladas e coligadas | -2.500 | -21.979 | Mil
+      6.02.06 | Aplicações financeiras, líquidas | 2.214.873 | 5.093.946 | Mil
+      6.02.07 | Adiantamento para aquisição de madeira de operações com fome | -554.506 | -224.669 | Mil
+      6.02.08 | Dividendos recebidos | 3.854 | 8.835 | Mil
+      6.02.09 | Aquisição de ativos | 0 | 0 | Mil
+      6.02.10 | Aquisição de controladas | 0 | 0 | Mil
+      6.02.11 | Aquisição de outros investimentos | 0 | -9.392 | Mil
+      6.02.12 | Caixa líquido de aquisição de controladas | -3.844.390 | 0 | Mil
+      6.02.14 | Aquisição de opção de compra | -805.514 | 0 | Mil
+      6.03 | Caixa Líquido Atividades de Financiamento | -1.845.174 | -385.320 | Mil
+      6.03.01 | Empréstimos, financiamentos e debêntures captados | 3.087.472 | 22.324.556 | Mil
+      6.03.02 | Recebimento (pagamento) de operações com derivativos | 1.134.652 | 370.789 | Mil
+      6.03.03 | Pagamento de empréstimos, financiamentos e debêntures | -3.385.149 | -19.600.013 | Mil
+      6.03.04 | Pagamento de contratos de arrendamentos | -1.080.282 | -1.059.908 | Mil
+      6.03.05 | Pagamento de juros sobre o capital próprio e dividendos | -1.385.007 | -2.208.158 | Mil
+      6.03.06 | Pagamento de aquisição de ativos e controladas | -18.415 | -20.668 | Mil
+  PLANILHA DF Cons Valor Adicionado: 44 linhas
+      Codigo Conta | Descricao Conta | Valor Acumulado Atual Exercicio | Valor Acumulado Exercicio Anterior | Precisao
+      7.01 | Receitas | 44.541.688 | 41.764.036 | Mil
+      7.01.01 | Vendas de Mercadorias, Produtos e Serviços | 40.727.575 | 38.685.334 | Mil
+      7.01.02 | Outras Receitas | 1.808.972 | 238.948 | Mil
+      7.01.03 | Receitas refs. à Construção de Ativos Próprios | 1.981.221 | 2.943.256 | Mil
+      7.01.04 | Provisão/Reversão de Créds. Liquidação Duvidosa | 23.920 | -103.502 | Mil
+      7.02 | Insumos Adquiridos de Terceiros | -24.086.800 | -22.047.070 | Mil
+      7.02.01 | Custos Prods., Mercs. e Servs. Vendidos | -16.519.780 | -15.724.349 | Mil
+      7.02.02 | Materiais, Energia, Servs. de Terceiros e Outros | -7.515.311 | -6.147.021 | Mil
+      7.02.03 | Perda/Recuperação de Valores Ativos | -51.709 | -175.700 | Mil
+      7.02.04 | Outros | 0 | 0 | Mil
+      7.03 | Valor Adicionado Bruto | 20.454.888 | 19.716.966 | Mil
+      7.04 | Retenções | -9.674.850 | -8.226.217 | Mil
+      7.04.01 | Depreciação, Amortização e Exaustão | -9.674.850 | -8.226.217 | Mil
+      7.04.02 | Outras | 0 | 0 | Mil
+      7.05 | Valor Adicionado Líquido Produzido | 10.780.038 | 11.490.749 | Mil
+      7.06 | Vlr Adicionado Recebido em Transferência | 12.905.444 | 15.742.659 | Mil
+      7.06.01 | Resultado de Equivalência Patrimonial | -33.572 | -268.350 | Mil
+      7.06.02 | Receitas Financeiras | 1.561.015 | 1.341.487 | Mil
+      7.06.03 | Outros | 11.378.001 | 14.669.522 | Mil
+      7.06.03.01 | Variações cambiais ativas | 5.005.585 | 12.143.955 | Mil
+      7.06.03.02 | Instrumentos financeiros derivativos | 9.798.516 | 9.008.280 | Mil
+      7.06.03.03 | Imposto de renda e contribuição social diferidos | -3.426.100 | -6.482.713 | Mil
+      7.07 | Valor Adicionado Total a Distribuir | 23.685.482 | 27.233.408 | Mil
+      7.08 | Distribuição do Valor Adicionado | 23.685.482 | 27.233.408 | Mil
+      7.08.01 | Pessoal | 4.557.527 | 4.047.750 | Mil
+      7.08.01.01 | Remuneração Direta | 3.503.450 | 3.099.555 | Mil
+      7.08.01.02 | Benefícios | 943.947 | 798.362 | Mil
+      7.08.01.03 | F.G.T.S. | 110.130 | 149.833 | Mil
+      7.08.01.04 | Outros | 0 | 0 | Mil
+      7.08.02 | Impostos, Taxas e Contribuições | 216.381 | 415.096 | Mil
+      7.08.02.01 | Federais | -123.423 | 90.069 | Mil
+      7.08.02.02 | Estaduais | 295.855 | 271.922 | Mil
+      7.08.02.03 | Municipais | 43.949 | 53.105 | Mil
+      7.08.03 | Remuneração de Capitais de Terceiros | 10.708.162 | 9.449.044 | Mil
+      7.08.03.01 | Juros | 5.333.329 | 5.069.939 | Mil
+      7.08.03.02 | Aluguéis | 157.252 | 185.561 | Mil
+      7.08.03.03 | Outras | 5.217.581 | 4.193.544 | Mil
+      7.08.04 | Remuneração de Capitais Próprios | 8.203.412 | 13.321.518 | Mil
+      7.08.04.01 | Juros sobre o Capital Próprio | 0 | 0 | Mil
+      7.08.04.02 | Dividendos | 0 | 0 | Mil
+      7.08.04.03 | Lucros Retidos / Prejuízo do Período | 8.209.902 | 13.298.971 | Mil
+      7.08.04.04 | Part. Não Controladores nos Lucros Retidos | -6.490 | 22.547 | Mil
+      7.08.05 | Outros | 0 | 0 | Mil
+  PLANILHA DF Cons DMPL Atual: 34 linhas
+      CodigoConta | DescricaoConta | Capital Social Integralizado | Reservas de Capital, Outorgadas em Ações em Tesouraria | Reservas de Lucro | Lucros ou Prejuízos Acumulados | Outros Resultados Abrangentes | Patrimônio Líquido | Participação dos Não controladores | Patrimônio líquido Consolidado | Precisao
+      5.01 | Saldos Iniciais | 24.235.546 | -1.430.404 | 20.118.234 | 0 | 888.669 | 43.812.045 | 140.128 | 43.952.173 | Mil
+      5.02 | Ajustes de Exercícios Anteriores | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.03 | Saldos Iniciais Ajustados | 24.235.546 | -1.430.404 | 20.118.234 | 0 | 888.669 | 43.812.045 | 140.128 | 43.952.173 | Mil
+      5.04 | Transações de Capital com os Sócios | 14.574 | -178.417 | -14.574 | 769 | 0 | -177.648 | 5.678.135 | 5.500.487 | Mil
+      5.04.01 | Aumentos de Capital | 14.574 | 0 | -14.574 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.04.02 | Gastos com Emissão de Ações | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.04.03 | Opções Outorgadas Reconhecidas | 0 | 27.949 | 0 | 0 | 0 | 27.949 | 0 | 27.949 | Mil
+      5.04.04 | Ações em Tesouraria Adquiridas | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.04.05 | Ações em Tesouraria Vendidas | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.04.06 | Dividendos | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.04.07 | Juros sobre Capital Próprio | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.04.08 | Recompra de ações | 0 | -198.445 | 0 | 0 | 0 | -198.445 | 0 | -198.445 | Mil
+      5.04.09 | Reversão de dividendos prescritos | 0 | 0 | 0 | 769 | 0 | 769 | 0 | 769 | Mil
+      5.04.10 | Transações com acionistas não controladores | 0 | 0 | 0 | 0 | 0 | 0 | 5.678.135 | 5.678.135 | Mil
+      5.04.11 | Opções de ações exercidas | 0 | -7.921 | 0 | 0 | 0 | -7.921 | 0 | -7.921 | Mil
+      5.04.12 | Pagamento de dividendos adicional proposto | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.05 | Resultado Abrangente Total | 0 | 0 | 0 | 8.209.902 | -216.446 | 7.993.456 | -591 | 7.992.865 | Mil
+      5.05.01 | Lucro Líquido do Período | 0 | 0 | 0 | 8.209.902 | 0 | 8.209.902 | -6.490 | 8.203.412 | Mil
+      5.05.02 | Outros Resultados Abrangentes | 0 | 0 | 0 | 0 | -216.446 | -216.446 | 5.899 | -210.547 | Mil
+      5.05.02.01 | Ajustes de Instrumentos Financeiros | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.05.02.02 | Tributos s/ Ajustes Instrumentos Financeiros | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.05.02.03 | Equiv. Patrim. s/Result. Abrang. Coligadas | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.05.02.04 | Ajustes de Conversão do Período | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.05.02.05 | Tributos s/ Ajustes de Conversão do Período | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.05.02.06 | Outros Resultados Abrangentes | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.05.03 | Reclassificações para o Resultado | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.05.03.01 | Ajustes de Instrumentos Financeiros | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.06 | Mutações Internas do Patrimônio Líquido | 0 | 0 | 0 | 71.514 | -71.514 | 0 | 0 | 0 | Mil
+      5.06.01 | Constituição de Reservas | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.06.02 | Realização da Reserva Reavaliação | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.06.03 | Tributos sobre a Realização da Reserva de Reavaliação | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.06.04 | Realização parcial do custo atribuído, líquido do IRPJ e CSL | 0 | 0 | 0 | 71.514 | -71.514 | 0 | 0 | 0 | Mil
+      5.07 | Saldos Finais | 24.250.120 | -1.608.821 | 20.103.660 | 8.282.185 | 600.709 | 51.627.853 | 5.817.672 | 57.445.525 | Mil
+  PLANILHA DF Cons DMPL Anterior: 34 linhas
+      CodigoConta | DescricaoConta | Capital Social Integralizado | Reservas de Capital, Outorgadas em Ações em Tesouraria | Reservas de Lucro | Lucros ou Prejuízos Acumulados | Outros Resultados Abrangentes | Patrimônio Líquido | Participação dos Não controladores | Patrimônio líquido Consolidado | Precisao
+      5.01 | Saldos Iniciais | 19.235.546 | -1.278.971 | 12.978.898 | 0 | 1.348.796 | 32.284.269 | 131.306 | 32.415.575 | Mil
+      5.02 | Ajustes de Exercícios Anteriores | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.03 | Saldos Iniciais Ajustados | 19.235.546 | -1.278.971 | 12.978.898 | 0 | 1.348.796 | 32.284.269 | 131.306 | 32.415.575 | Mil
+      5.04 | Transações de Capital com os Sócios | 0 | -162.994 | 0 | 567 | 0 | -162.427 | -13.830 | -176.257 | Mil
+      5.04.01 | Aumentos de Capital | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.04.02 | Gastos com Emissão de Ações | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.04.03 | Opções Outorgadas Reconhecidas | 0 | 34.081 | 0 | 0 | 0 | 34.081 | 0 | 34.081 | Mil
+      5.04.04 | Ações em Tesouraria Adquiridas | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.04.05 | Ações em Tesouraria Vendidas | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.04.06 | Dividendos | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.04.07 | Juros sobre Capital Próprio | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.04.08 | Recompra de ações | 0 | -191.918 | 0 | 0 | 0 | -191.918 | 0 | -191.918 | Mil
+      5.04.09 | Reversão de dividendos prescritos | 0 | 0 | 0 | 567 | 0 | 567 | 0 | 567 | Mil
+      5.04.10 | Transações com acionistas não controladores | 0 | 0 | 0 | 0 | 0 | 0 | -4.030 | -4.030 | Mil
+      5.04.11 | Opções de ações exercidas | 0 | -5.157 | 0 | 0 | 0 | -5.157 | 0 | -5.157 | Mil
+      5.04.12 | Pagamento de dividendos adicional proposto | 0 | 0 | 0 | 0 | 0 | 0 | -9.800 | -9.800 | Mil
+      5.05 | Resultado Abrangente Total | 0 | 0 | 0 | 13.298.971 | -302.411 | 12.996.560 | 22.547 | 13.019.107 | Mil
+      5.05.01 | Lucro Líquido do Período | 0 | 0 | 0 | 13.298.971 | 0 | 13.298.971 | 22.547 | 13.321.518 | Mil
+      5.05.02 | Outros Resultados Abrangentes | 0 | 0 | 0 | 0 | -302.411 | -302.411 | 0 | -302.411 | Mil
+      5.05.02.01 | Ajustes de Instrumentos Financeiros | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.05.02.02 | Tributos s/ Ajustes Instrumentos Financeiros | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.05.02.03 | Equiv. Patrim. s/Result. Abrang. Coligadas | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.05.02.04 | Ajustes de Conversão do Período | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.05.02.05 | Tributos s/ Ajustes de Conversão do Período | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.05.02.06 | Outros Resultados Abrangentes | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.05.03 | Reclassificações para o Resultado | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.05.03.01 | Ajustes de Instrumentos Financeiros | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.06 | Mutações Internas do Patrimônio Líquido | 0 | 0 | 0 | 101.424 | -101.424 | 0 | 0 | 0 | Mil
+      5.06.01 | Constituição de Reservas | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.06.02 | Realização da Reserva Reavaliação | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.06.03 | Tributos sobre a Realização da Reserva de Reavaliação | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Mil
+      5.06.04 | Realização parcial do custo atribuído, líquido do IRPJ e CSL | 0 | 0 | 0 | 101.424 | -101.424 | 0 | 0 | 0 | Mil
+      5.07 | Saldos Finais | 19.235.546 | -1.441.965 | 12.978.898 | 13.400.962 | 944.961 | 45.118.402 | 140.023 | 45.258.425 | Mil
+  PLANILHA DF Cons DMPL Penultimo: 0 linhas
 - FormularioCadastral.xml (7540 bytes)
   início: <?xml version="1.0"?> <Documento xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">   <Documentos />   <VersaoLiteral>     <NumeroVersaoLiteral>0</NumeroVersaoLiteral>     <IndicadorVersaoLiteralAtivo>false</IndicadorVersaoLiteralAtivo>   </VersaoLiteral>   <VersaoExecutavelSistema>     <NumeroVersaoExecutavelSistema>17</NumeroVersaoExecutavelSistema>     <NumeroVersaoBancoDadosSistema>0</NumeroVersaoBancoDadosSistema>     <NumeroVersaoFixSistema />     <NumeroVersaoScriptSistema />     <QuantidadeDiasValidadeVersao>0</QuantidadeDiasValidadeVersao>     <IndicadorAtualizacaoObrigatoria>0</IndicadorAtualizacaoObrigatoria>     <CodigoTipoAtualizacao />     <DataInicioValidadeVersao>0001-01-01T00:00:00</DataInicioValidadeVersao>     <DataFimValidadeVersao>0001-01-01T00:00:00</DataFimValidadeVersao>     <NotaUsuario />     <Observacao />     <ReleaseVersao>17..0.</ReleaseVersao>   </VersaoExecutavelSistema>   <CompanhiaAberta>     <NumeroSequencialRegistroCvm>1721</NumeroSequencialRegistroCvm>     <CodigoTipoParticipante>1</CodigoTipoParticipante>     <CodigoCvm>01398-6</CodigoCvm>     <IndicadorSociedadeAnonimaAtiva>false</IndicadorSociedadeAnonimaAtiva>     <DescricaoClasse />     <DescricaoCategoriaEmissor />     <DescricaoSetorAtividade />     <SiglaClasse />     <DataEncerramentoExercicioSocial />     <NomeRazaoSocialCompanhiaAberta>SUZANO S.A.</NomeRazaoSocialCompanhiaAberta>     <NumeroCnpjComp
 - FormularioDemonstracaoFinanceiraITR.xml (7637 bytes)
