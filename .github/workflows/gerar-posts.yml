@@ -1,0 +1,86 @@
+name: Gerar posts de resultados
+
+# Renderiza os carrosséis do post de resultados e grava na branch posts (AAAA-MM-DD/TICKER-PERIODO/), para a tarefa
+# agendada só ler as telas, sem executar código na sessão. Roda depois de cada atualização dos dados ou por disparo.
+# Não publica nada: a publicação continua dependendo do ok do Gustavo.
+
+on:
+  workflow_run:
+    workflows: ["Atualizar dados e publicar"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      tickers:
+        description: "Tickers para refazer, separados por espaço (vazio: as entregas novas do dia)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: posts
+  cancel-in-progress: false
+
+jobs:
+  gerar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Código do post (branch post-template)
+        uses: actions/checkout@v4
+        with:
+          ref: post-template
+          path: codigo
+
+      - name: Dados (branch resultados)
+        uses: actions/checkout@v4
+        with:
+          ref: resultados
+          path: dados
+
+      - name: Posts (branch posts)
+        uses: actions/checkout@v4
+        with:
+          ref: posts
+          path: posts
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Dependências
+        run: |
+          pip install --quiet pillow numpy
+          cd codigo && npm init -y >/dev/null && npm install --silent playwright@1.48.2
+          npx playwright install --with-deps chromium
+
+      - name: Gerar
+        env:
+          TICKERS: ${{ github.event.inputs.tickers }}
+        run: |
+          DIA=$(TZ=America/Sao_Paulo date +%F)
+          # shellcheck disable=SC2086
+          bash codigo/post/gerar.sh dados posts trabalho "$DIA" $TICKERS 2>&1 | tee gerar.log
+          {
+            echo "### Posts de resultados ($DIA)"
+            for f in posts/"$DIA"/*/avisos.txt; do
+              [ -f "$f" ] || continue
+              echo "- **$(basename "$(dirname "$f")")**: $( [ -s "$f" ] && tr '\n' ';' < "$f" || echo 'sem avisos')"
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Gravar na branch posts
+        run: |
+          cd posts
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && { echo "nada novo"; exit 0; }
+          git commit -q -m "pendentes: execução ${{ github.run_id }}"
+          git pull -q --rebase origin posts
+          git push origin HEAD:posts
