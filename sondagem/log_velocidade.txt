@@ -1,2 +1,0 @@
-[10:06:41]   RAD (CVM): 163 ITR/DFP nos últimos 21 dias (listas em 27s, 0 dias do cache); 15 fora do extrato semanal, 15 baixados em 196s, 15 acrescentados
-15 companhias, cache vazio: 15 documentos em 223s; avisos: []

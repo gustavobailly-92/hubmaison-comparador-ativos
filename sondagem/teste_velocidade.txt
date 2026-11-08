@@ -1,1 +1,0 @@
-15 companhias, cache vazio: 15 documentos em 223s; avisos: []
