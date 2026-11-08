@@ -1,0 +1,38 @@
+name: Teste da ingestão no mesmo dia (RAD)
+
+# Só nesta branch de desenvolvimento; sai antes do merge.
+on:
+  push:
+    branches: [resultados-mesmo-dia]
+    paths: ["pipeline/rad.py", "pipeline/fundamentos.py", "sondagem/teste_rad.py", ".github/workflows/teste-rad.yml"]
+
+permissions:
+  contents: write
+
+jobs:
+  testar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --quiet pandas numpy pillow
+      - name: Cache dos extratos da CVM (só leitura)
+        uses: actions/cache/restore@v4
+        with:
+          path: cache
+          key: cvm-informes-teste-${{ github.run_id }}
+          restore-keys: |
+            cvm-informes-
+      - name: Testar
+        run: python sondagem/teste_rad.py
+      - name: Gravar a saída na branch
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f sondagem/teste_rad.txt || true
+          git commit -m "teste RAD: saída da execução ${{ github.run_id }}" || echo "nada a gravar"
+          git push origin HEAD:resultados-mesmo-dia

@@ -1179,7 +1179,7 @@ def main() -> int:
                         json.dump(r, fh, ensure_ascii=False, separators=(",", ":"))
                     e = r["entrega"]
                     res_indice.append({"ticker": p["ticker"], "empresa": r["empresa"], "cvm": cvm_r, "setor": r["setor"], "periodo": r["periodo"],
-                                       "dt": (f_r or {}).get("dt"), "doc": e["doc"], "entrega": e["primeira"], "ultima": e["ultima"], "versao": e["versao"],
+                                       "dt": (f_r or {}).get("dt"), "doc": e["doc"], "entrega": e["primeira"], "hora": e.get("hora"), "ultima": e["ultima"], "versao": e["versao"],
                                        "valor_mercado": r["multiplos"]["valor_mercado"], "liq": round(p["liq"]), "financeira": r["financeira"]})
             if p["tipo"] == "bdr":
                 n_bdr += 1
