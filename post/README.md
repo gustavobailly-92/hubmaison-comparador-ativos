@@ -18,9 +18,10 @@ diária e a skill `resultado-empresa-maison` seguem o que está aqui.
 
 ## Telas
 
-1. Capa: marca da Invest, logo da empresa, "Resultado do 3T26 · data de entrega à CVM", o destaque
-   (receita líquida; lucro para bancos e seguradoras) e a maior variação contra o mesmo trimestre do ano anterior,
-   para cima ou para baixo, entre receita, EBITDA, lucro, PL, dívida e ativo (n.m. fica de fora).
+1. Capa: marca da Invest, logo da empresa, "Resultado do 3T26 · data de entrega à CVM" e o indicador com a maior
+   variação contra o mesmo trimestre do ano anterior, para cima ou para baixo, entre receita, EBITDA, lucro, PL,
+   dívida e ativo (n.m. fica de fora): o valor do trimestre em destaque, a variação e o valor do ano anterior. Sem
+   variação mensurável, a capa mostra o destaque do JSON (receita; lucro para bancos e seguradoras).
 2. O trimestre em números, contra o mesmo trimestre do ano anterior.
 3. 12, 24 e 36 meses: receita, EBITDA e lucro somados em 12 meses; PL, dívida e ativo no fim do trimestre.
 4. e 5. Barras por trimestre (13 trimestres) com o valor em cima; em destaque o mesmo trimestre de cada ano, com a
@@ -62,15 +63,24 @@ só com fato documentado (fato relevante ou comunicado na CVM).
 
 ## Logos
 
-Biblioteca em `post/logos/<4 letras do ticker>.png` (ex.: `VALE.png`), uma por companhia, com o índice em
-`post/logos/indice.csv` (código, tickers, razão social, arquivo, fonte e status). Origem: coleção pública
-github.com/alextchatalov/logos-acoes-b3 (levantamento de setembro de 2026), PNG 450x450 com a marca oficial sobre a
-placa branca ou na cor da marca. O `placa.py` recorta a margem e mantém a placa; nada é recolorido nem redesenhado.
+Diretório em `post/logos/`, uma companhia por código de 4 letras do ticker (ex.: `VALE.png`), 422 companhias:
 
+| Pasta | Conteúdo |
+|---|---|
+| `original/` | placa da coleção pública github.com/alextchatalov/logos-acoes-b3 (set/2026), PNG 450x450 opaco |
+| `cor/` | cor original, fundo transparente, recortado |
+| `branco/` | branco, fundo transparente, recortado (para o fundo azul escuro) |
+| `oficial/` | opcional: arquivo oficial da empresa (`.svg` ou `.png`, versão para fundo escuro); tem prioridade na capa |
+| `indice.csv` | código, tickers, razão social, fonte, fundo, versão da capa e status |
+
+- `versoes.py` gera `cor/` e `branco/` a partir de `original/` (tira o fundo por cor; em placa colorida, pelo brilho,
+  e limpa o ruído do JPEG). A versão branca é uma conversão, não o arquivo negativo da empresa.
+- Coluna `capa`: `branco` (padrão), `cor` (quando o branco vira um bloco sem detalhe, como o Itaú) ou `placa` (a placa
+  original, quando a transparência ficou com ruído, como Santander e Embraer). `placa` é escolha manual e
+  `versoes.py` não sobrescreve.
 - Status diferente de "ok" (desatualizado ou verificar) fica fora da capa: o render mostra o espaço e avisa.
-- Para trocar ou corrigir: salvar o arquivo oficial (site de RI ou kit de imprensa) como `<código>.svg` ou `.png`
-  nesta pasta e pôr "ok" no status. Um `.svg` tem preferência sobre o `.png` do mesmo código.
-- Nunca redesenhar nem vetorizar à mão.
+- Para corrigir uma empresa: salvar o arquivo oficial (site de RI ou kit de imprensa) em `oficial/<código>.svg`
+  ou `.png` e pôr "ok" no status. Nunca redesenhar nem vetorizar à mão.
 
 ## Limites conhecidos
 

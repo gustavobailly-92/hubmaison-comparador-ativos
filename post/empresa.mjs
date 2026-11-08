@@ -65,6 +65,9 @@ const brlH = (bi, big, small) => { if (bi == null) return `<span style="font-siz
 export const fpct = (r) => (r == null ? 'n/d' : Number.isNaN(r) ? 'n.m.' : `${r > 0 ? '+' : r < 0 ? '−' : ''}${nf(Math.abs(r) * 100, 1)}%`);
 const fx = (m) => (m == null ? 'n/d' : Number.isNaN(m) ? 'n.m.' : `${nf(m, 2)}x`);
 const fdate = (s) => (s ? s.split('-').reverse().join('/') : '');
+// capa: valor com uma casa (sem casa a partir de 100) e variação inteira (uma casa abaixo de 10%), para ler de longe
+const brlCapa = (bi) => { const [v, u] = escala(bi); return [bi < 0 ? '−' : '', nf(v, v >= 100 ? 0 : 1), u]; };
+const pctCapa = (r) => `${r > 0 ? '+' : r < 0 ? '−' : ''}${nf(Math.abs(r) * 100, Math.abs(r) >= 0.1 ? 0 : 1)}%`;
 const ARW = (r, z = 30) => r == null ? '' : `<svg viewBox="0 0 24 24" width="${z}" height="${z}" fill="none" stroke="currentColor" stroke-width="1.8"><path d="${r > 0.02 ? 'M7 17L17 7M9 7h8v8' : r < -0.02 ? 'M7 7l10 10M17 9v8H9' : 'M4 12h16M14 6l6 6-6 6'}"/></svg>`;
 
 // série com pontos em destaque (marcas) e o último ponto em dourado; 13 trimestres (marcas 0, 4, 8) ou 37 meses (0, 12, 24)
@@ -134,9 +137,9 @@ const EBITDA_DEF = 'Resultado antes do resultado financeiro e dos tributos, mais
 const NMX =' n.m.: não mensurável, PL, lucro ou EBITDA de 12 meses negativo, ou múltiplo acima de 100x.';
 const LEGAL = 'Conteúdo informativo, sem recomendação de compra ou venda. Maison Invest, assessora de investimentos credenciada à XP Investimentos. Ouvidoria XP: 0800 722 3730.';
 
-function logoEmpresa(d, h = d.logoH || 150) {
-  // logo oficial na placa com o fundo da própria marca (recortada por preparar.sh); sem recolorir nem redesenhar
-  if (d.logo) return `<img src="${d.logo}" alt="${d.empresa}" style="height:${h}px;max-width:620px;object-fit:contain;display:block;border-radius:18px">`;
+function logoEmpresa(d, h = d.logoH || 120) {
+  // logo da biblioteca na versão da capa (branca, cor ou placa, escolhida por placa.py); placa com cantos arredondados
+  if (d.logo) return `<img src="${d.logo}" alt="${d.empresa}" style="height:${h}px;max-width:560px;object-fit:contain;display:block;border-radius:14px">`;
   return `<div style="height:${h}px;width:440px;border:2px dashed rgba(147,172,198,.5);display:grid;place-items:center;color:var(--sky);font-size:22px;font-weight:600;letter-spacing:.2em">LOGO DA EMPRESA</div>`;
 }
 const head = (d, i, n) => `<div class="top"><div class="kicker"><i class="leg"></i>${d.ticker} · ${d.periodo}</div><div class="count">${String(i).padStart(2, '0')} / ${String(n).padStart(2, '0')}</div></div>`;
@@ -155,15 +158,17 @@ export function telas(d) {
   const T = [];
   // 1 capa: resultado ou notícia
   const noticia = d.capa.tipo === 'noticia';
+  const capaR = !noticia && c.capa, ant = d.trimestres[d.trimestres.length - 5];
   T.push(`<img class="legs" src="assets/symbol.png" style="left:520px;top:420px;height:1100px;opacity:.05"><div class="frame"><div class="top">${invest}<div class="swipe">Arraste <svg viewBox="0 0 56 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h54M47 1l7 6-7 6"/></svg></div></div>
-    <div style="margin-top:150px">${logoEmpresa(d)}<div style="margin-top:40px;display:flex;gap:22px;align-items:baseline"><span style="font-size:34px;font-weight:600;letter-spacing:.06em">${d.ticker}</span><span style="font-size:28px;color:var(--mist)">${d.empresa}</span></div></div>
-    <div style="margin-top:auto"><div class="kicker" style="margin-bottom:34px"><i class="leg"></i>${noticia ? 'Notícia · ' + fdate(d.noticia.data) : 'Resultado do ' + d.periodo + (d.divulgacao ? ' · ' + fdate(d.divulgacao) : '')}</div>
-    <h2 style="max-width:900px">${(noticia ? d.noticia.titulo : (d.capa.destaque || 'Resultado do ' + d.periodo + '.')).replace(/R\$ ?[\d.,]+( (mi|bi|milhões|bilhões|mil))?/g, x => `<span style="white-space:nowrap">${x}</span>`)}</h2>${noticia ? src('Fonte: ' + d.noticia.fonte) : ''}
-    ${noticia || !c.capa ? '' : (() => { const m = c.capa, ant = d.trimestres[d.trimestres.length - 5], fim = m.estoque ? 'no fim do ' : 'no ';
-      return `<div style="margin-top:44px;padding-top:30px;border-top:1px solid var(--hair)"><div style="font-size:18px;font-weight:600;letter-spacing:.2em;color:var(--sky);text-transform:uppercase">Maior variação contra o ${ant}</div>
-      <div style="margin-top:16px;display:flex;align-items:center;gap:26px"><div style="color:var(--accent);display:flex;align-items:center;gap:8px">${ARW(m.r, 46)}<span style="font-size:76px;font-weight:500;letter-spacing:-.02em;font-variant-numeric:tabular-nums">${fpct(m.r)}</span></div>
-      <div><div style="font-size:30px;font-weight:600">${LABEL[m.k]}</div><div style="font-size:22px;color:var(--mist);margin-top:6px">${brl(m.a)} ${fim}${d.periodo}, contra ${brl(m.b)} ${fim}${ant}</div></div></div></div>`; })()}</div>
-    <div style="margin-top:60px">${foot(1, N).replace('<img class="sym" src="assets/symbol.png" alt="">', '')}</div></div>`);
+    <div style="margin-top:120px">${logoEmpresa(d)}<div style="margin-top:34px;display:flex;gap:20px;align-items:baseline"><span style="font-size:26px;font-weight:600;letter-spacing:.16em;color:var(--sky)">${d.ticker}</span><span style="font-size:26px;color:var(--mist)">${d.empresa}</span></div></div>
+    <div style="margin-top:auto"><div class="kicker" style="margin-bottom:30px"><i class="leg"></i>${noticia ? 'Notícia · ' + fdate(d.noticia.data) : 'Resultado do ' + d.periodo + (d.divulgacao ? ' · ' + fdate(d.divulgacao) : '')}</div>
+    ${capaR ? (() => { const m = c.capa, [sg, num, un] = brlCapa(m.a);
+      return `<div style="font-size:44px;font-weight:400;letter-spacing:-.01em">${LABEL[m.k]}${m.estoque ? '<span style="color:var(--mist);font-size:30px"> · fim do ' + d.periodo + '</span>' : ''}</div>
+      <div style="margin-top:6px;display:flex;align-items:baseline;white-space:nowrap;font-variant-numeric:lining-nums"><span style="font-size:52px;color:var(--sky);margin-right:18px">${sg}R$</span><span style="font-size:210px;font-weight:200;letter-spacing:-.04em;line-height:1">${num}</span><span style="font-size:68px;color:var(--mist);margin-left:16px;font-weight:400">${un}</span></div>
+      <div style="margin-top:34px;display:flex;align-items:center;gap:30px;color:var(--accent)"><div style="display:flex;align-items:center;gap:10px">${ARW(m.r, 58)}<span style="font-size:92px;font-weight:500;letter-spacing:-.03em;line-height:1">${pctCapa(m.r)}</span></div>
+      <div style="border-left:1px solid var(--hair);padding-left:30px"><div style="font-size:22px;font-weight:600;letter-spacing:.18em;color:var(--sky);text-transform:uppercase">contra o ${ant}</div><div style="font-size:28px;color:var(--mist);margin-top:6px">${brl(m.b)}</div></div></div>`; })()
+    : `<h2 style="max-width:900px">${(noticia ? d.noticia.titulo : (d.capa.destaque || 'Resultado do ' + d.periodo + '.')).replace(/R\$ ?[\d.,]+( (mi|bi|milhões|bilhões|mil))?/g, x => `<span style="white-space:nowrap">${x}</span>`)}</h2>${noticia ? src('Fonte: ' + d.noticia.fonte) : ''}`}</div>
+    <div style="margin-top:64px">${foot(1, N).replace('<img class="sym" src="assets/symbol.png" alt="">', '')}</div></div>`);
   // 2 o trimestre
   T.push(`<div class="frame">${head(d, 2, N)}<h3 style="margin-top:100px">O ${d.periodo} em números.</h3>
     <div style="margin-top:56px;border-top:1px solid var(--hair)">${['receita', 'ebitda', 'lucro'].filter(k => c.tri[k]).map(k => `<div style="display:grid;grid-template-columns:1fr auto;align-items:end;padding:40px 0;border-bottom:1px solid var(--hair)">
@@ -279,8 +284,14 @@ if (process.argv[1] && process.argv[1].endsWith('empresa.mjs')) {
   // logo oficial da biblioteca (logos/<4 letras do ticker>.svg ou .png, versão clara); sem arquivo, a capa mostra o espaço
   if (!d.logo) for (const ext of ['svg', 'png']) { const l = `logos/${d.ticker.slice(0, 4)}.${ext}`; if (fs.existsSync(path.join(STUDIO, l))) { d.logo = l; break; } }
   if (!d.logo) console.log(`aviso: sem logo para ${d.ticker} (falta logos/${d.ticker.slice(0, 4)}.svg ou .png, ou está marcado como desatualizado no indice.csv)`);
-  // logo em png: altura pela resolução útil da placa (até 1,4x), para não ampliar demais um arquivo pequeno
-  try { const t = JSON.parse(fs.readFileSync(path.join(STUDIO, 'logos', 'tamanhos.json'), 'utf8'))[d.ticker.slice(0, 4)]; if (d.logo && d.logo.endsWith('.png') && t) d.logoH = Math.min(150, Math.round(t[1] * 1.4)); } catch {}
+  // tamanho do logo pela área (largo fica mais baixo, quadrado mais alto), sem ampliar mais que 1,8x um png pequeno
+  try {
+    const t = JSON.parse(fs.readFileSync(path.join(STUDIO, 'logos', 'tamanhos.json'), 'utf8'))[d.ticker.slice(0, 4)];
+    if (d.logo && d.logo.endsWith('.png') && t) {
+      const asp = t[0] / t[1]; let h = Math.sqrt(38000 / asp);
+      h = Math.min(h, 160, 540 / asp, t[1] * 1.8); d.logoH = Math.round(Math.max(h, 48));
+    }
+  } catch {}
   const outDir = path.resolve(process.argv[3] || 'saida'); fs.mkdirSync(outDir, { recursive: true });
   const html = `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><link rel="stylesheet" href="styles.css"></head><body>${telas(d).join('')}</body></html>`;
   const f = path.join(STUDIO, '_empresa.html'); fs.writeFileSync(f, html);
