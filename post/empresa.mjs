@@ -140,7 +140,8 @@ const LEGAL = 'Conteúdo informativo, sem recomendação de compra ou venda. Mai
 function logoEmpresa(d, h = d.logoH || 120) {
   // logo da biblioteca na versão da capa (branca, cor ou placa, escolhida por placa.py); placa com cantos arredondados
   if (d.logo) return `<img src="${d.logo}" alt="${d.empresa}" style="height:${h}px;max-width:560px;object-fit:contain;display:block;border-radius:14px">`;
-  return `<div style="height:${h}px;width:440px;border:2px dashed rgba(147,172,198,.5);display:grid;place-items:center;color:var(--sky);font-size:22px;font-weight:600;letter-spacing:.2em">LOGO DA EMPRESA</div>`;
+  // sem logo aprovada (ausente ou com a marca anterior): o nome da empresa em texto, no lugar da logo
+  return `<div style="height:${h}px;display:flex;align-items:center;font-size:${Math.round(Math.min(76, h * 0.62))}px;font-weight:600;letter-spacing:-.015em;line-height:1;color:#fff">${d.empresa}</div>`;
 }
 const head = (d, i, n) => `<div class="top"><div class="kicker"><i class="leg"></i>${d.ticker} · ${d.periodo}</div><div class="count">${String(i).padStart(2, '0')} / ${String(n).padStart(2, '0')}</div></div>`;
 const foot = (i, n) => `<div class="bottom"><div class="prog">${Array.from({ length: n }, (_, j) => `<i class="${j + 1 === i ? 'on' : ''}"></i>`).join('')}</div><img class="sym" src="assets/symbol.png" alt=""></div>`;
@@ -160,7 +161,7 @@ export function telas(d) {
   const noticia = d.capa.tipo === 'noticia';
   const capaR = !noticia && c.capa, ant = d.trimestres[d.trimestres.length - 5];
   T.push(`<img class="legs" src="assets/symbol.png" style="left:520px;top:420px;height:1100px;opacity:.05"><div class="frame"><div class="top">${invest}<div class="swipe">Arraste <svg viewBox="0 0 56 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h54M47 1l7 6-7 6"/></svg></div></div>
-    <div style="margin-top:120px">${logoEmpresa(d)}<div style="margin-top:34px;display:flex;gap:20px;align-items:baseline"><span style="font-size:26px;font-weight:600;letter-spacing:.16em;color:var(--sky)">${d.ticker}</span><span style="font-size:26px;color:var(--mist)">${d.empresa}</span></div></div>
+    <div style="margin-top:120px">${logoEmpresa(d)}<div style="margin-top:34px;display:flex;gap:20px;align-items:baseline"><span style="font-size:26px;font-weight:600;letter-spacing:.16em;color:var(--sky)">${d.ticker}</span>${d.logo ? `<span style="font-size:26px;color:var(--mist)">${d.empresa}</span>` : ''}</div></div>
     <div style="margin-top:auto"><div class="kicker" style="margin-bottom:30px"><i class="leg"></i>${noticia ? 'Notícia · ' + fdate(d.noticia.data) : 'Resultado do ' + d.periodo}</div>
     ${capaR ? (() => { const m = c.capa, [sg, num, un] = brlCapa(m.a);
       return `<div style="font-size:44px;font-weight:400;letter-spacing:-.01em">${LABEL[m.k]}${m.estoque ? '<span style="color:var(--mist);font-size:30px"> · fim do ' + d.periodo + '</span>' : ''}</div>
@@ -295,11 +296,11 @@ if (process.argv[1] && process.argv[1].endsWith('empresa.mjs')) {
   } catch {}
   const outDir = path.resolve(process.argv[3] || 'saida'); fs.mkdirSync(outDir, { recursive: true });
   const html = `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><link rel="stylesheet" href="styles.css"></head><body>${telas(d).join('')}</body></html>`;
-  const f = path.join(STUDIO, '_empresa.html'); fs.writeFileSync(f, html);
+  const f = path.join(STUDIO, `_empresa-${process.pid}.html`); fs.writeFileSync(f, html);   // um por processo: renderizações em paralelo não se misturam
   const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1080, height: 1400 } });
   await p.goto('file://' + f); await p.evaluate(() => document.fonts.ready); await p.waitForTimeout(150);
   const els = await p.$$('section.slide');
   for (let k = 0; k < els.length; k++) await els[k].screenshot({ path: path.join(outDir, String(k + 1).padStart(2, '0') + '.png') });
   fs.writeFileSync(path.join(outDir, 'legenda.txt'), legenda(d));
-  await b.close(); console.log('ok', els.length, outDir);
+  await b.close(); fs.rmSync(f, { force: true }); console.log('ok', els.length, outDir);
 }

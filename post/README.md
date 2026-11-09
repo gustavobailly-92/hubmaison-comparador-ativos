@@ -18,7 +18,7 @@ diária e a skill `resultado-empresa-maison` seguem o que está aqui.
 
 ## Telas
 
-1. Capa: marca da Invest, logo da empresa, "Resultado do 3T26 · data de entrega à CVM" e o indicador com a maior
+1. Capa: marca da Invest, logo da empresa (sem logo aprovada, o nome da empresa em texto), "Resultado do 3T26 · data de entrega à CVM" e o indicador com a maior
    variação contra o mesmo trimestre do ano anterior, para cima ou para baixo, entre receita, EBITDA, lucro, PL,
    dívida e ativo (n.m. fica de fora): o valor do trimestre em destaque, a variação e o valor do ano anterior. Sem
    variação mensurável, a capa mostra o destaque do JSON (receita; lucro para bancos e seguradoras).
