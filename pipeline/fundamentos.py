@@ -295,6 +295,31 @@ def _no_trimestre(d: dict, t: str, tp: str, campo: str):
     return None
 
 
+def _usa_c(d: dict, datas: list[str]) -> bool:
+    """A parte dos sócios da controladora (lucro_c) só vale quando vem preenchida em todas as datas da conta: muita
+    companhia sem acionistas não controladores deixa a linha zerada e lança só o total. Zero com total diferente de
+    zero conta como não preenchido; aí se usa o lucro total nas mesmas datas, para não misturar contas."""
+    for t in datas:
+        c, tot = (d.get(t) or {}).get("lucro_c"), (d.get(t) or {}).get("lucro")
+        if not c:
+            return False
+        if c[2] == 0 and tot and tot[2] != 0:
+            return False
+    return True
+
+
+def _lucro_trimestre(d: dict, t: str, tp: str, lc: str):
+    """Lucro só do trimestre terminado em t, com a mesma conta em t e no trimestre anterior (quando a diferença precisa dele)."""
+    if lc == "lucro_c":
+        c = (d.get(t) or {}).get("lucro_c")
+        precisa_tp = bool(c and c[0] and _meses(c[0], t) > 3)
+        if _usa_c(d, [t, tp] if precisa_tp else [t]):
+            v = _no_trimestre(d, t, tp, "lucro_c")
+            if v is not None:
+                return v
+    return _no_trimestre(d, t, tp, "lucro")
+
+
 def _serie(d: dict, fim: str, e_fin: bool, lc: str) -> dict:
     """Série dos TRIMESTRES_SERIE trimestres até `fim`: receita, EBITDA e lucro do trimestre; PL, dívida bruta e ativo
     total no fim do trimestre. Bancos e seguradoras sem receita, EBITDA e dívida (planos de contas diferentes)."""
@@ -302,9 +327,7 @@ def _serie(d: dict, fim: str, e_fin: bool, lc: str) -> dict:
     s: dict = {"datas": datas[1:], "receita": [], "ebitda": [], "lucro": [], "pl": [], "divida": [], "caixa": [], "ativo": []}
     for tp, t in zip(datas[:-1], datas[1:]):
         eb, da = _no_trimestre(d, t, tp, "ebit"), _no_trimestre(d, t, tp, "da")
-        lq = _no_trimestre(d, t, tp, lc)
-        if lq is None and lc != "lucro":
-            lq = _no_trimestre(d, t, tp, "lucro")
+        lq = _lucro_trimestre(d, t, tp, lc)
         pl = _val(d, t, "pl")
         dc, dn = _val(d, t, "div_c"), _val(d, t, "div_nc")
         s["receita"].append(None if e_fin else _no_trimestre(d, t, tp, "receita"))
@@ -326,9 +349,10 @@ def calcular(dados_cvm: dict, fin: dict, hoje: date, receb: dict | None = None) 
     out: dict[int, dict] = {}
     cvms = {k[0] for k in dados_cvm}
     for cvm in cvms:
-        d = dados_cvm.get((cvm, "con")) or {}
-        if not any("receita" in v or "pl" in v for v in d.values()):
-            d = dados_cvm.get((cvm, "ind")) or {}
+        # consolidado quando é o mais recente; há companhias que deixaram de consolidar e seguem só no individual
+        dc, di = dados_cvm.get((cvm, "con")) or {}, dados_cvm.get((cvm, "ind")) or {}
+        ult = lambda x: max((f for f, v in x.items() if "receita" in v or "pl" in v), default="")  # noqa: E731
+        d = dc if ult(dc) and ult(dc) >= ult(di) else di
         if not d:
             continue
         fins = sorted(f for f, v in d.items() if "receita" in v or "pl" in v)
@@ -356,7 +380,8 @@ def calcular(dados_cvm: dict, fin: dict, hoje: date, receb: dict | None = None) 
                 eb_a, da_a = _ltm(d, antes, "ebit"), _ltm(d, antes, "da")
                 g_ebitda.append(_cresc(ebitda, None if eb_a is None or da_a is None else eb_a + abs(da_a)))
         # lucro: a parte dos sócios da controladora quando a DRE separa (P/L sobre o valor de mercado da controladora)
-        lc = "lucro_c" if (d.get(fim) or {}).get("lucro_c") else "lucro"
+        datas12 = [fim] if fim[5:] == "12-31" else [fim, f"{int(fim[:4]) - 1}-12-31", _ano_antes(fim, 1)]
+        lc = "lucro_c" if _usa_c(d, datas12) else "lucro"
         lucro12 = _ltm(d, fim, lc)
         if lucro12 is None and lc != "lucro":
             lucro12 = _ltm(d, fim, "lucro")
