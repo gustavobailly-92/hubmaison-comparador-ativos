@@ -1,6 +1,6 @@
 {
   "referencia": "2026-11-05",
-  "gerado": "2026-11-08T21:16:43Z",
+  "gerado": "2026-11-09T11:52:44Z",
   "fundos_publicados": 10216,
   "fundos_na_matriz": 16463,
   "fundos_xp": 1008,
@@ -36,8 +36,8 @@
   "bdrs": 464,
   "fiis": 275,
   "descartados_parados": 438,
-  "descartados_poucos_cotistas": 5773,
-  "descartados_historico_curto": 36,
+  "descartados_poucos_cotistas": 5774,
+  "descartados_historico_curto": 35,
   "dias_calendario": 2575,
   "meses_processados": [
     "201609",
@@ -168,5 +168,5 @@
     "CDI sem valor em 22 dias do calendário (tratados como 0)",
     "ações: 33 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 683
+  "duracao_s": 626
 }
