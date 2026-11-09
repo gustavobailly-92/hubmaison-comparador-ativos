@@ -18,12 +18,12 @@ Preço LJQQ3 (sem proventos): R$ 1,05 | R$ 2,00 | R$ 2,95 | R$ 4,12
 P/VP: 0,89x | 0,92x | 1,08x | 1,69x
 EV/EBITDA: 1,93x | 2,53x | 1,95x | 4,45x
 
-P/VP de 0,89x, P/L de n.m. na cotação de 05/11/2026.
+P/VP de 0,89x, P/L de n.m. na cotação de 06/11/2026.
 
 n.m.: não mensurável, há valor negativo em um dos períodos ou a variação passa de 999%.
 n.m.: não mensurável, PL, lucro ou EBITDA de 12 meses negativo, ou múltiplo acima de 100x.
 
-Fontes: ITR do 3T26 entregue à CVM em 05/11/2026; múltiplos: Cálculo com a cotação de fechamento na B3 em 05/11/2026 e as demonstrações entregues à CVM. EBITDA: resultado antes do resultado financeiro e dos tributos, mais depreciação e amortização (DVA), sem os ajustes que a empresa divulga.
+Fontes: ITR do 3T26 entregue à CVM em 05/11/2026; múltiplos: Cálculo com a cotação de fechamento na B3 em 06/11/2026 e as demonstrações entregues à CVM. EBITDA: resultado antes do resultado financeiro e dos tributos, mais depreciação e amortização (DVA), sem os ajustes que a empresa divulga.
 
 Conteúdo informativo, sem recomendação de compra ou venda. Maison Invest, assessora de investimentos credenciada à XP Investimentos. Ouvidoria XP: 0800 722 3730.
 
