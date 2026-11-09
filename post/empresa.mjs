@@ -89,8 +89,17 @@ function grafBarrasValores(v, tri, w, h, yoy = null) {
   const [, u] = escala(Math.max(...ys.map(Math.abs))), div = { tri: 1000, bi: 1, mi: 0.001, mil: 1e-6 }[u];
   const dd = dec(Math.max(...ys.map(y => Math.abs(y) / div)));
   const lo = Math.min(0, ...ys), hi = Math.max(0, ...ys), sp = hi - lo || 1;
-  const topo = 34, pe = 30, hb = h - topo - pe - (lo < 0 ? 28 : 0), slot = w / v.length, bw = Math.min(54, slot * 0.8);
-  const Y = (y) => topo + (hi - y) / sp * hb, y0 = Y(0);
+  const pe = 30, slot = w / v.length, bw = Math.min(54, slot * 0.8);
+  // topo: espaço acima da barra mais alta para o valor; cresce quando uma variação precisa ir por fora, acima do valor
+  // (barra em destaque baixa demais, comum quando há um trimestre muito negativo), para o texto não sair do gráfico
+  const geom = (topo) => { const hb = h - topo - pe - (lo < 0 ? 28 : 0); return (y) => topo + (hi - y) / sp * hb; };
+  let topo = 34;
+  if (yoy) {
+    const Y34 = geom(34), z = Y34(0);
+    const fora = v.some((y, i) => y != null && y >= 0 && (v.length - 1 - i) % 4 === 0 && Math.abs(Y34(y) - z) < 28 && Y34(y) - 32 - 14 < 0);
+    if (fora) topo = 58;
+  }
+  const Y = geom(topo), y0 = Y(0);
   const cor = (i) => (i === v.length - 1 ? 'var(--accent)' : (v.length - 1 - i) % 4 === 0 ? 'rgba(178,203,230,.78)' : 'rgba(147,172,198,.26)');
   const corT = (i) => (i === v.length - 1 ? '#C8A96A' : (v.length - 1 - i) % 4 === 0 ? '#b2cbe6' : '#93acc6');
   const g = v.map((y, i) => {
