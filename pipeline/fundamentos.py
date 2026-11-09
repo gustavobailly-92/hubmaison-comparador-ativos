@@ -5,7 +5,7 @@ Cada ZIP traz um CSV por demonstração (BPA, BPP, DRE, DVA...), consolidada ("c
 colunas CD_CVM, DT_REFER, VERSAO, ORDEM_EXERC, DT_INI_EXERC, DT_FIM_EXERC, CD_CONTA, DS_CONTA, VL_CONTA, ESCALA_MOEDA.
 
 Por companhia (código CVM), em cada fim de trimestre:
-  pl        patrimônio líquido (BPP 2.03)
+  pl        patrimônio líquido dos sócios da controladora (BPP 2.03 menos a participação dos não controladores, 2.03.09)
   divida    empréstimos e financiamentos, circulante + não circulante (BPP 2.01.04 + 2.02.01)
   caixa     caixa e equivalentes + aplicações financeiras de curto prazo (BPA 1.01.01 + 1.01.02)
   receita   receita de venda de bens e/ou serviços (DRE 3.01), acumulada no ano (YTD)
@@ -44,8 +44,8 @@ DIAS_CACHE_CORRENTE = 1     # o extrato do ano corrente é renovado a cada execu
                             # de resultados precisa do ITR entregue na véspera); o do ano anterior também, até abril (a DFP do
                             # ano anterior chega até o fim de março). Conta pela data do arquivo, não por 24 horas corridas
 DIAS_CACHE_FECHADO = 90     # anos fechados: a CVM regera os ZIPs antigos com reapresentações; um refresh por trimestre basta
-EXTRATO_VERSAO = 3          # formato do extrato em cache; muda quando a leitura das contas muda (2 = contas confirmadas pelo nome;
-                            # 3 = lucro, ativo total e a data de recebimento de cada documento)
+EXTRATO_VERSAO = 4          # formato do extrato em cache; muda quando a leitura das contas muda (2 = contas confirmadas pelo nome;
+                            # 3 = lucro, ativo total e a data de recebimento de cada documento; 4 = PL dos não controladores)
 TRIMESTRES_SERIE = 17       # trimestres na série do post de resultados: 13 nas barras (36 meses) + 4 para a variação de 12 meses
                             # da primeira barra e para o acumulado de 12 meses 36 meses antes
 # (campo, código da conta, começo do nome normalizado): o nome confirma a conta, porque bancos e seguradoras usam outro
@@ -55,7 +55,9 @@ TRIMESTRES_SERIE = 17       # trimestres na série do post de resultados: 13 nas
 # "Lucro/Prejuízo (Consolidado) do Período" (3.11 nas empresas; outro número em bancos e seguradoras), sem confundir com o
 # resultado das operações continuadas, o resultado antes dos tributos ou o lucro por ação (3.99).
 CONTAS = {
-    "BPP": [("pl", re.compile(r"^2\.\d\d$"), ("patrimonio liquido",)), ("div_c", "2.01.04", ("emprestimos",)), ("div_nc", "2.02.01", ("emprestimos",))],
+    "BPP": [("pl", re.compile(r"^2\.\d\d$"), ("patrimonio liquido",)), ("div_c", "2.01.04", ("emprestimos",)), ("div_nc", "2.02.01", ("emprestimos",)),
+            # dentro do PL consolidado (2.03 nas empresas; 2.07 ou 2.08 em bancos e seguradoras), a parte dos não controladores
+            ("pl_nc", re.compile(r"^2\.0[3-9]\.\d\d$"), ("participacao", "acionistas nao controladores", "nao controladores"), (), ("nao controlador",))],
     "BPA": [("ativo", "1", ("ativo total",)), ("caixa", "1.01.01", ("caixa", "disponib")), ("aplic", "1.01.02", ("aplicac",))],
     "DRE": [("receita", "3.01", None), ("ebit", "3.05", ("resultado antes do resultado financeiro",)),
             ("lucro", re.compile(r"^3\.\d\d$"), ("lucro", "prejuizo", "resultado liquido"), ("continuad", "antes", "por acao"), ("periodo", "exercicio")),
@@ -63,6 +65,9 @@ CONTAS = {
     "DVA": [("da", "7.04.01", ("deprecia",))],
 }
 FIN_RECEITA = ("intermedia", "segur", "premio")   # DRE 3.01 de bancos e seguradoras
+# financeiras que entregam no plano de contas das empresas (a receita e o PL não as denunciam): receita, EBITDA e dívida
+# não têm o sentido de uma empresa, e o post fica só com lucro e PL
+FIN_FORCADO = {16659: "Porto Seguro", 23795: "Caixa Seguridade", 25860: "BR Partners"}
 
 
 def _campo(tipo: str, cod: str, ds_norm: str) -> str | None:
@@ -240,6 +245,32 @@ def _val(d: dict, fim: str, campo: str):
     return x[2] if x else None
 
 
+def _corrige_escala(d: dict) -> None:
+    """Documento entregue com a escala trocada (em reais declarado como milhares, ou o contrário): o ativo total da data
+    sai cerca de 1.000 vezes menor ou maior que o das datas vizinhas (até um ano antes ou depois). Corrige todos os campos
+    dessa data, que vêm do mesmo documento. Fora da faixa de 300 a 3.000 vezes, não mexe."""
+    com_ativo = sorted(t for t, v in d.items() if v.get("ativo") and v["ativo"][2])
+    fator = {}
+    for t in com_ativo:
+        viz = sorted(abs(d[u]["ativo"][2]) for u in com_ativo if u != t and abs(int(u[:4]) - int(t[:4])) <= 1)
+        if len(viz) < 2:
+            continue
+        r = viz[len(viz) // 2] / abs(d[t]["ativo"][2])
+        if 300 < r < 3000:
+            fator[t] = 1000.0
+        elif 1 / 3000 < r < 1 / 300:
+            fator[t] = 0.001
+    for t, f in fator.items():
+        d[t] = {c: (x[0], x[1], x[2] * f) for c, x in d[t].items()}
+
+
+def _pl(d: dict, fim: str):
+    """PL dos sócios da controladora: o PL consolidado menos a participação dos não controladores (zero ou ausente no
+    individual). É a base do P/VP, coerente com o P/L sobre o lucro dos controladores."""
+    pl = _val(d, fim, "pl")
+    return None if pl is None else pl - (_val(d, fim, "pl_nc") or 0.0)
+
+
 def _ltm(d: dict, fim: str, campo: str):
     """Acumulado de 12 meses terminado em `fim` (fim de trimestre): YTD + ano anterior fechado − YTD de um ano antes.
     No fim do ano (dezembro) o YTD já é o ano inteiro."""
@@ -295,6 +326,31 @@ def _no_trimestre(d: dict, t: str, tp: str, campo: str):
     return None
 
 
+def _usa_c(d: dict, datas: list[str]) -> bool:
+    """A parte dos sócios da controladora (lucro_c) só vale quando vem preenchida em todas as datas da conta: muita
+    companhia sem acionistas não controladores deixa a linha zerada e lança só o total. Zero com total diferente de
+    zero conta como não preenchido; aí se usa o lucro total nas mesmas datas, para não misturar contas."""
+    for t in datas:
+        c, tot = (d.get(t) or {}).get("lucro_c"), (d.get(t) or {}).get("lucro")
+        if not c:
+            return False
+        if c[2] == 0 and tot and tot[2] != 0:
+            return False
+    return True
+
+
+def _lucro_trimestre(d: dict, t: str, tp: str, lc: str):
+    """Lucro só do trimestre terminado em t, com a mesma conta em t e no trimestre anterior (quando a diferença precisa dele)."""
+    if lc == "lucro_c":
+        c = (d.get(t) or {}).get("lucro_c")
+        precisa_tp = bool(c and c[0] and _meses(c[0], t) > 3)
+        if _usa_c(d, [t, tp] if precisa_tp else [t]):
+            v = _no_trimestre(d, t, tp, "lucro_c")
+            if v is not None:
+                return v
+    return _no_trimestre(d, t, tp, "lucro")
+
+
 def _serie(d: dict, fim: str, e_fin: bool, lc: str) -> dict:
     """Série dos TRIMESTRES_SERIE trimestres até `fim`: receita, EBITDA e lucro do trimestre; PL, dívida bruta e ativo
     total no fim do trimestre. Bancos e seguradoras sem receita, EBITDA e dívida (planos de contas diferentes)."""
@@ -302,10 +358,8 @@ def _serie(d: dict, fim: str, e_fin: bool, lc: str) -> dict:
     s: dict = {"datas": datas[1:], "receita": [], "ebitda": [], "lucro": [], "pl": [], "divida": [], "caixa": [], "ativo": []}
     for tp, t in zip(datas[:-1], datas[1:]):
         eb, da = _no_trimestre(d, t, tp, "ebit"), _no_trimestre(d, t, tp, "da")
-        lq = _no_trimestre(d, t, tp, lc)
-        if lq is None and lc != "lucro":
-            lq = _no_trimestre(d, t, tp, "lucro")
-        pl = _val(d, t, "pl")
+        lq = _lucro_trimestre(d, t, tp, lc)
+        pl = _pl(d, t)
         dc, dn = _val(d, t, "div_c"), _val(d, t, "div_nc")
         s["receita"].append(None if e_fin else _no_trimestre(d, t, tp, "receita"))
         s["ebitda"].append(None if (e_fin or eb is None or da is None) else eb + abs(da))
@@ -326,17 +380,19 @@ def calcular(dados_cvm: dict, fin: dict, hoje: date, receb: dict | None = None) 
     out: dict[int, dict] = {}
     cvms = {k[0] for k in dados_cvm}
     for cvm in cvms:
-        d = dados_cvm.get((cvm, "con")) or {}
-        if not any("receita" in v or "pl" in v for v in d.values()):
-            d = dados_cvm.get((cvm, "ind")) or {}
+        # consolidado quando é o mais recente; há companhias que deixaram de consolidar e seguem só no individual
+        dc, di = dados_cvm.get((cvm, "con")) or {}, dados_cvm.get((cvm, "ind")) or {}
+        ult = lambda x: max((f for f, v in x.items() if "receita" in v or "pl" in v), default="")  # noqa: E731
+        d = dc if ult(dc) and ult(dc) >= ult(di) else di
         if not d:
             continue
+        _corrige_escala(d)
         fins = sorted(f for f, v in d.items() if "receita" in v or "pl" in v)
         if not fins:
             continue
         fim = fins[-1]
-        e_fin = bool(fin.get(cvm))
-        pl = _val(d, fim, "pl")
+        e_fin = bool(fin.get(cvm)) or cvm in FIN_FORCADO
+        pl = _pl(d, fim)
         divida = (_val(d, fim, "div_c") or 0.0) + (_val(d, fim, "div_nc") or 0.0)
         caixa = (_val(d, fim, "caixa") or 0.0) + (_val(d, fim, "aplic") or 0.0)
         rec = _ltm(d, fim, "receita")
@@ -347,7 +403,7 @@ def calcular(dados_cvm: dict, fin: dict, hoje: date, receb: dict | None = None) 
         g_pl, g_rec, g_ebitda = [], [], []
         for anos in (1, 2, 3):
             antes = _ano_antes(fim, anos)
-            g_pl.append(_cresc(pl, _val(d, antes, "pl")))
+            g_pl.append(_cresc(pl, _pl(d, antes)))
             if e_fin:
                 g_rec.append(None)
                 g_ebitda.append(None)
@@ -356,7 +412,8 @@ def calcular(dados_cvm: dict, fin: dict, hoje: date, receb: dict | None = None) 
                 eb_a, da_a = _ltm(d, antes, "ebit"), _ltm(d, antes, "da")
                 g_ebitda.append(_cresc(ebitda, None if eb_a is None or da_a is None else eb_a + abs(da_a)))
         # lucro: a parte dos sócios da controladora quando a DRE separa (P/L sobre o valor de mercado da controladora)
-        lc = "lucro_c" if (d.get(fim) or {}).get("lucro_c") else "lucro"
+        datas12 = [fim] if fim[5:] == "12-31" else [fim, f"{int(fim[:4]) - 1}-12-31", _ano_antes(fim, 1)]
+        lc = "lucro_c" if _usa_c(d, datas12) else "lucro"
         lucro12 = _ltm(d, fim, lc)
         if lucro12 is None and lc != "lucro":
             lucro12 = _ltm(d, fim, "lucro")

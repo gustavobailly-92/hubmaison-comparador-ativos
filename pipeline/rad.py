@@ -154,7 +154,17 @@ def ler_documento(raw: bytes) -> dict:
         if m:
             ini_ano = f"{m.group(3)}-{m.group(2)}-{m.group(1)}"
     pl = _planilhas(z.read(xlsx))
-    escopo = "con" if any(len(pl.get(f"DF Cons {k}", [])) > 1 for k in PLANILHAS) else "ind"
+    # consolidado só quando tem números: sem controladas, a planilha "DF Cons" vem com as contas zeradas
+    def ativo_total(rows: list[list[str]]) -> float:
+        if len(rows) < 2:
+            return 0.0
+        hdr = [h.strip().lower() for h in rows[0]]
+        if "codigo conta" not in hdr or "valor trimestre atual" not in hdr and "valor ultimo exercicio" not in hdr:
+            return 0.0
+        i_c = hdr.index("codigo conta")
+        i_v = hdr.index("valor trimestre atual") if "valor trimestre atual" in hdr else hdr.index("valor ultimo exercicio")
+        return next((abs(_num(r[i_v]) or 0.0) for r in rows[1:] if len(r) > i_v and r[i_c].strip() == "1"), 0.0)
+    escopo = "con" if ativo_total(pl.get("DF Cons Ativo", [])) > 0 else "ind"
     linhas = []
     for sufixo, tipo in PLANILHAS.items():
         rows = pl.get(f"DF {'Cons' if escopo == 'con' else 'Ind'} {sufixo}") or []
@@ -231,7 +241,10 @@ def complementar(dados: dict, fin: dict, receb: dict, cvms: set[int], hoje: date
     def baixar(doc: dict):
         arq = os.path.join(pasta, re.sub(r"[^\w.-]", "_", doc["protocolo"]) + ".json")
         if os.path.exists(arq):
-            return json.load(open(arq, encoding="utf-8")), None, False
+            lido = json.load(open(arq, encoding="utf-8"))
+            zerado = lido.get("escopo") == "con" and not any(l[0] == "BPA" and l[1] == "1" and l[3] for l in lido.get("linhas", []))
+            if not zerado:   # lido antes da correção com o consolidado vazio: baixa de novo
+                return lido, None, False
         try:
             if not hasattr(local, "s"):
                 local.s = _Sessao()
