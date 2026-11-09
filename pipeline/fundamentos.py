@@ -65,6 +65,9 @@ CONTAS = {
     "DVA": [("da", "7.04.01", ("deprecia",))],
 }
 FIN_RECEITA = ("intermedia", "segur", "premio")   # DRE 3.01 de bancos e seguradoras
+# financeiras que entregam no plano de contas das empresas (a receita e o PL não as denunciam): receita, EBITDA e dívida
+# não têm o sentido de uma empresa, e o post fica só com lucro e PL
+FIN_FORCADO = {16659: "Porto Seguro", 23795: "Caixa Seguridade", 25860: "BR Partners"}
 
 
 def _campo(tipo: str, cod: str, ds_norm: str) -> str | None:
@@ -242,6 +245,25 @@ def _val(d: dict, fim: str, campo: str):
     return x[2] if x else None
 
 
+def _corrige_escala(d: dict) -> None:
+    """Documento entregue com a escala trocada (em reais declarado como milhares, ou o contrário): o ativo total da data
+    sai cerca de 1.000 vezes menor ou maior que o das datas vizinhas (até um ano antes ou depois). Corrige todos os campos
+    dessa data, que vêm do mesmo documento. Fora da faixa de 300 a 3.000 vezes, não mexe."""
+    com_ativo = sorted(t for t, v in d.items() if v.get("ativo") and v["ativo"][2])
+    fator = {}
+    for t in com_ativo:
+        viz = sorted(abs(d[u]["ativo"][2]) for u in com_ativo if u != t and abs(int(u[:4]) - int(t[:4])) <= 1)
+        if len(viz) < 2:
+            continue
+        r = viz[len(viz) // 2] / abs(d[t]["ativo"][2])
+        if 300 < r < 3000:
+            fator[t] = 1000.0
+        elif 1 / 3000 < r < 1 / 300:
+            fator[t] = 0.001
+    for t, f in fator.items():
+        d[t] = {c: (x[0], x[1], x[2] * f) for c, x in d[t].items()}
+
+
 def _pl(d: dict, fim: str):
     """PL dos sócios da controladora: o PL consolidado menos a participação dos não controladores (zero ou ausente no
     individual). É a base do P/VP, coerente com o P/L sobre o lucro dos controladores."""
@@ -364,11 +386,12 @@ def calcular(dados_cvm: dict, fin: dict, hoje: date, receb: dict | None = None) 
         d = dc if ult(dc) and ult(dc) >= ult(di) else di
         if not d:
             continue
+        _corrige_escala(d)
         fins = sorted(f for f, v in d.items() if "receita" in v or "pl" in v)
         if not fins:
             continue
         fim = fins[-1]
-        e_fin = bool(fin.get(cvm))
+        e_fin = bool(fin.get(cvm)) or cvm in FIN_FORCADO
         pl = _pl(d, fim)
         divida = (_val(d, fim, "div_c") or 0.0) + (_val(d, fim, "div_nc") or 0.0)
         caixa = (_val(d, fim, "caixa") or 0.0) + (_val(d, fim, "aplic") or 0.0)
