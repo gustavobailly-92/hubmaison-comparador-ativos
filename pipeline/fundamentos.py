@@ -5,7 +5,7 @@ Cada ZIP traz um CSV por demonstração (BPA, BPP, DRE, DVA...), consolidada ("c
 colunas CD_CVM, DT_REFER, VERSAO, ORDEM_EXERC, DT_INI_EXERC, DT_FIM_EXERC, CD_CONTA, DS_CONTA, VL_CONTA, ESCALA_MOEDA.
 
 Por companhia (código CVM), em cada fim de trimestre:
-  pl        patrimônio líquido (BPP 2.03)
+  pl        patrimônio líquido dos sócios da controladora (BPP 2.03 menos a participação dos não controladores, 2.03.09)
   divida    empréstimos e financiamentos, circulante + não circulante (BPP 2.01.04 + 2.02.01)
   caixa     caixa e equivalentes + aplicações financeiras de curto prazo (BPA 1.01.01 + 1.01.02)
   receita   receita de venda de bens e/ou serviços (DRE 3.01), acumulada no ano (YTD)
@@ -44,8 +44,8 @@ DIAS_CACHE_CORRENTE = 1     # o extrato do ano corrente é renovado a cada execu
                             # de resultados precisa do ITR entregue na véspera); o do ano anterior também, até abril (a DFP do
                             # ano anterior chega até o fim de março). Conta pela data do arquivo, não por 24 horas corridas
 DIAS_CACHE_FECHADO = 90     # anos fechados: a CVM regera os ZIPs antigos com reapresentações; um refresh por trimestre basta
-EXTRATO_VERSAO = 3          # formato do extrato em cache; muda quando a leitura das contas muda (2 = contas confirmadas pelo nome;
-                            # 3 = lucro, ativo total e a data de recebimento de cada documento)
+EXTRATO_VERSAO = 4          # formato do extrato em cache; muda quando a leitura das contas muda (2 = contas confirmadas pelo nome;
+                            # 3 = lucro, ativo total e a data de recebimento de cada documento; 4 = PL dos não controladores)
 TRIMESTRES_SERIE = 17       # trimestres na série do post de resultados: 13 nas barras (36 meses) + 4 para a variação de 12 meses
                             # da primeira barra e para o acumulado de 12 meses 36 meses antes
 # (campo, código da conta, começo do nome normalizado): o nome confirma a conta, porque bancos e seguradoras usam outro
@@ -55,7 +55,9 @@ TRIMESTRES_SERIE = 17       # trimestres na série do post de resultados: 13 nas
 # "Lucro/Prejuízo (Consolidado) do Período" (3.11 nas empresas; outro número em bancos e seguradoras), sem confundir com o
 # resultado das operações continuadas, o resultado antes dos tributos ou o lucro por ação (3.99).
 CONTAS = {
-    "BPP": [("pl", re.compile(r"^2\.\d\d$"), ("patrimonio liquido",)), ("div_c", "2.01.04", ("emprestimos",)), ("div_nc", "2.02.01", ("emprestimos",))],
+    "BPP": [("pl", re.compile(r"^2\.\d\d$"), ("patrimonio liquido",)), ("div_c", "2.01.04", ("emprestimos",)), ("div_nc", "2.02.01", ("emprestimos",)),
+            # dentro do PL consolidado (2.03 nas empresas; 2.07 ou 2.08 em bancos e seguradoras), a parte dos não controladores
+            ("pl_nc", re.compile(r"^2\.0[3-9]\.\d\d$"), ("participacao", "acionistas nao controladores", "nao controladores"), (), ("nao controlador",))],
     "BPA": [("ativo", "1", ("ativo total",)), ("caixa", "1.01.01", ("caixa", "disponib")), ("aplic", "1.01.02", ("aplicac",))],
     "DRE": [("receita", "3.01", None), ("ebit", "3.05", ("resultado antes do resultado financeiro",)),
             ("lucro", re.compile(r"^3\.\d\d$"), ("lucro", "prejuizo", "resultado liquido"), ("continuad", "antes", "por acao"), ("periodo", "exercicio")),
@@ -240,6 +242,13 @@ def _val(d: dict, fim: str, campo: str):
     return x[2] if x else None
 
 
+def _pl(d: dict, fim: str):
+    """PL dos sócios da controladora: o PL consolidado menos a participação dos não controladores (zero ou ausente no
+    individual). É a base do P/VP, coerente com o P/L sobre o lucro dos controladores."""
+    pl = _val(d, fim, "pl")
+    return None if pl is None else pl - (_val(d, fim, "pl_nc") or 0.0)
+
+
 def _ltm(d: dict, fim: str, campo: str):
     """Acumulado de 12 meses terminado em `fim` (fim de trimestre): YTD + ano anterior fechado − YTD de um ano antes.
     No fim do ano (dezembro) o YTD já é o ano inteiro."""
@@ -328,7 +337,7 @@ def _serie(d: dict, fim: str, e_fin: bool, lc: str) -> dict:
     for tp, t in zip(datas[:-1], datas[1:]):
         eb, da = _no_trimestre(d, t, tp, "ebit"), _no_trimestre(d, t, tp, "da")
         lq = _lucro_trimestre(d, t, tp, lc)
-        pl = _val(d, t, "pl")
+        pl = _pl(d, t)
         dc, dn = _val(d, t, "div_c"), _val(d, t, "div_nc")
         s["receita"].append(None if e_fin else _no_trimestre(d, t, tp, "receita"))
         s["ebitda"].append(None if (e_fin or eb is None or da is None) else eb + abs(da))
@@ -360,7 +369,7 @@ def calcular(dados_cvm: dict, fin: dict, hoje: date, receb: dict | None = None) 
             continue
         fim = fins[-1]
         e_fin = bool(fin.get(cvm))
-        pl = _val(d, fim, "pl")
+        pl = _pl(d, fim)
         divida = (_val(d, fim, "div_c") or 0.0) + (_val(d, fim, "div_nc") or 0.0)
         caixa = (_val(d, fim, "caixa") or 0.0) + (_val(d, fim, "aplic") or 0.0)
         rec = _ltm(d, fim, "receita")
@@ -371,7 +380,7 @@ def calcular(dados_cvm: dict, fin: dict, hoje: date, receb: dict | None = None) 
         g_pl, g_rec, g_ebitda = [], [], []
         for anos in (1, 2, 3):
             antes = _ano_antes(fim, anos)
-            g_pl.append(_cresc(pl, _val(d, antes, "pl")))
+            g_pl.append(_cresc(pl, _pl(d, antes)))
             if e_fin:
                 g_rec.append(None)
                 g_ebitda.append(None)
