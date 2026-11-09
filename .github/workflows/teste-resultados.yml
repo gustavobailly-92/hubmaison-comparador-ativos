@@ -1,0 +1,43 @@
+name: Prévia dos resultados com a correção do lucro
+
+# Só nesta branch de desenvolvimento (não vai para a main): gera os JSONs do post com o código da PR #6
+# e grava numa branch própria (resultados-teste), sem tocar na branch resultados nem no site.
+on:
+  push:
+    branches: [teste-resultados]
+
+permissions:
+  contents: write
+
+jobs:
+  gerar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --quiet pandas numpy pillow
+      - uses: actions/cache/restore@v4
+        with:
+          path: cache
+          key: cvm-informes-teste-${{ github.run_id }}
+          restore-keys: |
+            cvm-informes-
+      - name: Pipeline
+        run: |
+          set -o pipefail
+          python pipeline/build_data.py --out dist/data --cache cache 2>&1 | tee /tmp/log.txt
+      - name: Gravar na branch resultados-teste
+        if: always()
+        run: |
+          mkdir -p /tmp/rt && cp -r dist/data/resultados/. /tmp/rt/ 2>/dev/null || true
+          tail -c 200000 /tmp/log.txt > /tmp/rt/log.txt || true
+          cd /tmp/rt
+          git init -q -b resultados-teste
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "prévia: execução ${{ github.run_id }}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" HEAD:resultados-teste
