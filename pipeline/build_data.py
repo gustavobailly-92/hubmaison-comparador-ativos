@@ -1172,8 +1172,10 @@ def main() -> int:
                                # classificação setorial (B3) nas ações; segmento de atuação nos FIIs (B3, CVM ou pelo nome)
                                p.get("setor"), p.get("subsetor"), p.get("seg")])
             if p.get("_res"):
-                cvm_r, f_r, mcap_r, hist_r = p["_res"]
-                r = fd.doc_resultado(p["ticker"], p["nome"], p.get("setor"), cvm_r, f_r, f, mcap_r, d["ate"], hist_r)
+                cvm_r, f_r, mcap_r, hist_r, dt_cot = p["_res"]
+                # a data da cotação é a do pregão do preço usado no valor de mercado; d["ate"] segue o calendário dos
+                # fundos, que costuma estar um dia útil atrás
+                r = fd.doc_resultado(p["ticker"], p["nome"], p.get("setor"), cvm_r, f_r, f, mcap_r, dt_cot or d["ate"], hist_r)
                 if r:
                     with open(os.path.join(args.out, "resultados", f"{p['ticker']}.json"), "w", encoding="utf-8") as fh:
                         json.dump(r, fh, ensure_ascii=False, separators=(",", ":"))

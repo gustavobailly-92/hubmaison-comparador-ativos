@@ -942,6 +942,10 @@ def aplicar_fundamentos(papeis: list[dict], emissores: dict[str, dict | None], h
         ac = ev.get("acoes") or {}
         p_on = next((p["preco"] for p in lista if p["especi"] == "ON"), None)
         p_pn = next((p["preco"] for p in lista if p["especi"].startswith("PN")), None)
+        # data do pregão desses preços (o último negócio de cada papel), a que vai na legenda do post
+        on = next((p for p in lista if p["especi"] == "ON"), None)
+        pn = next((p for p in lista if p["especi"].startswith("PN")), None)
+        dt_cot = max((str(x["ultimo"])[:10] for x in (on, pn) if x and x.get("ultimo")), default=None)
         n_on, n_pn, n_tot = ac.get("on") or 0.0, ac.get("pn") or 0.0, ac.get("total") or 0.0
         mcap = _valor_mercado(p_on, p_pn, n_on, n_pn, n_tot)
         ind = fd.indicadores(f, mcap)
@@ -956,7 +960,7 @@ def aplicar_fundamentos(papeis: list[dict], emissores: dict[str, dict | None], h
             if hist:
                 h = {**hist, "preco": [None if i is None or np.isnan(p["qp"][i]) else round(float(p["qp"][i]), 2) for i in hist["_idx"]]}
                 h.pop("_idx")
-            p["_res"] = (cvm, f, mcap, h)
+            p["_res"] = (cvm, f, mcap, h, dt_cot)
             n += 1
     log(f"  fundamentos: {n} papéis com indicadores ({len(fund)} companhias)")
 
