@@ -1,6 +1,6 @@
 {
   "referencia": "2026-11-06",
-  "gerado": "2026-11-10T17:50:10Z",
+  "gerado": "2026-11-10T18:25:52Z",
   "fundos_publicados": 10222,
   "fundos_na_matriz": 16463,
   "fundos_xp": 1008,
@@ -160,5 +160,5 @@
     "benchmark AIQ indisponível (todas as fontes falharam)",
     "ações: 34 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 1030
+  "duracao_s": 1083
 }
