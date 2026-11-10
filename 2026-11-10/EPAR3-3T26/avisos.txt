@@ -1,0 +1,3 @@
+nome não revisado: "Embpar S/A" é o nome curto da B3; pôr o nome usual em post/nomes.csv (EPAR) e refazer
+lucro maior que a receita em 3T26
+receita de 3T26 é 0.4x a de 2T26
