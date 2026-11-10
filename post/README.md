@@ -70,8 +70,8 @@ disparar o workflow com `tickers` (ex.: `MOVI3 RANI3`); pastas já publicadas n�
 - Nome usual: `post/nomes.csv` (código de 4 letras; nome). Sem linha, fica o nome curto da B3 e o `avisos.txt` avisa.
 - `checagem.py` só aponta (lucro de trimestres seguidos que se anulam, zero exato; no trimestre do post, lucro maior
   que a receita e receita que dobra ou cai à metade; ativo que salta mais de 5 vezes; dado ausente; sem valor de mercado;
-  reapresentação); não corrige nenhum número. O `empresa.mjs` também avisa quando não tem logo e quando a capa fica
-  sem variação mensurável.
+  reapresentação); não corrige nenhum número. O `empresa.mjs` também avisa quando a capa fica sem variação mensurável;
+  logo ausente é só nota (a capa leva o nome em texto, ajustado ao comprimento) e não segura a publicação.
 - Qualquer linha no `avisos.txt` segura a publicação automática: a pasta fica pendente para revisão.
 
 ### Mesmo dia

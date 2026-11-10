@@ -163,7 +163,11 @@ function logoEmpresa(d, h = d.logoH || 120) {
   // logo da biblioteca na versão da capa (branca, cor ou placa, escolhida por placa.py); placa com cantos arredondados
   if (d.logo) return `<img src="${d.logo}" alt="${d.empresa}" style="height:${h}px;max-width:560px;object-fit:contain;display:block;border-radius:14px">`;
   // sem logo aprovada (ausente ou com a marca anterior): o nome da empresa em texto, no lugar da logo
-  return `<div style="height:${h}px;display:flex;align-items:center;font-size:${Math.round(Math.min(76, h * 0.62))}px;font-weight:600;letter-spacing:-.015em;line-height:1;color:#fff">${d.empresa}</div>`;
+  // tamanho pelo comprimento do nome (Montserrat 600 ~0,6 em por letra, até 920 px): uma linha quando cabe em 48 px ou
+  // mais; nome longo vai para duas linhas equilibradas
+  const n = d.empresa.length, um = Math.min(76, Math.floor(920 / (0.6 * n)));
+  const fs = um >= 48 ? um : Math.min(60, Math.floor(1840 / (0.6 * n)));
+  return `<div style="min-height:${h}px;max-width:920px;display:flex;align-items:center;font-size:${fs}px;font-weight:600;letter-spacing:-.015em;line-height:1.05;color:#fff;${um >= 48 ? 'white-space:nowrap' : 'text-wrap:balance'}">${d.empresa}</div>`;
 }
 // sem contador (o Instagram já mostra a posição no carrossel): só a seta de arrastar, menos na última tela
 const SETA = '<svg viewBox="0 0 56 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h54M47 1l7 6-7 6"/></svg>';
@@ -304,7 +308,8 @@ if (process.argv[1] && process.argv[1].endsWith('empresa.mjs')) {
   if (process.env.GRAFICO) d.grafico = process.env.GRAFICO;
   // logo oficial da biblioteca (logos/<4 letras do ticker>.svg ou .png, versão clara); sem arquivo, a capa mostra o espaço
   if (!d.logo) for (const ext of ['svg', 'png']) { const l = `logos/${d.ticker.slice(0, 4)}.${ext}`; if (fs.existsSync(path.join(STUDIO, l))) { d.logo = l; break; } }
-  if (!d.logo) console.log(`aviso: sem logo para ${d.ticker} (falta logos/${d.ticker.slice(0, 4)}.svg ou .png, ou está marcado como desatualizado no indice.csv)`);
+  // nota, não aviso: sem logo a capa leva o nome em texto e a publicação automática segue (decisão do Gustavo, 10/11/2026)
+  if (!d.logo) console.log(`nota: sem logo para ${d.ticker} (falta logos/${d.ticker.slice(0, 4)}.svg ou .png, ou está marcado como desatualizado no indice.csv)`);
   // tamanho do logo pela área (largo fica mais baixo, quadrado mais alto), sem ampliar mais que 1,8x um png pequeno
   try {
     const t = JSON.parse(fs.readFileSync(path.join(STUDIO, 'logos', 'tamanhos.json'), 'utf8'))[d.ticker.slice(0, 4)];
