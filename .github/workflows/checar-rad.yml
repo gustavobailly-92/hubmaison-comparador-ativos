@@ -1,0 +1,56 @@
+name: Checar entregas no RAD
+run-name: "RAD: checagem${{ inputs.so_checar && ' (só checar)' || '' }}"
+
+# Checagem leve, disparada a cada 30 minutos das 18h às 23h nos dias úteis pela tarefa agendada (o cron do GitHub
+# atrasa horas, o disparo manual não). Lista os ITR/DFP de ontem e hoje no RAD da CVM, sem baixar nada, e compara com
+# o index.json da branch resultados (pipeline/checar_rad.py). Só quando há entrega nova dispara "Atualizar dados e
+# publicar", que gera os carrosséis em seguida pelo gerar-posts.yml. Não mexe na publicação.
+on:
+  workflow_dispatch:
+    inputs:
+      so_checar:
+        description: "Só checar e mostrar o resultado, sem disparar a atualização"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: checar-rad
+  cancel-in-progress: false
+
+jobs:
+  checar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resultados (branch resultados)
+        uses: actions/checkout@v4
+        with:
+          ref: resultados
+          path: dados
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Dependências
+        run: pip install --quiet pandas numpy
+
+      - name: Checar o RAD
+        id: rad
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python pipeline/checar_rad.py dados/index.json
+
+      - name: Disparar a atualização
+        if: steps.rad.outputs.disparar == 'true' && !inputs.so_checar
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run atualizar.yml --repo "${{ github.repository }}" --ref main
+          echo "- Atualização disparada às $(TZ=America/Sao_Paulo date +%H:%M)" >> "$GITHUB_STEP_SUMMARY"
