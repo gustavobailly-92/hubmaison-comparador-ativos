@@ -22,7 +22,7 @@ jobs:
           import json, os, urllib.request, urllib.parse
           tok = os.environ.get("IG_ACCESS_TOKEN", "").strip()
           uid = os.environ.get("IG_USER_ID", "").strip()
-          print("IG_USER_ID definido:", bool(uid), "| valor:", uid)
+          print("IG_USER_ID definido:", bool(uid), "| igual a 17841400294654371:", uid == "17841400294654371", "| tamanho:", len(uid))
           print("IG_ACCESS_TOKEN definido:", bool(tok), "| tamanho:", len(tok), "| prefixo:", tok[:4])
           def get(url, **q):
               q["access_token"] = tok
