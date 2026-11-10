@@ -21,13 +21,18 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-HOST = "https://graph.instagram.com"
+
+
+def _host(token: str) -> str:
+    """Token do Login do Instagram (IGA...) vai para graph.instagram.com; token do Facebook, como o do usuário do sistema
+    gerado pelo login unificado (EAA...), vai para graph.facebook.com. Os endpoints de publicação são os mesmos."""
+    return "https://graph.instagram.com" if token.startswith("IG") else "https://graph.facebook.com"
 
 
 def chamar(metodo: str, caminho: str, params: dict) -> dict:
     token = os.environ["IG_ACCESS_TOKEN"]
     versao = os.environ.get("IG_API_VERSION") or "v27.0"
-    url = f"{HOST}/{versao}/{caminho}"
+    url = f"{_host(token)}/{versao}/{caminho}"
     corpo = urllib.parse.urlencode({**params, "access_token": token}).encode()
     if metodo == "GET":
         req = urllib.request.Request(f"{url}?{corpo.decode()}")
