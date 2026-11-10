@@ -87,8 +87,8 @@ function grafLinha(v, w, h, marcas = [0, 4, 8], rotulo = null) {
     const [x, py] = P([y, i]), anc = x < 40 ? 'start' : x > w - 40 ? 'end' : 'middle';
     return `<text x="${x.toFixed(1)}" y="${(py - 12).toFixed(1)}" text-anchor="${anc}" font-size="19" font-weight="${ult ? 600 : 500}" fill="${ult ? 'var(--accent)' : '#dbe5f0'}" stroke="#26324f" stroke-width="7" stroke-linejoin="round" paint-order="stroke" style="font-variant-numeric:tabular-nums">${rotulo(y)}</text>`;
   };
-  const rot = rotulo ? marc.map(m => txt(m, false)).join('') + txt(ok[ok.length - 1], true) : '';
-  return `<svg viewBox="0 0 ${w} ${H}" width="${w}" height="${H}" style="overflow:visible"><path d="${dd} L${lx} ${H} L${pts[0][0]} ${H}Z" fill="rgba(147,172,198,.10)"/><path d="${dd}" fill="none" stroke="#93acc6" stroke-width="2.5" stroke-linejoin="round"/>${base}<circle cx="${lx}" cy="${ly}" r="6" fill="var(--accent)"/>${rot}</svg>`;
+  const fim = ok[ok.length - 1], rot = rotulo ? marc.map(m => txt(m, false)).join('') + (fim[1] === n1 ? txt(fim, true) : '') : '';   // valor de hoje só se houver (n.m. fica sem rótulo)
+  return `<svg viewBox="0 0 ${w} ${H}" width="${w}" height="${H}" style="overflow:visible"><path d="${dd} L${lx} ${H} L${pts[0][0]} ${H}Z" fill="rgba(147,172,198,.10)"/><path d="${dd}" fill="none" stroke="#93acc6" stroke-width="2.5" stroke-linejoin="round"/>${base}${!rotulo || fim[1] === n1 ? `<circle cx="${lx}" cy="${ly}" r="6" fill="var(--accent)"/>` : ''}${rot}</svg>`;
 }
 // barras dos 13 trimestres com o valor em cima de cada barra (embaixo, se negativo) e o trimestre no pé; a unidade da linha
 // sai do maior valor (tri, bi, mi ou mil) e vai no cabeçalho do cartão
