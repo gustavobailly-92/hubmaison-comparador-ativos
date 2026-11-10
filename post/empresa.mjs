@@ -204,12 +204,9 @@ export function telas(d) {
       <div style="margin-top:14px;display:grid;grid-template-columns:repeat(3,1fr)">${[2, 1, 0].map(j => [c.hor[modo][k][j], j]).map(([h, j]) => `<div><div style="font-size:16px;font-weight:600;letter-spacing:.16em;color:var(--sky)">${[12, 24, 36][j]} MESES</div><div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span style="color:var(--accent);display:flex">${ARW(h.s, 22)}</span><span style="font-size:25px;font-variant-numeric:tabular-nums;color:${h.r == null ? 'var(--sky)' : '#fff'}">${fpct(h.r)}</span></div></div>`).join('')}</div></div>`;
   };
   const nm3 = ks.some(k => c.hor[modo][k].some(h => Number.isNaN(h.r))) ? NM : '';
-  const nota3 = modo === 'barras'
-    ? `Cada barra é um trimestre, de ${ini} a ${d.periodo}; em destaque, o mesmo trimestre de cada ano. Variação do ${d.periodo} contra o mesmo trimestre de 36, 24 e 12 meses antes.`
-    : `Receita, EBITDA e lucro somados em 12 meses; patrimônio, dívida e ativo no fim do trimestre. Variação contra 36, 24 e 12 meses antes (pontos em destaque).`;
   T.push(`<div class="frame">${head(d, 3, N)}<h3 style="margin-top:64px">36, 24 e 12 meses.</h3>
     <div style="margin-top:30px;display:grid;grid-template-columns:1fr 1fr;column-gap:48px">${ks.map(card).join('')}</div>
-    <p class="small" style="margin-top:8px">${nota3 + nm3}</p>${foot(3, N)}</div>`);
+    ${nm3 ? `<p class="small" style="margin-top:8px">${nm3.trim()}</p>` : ''}${foot(3, N)}</div>`);   // sem nota de método: só o n.m., quando aparece
   // 4 (e 5) por trimestre: barras dos 13 trimestres, com o valor em cima de cada barra
   const tri13 = d.trimestres.slice(-13);
   grupos.forEach(([tit, lista], gi) => {
@@ -217,11 +214,8 @@ export function telas(d) {
       const { svg, u } = grafBarrasValores(c.s13.barras[k], tri13, 888, 212, c.yoy13[k]);
       return `<div style="padding:20px 0 12px;border-top:1px solid var(--hair)"><div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:24px;font-weight:500">${LABEL[k]}</span><span style="font-size:16px;font-weight:600;letter-spacing:.16em;color:var(--sky)">R$ ${u.toUpperCase()} · ${fluxo3.includes(k) ? 'NO TRIMESTRE' : 'FIM DO TRIMESTRE'}</span></div><div style="margin-top:6px">${svg}</div></div>`;
     }).join('');
-    const so = lista.every(k => fluxo3.includes(k)) ? 'f' : lista.some(k => fluxo3.includes(k)) ? 'm' : 'e';
-    const nota = (so === 'f' ? `Valor de cada trimestre, de ${tri13[0]} a ${d.periodo}.` : so === 'e' ? `Posição no fim de cada trimestre, de ${tri13[0]} a ${d.periodo}.`
-      : `Lucro de cada trimestre; patrimônio e ativo no fim de cada trimestre, de ${tri13[0]} a ${d.periodo}.`) + ' Em destaque, o mesmo trimestre de cada ano; dentro da barra, a variação contra o mesmo trimestre do ano anterior (vs 3T25, por exemplo).';
     const nmB = lista.some(k => c.yoy13[k].some((r, i) => (12 - i) % 4 === 0 && Number.isNaN(r))) ? NM : '';
-    T.push(`<div class="frame">${head(d, 4 + gi, N)}<h3 style="margin-top:56px">${tit}</h3><div style="margin-top:18px;border-bottom:1px solid var(--hair)">${linhas}</div><p class="small" style="margin-top:16px">${nota}${nmB}</p>${foot(4 + gi, N)}</div>`);
+    T.push(`<div class="frame">${head(d, 4 + gi, N)}<h3 style="margin-top:56px">${tit}</h3><div style="margin-top:18px;border-bottom:1px solid var(--hair)">${linhas}</div>${nmB ? `<p class="small" style="margin-top:16px">${nmB.trim()}</p>` : ''}${foot(4 + gi, N)}</div>`);
   });
   // 4 múltiplos de hoje (os mesmos do comparador)
   const m = d.multiplos, mh = multHoje(d), nmx6 = [mh.pvp, mh.pl, mh.ev].some(Number.isNaN) ? NMX : '';
@@ -251,7 +245,7 @@ export function telas(d) {
     const corpo = linhas.map(linha).join('');
     T.push(`<div class="frame">${head(d, nH, N)}<h3 style="margin-top:64px;max-width:860px">Preço e múltiplos em 36, 24 e 12 meses.</h3>
     <div style="margin-top:34px;border-bottom:1px solid var(--hair)">${corpo}</div>
-    ${src(`Fechamento mês a mês na B3 até ${fdate(H.datas[n])}, sem proventos e ajustado por desdobramentos; nos pontos, o valor de 36, 24 e 12 meses antes e o de hoje; embaixo, a variação de cada um até hoje. Múltiplos passados com o último balanço divulgado em cada data e o número de ações atual.` + (nmx7 || [mh.pvp, mh.ev].some(Number.isNaN) ? NMX : nm5 ? NM : ''))}${foot(nH, N)}</div>`);
+    ${(nmx7 || [mh.pvp, mh.ev].some(Number.isNaN)) ? src(NMX.trim()) : nm5 ? src(NM.trim()) : ''}${foot(nH, N)}</div>`);
   }
   // 6 fontes e aviso
   T.push(`<div class="frame">${head(d, N, N)}<div style="margin:auto 0"><h3 style="max-width:860px">Os números, <em>sem opinião.</em></h3>

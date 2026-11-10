@@ -23,7 +23,7 @@ diária e a skill `resultado-empresa-maison` seguem o que está aqui.
    dívida e ativo (n.m. fica de fora): o valor do trimestre em destaque, a variação e o valor do ano anterior. Sem
    variação mensurável, a capa mostra o destaque do JSON (receita; lucro para bancos e seguradoras).
 2. O trimestre em números, contra o mesmo trimestre do ano anterior.
-3. 36, 24 e 12 meses (nessa ordem): receita, EBITDA e lucro somados em 12 meses; PL, dívida e ativo no fim do trimestre.
+3. 36, 24 e 12 meses (nessa ordem, sem nota de rodapé): receita, EBITDA e lucro somados em 12 meses; PL, dívida e ativo no fim do trimestre.
 4. e 5. Barras por trimestre (13 trimestres) com o valor em cima; em destaque o mesmo trimestre de cada ano, com a
    variação dentro da barra. Com até 3 indicadores (bancos), uma tela só.
 6. P/VP em destaque, P/L e EV/EBITDA de hoje.
