@@ -71,15 +71,24 @@ const pctCapa = (r) => `${r > 0 ? '+' : r < 0 ? '−' : ''}${nf(Math.abs(r) * 10
 const ARW = (r, z = 30) => r == null ? '' : `<svg viewBox="0 0 24 24" width="${z}" height="${z}" fill="none" stroke="currentColor" stroke-width="1.8"><path d="${r > 0.02 ? 'M7 17L17 7M9 7h8v8' : r < -0.02 ? 'M7 7l10 10M17 9v8H9' : 'M4 12h16M14 6l6 6-6 6'}"/></svg>`;
 
 // série com pontos em destaque (marcas) e o último ponto em dourado; 13 trimestres (marcas 0, 4, 8) ou 37 meses (0, 12, 24)
-function grafLinha(v, w, h, marcas = [0, 4, 8]) {
+// rotulo (opcional): função que formata o valor; escreve o valor sobre cada ponto em destaque e sobre o último, numa faixa
+// de 30 px acima do gráfico (a altura total passa a ser h + 30)
+function grafLinha(v, w, h, marcas = [0, 4, 8], rotulo = null) {
   const ok = v.map((y, i) => [y, i]).filter(([y]) => y != null && !Number.isNaN(y)), ys = ok.map(([y]) => y);
   if (!ok.length) return '';
+  const top = rotulo ? 30 : 0, H = h + top;
   const lo = Math.min(...ys), hi = Math.max(...ys), sp = hi - lo || 1, n1 = v.length - 1;
-  const P = ([y, i]) => [i * (w - 8) / n1 + 4, h - 8 - (y - lo) / sp * (h - 16)];
+  const P = ([y, i]) => [i * (w - 8) / n1 + 4, H - 8 - (y - lo) / sp * (h - 16)];
   const pts = ok.map(P), dd = pts.map((p, j) => (j ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
-  const base = ok.filter(([, i]) => marcas.includes(i)).map(P).map(([x, y]) => `<circle cx="${x}" cy="${y}" r="4.5" fill="#293654" stroke="#b2cbe6" stroke-width="2"/>`).join('');
+  const marc = ok.filter(([, i]) => marcas.includes(i));
+  const base = marc.map(P).map(([x, y]) => `<circle cx="${x}" cy="${y}" r="4.5" fill="#293654" stroke="#b2cbe6" stroke-width="2"/>`).join('');
   const [lx, ly] = pts[pts.length - 1];
-  return `<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}"><path d="${dd} L${lx} ${h} L${pts[0][0]} ${h}Z" fill="rgba(147,172,198,.10)"/><path d="${dd}" fill="none" stroke="#93acc6" stroke-width="2.5" stroke-linejoin="round"/>${base}<circle cx="${lx}" cy="${ly}" r="6" fill="var(--accent)"/></svg>`;
+  const txt = ([y, i], ult) => {
+    const [x, py] = P([y, i]), anc = x < 40 ? 'start' : x > w - 40 ? 'end' : 'middle';
+    return `<text x="${x.toFixed(1)}" y="${(py - 12).toFixed(1)}" text-anchor="${anc}" font-size="19" font-weight="${ult ? 600 : 500}" fill="${ult ? 'var(--accent)' : '#dbe5f0'}" stroke="#26324f" stroke-width="7" stroke-linejoin="round" paint-order="stroke" style="font-variant-numeric:tabular-nums">${rotulo(y)}</text>`;
+  };
+  const fim = ok[ok.length - 1], rot = rotulo ? marc.map(m => txt(m, false)).join('') + (fim[1] === n1 ? txt(fim, true) : '') : '';   // valor de hoje só se houver (n.m. fica sem rótulo)
+  return `<svg viewBox="0 0 ${w} ${H}" width="${w}" height="${H}" style="overflow:visible"><path d="${dd} L${lx} ${H} L${pts[0][0]} ${H}Z" fill="rgba(147,172,198,.10)"/><path d="${dd}" fill="none" stroke="#93acc6" stroke-width="2.5" stroke-linejoin="round"/>${base}${!rotulo || fim[1] === n1 ? `<circle cx="${lx}" cy="${ly}" r="6" fill="var(--accent)"/>` : ''}${rot}</svg>`;
 }
 // barras dos 13 trimestres com o valor em cima de cada barra (embaixo, se negativo) e o trimestre no pé; a unidade da linha
 // sai do maior valor (tri, bi, mi ou mil) e vai no cabeçalho do cartão
@@ -112,7 +121,10 @@ function grafBarrasValores(v, tri, w, h, yoy = null) {
     if (yoy && (v.length - 1 - i) % 4 === 0) {
       const alt = Math.abs(y1 - y0);
       const tv = fpct(yoy[i]), fz = tv.length > 6 ? 13 : 15;   // +100,0% e maiores: fonte menor para caber na barra
-      vz = alt >= 28 ? `<text x="${cx}" y="${((y0 + y1) / 2 + 5.5).toFixed(1)}" text-anchor="middle" font-size="${fz}" font-weight="600" fill="#293654">${tv}</text>`
+      const ref = i >= 4 && tri[i - 4] ? `vs ${tri[i - 4]}` : '';   // contra o mesmo trimestre do ano anterior
+      vz = alt >= 46 ? `<text x="${cx}" y="${((y0 + y1) / 2 - 1).toFixed(1)}" text-anchor="middle" font-size="${fz}" font-weight="600" fill="#293654">${tv}</text>`
+          + (ref ? `<text x="${cx}" y="${((y0 + y1) / 2 + 14).toFixed(1)}" text-anchor="middle" font-size="12" font-weight="500" fill="#293654" opacity=".8">${ref}</text>` : '')
+        : alt >= 28 ? `<text x="${cx}" y="${((y0 + y1) / 2 + 5.5).toFixed(1)}" text-anchor="middle" font-size="${fz}" font-weight="600" fill="#293654">${tv}</text>`
         : `<text x="${cx}" y="${(y >= 0 ? y1 - 32 : y1 + 44).toFixed(1)}" text-anchor="middle" font-size="15" font-weight="500" fill="#b2cbe6">${fpct(yoy[i])}</text>`;
     }
     return `<rect x="${(cx - bw / 2).toFixed(1)}" y="${Math.min(y0, y1).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1.5, Math.abs(y1 - y0)).toFixed(1)}" fill="${cor(i)}"/>`
@@ -144,14 +156,18 @@ const LABEL = { receita: 'Receita líquida', ebitda: 'EBITDA', lucro: 'Lucro lí
 const NM = ' n.m.: não mensurável, há valor negativo em um dos períodos ou a variação passa de 999%.';
 const EBITDA_DEF = 'Resultado antes do resultado financeiro e dos tributos, mais depreciação e amortização (DVA), sem os ajustes que a empresa divulga';
 const NMX =' n.m.: não mensurável, PL, lucro ou EBITDA de 12 meses negativo, ou múltiplo acima de 100x.';
+const LEGAL_TELA = 'Conteúdo informativo, sem recomendação de compra ou venda.';   // na última tela; a legenda leva o LEGAL completo
 const LEGAL = 'Conteúdo informativo, sem recomendação de compra ou venda. Maison Invest, assessora de investimentos credenciada à XP Investimentos. Ouvidoria XP: 0800 722 3730.';
 
 function logoEmpresa(d, h = d.logoH || 120) {
   // logo da biblioteca na versão da capa (branca, cor ou placa, escolhida por placa.py); placa com cantos arredondados
   if (d.logo) return `<img src="${d.logo}" alt="${d.empresa}" style="height:${h}px;max-width:560px;object-fit:contain;display:block;border-radius:14px">`;
-  return `<div style="height:${h}px;width:440px;border:2px dashed rgba(147,172,198,.5);display:grid;place-items:center;color:var(--sky);font-size:22px;font-weight:600;letter-spacing:.2em">LOGO DA EMPRESA</div>`;
+  // sem logo aprovada (ausente ou com a marca anterior): o nome da empresa em texto, no lugar da logo
+  return `<div style="height:${h}px;display:flex;align-items:center;font-size:${Math.round(Math.min(76, h * 0.62))}px;font-weight:600;letter-spacing:-.015em;line-height:1;color:#fff">${d.empresa}</div>`;
 }
-const head = (d, i, n) => `<div class="top"><div class="kicker"><i class="leg"></i>${d.ticker} · ${d.periodo}</div><div class="count">${String(i).padStart(2, '0')} / ${String(n).padStart(2, '0')}</div></div>`;
+// sem contador (o Instagram já mostra a posição no carrossel): só a seta de arrastar, menos na última tela
+const SETA = '<svg viewBox="0 0 56 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h54M47 1l7 6-7 6"/></svg>';
+const head = (d, i, n) => `<div class="top"><div class="kicker"><i class="leg"></i>${d.ticker} · ${d.periodo}</div>${i < n ? `<div class="swipe">${SETA}</div>` : ''}</div>`;
 const foot = (i, n) => `<div class="bottom"><div class="prog">${Array.from({ length: n }, (_, j) => `<i class="${j + 1 === i ? 'on' : ''}"></i>`).join('')}</div><img class="sym" src="assets/symbol.png" alt=""></div>`;
 const band = (d) => d.ilustrativo ? `<div style="position:absolute;left:0;right:0;top:0;height:46px;background:#C8A96A;color:#293654;font-size:20px;font-weight:700;letter-spacing:.3em;display:grid;place-items:center;z-index:5">DADOS ILUSTRATIVOS · MODELO</div>` : '';
 const src = (t) => `<p class="small" style="margin-top:28px">${t}</p>`;
@@ -168,16 +184,18 @@ export function telas(d) {
   // 1 capa: resultado ou notícia
   const noticia = d.capa.tipo === 'noticia';
   const capaR = !noticia && c.capa, ant = d.trimestres[d.trimestres.length - 5];
-  T.push(`<img class="legs" src="assets/symbol.png" style="left:520px;top:420px;height:1100px;opacity:.05"><div class="frame"><div class="top">${invest}<div class="swipe">Arraste <svg viewBox="0 0 56 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h54M47 1l7 6-7 6"/></svg></div></div>
-    <div style="margin-top:120px">${logoEmpresa(d)}<div style="margin-top:34px;display:flex;gap:20px;align-items:baseline"><span style="font-size:26px;font-weight:600;letter-spacing:.16em;color:var(--sky)">${d.ticker}</span><span style="font-size:26px;color:var(--mist)">${d.empresa}</span></div></div>
-    <div style="margin-top:auto"><div class="kicker" style="margin-bottom:30px"><i class="leg"></i>${noticia ? 'Notícia · ' + fdate(d.noticia.data) : 'Resultado do ' + d.periodo + (d.divulgacao ? ' · ' + fdate(d.divulgacao) : '')}</div>
+  if (!noticia && !c.capa) console.log('aviso: capa sem variação mensurável contra o ano anterior (n.m. ou dado ausente)');
+  T.push(`<img class="legs" src="assets/symbol.png" style="left:520px;top:420px;height:1100px;opacity:.05"><div class="frame"><div class="top">${invest}<div class="swipe">Arraste ${SETA}</div></div>
+    <div style="margin-top:120px">${logoEmpresa(d)}<div style="margin-top:34px;display:flex;gap:20px;align-items:baseline"><span style="font-size:26px;font-weight:600;letter-spacing:.16em;color:var(--sky)">${d.ticker}</span>${d.logo ? `<span style="font-size:26px;color:var(--mist)">${d.empresa}</span>` : ''}</div></div>
+    <div style="margin-top:auto"><div class="kicker" style="margin-bottom:30px"><i class="leg"></i>${noticia ? 'Notícia · ' + fdate(d.noticia.data) : 'Resultado do ' + d.periodo}</div>
     ${capaR ? (() => { const m = c.capa, [sg, num, un] = brlCapa(m.a);
       return `<div style="font-size:44px;font-weight:400;letter-spacing:-.01em">${LABEL[m.k]}${m.estoque ? '<span style="color:var(--mist);font-size:30px"> · fim do ' + d.periodo + '</span>' : ''}</div>
       <div style="margin-top:6px;display:flex;align-items:baseline;white-space:nowrap;font-variant-numeric:lining-nums"><span style="font-size:52px;color:var(--sky);margin-right:18px">${sg}R$</span><span style="font-size:210px;font-weight:200;letter-spacing:-.04em;line-height:1">${num}</span><span style="font-size:68px;color:var(--mist);margin-left:16px;font-weight:400">${un}</span></div>
       <div style="margin-top:34px;display:flex;align-items:center;gap:30px;color:var(--accent)"><div style="display:flex;align-items:center;gap:10px">${ARW(m.r, 58)}<span style="font-size:92px;font-weight:500;letter-spacing:-.03em;line-height:1">${pctCapa(m.r)}</span></div>
       <div style="border-left:1px solid var(--hair);padding-left:30px"><div style="font-size:22px;font-weight:600;letter-spacing:.18em;color:var(--sky);text-transform:uppercase">contra o ${ant}</div><div style="font-size:28px;color:var(--mist);margin-top:6px">${brl(m.b)}</div></div></div>`; })()
     : `<h2 style="max-width:900px">${(noticia ? d.noticia.titulo : (d.capa.destaque || 'Resultado do ' + d.periodo + '.')).replace(/R\$ ?[\d.,]+( (mi|bi|milhões|bilhões|mil))?/g, x => `<span style="white-space:nowrap">${x}</span>`)}</h2>${noticia ? src('Fonte: ' + d.noticia.fonte) : ''}`}</div>
-    <div style="margin-top:64px">${foot(1, N).replace('<img class="sym" src="assets/symbol.png" alt="">', '')}</div></div>`);
+    ${!noticia && d.divulgacao ? `<div style="margin-top:40px;font-size:15px;letter-spacing:.02em;color:var(--sky);opacity:.5">Divulgado em ${fdate(d.divulgacao)}${d.entrega && d.entrega.hora ? ', às ' + d.entrega.hora : ''}</div>` : ''}
+    <div style="margin-top:${!noticia && d.divulgacao ? 24 : 64}px">${foot(1, N).replace('<img class="sym" src="assets/symbol.png" alt="">', '')}</div></div>`);
   // 2 o trimestre
   T.push(`<div class="frame">${head(d, 2, N)}<h3 style="margin-top:100px">O ${d.periodo} em números.</h3>
     <div style="margin-top:56px;border-top:1px solid var(--hair)">${['receita', 'ebitda', 'lucro'].filter(k => c.tri[k]).map(k => `<div style="display:grid;grid-template-columns:1fr auto;align-items:end;padding:40px 0;border-bottom:1px solid var(--hair)">
@@ -193,15 +211,12 @@ export function telas(d) {
       <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:22px;font-weight:500">${LABEL[k]}</span><span style="font-size:16px;font-weight:600;letter-spacing:.16em;color:var(--sky);text-transform:uppercase">${hint}</span></div>
       <div style="margin-top:4px;font-weight:300;letter-spacing:-.01em;line-height:1.15;font-variant-numeric:tabular-nums;white-space:nowrap">${brlH(s[12], 46, 22)}</div>
       <div style="margin-top:12px">${modo === 'barras' ? grafBarras(s, 420, 74) : grafLinha(s, 420, 74)}</div>
-      <div style="margin-top:14px;display:grid;grid-template-columns:repeat(3,1fr)">${c.hor[modo][k].map((h, j) => `<div><div style="font-size:16px;font-weight:600;letter-spacing:.16em;color:var(--sky)">${[12, 24, 36][j]} MESES</div><div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span style="color:var(--accent);display:flex">${ARW(h.s, 22)}</span><span style="font-size:25px;font-variant-numeric:tabular-nums;color:${h.r == null ? 'var(--sky)' : '#fff'}">${fpct(h.r)}</span></div></div>`).join('')}</div></div>`;
+      <div style="margin-top:14px;display:grid;grid-template-columns:repeat(3,1fr)">${[2, 1, 0].map(j => [c.hor[modo][k][j], j]).map(([h, j]) => `<div><div style="font-size:16px;font-weight:600;letter-spacing:.16em;color:var(--sky)">${[12, 24, 36][j]} MESES</div><div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span style="color:var(--accent);display:flex">${ARW(h.s, 22)}</span><span style="font-size:25px;font-variant-numeric:tabular-nums;color:${h.r == null ? 'var(--sky)' : '#fff'}">${fpct(h.r)}</span></div></div>`).join('')}</div></div>`;
   };
   const nm3 = ks.some(k => c.hor[modo][k].some(h => Number.isNaN(h.r))) ? NM : '';
-  const nota3 = modo === 'barras'
-    ? `Cada barra é um trimestre, de ${ini} a ${d.periodo}; em destaque, o mesmo trimestre de cada ano. Variação do ${d.periodo} contra o mesmo trimestre de 12, 24 e 36 meses antes.`
-    : `Receita, EBITDA e lucro somados em 12 meses; patrimônio, dívida e ativo no fim do trimestre. Variação contra 12, 24 e 36 meses antes (pontos em destaque).`;
-  T.push(`<div class="frame">${head(d, 3, N)}<h3 style="margin-top:64px">12, 24 e 36 meses.</h3>
+  T.push(`<div class="frame">${head(d, 3, N)}<h3 style="margin-top:64px">36, 24 e 12 meses.</h3>
     <div style="margin-top:30px;display:grid;grid-template-columns:1fr 1fr;column-gap:48px">${ks.map(card).join('')}</div>
-    <p class="small" style="margin-top:8px">${nota3 + nm3}</p>${foot(3, N)}</div>`);
+    ${nm3 ? `<p class="small" style="margin-top:8px">${nm3.trim()}</p>` : ''}${foot(3, N)}</div>`);   // sem nota de método: só o n.m., quando aparece
   // 4 (e 5) por trimestre: barras dos 13 trimestres, com o valor em cima de cada barra
   const tri13 = d.trimestres.slice(-13);
   grupos.forEach(([tit, lista], gi) => {
@@ -209,11 +224,8 @@ export function telas(d) {
       const { svg, u } = grafBarrasValores(c.s13.barras[k], tri13, 888, 212, c.yoy13[k]);
       return `<div style="padding:20px 0 12px;border-top:1px solid var(--hair)"><div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:24px;font-weight:500">${LABEL[k]}</span><span style="font-size:16px;font-weight:600;letter-spacing:.16em;color:var(--sky)">R$ ${u.toUpperCase()} · ${fluxo3.includes(k) ? 'NO TRIMESTRE' : 'FIM DO TRIMESTRE'}</span></div><div style="margin-top:6px">${svg}</div></div>`;
     }).join('');
-    const so = lista.every(k => fluxo3.includes(k)) ? 'f' : lista.some(k => fluxo3.includes(k)) ? 'm' : 'e';
-    const nota = (so === 'f' ? `Valor de cada trimestre, de ${tri13[0]} a ${d.periodo}.` : so === 'e' ? `Posição no fim de cada trimestre, de ${tri13[0]} a ${d.periodo}.`
-      : `Lucro de cada trimestre; patrimônio e ativo no fim de cada trimestre, de ${tri13[0]} a ${d.periodo}.`) + ' Em destaque, o mesmo trimestre de cada ano; dentro da barra, a variação contra o mesmo trimestre do ano anterior.';
     const nmB = lista.some(k => c.yoy13[k].some((r, i) => (12 - i) % 4 === 0 && Number.isNaN(r))) ? NM : '';
-    T.push(`<div class="frame">${head(d, 4 + gi, N)}<h3 style="margin-top:56px">${tit}</h3><div style="margin-top:18px;border-bottom:1px solid var(--hair)">${linhas}</div><p class="small" style="margin-top:16px">${nota}${nmB}</p>${foot(4 + gi, N)}</div>`);
+    T.push(`<div class="frame">${head(d, 4 + gi, N)}<h3 style="margin-top:56px">${tit}</h3><div style="margin-top:18px;border-bottom:1px solid var(--hair)">${linhas}</div>${nmB ? `<p class="small" style="margin-top:16px">${nmB.trim()}</p>` : ''}${foot(4 + gi, N)}</div>`);
   });
   // 4 múltiplos de hoje (os mesmos do comparador)
   const m = d.multiplos, mh = multHoje(d), nmx6 = [mh.pvp, mh.pl, mh.ev].some(Number.isNaN) ? NMX : '';
@@ -235,15 +247,15 @@ export function telas(d) {
     let nm5 = false;
     const linha = ([lab, hint, v, pre, suf]) => `<div style="display:grid;grid-template-columns:270px 1fr;column-gap:30px;align-items:center;padding:26px 0 24px;border-top:1px solid var(--hair)">
       <div><div style="font-size:24px;font-weight:500">${lab}</div><div style="font-size:18px;color:var(--sky);margin-top:4px">${hint}</div><div style="margin-top:18px;font-weight:300;line-height:1;white-space:nowrap">${val(v[n], 58, 24, pre, suf)}</div></div>
-      <div>${grafLinha(v, 588, 92, anc.filter(a => a >= 0))}
-        <div style="margin-top:12px;display:grid;grid-template-columns:repeat(3,1fr)">${anc.map((a, j) => {
-          const r = a >= 0 ? pct(v[n], v[a]) : null; if (Number.isNaN(r)) nm5 = true;
-          return `<div><div style="font-size:16px;font-weight:600;letter-spacing:.16em;color:var(--sky)">${12 * (j + 1)} MESES</div><div style="margin-top:4px;font-weight:300;color:var(--mist);white-space:nowrap">${val(a >= 0 ? v[a] : null, 26, 16, pre, suf)}</div><div style="display:flex;align-items:center;gap:3px;margin-top:2px"><span style="color:var(--accent);display:flex">${ARW(a >= 0 ? sen(v[n], v[a], r) : null, 18)}</span><span style="font-size:22px;font-variant-numeric:tabular-nums;color:${r == null ? 'var(--sky)' : '#fff'}">${fpct(r)}</span></div></div>`;
+      <div>${grafLinha(v, 588, 92, anc.filter(a => a >= 0), y => nf(y, 2) + suf)}
+        <div style="margin-top:10px;display:grid;grid-template-columns:repeat(3,1fr)">${[2, 1, 0].map(j => {
+          const a = anc[j], r = a >= 0 ? pct(v[n], v[a]) : null; if (Number.isNaN(r)) nm5 = true;
+          return `<div><div style="font-size:16px;font-weight:600;letter-spacing:.16em;color:var(--sky)">${12 * (j + 1)} MESES</div><div style="display:flex;align-items:center;gap:3px;margin-top:4px"><span style="color:var(--accent);display:flex">${ARW(a >= 0 ? sen(v[n], v[a], r) : null, 18)}</span><span style="font-size:24px;font-variant-numeric:tabular-nums;color:${r == null ? 'var(--sky)' : '#fff'}">${fpct(r)}</span></div></div>`;
         }).join('')}</div></div></div>`;
     const corpo = linhas.map(linha).join('');
-    T.push(`<div class="frame">${head(d, nH, N)}<h3 style="margin-top:64px;max-width:860px">Preço e múltiplos em 12, 24 e 36 meses.</h3>
+    T.push(`<div class="frame">${head(d, nH, N)}<h3 style="margin-top:64px;max-width:860px">Preço e múltiplos em 36, 24 e 12 meses.</h3>
     <div style="margin-top:34px;border-bottom:1px solid var(--hair)">${corpo}</div>
-    ${src(`Fechamento mês a mês na B3 até ${fdate(H.datas[n])}, sem proventos e ajustado por desdobramentos; pontos em destaque: 12, 24 e 36 meses antes. Múltiplos passados com o último balanço divulgado em cada data e o número de ações atual.` + (nmx7 || [mh.pvp, mh.ev].some(Number.isNaN) ? NMX : nm5 ? NM : ''))}${foot(nH, N)}</div>`);
+    ${(nmx7 || [mh.pvp, mh.ev].some(Number.isNaN)) ? src(NMX.trim()) : nm5 ? src(NM.trim()) : ''}${foot(nH, N)}</div>`);
   }
   // 6 fontes e aviso
   T.push(`<div class="frame">${head(d, N, N)}<div style="margin:auto 0"><h3 style="max-width:860px">Os números, <em>sem opinião.</em></h3>
@@ -251,7 +263,7 @@ export function telas(d) {
       <div><span class="tag" style="color:var(--sky);font-size:20px;display:block;margin-bottom:6px">Demonstrações</span>${d.fontes.demonstracoes}</div>
       <div><span class="tag" style="color:var(--sky);font-size:20px;display:block;margin-bottom:6px">Múltiplos</span>${d.fontes.multiplos}</div>${d.financeira ? '' : `
       <div><span class="tag" style="color:var(--sky);font-size:20px;display:block;margin-bottom:6px">EBITDA</span>${EBITDA_DEF}</div>`}</div></div>
-    <div style="display:flex;flex-direction:column;gap:30px">${invest.replace('height:70px', 'height:92px')}<p class="legal">${LEGAL}</p></div></div>`);
+    <div style="display:flex;flex-direction:column;gap:30px">${invest.replace('height:70px', 'height:92px')}<p class="legal">${LEGAL_TELA}</p></div></div>`);
   return T.map(t => `<section class="slide"><div class="vignette"></div>${band(d)}${t}<div class="grain"></div></section>`);
 }
 
@@ -303,11 +315,11 @@ if (process.argv[1] && process.argv[1].endsWith('empresa.mjs')) {
   } catch {}
   const outDir = path.resolve(process.argv[3] || 'saida'); fs.mkdirSync(outDir, { recursive: true });
   const html = `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><link rel="stylesheet" href="styles.css"></head><body>${telas(d).join('')}</body></html>`;
-  const f = path.join(STUDIO, '_empresa.html'); fs.writeFileSync(f, html);
+  const f = path.join(STUDIO, `_empresa-${process.pid}.html`); fs.writeFileSync(f, html);   // um por processo: renderizações em paralelo não se misturam
   const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1080, height: 1400 } });
   await p.goto('file://' + f); await p.evaluate(() => document.fonts.ready); await p.waitForTimeout(150);
   const els = await p.$$('section.slide');
   for (let k = 0; k < els.length; k++) await els[k].screenshot({ path: path.join(outDir, String(k + 1).padStart(2, '0') + '.png') });
   fs.writeFileSync(path.join(outDir, 'legenda.txt'), legenda(d));
-  await b.close(); console.log('ok', els.length, outDir);
+  await b.close(); fs.rmSync(f, { force: true }); console.log('ok', els.length, outDir);
 }

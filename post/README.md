@@ -18,17 +18,17 @@ diária e a skill `resultado-empresa-maison` seguem o que está aqui.
 
 ## Telas
 
-1. Capa: marca da Invest, logo da empresa, "Resultado do 3T26 · data de entrega à CVM" e o indicador com a maior
+1. Capa: marca da Invest, logo da empresa (sem logo aprovada, o nome da empresa em texto), "Resultado do 3T26 · data de entrega à CVM" e o indicador com a maior
    variação contra o mesmo trimestre do ano anterior, para cima ou para baixo, entre receita, EBITDA, lucro, PL,
    dívida e ativo (n.m. fica de fora): o valor do trimestre em destaque, a variação e o valor do ano anterior. Sem
    variação mensurável, a capa mostra o destaque do JSON (receita; lucro para bancos e seguradoras).
 2. O trimestre em números, contra o mesmo trimestre do ano anterior.
-3. 12, 24 e 36 meses: receita, EBITDA e lucro somados em 12 meses; PL, dívida e ativo no fim do trimestre.
+3. 36, 24 e 12 meses (nessa ordem, sem nota de rodapé): receita, EBITDA e lucro somados em 12 meses; PL, dívida e ativo no fim do trimestre.
 4. e 5. Barras por trimestre (13 trimestres) com o valor em cima; em destaque o mesmo trimestre de cada ano, com a
    variação dentro da barra. Com até 3 indicadores (bancos), uma tela só.
 6. P/VP em destaque, P/L e EV/EBITDA de hoje.
-7. Preço, P/VP e EV/EBITDA mês a mês em 36 meses, com 12, 24 e 36 meses antes (sem EV/EBITDA para financeiras).
-8. Fontes, definição do EBITDA e linha legal.
+7. Preço, P/VP e EV/EBITDA mês a mês em 36 meses, com o valor escrito nos pontos de 36, 24 e 12 meses antes e no de hoje; embaixo, a variação de cada ponto até hoje, de 36 para 12 meses (sem EV/EBITDA para financeiras).
+8. Fontes, definição do EBITDA e, no rodapé, só "Conteúdo informativo, sem recomendação de compra ou venda." (a identificação da Maison Invest como assessora credenciada à XP e a Ouvidoria XP ficam na legenda).
 
 Convenções: "n.m." (não mensurável) quando há valor negativo em um dos períodos, quando a variação passa de 999% ou
 quando o múltiplo passa de 100x ou tem PL, lucro ou EBITDA de 12 meses negativo; cada tela traz a nota. EBITDA =
@@ -68,8 +68,11 @@ disparar o workflow com `tickers` (ex.: `MOVI3 RANI3`); pastas já publicadas n�
 - Marcas da Maison: `post/marca/` (`symbol.png` e `invest-xp.png`, tirados da skill maison); sem elas, `preparar.sh`
   procura a skill.
 - Nome usual: `post/nomes.csv` (código de 4 letras; nome). Sem linha, fica o nome curto da B3 e o `avisos.txt` avisa.
-- `checagem.py` só aponta (lucro de trimestres seguidos que se anulam, zero exato, lucro maior que a receita, receita
-  que dobra, dado ausente, reapresentação); não corrige nenhum número.
+- `checagem.py` só aponta (lucro de trimestres seguidos que se anulam, zero exato; no trimestre do post, lucro maior
+  que a receita e receita que dobra ou cai à metade; ativo que salta mais de 5 vezes; dado ausente; sem valor de mercado;
+  reapresentação); não corrige nenhum número. O `empresa.mjs` também avisa quando não tem logo e quando a capa fica
+  sem variação mensurável.
+- Qualquer linha no `avisos.txt` segura a publicação automática: a pasta fica pendente para revisão.
 
 ### Mesmo dia
 
