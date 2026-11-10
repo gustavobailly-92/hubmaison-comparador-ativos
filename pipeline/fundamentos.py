@@ -420,7 +420,10 @@ def calcular(dados_cvm: dict, fin: dict, hoje: date, receb: dict | None = None) 
         out[cvm] = {"dt": fim, "pl": pl, "divida": None if e_fin else divida, "caixa": None if e_fin else caixa,
                     "receita": None if e_fin else rec, "ebitda": ebitda, "g_pl": g_pl, "g_rec": g_rec, "g_ebitda": g_ebitda, "fin": e_fin,
                     "lucro12": lucro12, "lucro_base": "controladores" if lc == "lucro_c" else "consolidado",
-                    "serie": _serie(d, fim, e_fin, lc), "entrega": (receb or {}).get(f"{cvm}:{fim}")}
+                    "serie": _serie(d, fim, e_fin, lc), "entrega": (receb or {}).get(f"{cvm}:{fim}"),
+                    # conta 3.01 do trimestre, também para bancos e seguradoras (a série deles não mostra receita):
+                    # é o critério da publicação automática no Instagram (receita do trimestre acima de R$ 500 mi)
+                    "receita_301": _no_trimestre(d, fim, _datas_trimestres(fim, 2)[0], "receita")}
     return out
 
 
@@ -562,6 +565,7 @@ def doc_resultado(ticker: str, nome: str, setor: str | None, cvm: int | None, f:
         "serie": {"receita": bi(s["receita"]), "ebitda": bi(s["ebitda"]), "lucro": bi(s["lucro"]), "pl": bi(s["pl"]),
                   "divida": bi(s["divida"]), "ativos": bi(s["ativo"])},
         "lucro_base": f.get("lucro_base"),
+        "receita_301": bi([f.get("receita_301")])[0],   # R$ bi, conta 3.01 do trimestre (bancos e seguradoras inclusive)
         "multiplos": {"pvp": ind.get("pvpa"), "pl": ind.get("p_l"), "ev_ebitda": ind.get("ev_ebitda"), "data_cotacao": data_cotacao,
                       "fonte": "B3 e CVM", "valor_mercado": round(mcap) if mcap else None},
         "fontes": {"demonstracoes": fonte_dem,

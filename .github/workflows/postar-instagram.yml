@@ -1,7 +1,8 @@
 name: Publicar no Instagram
 run-name: "Instagram: ${{ inputs.pasta }}"
 
-# Disparado à mão (ou pelo Claude, só depois do ok do Gustavo na conversa) para um carrossel já aprovado.
+# Disparado à mão (ou pelo Claude, depois do ok do Gustavo na conversa) para um carrossel pendente já aprovado. O que a
+# regra de 10/11/2026 permite sai sozinho pelo gerar-posts.yml (instagram/auto.py).
 # O carrossel fica na branch posts, em AAAA-MM-DD/TICKER-PERIODO (01.jpg ... e legenda.txt).
 on:
   workflow_dispatch:

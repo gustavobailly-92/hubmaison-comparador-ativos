@@ -1,8 +1,9 @@
 name: Gerar posts de resultados
 
-# Renderiza os carrosséis do post de resultados e grava na branch posts (AAAA-MM-DD/TICKER-PERIODO/), para a tarefa
-# agendada só ler as telas, sem executar código na sessão. Roda depois de cada atualização dos dados ou por disparo.
-# Não publica nada: a publicação continua dependendo do ok do Gustavo.
+# Renderiza os carrosséis do post de resultados e grava na branch posts (AAAA-MM-DD/TICKER-PERIODO/). Roda depois de
+# cada atualização dos dados ou por disparo. Em seguida publica sozinho no @maison.invest, pela API oficial, o que a
+# regra de 10/11/2026 permite (instagram/auto.py: entrega a partir de 10/11, receita do trimestre acima de R$ 500 mi,
+# avisos.txt vazio, sem publicado.json). O resto fica pendente na branch posts para o Gustavo revisar.
 
 on:
   workflow_run:
@@ -64,6 +65,10 @@ jobs:
           TICKERS: ${{ github.event.inputs.tickers }}
         run: |
           DIA=$(TZ=America/Sao_Paulo date +%F)
+          if [ ! -f codigo/post/gerar.sh ]; then
+            echo "::warning::post/gerar.sh ainda não está na branch post-template (PR #4); nada gerado nesta execução."
+            exit 0
+          fi
           # shellcheck disable=SC2086
           bash codigo/post/gerar.sh dados posts trabalho "$DIA" $TICKERS 2>&1 | tee gerar.log
           {
@@ -84,3 +89,40 @@ jobs:
           git commit -q -m "pendentes: execução ${{ github.run_id }}"
           git pull -q --rebase origin posts
           git push origin HEAD:posts
+
+      - name: Código da publicação (main)
+        uses: actions/checkout@v4
+        with:
+          path: main
+
+      - name: Publicar sozinho o que a regra permite
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_API_VERSION: ${{ vars.IG_API_VERSION }}
+          REPO: ${{ github.repository }}
+        run: |
+          (cd posts && git pull -q --rebase origin posts)
+          python main/instagram/auto.py posts dados > elegiveis.txt
+          echo "elegíveis:"; cat elegiveis.txt
+          [ -s elegiveis.txt ] || { echo "nada a publicar"; exit 0; }
+          if ! python main/instagram/pronto.py; then
+            echo "::warning::Publicação automática parada: o token ainda não pode publicar (ver o passo acima). As pastas ficam pendentes e saem na próxima execução depois de resolvido."
+            exit 0
+          fi
+          cd posts
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          while read -r P; do
+            [ -n "$P" ] || continue
+            if ! (cd .. && python main/instagram/postar.py "$P"); then
+              echo "::warning::Falhou a publicação de $P; fica pendente para a próxima execução."
+              continue
+            fi
+            # grava na hora, carrossel por carrossel: o publicado.json é o que impede repetir
+            git add "$P/publicado.json"
+            git commit -q -m "publicado (automático): $P"
+            git pull -q --rebase origin posts
+            git push -q origin HEAD:posts
+            echo "- publicado: **$P** $(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("permalink",""))' "$P/publicado.json")" >> "$GITHUB_STEP_SUMMARY"
+          done < ../elegiveis.txt
