@@ -1,0 +1,40 @@
+name: Teste do token do Instagram (só leitura)
+
+# Branch de teste: confere o token e a conta sem publicar nada. Não imprime o token.
+on:
+  push:
+    branches: [teste-instagram]
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Conferir token e conta
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request, urllib.parse
+          tok = os.environ.get("IG_ACCESS_TOKEN", "").strip()
+          uid = os.environ.get("IG_USER_ID", "").strip()
+          print("IG_USER_ID definido:", bool(uid), "| valor:", uid)
+          print("IG_ACCESS_TOKEN definido:", bool(tok), "| tamanho:", len(tok), "| prefixo:", tok[:4])
+          def get(url, **q):
+              q["access_token"] = tok
+              try:
+                  with urllib.request.urlopen(url + "?" + urllib.parse.urlencode(q), timeout=30) as r:
+                      return r.status, json.loads(r.read())
+              except urllib.error.HTTPError as e:
+                  return e.code, json.loads(e.read() or b"{}")
+          for host in ("https://graph.instagram.com/v27.0", "https://graph.facebook.com/v27.0"):
+              st, me = get(host + "/me", fields="user_id,username,account_type,id")
+              print(host, "/me ->", st, {k: v for k, v in me.items() if k != "access_token"})
+              st, u = get(f"{host}/{uid}", fields="username,media_count")
+              print(host, f"/{uid} ->", st, u)
+              st, lim = get(f"{host}/{uid}/content_publishing_limit", fields="quota_usage,config")
+              print(host, "limite de publicação ->", st, lim)
+          PY
