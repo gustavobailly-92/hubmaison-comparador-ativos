@@ -98,7 +98,7 @@ function grafBarrasValores(v, tri, w, h, yoy = null) {
   const [, u] = escala(Math.max(...ys.map(Math.abs))), div = { tri: 1000, bi: 1, mi: 0.001, mil: 1e-6 }[u];
   const dd = dec(Math.max(...ys.map(y => Math.abs(y) / div)));
   const lo = Math.min(0, ...ys), hi = Math.max(0, ...ys), sp = hi - lo || 1;
-  const topo = 34, pe = 30, hb = h - topo - pe - (lo < 0 ? 28 : 0), slot = w / v.length, bw = Math.min(54, slot * 0.8);
+  const topo = yoy ? 52 : 34, pe = 30, hb = h - topo - pe - (lo < 0 ? 28 : 0), slot = w / v.length, bw = Math.min(54, slot * 0.8);
   const Y = (y) => topo + (hi - y) / sp * hb, y0 = Y(0);
   const cor = (i) => (i === v.length - 1 ? 'var(--accent)' : (v.length - 1 - i) % 4 === 0 ? 'rgba(178,203,230,.78)' : 'rgba(147,172,198,.26)');
   const corT = (i) => (i === v.length - 1 ? '#C8A96A' : (v.length - 1 - i) % 4 === 0 ? '#b2cbe6' : '#93acc6');
@@ -112,7 +112,10 @@ function grafBarrasValores(v, tri, w, h, yoy = null) {
     if (yoy && (v.length - 1 - i) % 4 === 0) {
       const alt = Math.abs(y1 - y0);
       const tv = fpct(yoy[i]), fz = tv.length > 6 ? 13 : 15;   // +100,0% e maiores: fonte menor para caber na barra
-      vz = alt >= 28 ? `<text x="${cx}" y="${((y0 + y1) / 2 + 5.5).toFixed(1)}" text-anchor="middle" font-size="${fz}" font-weight="600" fill="#293654">${tv}</text>`
+      const ref = i >= 4 && tri[i - 4] ? `vs ${tri[i - 4]}` : '';   // contra o mesmo trimestre do ano anterior
+      vz = alt >= 46 ? `<text x="${cx}" y="${((y0 + y1) / 2 - 1).toFixed(1)}" text-anchor="middle" font-size="${fz}" font-weight="600" fill="#293654">${tv}</text>`
+          + (ref ? `<text x="${cx}" y="${((y0 + y1) / 2 + 14).toFixed(1)}" text-anchor="middle" font-size="12" font-weight="500" fill="#293654" opacity=".8">${ref}</text>` : '')
+        : alt >= 28 ? `<text x="${cx}" y="${((y0 + y1) / 2 + 5.5).toFixed(1)}" text-anchor="middle" font-size="${fz}" font-weight="600" fill="#293654">${tv}</text>`
         : `<text x="${cx}" y="${(y >= 0 ? y1 - 32 : y1 + 44).toFixed(1)}" text-anchor="middle" font-size="15" font-weight="500" fill="#b2cbe6">${fpct(yoy[i])}</text>`;
     }
     return `<rect x="${(cx - bw / 2).toFixed(1)}" y="${Math.min(y0, y1).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1.5, Math.abs(y1 - y0)).toFixed(1)}" fill="${cor(i)}"/>`
@@ -153,7 +156,9 @@ function logoEmpresa(d, h = d.logoH || 120) {
   // sem logo aprovada (ausente ou com a marca anterior): o nome da empresa em texto, no lugar da logo
   return `<div style="height:${h}px;display:flex;align-items:center;font-size:${Math.round(Math.min(76, h * 0.62))}px;font-weight:600;letter-spacing:-.015em;line-height:1;color:#fff">${d.empresa}</div>`;
 }
-const head = (d, i, n) => `<div class="top"><div class="kicker"><i class="leg"></i>${d.ticker} · ${d.periodo}</div><div class="count">${String(i).padStart(2, '0')} / ${String(n).padStart(2, '0')}</div></div>`;
+// sem contador (o Instagram já mostra a posição no carrossel): só a seta de arrastar, menos na última tela
+const SETA = '<svg viewBox="0 0 56 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h54M47 1l7 6-7 6"/></svg>';
+const head = (d, i, n) => `<div class="top"><div class="kicker"><i class="leg"></i>${d.ticker} · ${d.periodo}</div>${i < n ? `<div class="swipe">${SETA}</div>` : ''}</div>`;
 const foot = (i, n) => `<div class="bottom"><div class="prog">${Array.from({ length: n }, (_, j) => `<i class="${j + 1 === i ? 'on' : ''}"></i>`).join('')}</div><img class="sym" src="assets/symbol.png" alt=""></div>`;
 const band = (d) => d.ilustrativo ? `<div style="position:absolute;left:0;right:0;top:0;height:46px;background:#C8A96A;color:#293654;font-size:20px;font-weight:700;letter-spacing:.3em;display:grid;place-items:center;z-index:5">DADOS ILUSTRATIVOS · MODELO</div>` : '';
 const src = (t) => `<p class="small" style="margin-top:28px">${t}</p>`;
@@ -170,7 +175,7 @@ export function telas(d) {
   // 1 capa: resultado ou notícia
   const noticia = d.capa.tipo === 'noticia';
   const capaR = !noticia && c.capa, ant = d.trimestres[d.trimestres.length - 5];
-  T.push(`<img class="legs" src="assets/symbol.png" style="left:520px;top:420px;height:1100px;opacity:.05"><div class="frame"><div class="top">${invest}<div class="swipe">Arraste <svg viewBox="0 0 56 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h54M47 1l7 6-7 6"/></svg></div></div>
+  T.push(`<img class="legs" src="assets/symbol.png" style="left:520px;top:420px;height:1100px;opacity:.05"><div class="frame"><div class="top">${invest}<div class="swipe">Arraste ${SETA}</div></div>
     <div style="margin-top:120px">${logoEmpresa(d)}<div style="margin-top:34px;display:flex;gap:20px;align-items:baseline"><span style="font-size:26px;font-weight:600;letter-spacing:.16em;color:var(--sky)">${d.ticker}</span>${d.logo ? `<span style="font-size:26px;color:var(--mist)">${d.empresa}</span>` : ''}</div></div>
     <div style="margin-top:auto"><div class="kicker" style="margin-bottom:30px"><i class="leg"></i>${noticia ? 'Notícia · ' + fdate(d.noticia.data) : 'Resultado do ' + d.periodo}</div>
     ${capaR ? (() => { const m = c.capa, [sg, num, un] = brlCapa(m.a);
@@ -214,7 +219,7 @@ export function telas(d) {
     }).join('');
     const so = lista.every(k => fluxo3.includes(k)) ? 'f' : lista.some(k => fluxo3.includes(k)) ? 'm' : 'e';
     const nota = (so === 'f' ? `Valor de cada trimestre, de ${tri13[0]} a ${d.periodo}.` : so === 'e' ? `Posição no fim de cada trimestre, de ${tri13[0]} a ${d.periodo}.`
-      : `Lucro de cada trimestre; patrimônio e ativo no fim de cada trimestre, de ${tri13[0]} a ${d.periodo}.`) + ' Em destaque, o mesmo trimestre de cada ano; dentro da barra, a variação contra o mesmo trimestre do ano anterior.';
+      : `Lucro de cada trimestre; patrimônio e ativo no fim de cada trimestre, de ${tri13[0]} a ${d.periodo}.`) + ' Em destaque, o mesmo trimestre de cada ano; dentro da barra, a variação contra o mesmo trimestre do ano anterior (vs 3T25, por exemplo).';
     const nmB = lista.some(k => c.yoy13[k].some((r, i) => (12 - i) % 4 === 0 && Number.isNaN(r))) ? NM : '';
     T.push(`<div class="frame">${head(d, 4 + gi, N)}<h3 style="margin-top:56px">${tit}</h3><div style="margin-top:18px;border-bottom:1px solid var(--hair)">${linhas}</div><p class="small" style="margin-top:16px">${nota}${nmB}</p>${foot(4 + gi, N)}</div>`);
   });
