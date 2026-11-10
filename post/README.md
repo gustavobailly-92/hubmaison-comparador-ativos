@@ -23,12 +23,12 @@ diária e a skill `resultado-empresa-maison` seguem o que está aqui.
    dívida e ativo (n.m. fica de fora): o valor do trimestre em destaque, a variação e o valor do ano anterior. Sem
    variação mensurável, a capa mostra o destaque do JSON (receita; lucro para bancos e seguradoras).
 2. O trimestre em números, contra o mesmo trimestre do ano anterior.
-3. 12, 24 e 36 meses: receita, EBITDA e lucro somados em 12 meses; PL, dívida e ativo no fim do trimestre.
+3. 36, 24 e 12 meses (nessa ordem): receita, EBITDA e lucro somados em 12 meses; PL, dívida e ativo no fim do trimestre.
 4. e 5. Barras por trimestre (13 trimestres) com o valor em cima; em destaque o mesmo trimestre de cada ano, com a
    variação dentro da barra. Com até 3 indicadores (bancos), uma tela só.
 6. P/VP em destaque, P/L e EV/EBITDA de hoje.
-7. Preço, P/VP e EV/EBITDA mês a mês em 36 meses, com 12, 24 e 36 meses antes (sem EV/EBITDA para financeiras).
-8. Fontes, definição do EBITDA e linha legal.
+7. Preço, P/VP e EV/EBITDA mês a mês em 36 meses, com o valor escrito nos pontos de 36, 24 e 12 meses antes e no de hoje; embaixo, a variação de cada ponto até hoje, de 36 para 12 meses (sem EV/EBITDA para financeiras).
+8. Fontes, definição do EBITDA e, no rodapé, só "Conteúdo informativo, sem recomendação de compra ou venda." (a identificação da Maison Invest como assessora credenciada à XP e a Ouvidoria XP ficam na legenda).
 
 Convenções: "n.m." (não mensurável) quando há valor negativo em um dos períodos, quando a variação passa de 999% ou
 quando o múltiplo passa de 100x ou tem PL, lucro ou EBITDA de 12 meses negativo; cada tela traz a nota. EBITDA =

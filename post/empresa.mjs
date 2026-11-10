@@ -71,15 +71,24 @@ const pctCapa = (r) => `${r > 0 ? '+' : r < 0 ? '−' : ''}${nf(Math.abs(r) * 10
 const ARW = (r, z = 30) => r == null ? '' : `<svg viewBox="0 0 24 24" width="${z}" height="${z}" fill="none" stroke="currentColor" stroke-width="1.8"><path d="${r > 0.02 ? 'M7 17L17 7M9 7h8v8' : r < -0.02 ? 'M7 7l10 10M17 9v8H9' : 'M4 12h16M14 6l6 6-6 6'}"/></svg>`;
 
 // série com pontos em destaque (marcas) e o último ponto em dourado; 13 trimestres (marcas 0, 4, 8) ou 37 meses (0, 12, 24)
-function grafLinha(v, w, h, marcas = [0, 4, 8]) {
+// rotulo (opcional): função que formata o valor; escreve o valor sobre cada ponto em destaque e sobre o último, numa faixa
+// de 30 px acima do gráfico (a altura total passa a ser h + 30)
+function grafLinha(v, w, h, marcas = [0, 4, 8], rotulo = null) {
   const ok = v.map((y, i) => [y, i]).filter(([y]) => y != null && !Number.isNaN(y)), ys = ok.map(([y]) => y);
   if (!ok.length) return '';
+  const top = rotulo ? 30 : 0, H = h + top;
   const lo = Math.min(...ys), hi = Math.max(...ys), sp = hi - lo || 1, n1 = v.length - 1;
-  const P = ([y, i]) => [i * (w - 8) / n1 + 4, h - 8 - (y - lo) / sp * (h - 16)];
+  const P = ([y, i]) => [i * (w - 8) / n1 + 4, H - 8 - (y - lo) / sp * (h - 16)];
   const pts = ok.map(P), dd = pts.map((p, j) => (j ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
-  const base = ok.filter(([, i]) => marcas.includes(i)).map(P).map(([x, y]) => `<circle cx="${x}" cy="${y}" r="4.5" fill="#293654" stroke="#b2cbe6" stroke-width="2"/>`).join('');
+  const marc = ok.filter(([, i]) => marcas.includes(i));
+  const base = marc.map(P).map(([x, y]) => `<circle cx="${x}" cy="${y}" r="4.5" fill="#293654" stroke="#b2cbe6" stroke-width="2"/>`).join('');
   const [lx, ly] = pts[pts.length - 1];
-  return `<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}"><path d="${dd} L${lx} ${h} L${pts[0][0]} ${h}Z" fill="rgba(147,172,198,.10)"/><path d="${dd}" fill="none" stroke="#93acc6" stroke-width="2.5" stroke-linejoin="round"/>${base}<circle cx="${lx}" cy="${ly}" r="6" fill="var(--accent)"/></svg>`;
+  const txt = ([y, i], ult) => {
+    const [x, py] = P([y, i]), anc = x < 40 ? 'start' : x > w - 40 ? 'end' : 'middle';
+    return `<text x="${x.toFixed(1)}" y="${(py - 12).toFixed(1)}" text-anchor="${anc}" font-size="19" font-weight="${ult ? 600 : 500}" fill="${ult ? 'var(--accent)' : '#dbe5f0'}" stroke="#26324f" stroke-width="7" stroke-linejoin="round" paint-order="stroke" style="font-variant-numeric:tabular-nums">${rotulo(y)}</text>`;
+  };
+  const rot = rotulo ? marc.map(m => txt(m, false)).join('') + txt(ok[ok.length - 1], true) : '';
+  return `<svg viewBox="0 0 ${w} ${H}" width="${w}" height="${H}" style="overflow:visible"><path d="${dd} L${lx} ${H} L${pts[0][0]} ${H}Z" fill="rgba(147,172,198,.10)"/><path d="${dd}" fill="none" stroke="#93acc6" stroke-width="2.5" stroke-linejoin="round"/>${base}<circle cx="${lx}" cy="${ly}" r="6" fill="var(--accent)"/>${rot}</svg>`;
 }
 // barras dos 13 trimestres com o valor em cima de cada barra (embaixo, se negativo) e o trimestre no pé; a unidade da linha
 // sai do maior valor (tri, bi, mi ou mil) e vai no cabeçalho do cartão
@@ -135,6 +144,7 @@ const LABEL = { receita: 'Receita líquida', ebitda: 'EBITDA', lucro: 'Lucro lí
 const NM = ' n.m.: não mensurável, há valor negativo em um dos períodos ou a variação passa de 999%.';
 const EBITDA_DEF = 'Resultado antes do resultado financeiro e dos tributos, mais depreciação e amortização (DVA), sem os ajustes que a empresa divulga';
 const NMX =' n.m.: não mensurável, PL, lucro ou EBITDA de 12 meses negativo, ou múltiplo acima de 100x.';
+const LEGAL_TELA = 'Conteúdo informativo, sem recomendação de compra ou venda.';   // na última tela; a legenda leva o LEGAL completo
 const LEGAL = 'Conteúdo informativo, sem recomendação de compra ou venda. Maison Invest, assessora de investimentos credenciada à XP Investimentos. Ouvidoria XP: 0800 722 3730.';
 
 function logoEmpresa(d, h = d.logoH || 120) {
@@ -186,13 +196,13 @@ export function telas(d) {
       <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:22px;font-weight:500">${LABEL[k]}</span><span style="font-size:16px;font-weight:600;letter-spacing:.16em;color:var(--sky);text-transform:uppercase">${hint}</span></div>
       <div style="margin-top:4px;font-weight:300;letter-spacing:-.01em;line-height:1.15;font-variant-numeric:tabular-nums;white-space:nowrap">${brlH(s[12], 46, 22)}</div>
       <div style="margin-top:12px">${modo === 'barras' ? grafBarras(s, 420, 74) : grafLinha(s, 420, 74)}</div>
-      <div style="margin-top:14px;display:grid;grid-template-columns:repeat(3,1fr)">${c.hor[modo][k].map((h, j) => `<div><div style="font-size:16px;font-weight:600;letter-spacing:.16em;color:var(--sky)">${[12, 24, 36][j]} MESES</div><div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span style="color:var(--accent);display:flex">${ARW(h.s, 22)}</span><span style="font-size:25px;font-variant-numeric:tabular-nums;color:${h.r == null ? 'var(--sky)' : '#fff'}">${fpct(h.r)}</span></div></div>`).join('')}</div></div>`;
+      <div style="margin-top:14px;display:grid;grid-template-columns:repeat(3,1fr)">${[2, 1, 0].map(j => [c.hor[modo][k][j], j]).map(([h, j]) => `<div><div style="font-size:16px;font-weight:600;letter-spacing:.16em;color:var(--sky)">${[12, 24, 36][j]} MESES</div><div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span style="color:var(--accent);display:flex">${ARW(h.s, 22)}</span><span style="font-size:25px;font-variant-numeric:tabular-nums;color:${h.r == null ? 'var(--sky)' : '#fff'}">${fpct(h.r)}</span></div></div>`).join('')}</div></div>`;
   };
   const nm3 = ks.some(k => c.hor[modo][k].some(h => Number.isNaN(h.r))) ? NM : '';
   const nota3 = modo === 'barras'
-    ? `Cada barra é um trimestre, de ${ini} a ${d.periodo}; em destaque, o mesmo trimestre de cada ano. Variação do ${d.periodo} contra o mesmo trimestre de 12, 24 e 36 meses antes.`
-    : `Receita, EBITDA e lucro somados em 12 meses; patrimônio, dívida e ativo no fim do trimestre. Variação contra 12, 24 e 36 meses antes (pontos em destaque).`;
-  T.push(`<div class="frame">${head(d, 3, N)}<h3 style="margin-top:64px">12, 24 e 36 meses.</h3>
+    ? `Cada barra é um trimestre, de ${ini} a ${d.periodo}; em destaque, o mesmo trimestre de cada ano. Variação do ${d.periodo} contra o mesmo trimestre de 36, 24 e 12 meses antes.`
+    : `Receita, EBITDA e lucro somados em 12 meses; patrimônio, dívida e ativo no fim do trimestre. Variação contra 36, 24 e 12 meses antes (pontos em destaque).`;
+  T.push(`<div class="frame">${head(d, 3, N)}<h3 style="margin-top:64px">36, 24 e 12 meses.</h3>
     <div style="margin-top:30px;display:grid;grid-template-columns:1fr 1fr;column-gap:48px">${ks.map(card).join('')}</div>
     <p class="small" style="margin-top:8px">${nota3 + nm3}</p>${foot(3, N)}</div>`);
   // 4 (e 5) por trimestre: barras dos 13 trimestres, com o valor em cima de cada barra
@@ -228,15 +238,15 @@ export function telas(d) {
     let nm5 = false;
     const linha = ([lab, hint, v, pre, suf]) => `<div style="display:grid;grid-template-columns:270px 1fr;column-gap:30px;align-items:center;padding:26px 0 24px;border-top:1px solid var(--hair)">
       <div><div style="font-size:24px;font-weight:500">${lab}</div><div style="font-size:18px;color:var(--sky);margin-top:4px">${hint}</div><div style="margin-top:18px;font-weight:300;line-height:1;white-space:nowrap">${val(v[n], 58, 24, pre, suf)}</div></div>
-      <div>${grafLinha(v, 588, 92, anc.filter(a => a >= 0))}
-        <div style="margin-top:12px;display:grid;grid-template-columns:repeat(3,1fr)">${anc.map((a, j) => {
-          const r = a >= 0 ? pct(v[n], v[a]) : null; if (Number.isNaN(r)) nm5 = true;
-          return `<div><div style="font-size:16px;font-weight:600;letter-spacing:.16em;color:var(--sky)">${12 * (j + 1)} MESES</div><div style="margin-top:4px;font-weight:300;color:var(--mist);white-space:nowrap">${val(a >= 0 ? v[a] : null, 26, 16, pre, suf)}</div><div style="display:flex;align-items:center;gap:3px;margin-top:2px"><span style="color:var(--accent);display:flex">${ARW(a >= 0 ? sen(v[n], v[a], r) : null, 18)}</span><span style="font-size:22px;font-variant-numeric:tabular-nums;color:${r == null ? 'var(--sky)' : '#fff'}">${fpct(r)}</span></div></div>`;
+      <div>${grafLinha(v, 588, 92, anc.filter(a => a >= 0), y => nf(y, 2) + suf)}
+        <div style="margin-top:10px;display:grid;grid-template-columns:repeat(3,1fr)">${[2, 1, 0].map(j => {
+          const a = anc[j], r = a >= 0 ? pct(v[n], v[a]) : null; if (Number.isNaN(r)) nm5 = true;
+          return `<div><div style="font-size:16px;font-weight:600;letter-spacing:.16em;color:var(--sky)">${12 * (j + 1)} MESES</div><div style="display:flex;align-items:center;gap:3px;margin-top:4px"><span style="color:var(--accent);display:flex">${ARW(a >= 0 ? sen(v[n], v[a], r) : null, 18)}</span><span style="font-size:24px;font-variant-numeric:tabular-nums;color:${r == null ? 'var(--sky)' : '#fff'}">${fpct(r)}</span></div></div>`;
         }).join('')}</div></div></div>`;
     const corpo = linhas.map(linha).join('');
-    T.push(`<div class="frame">${head(d, nH, N)}<h3 style="margin-top:64px;max-width:860px">Preço e múltiplos em 12, 24 e 36 meses.</h3>
+    T.push(`<div class="frame">${head(d, nH, N)}<h3 style="margin-top:64px;max-width:860px">Preço e múltiplos em 36, 24 e 12 meses.</h3>
     <div style="margin-top:34px;border-bottom:1px solid var(--hair)">${corpo}</div>
-    ${src(`Fechamento mês a mês na B3 até ${fdate(H.datas[n])}, sem proventos e ajustado por desdobramentos; pontos em destaque: 12, 24 e 36 meses antes. Múltiplos passados com o último balanço divulgado em cada data e o número de ações atual.` + (nmx7 || [mh.pvp, mh.ev].some(Number.isNaN) ? NMX : nm5 ? NM : ''))}${foot(nH, N)}</div>`);
+    ${src(`Fechamento mês a mês na B3 até ${fdate(H.datas[n])}, sem proventos e ajustado por desdobramentos; nos pontos, o valor de 36, 24 e 12 meses antes e o de hoje; embaixo, a variação de cada um até hoje. Múltiplos passados com o último balanço divulgado em cada data e o número de ações atual.` + (nmx7 || [mh.pvp, mh.ev].some(Number.isNaN) ? NMX : nm5 ? NM : ''))}${foot(nH, N)}</div>`);
   }
   // 6 fontes e aviso
   T.push(`<div class="frame">${head(d, N, N)}<div style="margin:auto 0"><h3 style="max-width:860px">Os números, <em>sem opinião.</em></h3>
@@ -244,7 +254,7 @@ export function telas(d) {
       <div><span class="tag" style="color:var(--sky);font-size:20px;display:block;margin-bottom:6px">Demonstrações</span>${d.fontes.demonstracoes}</div>
       <div><span class="tag" style="color:var(--sky);font-size:20px;display:block;margin-bottom:6px">Múltiplos</span>${d.fontes.multiplos}</div>${d.financeira ? '' : `
       <div><span class="tag" style="color:var(--sky);font-size:20px;display:block;margin-bottom:6px">EBITDA</span>${EBITDA_DEF}</div>`}</div></div>
-    <div style="display:flex;flex-direction:column;gap:30px">${invest.replace('height:70px', 'height:92px')}<p class="legal">${LEGAL}</p></div></div>`);
+    <div style="display:flex;flex-direction:column;gap:30px">${invest.replace('height:70px', 'height:92px')}<p class="legal">${LEGAL_TELA}</p></div></div>`);
   return T.map(t => `<section class="slide"><div class="vignette"></div>${band(d)}${t}<div class="grain"></div></section>`);
 }
 
