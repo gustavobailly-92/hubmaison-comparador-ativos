@@ -1,6 +1,6 @@
 {
   "referencia": "2026-11-06",
-  "gerado": "2026-11-10T21:54:25Z",
+  "gerado": "2026-11-10T22:54:16Z",
   "fundos_publicados": 10222,
   "fundos_na_matriz": 16463,
   "fundos_xp": 1008,
@@ -159,7 +159,7 @@
     "benchmark GLD indisponível (todas as fontes falharam)",
     "benchmark AIQ indisponível (todas as fontes falharam)",
     "ações: 34 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)",
-    "RAD (CVM): BLAU FARMACÊUTICA S.A. ITR 2026-09-30: File is not a zip file"
+    "RAD (CVM): BLAU FARMACÊUTICA S.A. ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes"
   ],
-  "duracao_s": 1187
+  "duracao_s": 1202
 }
