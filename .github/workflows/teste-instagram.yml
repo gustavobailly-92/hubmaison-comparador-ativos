@@ -2,6 +2,7 @@ name: Teste do token do Instagram (só leitura)
 
 # Branch de teste: confere o token e a conta sem publicar nada. Não imprime o token.
 on:
+  workflow_dispatch:
   push:
     branches: [teste-instagram]
 
