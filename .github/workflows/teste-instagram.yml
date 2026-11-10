@@ -30,11 +30,14 @@ jobs:
                       return r.status, json.loads(r.read())
               except urllib.error.HTTPError as e:
                   return e.code, json.loads(e.read() or b"{}")
-          for host in ("https://graph.instagram.com/v27.0", "https://graph.facebook.com/v27.0"):
-              st, me = get(host + "/me", fields="user_id,username,account_type,id")
-              print(host, "/me ->", st, {k: v for k, v in me.items() if k != "access_token"})
-              st, u = get(f"{host}/{uid}", fields="username,media_count")
-              print(host, f"/{uid} ->", st, u)
-              st, lim = get(f"{host}/{uid}/content_publishing_limit", fields="quota_usage,config")
-              print(host, "limite de publicação ->", st, lim)
+          H = "https://graph.facebook.com/v27.0"
+          alvo = uid or "17841400294654371"
+          st, me = get(H + "/me", fields="id,name")
+          print("/me ->", st, me)
+          st, pe = get(H + "/me/permissions")
+          print("permissões ->", st, [(x.get("permission"), x.get("status")) for x in pe.get("data", [])] or pe)
+          st, u = get(f"{H}/{alvo}", fields="username,name,media_count")
+          print(f"/{alvo} ->", st, u)
+          st, lim = get(f"{H}/{alvo}/content_publishing_limit", fields="quota_usage,config")
+          print("limite de publicação ->", st, lim)
           PY
