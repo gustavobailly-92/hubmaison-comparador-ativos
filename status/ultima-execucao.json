@@ -1,6 +1,6 @@
 {
   "referencia": "2026-11-06",
-  "gerado": "2026-11-10T23:56:33Z",
+  "gerado": "2026-11-11T00:51:57Z",
   "fundos_publicados": 10222,
   "fundos_na_matriz": 16463,
   "fundos_xp": 1008,
@@ -158,8 +158,7 @@
     "benchmark URTH indisponível (todas as fontes falharam)",
     "benchmark GLD indisponível (todas as fontes falharam)",
     "benchmark AIQ indisponível (todas as fontes falharam)",
-    "ações: 34 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)",
-    "RAD (CVM): PETROLEO BRASILEIRO S.A. PETROBRAS ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes"
+    "ações: 34 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 1300
+  "duracao_s": 1033
 }
