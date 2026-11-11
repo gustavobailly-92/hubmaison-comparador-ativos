@@ -1,8 +1,8 @@
 {
   "referencia": "2026-11-06",
-  "gerado": "2026-11-11T02:20:58Z",
-  "fundos_publicados": 10222,
-  "fundos_na_matriz": 16463,
+  "gerado": "2026-11-11T11:59:45Z",
+  "fundos_publicados": 10228,
+  "fundos_na_matriz": 16467,
   "fundos_xp": 1008,
   "benchmarks": [
     "ipca",
@@ -22,10 +22,10 @@
   "acoes": 1053,
   "bdrs": 463,
   "fiis": 275,
-  "descartados_parados": 442,
-  "descartados_poucos_cotistas": 5772,
-  "descartados_historico_curto": 27,
-  "dias_calendario": 2576,
+  "descartados_parados": 403,
+  "descartados_poucos_cotistas": 5807,
+  "descartados_historico_curto": 29,
+  "dias_calendario": 2577,
   "meses_processados": [
     "201609",
     "201610",
@@ -152,7 +152,7 @@
     "202611"
   ],
   "avisos": [
-    "CDI sem valor em 21 dias do calendário (tratados como 0)",
+    "CDI sem valor em 22 dias do calendário (tratados como 0)",
     "benchmark ^GSPC indisponível (todas as fontes falharam)",
     "benchmark ^NDX indisponível (todas as fontes falharam)",
     "benchmark URTH indisponível (todas as fontes falharam)",
@@ -160,5 +160,5 @@
     "benchmark AIQ indisponível (todas as fontes falharam)",
     "ações: 34 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 1004
+  "duracao_s": 1094
 }
