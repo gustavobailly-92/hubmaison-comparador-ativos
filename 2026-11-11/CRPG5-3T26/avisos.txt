@@ -1,0 +1,1 @@
+nome não revisado: "Cristal" é o nome curto da B3; pôr o nome usual em post/nomes.csv (CRPG) e refazer
