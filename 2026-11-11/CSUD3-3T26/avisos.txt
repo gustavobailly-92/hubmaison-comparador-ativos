@@ -1,0 +1,1 @@
+nome não revisado: "Csu Digital" é o nome curto da B3; pôr o nome usual em post/nomes.csv (CSUD) e refazer
