@@ -1,6 +1,6 @@
 {
   "referencia": "2026-11-06",
-  "gerado": "2026-11-11T22:29:19Z",
+  "gerado": "2026-11-11T23:25:37Z",
   "fundos_publicados": 10228,
   "fundos_na_matriz": 16467,
   "fundos_xp": 1008,
@@ -159,8 +159,13 @@
     "benchmark GLD indisponível (todas as fontes falharam)",
     "benchmark AIQ indisponível (todas as fontes falharam)",
     "ações: 34 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)",
-    "RAD (CVM): SCHULZ S.A. ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
-    "RAD (CVM): LOG-IN LOGISTICA INTERMODAL S.A. ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes"
+    "RAD (CVM): SCHULZ S.A. ITR 2026-09-30: https://www.rad.cvm.gov.br/ENET/frmDownloadDocumento.aspx?Tela=ext&numSequencia=162295&num: IncompleteRead(20573282 bytes read)",
+    "RAD (CVM): VALID SOLUÇÕES S.A. ITR 2026-09-30: File is not a zip file",
+    "RAD (CVM): HAPVIDA PARTICIPAÇÕES E INVESTIMENTOS S. ITR 2026-09-30: File is not a zip file",
+    "RAD (CVM): AZZAS 2154 S.A. ITR 2026-09-30: https://www.rad.cvm.gov.br/ENET/frmDownloadDocumento.aspx?Tela=ext&numSequencia=162339&num: IncompleteRead(28378792 bytes read)",
+    "RAD (CVM): VITRU EDUCAÇÃO S.A. ITR 2026-09-30: File is not a zip file",
+    "RAD (CVM): GRUPO MULTILASER S.A. ITR 2026-09-30: File is not a zip file",
+    "RAD (CVM): EUCATEX S.A. INDUSTRIA E COMERCIO ITR 2026-09-30: File is not a zip file"
   ],
-  "duracao_s": 1482
+  "duracao_s": 1269
 }
