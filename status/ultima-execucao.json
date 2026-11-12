@@ -1,6 +1,6 @@
 {
   "referencia": "2026-11-06",
-  "gerado": "2026-11-12T01:25:34Z",
+  "gerado": "2026-11-12T02:21:55Z",
   "fundos_publicados": 10228,
   "fundos_na_matriz": 16467,
   "fundos_xp": 1008,
@@ -159,8 +159,7 @@
     "benchmark GLD indisponível (todas as fontes falharam)",
     "benchmark AIQ indisponível (todas as fontes falharam)",
     "ações: 34 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)",
-    "RAD (CVM): AZZAS 2154 S.A. ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
-    "RAD (CVM): VITRU EDUCAÇÃO S.A. ITR 2026-09-30: https://www.rad.cvm.gov.br/ENET/frmDownloadDocumento.aspx?Tela=ext&numSequencia=162345&num: IncompleteRead(7381094 bytes read)"
+    "RAD (CVM): busca de 2026-11-12 falhou: RAD: Erro ao selecionar os documentos: The HTTP service located at http://127.0.0.1:8182/ConsultaExterna/ConsultaExternaCVM.svc is unavailable.  This could be because the service is too busy or because no endpoint was found listening at the specified address. Please ensure that the address is correct and try accessing the service again later."
   ],
-  "duracao_s": 1269
+  "duracao_s": 1078
 }
