@@ -11,22 +11,25 @@ diária e a skill `resultado-empresa-maison` seguem o que está aqui.
 - Nunca publicar sozinho. Cada carrossel vai para o Gustavo aprovar. O modelo passa pelo compliance da XP antes do
   primeiro post.
 - Setas com a mesma cor para alta e queda; nada de verde e vermelho.
-- Toda peça leva a fonte das demonstrações, a dos múltiplos com a data da cotação e a linha legal da Invest com a
-  ouvidoria da XP (já no modelo). A fonte dos múltiplos é o cálculo próprio com dados da B3 e da CVM; não atribuir a
+- Toda peça leva a fonte das demonstrações e a dos múltiplos com a data da cotação (última tela e legenda) e a linha
+  legal da Invest com a ouvidoria da XP (legenda). A fonte dos múltiplos é o cálculo próprio com dados da B3 e da CVM; não atribuir a
   terceiros números que não são deles.
 - Dado ausente fica "n/d" e é avisado. Nunca estimar nem completar de memória.
 
 ## Telas
 
-1. Capa: marca da Invest, logo da empresa (sem logo aprovada, o nome da empresa em texto), "Resultado do 3T26 · data de entrega à CVM" e o indicador com a maior
+1. Capa: no alto, à esquerda, o logo da empresa (sem logo aprovada, o nome em texto) e o ticker, sem o nome ao lado;
+   à direita, "Arraste" com a seta (a única tela com seta). No centro, "Resultado do 3T26" e o indicador com a maior
    variação contra o mesmo trimestre do ano anterior, para cima ou para baixo, entre receita, EBITDA, lucro, PL,
-   dívida e ativo (n.m. fica de fora): o valor do trimestre em destaque, a variação e o valor do ano anterior. Sem
-   variação mensurável, a capa mostra o destaque do JSON (receita; lucro para bancos e seguradoras).
-2. O trimestre em números, contra o mesmo trimestre do ano anterior.
+   dívida e ativo (n.m. fica de fora): o valor com a unidade por extenso (milhões, bilhões, trilhões) e duas colunas
+   na mesma escala, ano anterior e agora, ligadas por um colchete dourado com a variação na ponta. Embaixo, a data de
+   divulgação e, à direita, o logo Maison Invest | XP. Sem variação mensurável, a capa mostra o destaque do JSON
+   (receita; lucro para bancos e seguradoras).
+2. O trimestre em números, contra o mesmo trimestre do ano anterior (sem linha de fonte: a data está na capa e a fonte, na última tela e na legenda).
 3. 36, 24 e 12 meses (nessa ordem, sem nota de rodapé): receita, EBITDA e lucro somados em 12 meses; PL, dívida e ativo no fim do trimestre.
 4. e 5. Barras por trimestre (13 trimestres) com o valor em cima; em destaque o mesmo trimestre de cada ano, com a
    variação dentro da barra. Com até 3 indicadores (bancos), uma tela só.
-6. P/VP em destaque, P/L e EV/EBITDA de hoje.
+6. P/VP em destaque, P/L e EV/EBITDA de hoje (sem linha de fonte: fica na última tela e na legenda).
 7. Preço, P/VP e EV/EBITDA mês a mês em 36 meses, com o valor escrito nos pontos de 36, 24 e 12 meses antes e no de hoje; embaixo, a variação de cada ponto até hoje, de 36 para 12 meses (sem EV/EBITDA para financeiras).
 8. Fontes, definição do EBITDA e, no rodapé, só "Conteúdo informativo, sem recomendação de compra ou venda." (a identificação da Maison Invest como assessora credenciada à XP e a Ouvidoria XP ficam na legenda).
 

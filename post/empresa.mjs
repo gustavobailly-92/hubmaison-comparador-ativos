@@ -66,7 +66,6 @@ export const fpct = (r) => (r == null ? 'n/d' : Number.isNaN(r) ? 'n.m.' : `${r 
 const fx = (m) => (m == null ? 'n/d' : Number.isNaN(m) ? 'n.m.' : `${nf(m, 2)}x`);
 const fdate = (s) => (s ? s.split('-').reverse().join('/') : '');
 // capa: valor com uma casa (sem casa a partir de 100) e variação inteira (uma casa abaixo de 10%), para ler de longe
-const brlCapa = (bi) => { const [v, u] = escala(bi); return [bi < 0 ? '−' : '', nf(v, v >= 100 ? 0 : 1), u]; };
 const pctCapa = (r) => `${r > 0 ? '+' : r < 0 ? '−' : ''}${nf(Math.abs(r) * 100, Math.abs(r) >= 0.1 ? 0 : 1)}%`;
 const ARW = (r, z = 30) => r == null ? '' : `<svg viewBox="0 0 24 24" width="${z}" height="${z}" fill="none" stroke="currentColor" stroke-width="1.8"><path d="${r > 0.02 ? 'M7 17L17 7M9 7h8v8' : r < -0.02 ? 'M7 7l10 10M17 9v8H9' : 'M4 12h16M14 6l6 6-6 6'}"/></svg>`;
 
@@ -159,26 +158,26 @@ const NMX =' n.m.: não mensurável, PL, lucro ou EBITDA de 12 meses negativo, o
 const LEGAL_TELA = 'Conteúdo informativo, sem recomendação de compra ou venda.';   // na última tela; a legenda leva o LEGAL completo
 const LEGAL = 'Conteúdo informativo, sem recomendação de compra ou venda. Maison Invest, assessora de investimentos credenciada à XP Investimentos. Ouvidoria XP: 0800 722 3730.';
 
-function logoEmpresa(d, h = d.logoH || 120) {
+function logoEmpresa(d, h = d.logoH || 120, W = 920) {
   // logo da biblioteca na versão da capa (branca, cor ou placa, escolhida por placa.py); placa com cantos arredondados
-  if (d.logo) return `<img src="${d.logo}" alt="${d.empresa}" style="height:${h}px;max-width:560px;object-fit:contain;display:block;border-radius:14px">`;
+  if (d.logo) return `<img src="${d.logo}" alt="${d.empresa}" style="height:${h}px;max-width:${Math.min(560, W)}px;object-fit:contain;display:block;border-radius:14px">`;
   // sem logo aprovada (ausente ou com a marca anterior): o nome da empresa em texto, no lugar da logo
   // tamanho pelo comprimento do nome (Montserrat 600 ~0,6 em por letra, até 920 px): uma linha quando cabe em 48 px ou
   // mais; nome longo vai para duas linhas equilibradas
-  const n = d.empresa.length, um = Math.min(76, Math.floor(920 / (0.6 * n)));
-  const fs = um >= 48 ? um : Math.min(60, Math.floor(1840 / (0.6 * n)));
-  return `<div style="min-height:${h}px;max-width:920px;display:flex;align-items:center;font-size:${fs}px;font-weight:600;letter-spacing:-.015em;line-height:1.05;color:#fff;${um >= 48 ? 'white-space:nowrap' : 'text-wrap:balance'}">${d.empresa}</div>`;
+  const n = d.empresa.length, um = Math.min(76, Math.floor(W / (0.6 * n)));
+  const fs = um >= 48 ? um : Math.min(60, Math.floor(2 * W / (0.6 * n)));
+  return `<div style="min-height:${h}px;max-width:${W}px;display:flex;align-items:center;font-size:${fs}px;font-weight:600;letter-spacing:-.015em;line-height:1.05;color:#fff;${um >= 48 ? 'white-space:nowrap' : 'text-wrap:balance'}">${d.empresa}</div>`;
 }
 // sem contador (o Instagram já mostra a posição no carrossel): só a seta de arrastar, menos na última tela
 const SETA = '<svg viewBox="0 0 56 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h54M47 1l7 6-7 6"/></svg>';
-const head = (d, i, n) => `<div class="top"><div class="kicker"><i class="leg"></i>${d.ticker} · ${d.periodo}</div>${i < n ? `<div class="swipe">${SETA}</div>` : ''}</div>`;
+const head = (d, i, n) => `<div class="top"><div class="kicker"><i class="leg"></i>${d.ticker} · ${d.periodo}</div></div>`;
 const foot = (i, n) => `<div class="bottom"><div class="prog">${Array.from({ length: n }, (_, j) => `<i class="${j + 1 === i ? 'on' : ''}"></i>`).join('')}</div><img class="sym" src="assets/symbol.png" alt=""></div>`;
 const band = (d) => d.ilustrativo ? `<div style="position:absolute;left:0;right:0;top:0;height:46px;background:#C8A96A;color:#293654;font-size:20px;font-weight:700;letter-spacing:.3em;display:grid;place-items:center;z-index:5">DADOS ILUSTRATIVOS · MODELO</div>` : '';
 const src = (t) => `<p class="small" style="margin-top:28px">${t}</p>`;
 
 export function telas(d) {
   const c = calcula(d), H = d.historico && d.historico.datas && d.historico.datas.length > 36 ? d.historico : null;
-  const invest = `<img class="logo" src="assets/invest-xp.png" style="height:70px" alt="Maison Invest">`;
+  const invest = `<img class="logo" src="assets/invest-xp.png" style="height:62px" alt="Maison Invest">`;
   // barras por trimestre: um slide com até 3 indicadores; com mais, resultado (fluxos) e balanço (estoques) separados
   const fluxo3 = ['receita', 'ebitda', 'lucro'];
   const kb = ['receita', 'ebitda', 'lucro', 'pl', 'divida', 'ativos'].filter(k => c.s13.barras[k]);
@@ -189,23 +188,49 @@ export function telas(d) {
   const noticia = d.capa.tipo === 'noticia';
   const capaR = !noticia && c.capa, ant = d.trimestres[d.trimestres.length - 5];
   if (!noticia && !c.capa) console.log('aviso: capa sem variação mensurável contra o ano anterior (n.m. ou dado ausente)');
-  T.push(`<img class="legs" src="assets/symbol.png" style="left:520px;top:420px;height:1100px;opacity:.05"><div class="frame"><div class="top">${invest}<div class="swipe">Arraste ${SETA}</div></div>
-    <div style="margin-top:120px">${logoEmpresa(d)}<div style="margin-top:34px;display:flex;gap:20px;align-items:baseline"><span style="font-size:26px;font-weight:600;letter-spacing:.16em;color:var(--sky)">${d.ticker}</span>${d.logo ? `<span style="font-size:26px;color:var(--mist)">${d.empresa}</span>` : ''}</div></div>
-    <div style="margin-top:auto"><div class="kicker" style="margin-bottom:30px"><i class="leg"></i>${noticia ? 'Notícia · ' + fdate(d.noticia.data) : 'Resultado do ' + d.periodo}</div>
-    ${capaR ? (() => { const m = c.capa, [sg, num, un] = brlCapa(m.a);
-      return `<div style="font-size:44px;font-weight:400;letter-spacing:-.01em">${LABEL[m.k]}${m.estoque ? '<span style="color:var(--mist);font-size:30px"> · fim do ' + d.periodo + '</span>' : ''}</div>
-      <div style="margin-top:6px;display:flex;align-items:baseline;white-space:nowrap;font-variant-numeric:lining-nums"><span style="font-size:52px;color:var(--sky);margin-right:18px">${sg}R$</span><span style="font-size:210px;font-weight:200;letter-spacing:-.04em;line-height:1">${num}</span><span style="font-size:68px;color:var(--mist);margin-left:16px;font-weight:400">${un}</span></div>
-      <div style="margin-top:34px;display:flex;align-items:center;gap:30px;color:var(--accent)"><div style="display:flex;align-items:center;gap:10px">${ARW(m.r, 58)}<span style="font-size:92px;font-weight:500;letter-spacing:-.03em;line-height:1">${pctCapa(m.r)}</span></div>
-      <div style="border-left:1px solid var(--hair);padding-left:30px"><div style="font-size:22px;font-weight:600;letter-spacing:.18em;color:var(--sky);text-transform:uppercase">contra o ${ant}</div><div style="font-size:28px;color:var(--mist);margin-top:6px">${brl(m.b)}</div></div></div>`; })()
-    : `<h2 style="max-width:900px">${(noticia ? d.noticia.titulo : (d.capa.destaque || 'Resultado do ' + d.periodo + '.')).replace(/R\$ ?[\d.,]+( (mi|bi|milhões|bilhões|mil))?/g, x => `<span style="white-space:nowrap">${x}</span>`)}</h2>${noticia ? src('Fonte: ' + d.noticia.fonte) : ''}`}</div>
-    ${!noticia && d.divulgacao ? `<div style="margin-top:40px;font-size:15px;letter-spacing:.02em;color:var(--sky);opacity:.5">Divulgado em ${fdate(d.divulgacao)}${d.entrega && d.entrega.hora ? ', às ' + d.entrega.hora : ''}</div>` : ''}
-    <div style="margin-top:${!noticia && d.divulgacao ? 24 : 64}px">${foot(1, N).replace('<img class="sym" src="assets/symbol.png" alt="">', '')}</div></div>`);
+  // 1 capa: logo e ticker no alto, à esquerda (a seta de arrastar só aqui); no centro, o indicador de maior variação
+  // contra o ano anterior, com unidade por extenso e duas colunas na mesma escala ligadas por um colchete dourado do
+  // nível do ano anterior ao de agora, com a variação na ponta; embaixo, a data de divulgação e o logo Maison Invest | XP
+  // (escolha do Gustavo, 12/11/2026: opção B4)
+  const UNX = { tri: ['trilhão', 'trilhões'], bi: ['bilhão', 'bilhões'], mi: ['milhão', 'milhões'], mil: ['mil', 'mil'] };
+  const ext = (bi) => { const [v, u] = escala(bi); return [bi < 0 ? '−' : '', nf(v, v >= 100 ? 0 : 1), UNX[u][v < 2 ? 0 : 1]]; };
+  const extTxt = (bi) => { const [sg, n, u] = ext(bi); return `${sg}R$ ${n} ${u}`; };
+  const topo = `<div style="display:flex;justify-content:space-between;align-items:flex-start;flex:none">
+      <div>${logoEmpresa(d, d.logoH || 120, 600)}<div style="margin-top:24px;font-size:26px;font-weight:600;letter-spacing:.16em;color:var(--sky)">${d.ticker}</div></div>
+      <div class="swipe" style="margin-top:10px">Arraste ${SETA}</div></div>`;
+  const base = `<div style="display:flex;justify-content:space-between;align-items:flex-end;flex:none">
+      ${!noticia && d.divulgacao ? `<div style="font-size:16px;letter-spacing:.02em;color:var(--sky);opacity:.6">Divulgado em ${fdate(d.divulgacao)}${d.entrega && d.entrega.hora ? ', às ' + d.entrega.hora : ''}</div>` : '<div></div>'}
+      ${invest}</div>`;
+  let corpo;
+  if (capaR) {
+    const m = c.capa, [sg, n, u] = ext(m.a), pc = pctCapa(m.r), mx = Math.max(Math.abs(m.a), Math.abs(m.b));
+    const Hm = 190, y0 = Hm + 10, cw = 116, xa = 0, xb = 196, xk = 372, h = (v) => Math.max(6, Math.round(Hm * Math.abs(v) / mx));
+    const ya = y0 - h(m.b), yb = y0 - h(m.a), up = yb < ya, ym = (ya + yb) / 2, G = '#C8A96A';
+    corpo = `<div style="font-size:42px;font-weight:400;letter-spacing:-.01em">${LABEL[m.k]}${m.estoque ? '<span style="color:var(--mist);font-size:28px"> · fim do ' + d.periodo + '</span>' : ''}</div>
+      <div style="margin-top:6px;display:flex;align-items:baseline;white-space:nowrap;font-variant-numeric:lining-nums"><span style="font-size:53px;color:var(--sky);margin-right:16px">${sg}R$</span><span style="font-size:196px;font-weight:200;letter-spacing:-.04em;line-height:1">${n}</span><span style="font-size:61px;color:var(--mist);margin-left:14px">${u}</span></div>
+      <div style="position:relative;margin-top:56px;height:${y0 + 96}px">
+        <svg width="888" height="${y0 + 2}" style="position:absolute;left:0;top:0;overflow:visible">
+          <line x1="${xa}" y1="${y0}" x2="${xb + cw}" y2="${y0}" stroke="rgba(147,172,198,.45)" stroke-width="1.5"/>
+          <rect x="${xa}" y="${ya}" width="${cw}" height="${y0 - ya}" fill="rgba(147,172,198,.38)"/>
+          <rect x="${xb}" y="${yb}" width="${cw}" height="${y0 - yb}" fill="#fff"/>
+          <line x1="${xa + cw + 10}" y1="${ya}" x2="${xk}" y2="${ya}" stroke="${G}" stroke-width="1.5" stroke-dasharray="4 7"/>
+          <line x1="${xb + cw + 10}" y1="${yb}" x2="${xk}" y2="${yb}" stroke="${G}" stroke-width="1.5" stroke-dasharray="4 7"/>
+          <line x1="${xk}" y1="${ya}" x2="${xk}" y2="${yb + (up ? 2 : -2)}" stroke="${G}" stroke-width="2"/>
+          <path d="M${xk - 7} ${yb + (up ? 10 : -10)}L${xk} ${yb}L${xk + 7} ${yb + (up ? 10 : -10)}" fill="none" stroke="${G}" stroke-width="2"/></svg>
+        <div style="position:absolute;left:${xk + 30}px;top:${ym - 46}px;color:var(--accent)"><div style="font-size:76px;font-weight:400;letter-spacing:-.03em;line-height:1;white-space:nowrap">${pc}</div><div style="margin-top:12px;font-size:19px;font-weight:600;letter-spacing:.16em;color:var(--sky)">CONTRA O ${ant}</div></div>
+        ${[[xa, ant, extTxt(m.b)], [xb, d.periodo, extTxt(m.a)]].map(([x, l, t]) => `<div style="position:absolute;left:${x}px;top:${y0 + 18}px;white-space:nowrap"><div style="font-size:19px;font-weight:600;letter-spacing:.16em;color:var(--sky)">${l}</div><div style="margin-top:6px;font-size:22px;color:var(--mist)">${t}</div></div>`).join('')}
+      </div>`;
+  } else {
+    corpo = `<h2 style="max-width:900px">${(noticia ? d.noticia.titulo : (d.capa.destaque || 'Resultado do ' + d.periodo + '.')).replace(/R\$ ?[\d.,]+( (mi|bi|milhões|bilhões|mil))?/g, x => `<span style="white-space:nowrap">${x}</span>`)}</h2>${noticia ? src('Fonte: ' + d.noticia.fonte) : ''}`;
+  }
+  T.push(`<img class="legs" src="assets/symbol.png" style="left:600px;top:520px;height:1000px;opacity:.04"><div class="frame">${topo}
+    <div style="margin-top:auto;margin-bottom:auto;padding-top:40px"><div class="kicker" style="margin-bottom:28px"><i class="leg"></i>${noticia ? 'Notícia · ' + fdate(d.noticia.data) : 'Resultado do ' + d.periodo}</div>${corpo}</div>${base}</div>`);
   // 2 o trimestre
   T.push(`<div class="frame">${head(d, 2, N)}<h3 style="margin-top:100px">O ${d.periodo} em números.</h3>
     <div style="margin-top:56px;border-top:1px solid var(--hair)">${['receita', 'ebitda', 'lucro'].filter(k => c.tri[k]).map(k => `<div style="display:grid;grid-template-columns:1fr auto;align-items:end;padding:40px 0;border-bottom:1px solid var(--hair)">
       <div><div class="tag" style="color:var(--sky);font-size:22px">${LABEL[k]}</div><div style="font-size:84px;font-weight:300;letter-spacing:-.02em;margin-top:14px;font-variant-numeric:tabular-nums">${brlH(c.tri[k].v, 84, 40)}</div></div>
       <div style="text-align:right;color:var(--accent)">${ARW(c.tri[k].s)}<div style="font-size:34px;font-weight:500;font-variant-numeric:tabular-nums">${fpct(c.tri[k].yoy)}</div><div style="font-size:20px;color:var(--sky);letter-spacing:.12em">VS ${d.trimestres[d.trimestres.length - 5]}</div></div></div>`).join('')}</div>
-    ${src('Fonte: ' + d.fontes.demonstracoes + '.' + (Object.values(c.tri).some(x => Number.isNaN(x.yoy)) ? NM : ''))}${foot(2, N)}</div>`);
+    ${foot(2, N)}</div>`);
   // 3 12, 24 e 36 meses: valor com unidade, gráfico de 36 meses e as três variações ('linha' ou 'barras')
   const ks = ['receita', 'ebitda', 'lucro', 'pl', 'divida', 'ativos'].filter(k => c.tend[k]);
   const modo = d.grafico === 'barras' ? 'barras' : 'linha', ini = d.trimestres[d.trimestres.length - 13];
@@ -238,7 +263,7 @@ export function telas(d) {
     <div style="margin-top:70px;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--hair)">
       <div style="padding:34px 0"><div class="tag" style="color:var(--sky);font-size:20px">P/L</div><div style="font-size:64px;font-weight:300;margin-top:10px">${fx(mh.pl)}</div></div>
       <div style="padding:34px 0 34px 40px;border-left:1px solid var(--hair)"><div class="tag" style="color:var(--sky);font-size:20px">EV/EBITDA</div><div style="font-size:64px;font-weight:300;margin-top:10px">${d.financeira ? 'n/a' : fx(mh.ev)}</div></div></div>
-    ${src((d.fontes.multiplos.includes(fdate(m.data_cotacao)) ? '' : `Cotação de fechamento de ${fdate(m.data_cotacao)}. `) + `Fonte: ${d.fontes.multiplos}.` + nmx6)}<div style="height:40px"></div>${foot(nM, N)}</div>`);
+    <div style="height:40px"></div>${foot(nM, N)}</div>`);
   // preço e múltiplos: mês a mês nos 36 meses; em destaque, 12, 24 e 36 meses antes (preço sem proventos, ajustado por desdobramentos)
   if (H) {
     const n = H.datas.length - 1, anc = [n - 12, n - 24, n - 36];
@@ -267,7 +292,7 @@ export function telas(d) {
       <div><span class="tag" style="color:var(--sky);font-size:20px;display:block;margin-bottom:6px">Demonstrações</span>${d.fontes.demonstracoes}</div>
       <div><span class="tag" style="color:var(--sky);font-size:20px;display:block;margin-bottom:6px">Múltiplos</span>${d.fontes.multiplos}</div>${d.financeira ? '' : `
       <div><span class="tag" style="color:var(--sky);font-size:20px;display:block;margin-bottom:6px">EBITDA</span>${EBITDA_DEF}</div>`}</div></div>
-    <div style="display:flex;flex-direction:column;gap:30px">${invest.replace('height:70px', 'height:92px')}<p class="legal">${LEGAL_TELA}</p></div></div>`);
+    <div style="display:flex;flex-direction:column;gap:30px">${invest.replace('height:62px', 'height:92px')}<p class="legal">${LEGAL_TELA}</p></div></div>`);
   return T.map(t => `<section class="slide"><div class="vignette"></div>${band(d)}${t}<div class="grain"></div></section>`);
 }
 
