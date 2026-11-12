@@ -1,9 +1,9 @@
 {
-  "referencia": "2026-11-06",
-  "gerado": "2026-11-12T02:21:55Z",
-  "fundos_publicados": 10228,
-  "fundos_na_matriz": 16467,
-  "fundos_xp": 1008,
+  "referencia": "2026-11-10",
+  "gerado": "2026-11-12T12:00:35Z",
+  "fundos_publicados": 10220,
+  "fundos_na_matriz": 16466,
+  "fundos_xp": 1007,
   "benchmarks": [
     "ipca",
     "ipca6",
@@ -22,10 +22,10 @@
   "acoes": 1056,
   "bdrs": 465,
   "fiis": 276,
-  "descartados_parados": 403,
-  "descartados_poucos_cotistas": 5807,
-  "descartados_historico_curto": 29,
-  "dias_calendario": 2577,
+  "descartados_parados": 412,
+  "descartados_poucos_cotistas": 5814,
+  "descartados_historico_curto": 20,
+  "dias_calendario": 2579,
   "meses_processados": [
     "201609",
     "201610",
@@ -152,14 +152,13 @@
     "202611"
   ],
   "avisos": [
-    "CDI sem valor em 21 dias do calendário (tratados como 0)",
+    "CDI sem valor em 23 dias do calendário (tratados como 0)",
     "benchmark ^GSPC indisponível (todas as fontes falharam)",
     "benchmark ^NDX indisponível (todas as fontes falharam)",
     "benchmark URTH indisponível (todas as fontes falharam)",
     "benchmark GLD indisponível (todas as fontes falharam)",
     "benchmark AIQ indisponível (todas as fontes falharam)",
-    "ações: 34 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)",
-    "RAD (CVM): busca de 2026-11-12 falhou: RAD: Erro ao selecionar os documentos: The HTTP service located at http://127.0.0.1:8182/ConsultaExterna/ConsultaExternaCVM.svc is unavailable.  This could be because the service is too busy or because no endpoint was found listening at the specified address. Please ensure that the address is correct and try accessing the service again later."
+    "ações: 34 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 1078
+  "duracao_s": 1161
 }
