@@ -1,0 +1,2 @@
+nome não revisado: "Boa Safra" é o nome curto da B3; pôr o nome usual em post/nomes.csv (SOJA) e refazer
+receita de 3T26 é 8.2x a de 2T26
