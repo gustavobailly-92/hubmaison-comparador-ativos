@@ -1,6 +1,6 @@
 {
   "referencia": "2026-11-06",
-  "gerado": "2026-11-12T00:22:56Z",
+  "gerado": "2026-11-12T01:25:34Z",
   "fundos_publicados": 10228,
   "fundos_na_matriz": 16467,
   "fundos_xp": 1008,
@@ -158,7 +158,9 @@
     "benchmark URTH indisponível (todas as fontes falharam)",
     "benchmark GLD indisponível (todas as fontes falharam)",
     "benchmark AIQ indisponível (todas as fontes falharam)",
-    "ações: 34 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
+    "ações: 34 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)",
+    "RAD (CVM): AZZAS 2154 S.A. ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
+    "RAD (CVM): VITRU EDUCAÇÃO S.A. ITR 2026-09-30: https://www.rad.cvm.gov.br/ENET/frmDownloadDocumento.aspx?Tela=ext&numSequencia=162345&num: IncompleteRead(7381094 bytes read)"
   ],
-  "duracao_s": 1097
+  "duracao_s": 1269
 }
