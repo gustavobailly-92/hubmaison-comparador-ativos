@@ -1,0 +1,1 @@
+nome não revisado: "Ourofino S/A" é o nome curto da B3; pôr o nome usual em post/nomes.csv (OFSA) e refazer

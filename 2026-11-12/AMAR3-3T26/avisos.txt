@@ -1,0 +1,1 @@
+nome não revisado: "Lojas Marisa" é o nome curto da B3; pôr o nome usual em post/nomes.csv (AMAR) e refazer

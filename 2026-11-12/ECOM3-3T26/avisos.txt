@@ -1,0 +1,2 @@
+nome não revisado: "Economatica" é o nome curto da B3; pôr o nome usual em post/nomes.csv (ECOM) e refazer
+lucro maior que a receita em 3T26
