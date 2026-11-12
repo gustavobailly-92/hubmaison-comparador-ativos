@@ -1,0 +1,2 @@
+nome não revisado: "Vittia" é o nome curto da B3; pôr o nome usual em post/nomes.csv (VITT) e refazer
+receita de 3T26 é 2.5x a de 2T26
