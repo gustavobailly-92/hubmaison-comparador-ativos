@@ -1,0 +1,1 @@
+nome não revisado: "Cedro" é o nome curto da B3; pôr o nome usual em post/nomes.csv (CEDO) e refazer

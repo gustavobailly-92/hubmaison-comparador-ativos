@@ -1,0 +1,2 @@
+nome não revisado: "Pdg Realt" é o nome curto da B3; pôr o nome usual em post/nomes.csv (PDGR) e refazer
+lucro maior que a receita em 3T26
