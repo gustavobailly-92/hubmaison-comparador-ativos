@@ -1,6 +1,6 @@
 {
   "referencia": "2026-11-11",
-  "gerado": "2026-11-13T22:56:32Z",
+  "gerado": "2026-11-13T23:48:48Z",
   "fundos_publicados": 10187,
   "fundos_na_matriz": 16467,
   "fundos_xp": 1007,
@@ -167,10 +167,8 @@
   "avisos": [
     "CDI sem valor em 22 dias do calendário (tratados como 0)",
     "ações: 34 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)",
-    "RAD (CVM): HAGA S.A. INDUSTRIA E COMERCIO ITR 2026-09-30: https://www.rad.cvm.gov.br/ENET/frmDownloadDocumento.aspx?Tela=ext&numSequencia=162550&num: IncompleteRead(4477100 bytes read)",
-    "RAD (CVM): BIOMA EDUCAÇÃO S.A. ITR 2026-09-30: File is not a zip file",
-    "RAD (CVM): ARANDU INVESTIMENTOS S.A. ITR 2026-09-30: File is not a zip file",
-    "RAD (CVM): COMPANHIA ENERGÉTICA DE BRASÍLIA - CEB ITR 2026-09-30: File is not a zip file"
+    "RAD (CVM): HAGA S.A. INDUSTRIA E COMERCIO ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
+    "RAD (CVM): BCO BTG PACTUAL S.A. ITR 2026-09-30: documento sem DadosDocumento.xlsx"
   ],
-  "duracao_s": 1303
+  "duracao_s": 871
 }
