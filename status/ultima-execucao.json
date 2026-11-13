@@ -1,8 +1,8 @@
 {
-  "referencia": "2026-11-10",
-  "gerado": "2026-11-13T02:21:30Z",
-  "fundos_publicados": 10220,
-  "fundos_na_matriz": 16466,
+  "referencia": "2026-11-11",
+  "gerado": "2026-11-13T11:57:20Z",
+  "fundos_publicados": 10187,
+  "fundos_na_matriz": 16467,
   "fundos_xp": 1007,
   "benchmarks": [
     "ipca",
@@ -35,10 +35,10 @@
   "acoes": 1057,
   "bdrs": 465,
   "fiis": 277,
-  "descartados_parados": 412,
-  "descartados_poucos_cotistas": 5814,
-  "descartados_historico_curto": 20,
-  "dias_calendario": 2579,
+  "descartados_parados": 498,
+  "descartados_poucos_cotistas": 5766,
+  "descartados_historico_curto": 16,
+  "dias_calendario": 2580,
   "meses_processados": [
     "201609",
     "201610",
@@ -165,9 +165,8 @@
     "202611"
   ],
   "avisos": [
-    "CDI sem valor em 22 dias do calendário (tratados como 0)",
-    "ações: 34 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)",
-    "RAD (CVM): busca de 2026-11-13 falhou: https://www.rad.cvm.gov.br/ENET/frmConsultaExternaCVM.aspx: The read operation timed out"
+    "CDI sem valor em 23 dias do calendário (tratados como 0)",
+    "ações: 34 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 1022
+  "duracao_s": 953
 }
