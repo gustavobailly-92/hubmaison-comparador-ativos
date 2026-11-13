@@ -1,0 +1,2 @@
+nome não revisado: "Arandu" é o nome curto da B3; pôr o nome usual em post/nomes.csv (ARND) e refazer
+lucro maior que a receita em 3T26
