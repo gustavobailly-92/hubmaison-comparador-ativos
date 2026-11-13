@@ -1,0 +1,1 @@
+nome não revisado: "Atom Educ" é o nome curto da B3; pôr o nome usual em post/nomes.csv (ATED) e refazer
