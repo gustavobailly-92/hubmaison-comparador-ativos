@@ -1,6 +1,6 @@
 {
   "referencia": "2026-11-10",
-  "gerado": "2026-11-12T23:35:06Z",
+  "gerado": "2026-11-13T00:28:58Z",
   "fundos_publicados": 10220,
   "fundos_na_matriz": 16466,
   "fundos_xp": 1007,
@@ -32,9 +32,9 @@
     "^BVSP",
     "URTH"
   ],
-  "acoes": 1056,
+  "acoes": 1057,
   "bdrs": 465,
-  "fiis": 276,
+  "fiis": 277,
   "descartados_parados": 412,
   "descartados_poucos_cotistas": 5814,
   "descartados_historico_curto": 20,
@@ -167,12 +167,7 @@
   "avisos": [
     "CDI sem valor em 22 dias do calendário (tratados como 0)",
     "ações: 34 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)",
-    "RAD (CVM): CIA SANEAMENTO DO PARANA - SANEPAR ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
-    "RAD (CVM): NATURA COSMÉTICOS S.A. ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
-    "RAD (CVM): UNIÃO PET PARTICIPAÇÕES S.A. ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
-    "RAD (CVM): SYN PROP & TECH S.A. ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
-    "RAD (CVM): YDUQS PARTICIPACOES S.A. ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
-    "RAD (CVM): ATOM EDUCAÇÃO E EDITORA S.A. ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes"
+    "RAD (CVM): busca de 2026-11-13 falhou: RAD: Erro ao selecionar os documentos: The HTTP service located at http://127.0.0.1:8182/ConsultaExterna/ConsultaExternaCVM.svc is unavailable.  This could be because the service is too busy or because no endpoint was found listening at the specified address. Please ensure that the address is correct and try accessing the service again later."
   ],
-  "duracao_s": 1852
+  "duracao_s": 1469
 }
