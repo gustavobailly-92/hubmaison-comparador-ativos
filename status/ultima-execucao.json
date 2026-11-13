@@ -1,6 +1,6 @@
 {
   "referencia": "2026-11-11",
-  "gerado": "2026-11-13T20:41:14Z",
+  "gerado": "2026-11-13T22:02:14Z",
   "fundos_publicados": 10187,
   "fundos_na_matriz": 16467,
   "fundos_xp": 1007,
@@ -167,7 +167,19 @@
   "avisos": [
     "CDI sem valor em 22 dias do calendário (tratados como 0)",
     "ações: 34 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)",
-    "RAD (CVM): HAGA S.A. INDUSTRIA E COMERCIO ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes"
+    "RAD (CVM): HAGA S.A. INDUSTRIA E COMERCIO ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
+    "RAD (CVM): CIA FIACAO TECIDOS CEDRO CACHOEIRA ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
+    "RAD (CVM): PDG REALTY S.A. EMPREEND E PARTICIPACOES ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
+    "RAD (CVM): WHIRLPOOL S.A. ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
+    "RAD (CVM): TELEC BRASILEIRAS S.A. TELEBRAS ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
+    "RAD (CVM): BIOMA EDUCAÇÃO S.A. ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
+    "RAD (CVM): GRAZZIOTIN S.A. ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
+    "RAD (CVM): CENTRAIS ELET DE SANTA CATARINA S.A. ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
+    "RAD (CVM): ARANDU INVESTIMENTOS S.A. ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
+    "RAD (CVM): COMPANHIA ENERGÉTICA DE BRASÍLIA - CEB ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
+    "RAD (CVM): PBG S/A ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
+    "RAD (CVM): WLM PART. E COMÉRCIO DE MÁQUINAS E VEÍCU ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
+    "RAD (CVM): MUNDIAL S.A. - PRODUTOS DE CONSUMO ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes"
   ],
-  "duracao_s": 880
+  "duracao_s": 1669
 }
