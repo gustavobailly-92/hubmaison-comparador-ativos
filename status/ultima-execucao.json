@@ -1,8 +1,8 @@
 {
-  "referencia": "2026-11-11",
-  "gerado": "2026-11-14T01:49:38Z",
-  "fundos_publicados": 10187,
-  "fundos_na_matriz": 16467,
+  "referencia": "2026-11-12",
+  "gerado": "2026-11-14T18:57:38Z",
+  "fundos_publicados": 10189,
+  "fundos_na_matriz": 16471,
   "fundos_xp": 1007,
   "benchmarks": [
     "ipca",
@@ -35,10 +35,10 @@
   "acoes": 1056,
   "bdrs": 464,
   "fiis": 277,
-  "descartados_parados": 498,
-  "descartados_poucos_cotistas": 5766,
-  "descartados_historico_curto": 16,
-  "dias_calendario": 2580,
+  "descartados_parados": 487,
+  "descartados_poucos_cotistas": 5777,
+  "descartados_historico_curto": 18,
+  "dias_calendario": 2581,
   "meses_processados": [
     "201609",
     "201610",
@@ -165,11 +165,11 @@
     "202611"
   ],
   "avisos": [
-    "CDI sem valor em 22 dias do calendário (tratados como 0)",
+    "CDI sem valor em 23 dias do calendário (tratados como 0)",
     "ações: 34 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)",
-    "RAD (CVM): BCO BTG PACTUAL S.A. ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
-    "RAD (CVM): COSAN S.A. ITR 2026-09-30: File is not a zip file",
-    "RAD (CVM): MINUPAR PARTICIPACOES S.A. ITR 2026-09-30: File is not a zip file"
+    "RAD (CVM): MINUPAR PARTICIPACOES S.A. ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
+    "RAD (CVM): COSAN S.A. ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
+    "RAD (CVM): BCO BTG PACTUAL S.A. ITR 2026-09-30: documento sem DadosDocumento.xlsx"
   ],
-  "duracao_s": 913
+  "duracao_s": 902
 }
