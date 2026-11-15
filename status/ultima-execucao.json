@@ -1,6 +1,6 @@
 {
   "referencia": "2026-11-12",
-  "gerado": "2026-11-14T18:57:38Z",
+  "gerado": "2026-11-15T15:18:45Z",
   "fundos_publicados": 10189,
   "fundos_na_matriz": 16471,
   "fundos_xp": 1007,
@@ -166,10 +166,7 @@
   ],
   "avisos": [
     "CDI sem valor em 23 dias do calendário (tratados como 0)",
-    "ações: 34 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)",
-    "RAD (CVM): MINUPAR PARTICIPACOES S.A. ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
-    "RAD (CVM): COSAN S.A. ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes",
-    "RAD (CVM): BCO BTG PACTUAL S.A. ITR 2026-09-30: documento sem DadosDocumento.xlsx"
+    "ações: 24 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 902
+  "duracao_s": 650
 }
