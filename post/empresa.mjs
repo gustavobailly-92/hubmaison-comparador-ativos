@@ -156,7 +156,7 @@ const NM = ' n.m.: não mensurável, há valor negativo em um dos períodos ou a
 const EBITDA_DEF = 'Resultado antes do resultado financeiro e dos tributos, mais depreciação e amortização (DVA), sem os ajustes que a empresa divulga';
 const NMX =' n.m.: não mensurável, PL, lucro ou EBITDA de 12 meses negativo, ou múltiplo acima de 100x.';
 const LEGAL_TELA = 'Conteúdo informativo, sem recomendação de compra ou venda.';   // na última tela; a legenda leva o LEGAL completo
-const LEGAL = 'Conteúdo informativo, sem recomendação de compra ou venda. Maison Invest, assessora de investimentos credenciada à XP Investimentos.';
+const LEGAL = 'Conteúdo informativo, sem recomendação de compra ou venda.';
 
 function logoEmpresa(d, h = d.logoH || 120, W = 920) {
   // logo da biblioteca na versão da capa (branca, cor ou placa, escolhida por placa.py); placa com cantos arredondados
