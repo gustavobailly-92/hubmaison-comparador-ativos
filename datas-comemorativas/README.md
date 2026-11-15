@@ -24,37 +24,46 @@ Rodar: `python3 render.py --de 2026-11-12 --ate 2027-11-11 --chrome /caminho/do/
 
 ## O calendário (nov/2026 a nov/2027)
 
-25 datas: os 10 feriados nacionais (Nossa Senhora Aparecida vira uma linha na legenda do Dia das Crianças, no mesmo 12/10), as datas de relação e quatro datas internacionais para os clientes no exterior (Thanksgiving, 4 e 14 de julho, além do Dia do Amigo).
+34 datas: os 10 feriados nacionais e o Carnaval, as datas de relação e datas internacionais dos países onde há clientes (EUA, Canadá, Irlanda, Itália, França, Portugal, Japão, Ásia do Ano Novo Lunar, Emirados). Dois posts no mesmo dia são permitidos: cada data tem um campo `horario` (padrão 07:40); em 12/10, Aparecida sai às 7h40 e Crianças às 11h40.
 
-| Data | Dia | Telas | CTA | Lista de clientes |
-|---|---|---|---|---|
-| 15/11/2026 | Proclamação da República | 3 | hubmaison.com/simuladortesouronacional | Só post, sem mensagem individual. |
-| 20/11/2026 | Dia Nacional de Zumbi e da Consciência Negra | 2 | sóbrio, sem CTA | Só post, sem mensagem individual. |
-| 26/11/2026 | Thanksgiving (Ação de Graças, EUA) | 2 | sem CTA (relação) | Clientes com país de residência nos Estados Unidos, se o cadastro tiver o campo. |
-| 8/12/2026 | Dia Nacional da Família | 2 | Agenda online, link na bio | Todos os clientes ativos. |
-| 25/12/2026 | Natal | 2 | sem CTA (relação) | Todos os clientes ativos. |
-| 1/1/2027 | Ano Novo | 3 | Agenda online, link na bio | Todos os clientes ativos. |
-| 24/1/2027 | Dia do Aposentado | 3 | hubmaison.com/simuladorlongoprazo | Clientes com a profissão cadastrada como aposentado(a). Não se infere pela idade. |
-| 8/3/2027 | Dia Internacional da Mulher | 2 | sem CTA (relação) | Clientes com sexo feminino no cadastro. |
-| 15/3/2027 | Dia do Consumidor | 3 | WhatsApp (21) 98500-4567 | Só post. Data informativa, sem mensagem individual. |
-| 26/3/2027 | Sexta-feira Santa | 2 | sóbrio, sem CTA | Só post, sem mensagem individual. |
-| 21/4/2027 | Tiradentes | 2 | sem CTA (relação) | Só post, sem mensagem individual. |
-| 1/5/2027 | Dia do Trabalho | 3 | hubmaison.com/simuladorlongoprazo | Só post, sem mensagem individual. |
-| 9/5/2027 | Dia das Mães | 3 | Agenda online, link na bio | Clientes do sexo feminino com filhos marcados no CRM. Sem o campo de filhos, a lista sai vazia: nunca inferir maternidade pela idade. |
-| 12/6/2027 | Dia dos Namorados | 3 | Agenda online, link na bio | Clientes com estado civil casado(a) ou em união estável, se o cadastro tiver o campo. |
-| 4/7/2027 | Independence Day (EUA) | 3 | hubmaison.com/cambio | Clientes com país de residência nos Estados Unidos, se o cadastro tiver o campo. |
-| 14/7/2027 | Fête nationale (14 de julho, França) | 3 | sem CTA (relação) | Clientes com país de residência na França, se o cadastro tiver o campo. |
-| 20/7/2027 | Dia do Amigo | 2 | sem CTA (relação) | Todos os clientes ativos. |
-| 26/7/2027 | Dia dos Avós | 3 | WhatsApp (21) 98500-4567 | Clientes com netos marcados no CRM. Sem o campo, a lista sai vazia. |
-| 8/8/2027 | Dia dos Pais | 3 | sem CTA (relação) | Clientes do sexo masculino com filhos marcados no CRM. Sem o campo de filhos, a lista sai vazia. |
-| 7/9/2027 | Independência do Brasil | 3 | hubmaison.com/simuladorlongoprazo | Só post, sem mensagem individual. |
-| 15/9/2027 | Dia do Cliente | 3 | sem CTA (relação) | Todos os clientes ativos. |
-| 1/10/2027 | Dia Internacional da Pessoa Idosa | 3 | WhatsApp (21) 98500-4567 | Clientes com 60 anos ou mais na data (Estatuto da Pessoa Idosa), pela data de nascimento do cadastro. |
-| 12/10/2027 | Dia das Crianças | 3 | WhatsApp (21) 98500-4567 | Dois grupos: clientes com filhos marcados no CRM (recebem a ideia do cadastro de menor) e cadastros de menores já existentes (recebem só a felicitação, endereçada à família; o telefone costuma ser do responsável). |
-| 31/10/2027 | Dia Mundial da Poupança | 5 | hubmaison.com/mapadosinvestimentos | Só post. Data informativa, sem mensagem individual. |
-| 2/11/2027 | Finados | 2 | sóbrio, sem CTA | Só post, sem mensagem individual. |
+| Data | Hora | Dia | Telas | CTA | Status |
+|---|---|---|---|---|---|
+| 15/11/2026 | 07:40 | Proclamação da República | 3 | hubmaison.com/simuladortesouronacional | aprovada |
+| 20/11/2026 | 07:40 | Dia Nacional de Zumbi e da Consciência Negra | 2 | sóbrio | aprovada |
+| 26/11/2026 | 07:40 | Thanksgiving (Ação de Graças, EUA) | 2 | sem CTA | aprovada |
+| 2/12/2026 | 07:40 | UAE National Day (Emirados Árabes) | 2 | sem CTA | pendente |
+| 8/12/2026 | 07:40 | Dia Nacional da Família | 2 | Agenda online, link na bio | aprovada |
+| 25/12/2026 | 07:40 | Natal | 2 | sem CTA | aprovada |
+| 1/1/2027 | 07:40 | Ano Novo | 3 | Agenda online, link na bio | aprovada |
+| 24/1/2027 | 07:40 | Dia do Aposentado | 3 | hubmaison.com/simuladorlongoprazo | aprovada |
+| 6/2/2027 | 07:40 | Ano Novo Lunar | 2 | sem CTA | pendente |
+| 8/2/2027 | 07:40 | Carnaval | 3 | sem CTA | pendente |
+| 8/3/2027 | 07:40 | Dia Internacional da Mulher | 2 | sem CTA | aprovada |
+| 15/3/2027 | 07:40 | Dia do Consumidor | 3 | WhatsApp (21) 98500-4567 | aprovada |
+| 17/3/2027 | 07:40 | St. Patrick's Day (Irlanda) | 2 | sem CTA | pendente |
+| 26/3/2027 | 07:40 | Sexta-feira Santa | 2 | sóbrio | aprovada |
+| 21/4/2027 | 07:40 | Tiradentes | 2 | sem CTA | aprovada |
+| 1/5/2027 | 07:40 | Dia do Trabalho | 3 | hubmaison.com/simuladorlongoprazo | aprovada |
+| 9/5/2027 | 07:40 | Dia das Mães | 3 | Agenda online, link na bio | aprovada |
+| 2/6/2027 | 07:40 | Festa della Repubblica (Itália) | 2 | sem CTA | pendente |
+| 10/6/2027 | 07:40 | Dia de Portugal | 2 | sem CTA | pendente |
+| 12/6/2027 | 07:40 | Dia dos Namorados | 3 | Agenda online, link na bio | aprovada |
+| 1/7/2027 | 07:40 | Canada Day | 2 | sem CTA | pendente |
+| 4/7/2027 | 07:40 | Independence Day (EUA) | 3 | hubmaison.com/cambio | aprovada |
+| 7/7/2027 | 07:40 | Tanabata (Japão) | 2 | hubmaison.com/simuladorlongoprazo | pendente |
+| 14/7/2027 | 07:40 | Fête nationale (14 de julho, França) | 3 | sem CTA | aprovada |
+| 20/7/2027 | 07:40 | Dia do Amigo | 2 | sem CTA | aprovada |
+| 26/7/2027 | 07:40 | Dia dos Avós | 3 | WhatsApp (21) 98500-4567 | aprovada |
+| 8/8/2027 | 07:40 | Dia dos Pais | 3 | sem CTA | aprovada |
+| 7/9/2027 | 07:40 | Independência do Brasil | 3 | hubmaison.com/simuladorlongoprazo | aprovada |
+| 15/9/2027 | 07:40 | Dia do Cliente | 3 | sem CTA | aprovada |
+| 1/10/2027 | 07:40 | Dia Internacional da Pessoa Idosa | 3 | WhatsApp (21) 98500-4567 | aprovada |
+| 12/10/2027 | 07:40 | Nossa Senhora Aparecida | 2 | sóbrio | pendente |
+| 12/10/2027 | 11:40 | Dia das Crianças | 3 | WhatsApp (21) 98500-4567 | aprovada |
+| 31/10/2027 | 07:40 | Dia Mundial da Poupança | 5 | hubmaison.com/mapadosinvestimentos | aprovada |
+| 2/11/2027 | 07:40 | Finados | 2 | sóbrio | aprovada |
 
-Não entram: Carnaval e Corpus Christi (pontos facultativos, não feriados nacionais), Páscoa (coberta pela Sexta-feira Santa) e Black Friday.
+Não entram: Corpus Christi (ponto facultativo), Páscoa (coberta pela Sexta-feira Santa) e Black Friday. Nenhuma peça cita número de países (decisão de 15/11/2026: a lista de países muda sempre).
 
 ## Regras de conteúdo (da skill maison)
 
@@ -73,8 +82,8 @@ Não entram: Carnaval e Corpus Christi (pontos facultativos, não feriados nacio
 ## Publicação
 
 1. Gustavo revisa a galeria e aprova; cada aprovação vira uma linha `AAAA-MM-DD/slug` em `aprovados.json`.
-2. Todo dia às 7h40, `postar-datas.yml` roda `hoje.py`. Com data aprovada, `bloco_xp.txt` sem "[" e sem `publicado.json`, renderiza, grava em `posts/AAAA-MM-DD/DATA-slug/` e publica pelo `instagram/postar.py`.
-3. Para instalar: copiar esta pasta para `datas-comemorativas/` na main do `hubmaison-comparador-ativos`, o workflow para `.github/workflows/` e aplicar `postar.py.patch`. Mesmo token (`IG_ACCESS_TOKEN`) e mesma fila (`concurrency: instagram`) da B3.
+2. `postar-datas.yml` roda às 7h40 e às 11h40, e também quando `aprovados.json` muda na main. `hoje.py` lista as datas aprovadas do dia cujo horário já chegou; para cada uma sem `publicado.json`, renderiza, grava em `posts/AAAA-MM-DD/DATA-slug/` e publica pelo `instagram/postar.py`.
+3. Instalado em 15/11/2026 na main do `hubmaison-comparador-ativos` (pasta `datas-comemorativas/` e `.github/workflows/postar-datas.yml`; `postar.py` aceita `DATA-slug`). Mesmo token (`IG_ACCESS_TOKEN`) e mesma fila (`concurrency: instagram`) da B3. Primeira publicação: Proclamação da República, 15/11/2026, https://www.instagram.com/p/DfxEbV-Emep/. O repositório é a fonte de verdade; este projeto guarda uma cópia.
 
 ## Todo ano
 
@@ -82,7 +91,7 @@ Em outubro, rodar `render.py` para os 12 meses seguintes e mandar a galeria para
 
 ## Pendências
 
-- Link da relação de assessores no `bloco_xp.txt` (o mesmo pendente do Focus e do IPCA). Sem ele, nada publica.
+- `bloco_xp.txt` usa o mesmo texto dos posts da B3 que já saem sozinhos (sem o link da relação de assessores). Se o link for exigido, entra nos dois.
 - Confirmar a história pessoal no Dia dos Pais.
 - Criar no CRM os campos "filhos" e "netos" se quiser as listas de Mães, Pais, Avós e a parte "com filhos" das Crianças.
 - Trocar Montserrat por Gotham se o ambiente de render tiver a fonte.
