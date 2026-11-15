@@ -157,6 +157,9 @@ def main():
     tpl = (open(os.path.join(AQUI, "template", "data-carrossel.html"), encoding="utf-8").read()
            .replace("/*FONTES*/", fontes_css())
            .replace("/*LOGO*/", "data:image/svg+xml;base64," + logo))
+    bandeiras = {f[:-4]: "data:image/svg+xml;base64," + base64.b64encode(open(os.path.join(AQUI, "bandeiras", f), "rb").read()).decode()
+                 for f in sorted(os.listdir(os.path.join(AQUI, "bandeiras"))) if f.endswith(".svg")}
+    tpl = tpl.replace("/*BANDEIRAS*/{}", json.dumps(bandeiras))
 
     trabalhos, falhas = [], []
     for e0 in cal["datas"]:
@@ -166,6 +169,10 @@ def main():
             e = troca_ano(e0, d.year)
             legenda = monta_legenda(e, bloco_xp)
             erros = validar(e, legenda)
+            if e.get("bandeira") and e["bandeira"] not in bandeiras:
+                erros.append(f"bandeira {e['bandeira']} sem arquivo em bandeiras/")
+            if not e.get("icone") and not e.get("bandeira"):
+                erros.append("data sem ícone e sem bandeira")
             if erros:
                 falhas.append((e["slug"], d, erros)); continue
             pasta = os.path.join(AQUI, "saida", d.isoformat(), f"DATA-{e['slug']}")

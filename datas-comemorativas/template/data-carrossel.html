@@ -38,7 +38,9 @@ body{background:#0e1424;font-family:var(--fonte);color:var(--branco);
   background:linear-gradient(180deg,rgba(178,203,230,.20) 0%,rgba(147,172,198,.03) 100%);-webkit-background-clip:text;background-clip:text;
   color:transparent;font-variant-numeric:tabular-nums;z-index:1;user-select:none}
 .capa-corpo{position:absolute;left:88px;right:88px;bottom:250px;z-index:2}
-.capa-corpo .ic{width:104px;height:104px;display:block}
+.emb{display:flex;align-items:center;gap:30px}
+.emb .ic{width:104px;height:104px;display:block;flex:none}
+.emb .flag{height:92px;width:auto;display:block;outline:1px solid rgba(198,161,91,.45);outline-offset:8px}
 .capa-corpo .mes{margin-top:34px;font-size:22px;letter-spacing:.26em;text-transform:uppercase;color:var(--azul-claro);font-weight:500}
 .capa-corpo h1{font-weight:700;font-size:84px;line-height:1.04;letter-spacing:-.015em;margin-top:40px;max-width:900px}
 .capa-corpo .frase{font-weight:400;font-size:34px;line-height:1.42;color:var(--azul-suave);margin-top:30px;max-width:860px}
@@ -56,7 +58,9 @@ body{background:#0e1424;font-family:var(--fonte);color:var(--branco);
 .texto-longo::first-line{color:var(--branco)}
 .marca{position:absolute;left:80px;bottom:150px;font-weight:300;font-size:330px;line-height:.8;letter-spacing:-.04em;
   background:linear-gradient(180deg,rgba(178,203,230,.18) 0%,rgba(147,172,198,.03) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;z-index:1}
-.ic-mini{position:absolute;right:88px;top:170px;width:84px;height:84px;opacity:.9;z-index:2}
+.emb.mini{position:absolute;left:88px;top:66px;gap:18px;z-index:2}
+.emb.mini .ic{width:60px;height:60px}
+.emb.mini .flag{height:40px;outline-offset:5px}
 .numeros{margin-top:70px}
 .numeros .lin{display:flex;align-items:baseline;justify-content:space-between;padding:34px 0;border-top:1px solid rgba(147,172,198,.18)}
 .numeros .lin:last-child{border-bottom:1px solid rgba(147,172,198,.18)}
@@ -81,7 +85,9 @@ body{background:#0e1424;font-family:var(--fonte);color:var(--branco);
 /* card para WhatsApp */
 .card{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:0}
 .card .numeral{right:auto;left:50%;transform:translateX(-50%);top:110px;font-size:500px}
-.card .ic{width:112px;height:112px;margin-top:560px;position:relative;z-index:2}
+.card .emb{margin-top:560px;position:relative;z-index:2;justify-content:center}
+.card .emb .ic{width:112px;height:112px}
+.card .emb .flag{height:96px}
 .card .mes{margin-top:40px;font-size:22px;letter-spacing:.26em;text-transform:uppercase;color:var(--azul-claro);position:relative;z-index:2}
 .card h1{position:relative;z-index:2;font-weight:700;font-size:80px;line-height:1.05;margin-top:18px;max-width:860px}
 .card .frase{position:relative;z-index:2;font-size:32px;line-height:1.45;color:var(--azul-suave);margin-top:34px;max-width:800px}
@@ -96,6 +102,12 @@ const D = /*DADOS*/null;
 const LOGO = "/*LOGO*/";
 const G = 'fill="none" stroke="#c6a15b" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"';
 const ICONES = {
+  mae:`<circle cx="19" cy="11" r="5"/><circle cx="29.5" cy="21.5" r="3.6"/><path d="M15.5 16.5C10.5 19 9 25 10 31c.8 5 .5 9-1 13"/><path d="M22.5 16.5c2 1.2 3 2.6 3.6 4.2"/><path d="M12.5 31.5c4.5 4 12.5 4.5 19-.5 2.5-2 2.8-4.5 1.5-6.5"/><path d="M26 24.5c-2.5 1.2-4 3.5-4 6.5"/><path d="M33.5 30c1.5 4.5 1.5 9.5 0 14"/>`,
+  amizade:`<g transform="scale(2)" stroke-width=".8"><path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" /><path d="M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1 -1a3.182 3.182 0 0 1 4.5 0l2.25 2.25" /><path d="M12.5 15.5l2 2" /><path d="M15 13l2 2" /></g>`,
+  cuidado:`<g transform="scale(.1875)" fill="#c6a15b" stroke="none"><path d="M227.9,144.24a20.45,20.45,0,0,0-17.84-3.53l-11.95,2.75C223.26,121.88,236,100.58,236,80c0-24.26-19.5-44-43.46-44A43.41,43.41,0,0,0,156,55.44,43.41,43.41,0,0,0,119.46,36C95.5,36,76,55.74,76,80c0,11.85,4.11,23.44,12.81,36a27.8,27.8,0,0,0-18.67,8.17L46.34,148H16A12,12,0,0,0,4,160v40a12,12,0,0,0,12,12H120a4,4,0,0,0,1-.12l64-16a4.69,4.69,0,0,0,.6-.2l38.82-16.54.22-.1a20.6,20.6,0,0,0,3.29-34.8ZM119.46,44A35.15,35.15,0,0,1,152.3,65.52a4,4,0,0,0,7.4,0A35.15,35.15,0,0,1,192.54,44C211.76,44,228,60.49,228,80c0,21.27-16.13,44-47.94,67.61L160.75,152A23.76,23.76,0,0,0,164,140a24,24,0,0,0-24-24H98.69C88.69,103,84,91.5,84,80,84,60.49,100.24,44,119.46,44ZM12,200V160a4,4,0,0,1,4-4H44v48H16A4,4,0,0,1,12,200Zm209.13-28.17L182.72,188.2,119.51,204H52V153.66l23.8-23.8A19.86,19.86,0,0,1,89.94,124H140a16,16,0,0,1,0,32H112a4,4,0,0,0,0,8h32a3.94,3.94,0,0,0,.9-.1l67-15.41.16,0a12.6,12.6,0,0,1,9,23.38Z"/></g>`,
+  idoso:`<g transform="scale(2)" stroke-width=".8"><path d="M11 21l-1 -4l-2 -3v-6" /><path d="M5 14l-1 -3l4 -3l3 2l3 .5" /><path d="M7 4a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M7 17l-2 4" /><path d="M16 21v-8.5a1.5 1.5 0 0 1 3 0v.5" /></g>`,
+  sacola:`<g transform="scale(2)" stroke-width=".8"><path d="M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304" /><path d="M9 11v-5a3 3 0 0 1 6 0v5" /></g>`,
+  tulipa:`<g transform="scale(.1875)" fill="#c6a15b" stroke="none"><path d="M208,52a83.5,83.5,0,0,0-37,8.62c-14.2-26.46-40-39.63-41.19-40.2a4,4,0,0,0-3.58,0c-1.14.57-27,13.74-41.19,40.2A83.5,83.5,0,0,0,48,52a4,4,0,0,0-4,4V96a84.1,84.1,0,0,0,80,83.9v45.63L81.79,204.42a4,4,0,1,0-3.58,7.16l48,24a4,4,0,0,0,3.58,0l48-24a4,4,0,0,0-3.58-7.16L132,225.53V179.9A84.1,84.1,0,0,0,212,96V56A4,4,0,0,0,208,52ZM128,28.56c5.91,3.37,25,15.45,36,35.93a84.46,84.46,0,0,0-36,45.92A84.46,84.46,0,0,0,92,64.49C103,44.07,122.1,31.94,128,28.56ZM52,96V60.1A76.11,76.11,0,0,1,124,136v35.9A76.11,76.11,0,0,1,52,96Zm152,0a76.11,76.11,0,0,1-72,75.9V136a76.11,76.11,0,0,1,72-75.9Z"/></g>`,
   casa:`<path d="M7 23 24 9l17 14"/><path d="M12 19v21h24V19"/><path d="M21 40V30h6v10"/><path d="M33 13V8h3v8"/>`,
   estrela:`<path d="M24 6l4.6 12.2L41 19l-9.6 8 3.2 12.6L24 32.6l-10.6 7 3.2-12.6L7 19l12.4-.8z"/><path d="M24 2v1.5M24 44.5V46M3 24h1.5M43.5 24H45"/>`,
   ampulheta:`<path d="M15 6h18M15 42h18"/><path d="M17 6c0 9 14 11 14 18s-14 9-14 18"/><path d="M31 6c0 9-14 11-14 18s14 9 14 18"/><path d="M20 38c1.5-2.5 6.5-2.5 8 0"/>`,
@@ -104,8 +116,8 @@ const ICONES = {
   balanca:`<path d="M24 8v32M15 40h18M9 14h30"/><circle cx="24" cy="8" r="2"/><path d="M9 14 4 27a5 5 0 0 0 10 0z"/><path d="M39 14l-5 13a5 5 0 0 0 10 0z"/>`,
   flor:`<circle cx="24" cy="17" r="3.2"/><path d="M24 13.8c-2.5-4-1.5-8 0-9.8 1.5 1.8 2.5 5.8 0 9.8zM27.2 17c4-2.5 8-1.5 9.8 0-1.8 1.5-5.8 2.5-9.8 0zM24 20.2c2.5 4 1.5 8 0 9.8-1.5-1.8-2.5-5.8 0-9.8zM20.8 17c-4 2.5-8 1.5-9.8 0 1.8-1.5 5.8-2.5 9.8 0z"/><path d="M24 30v14"/><path d="M24 38c-4-.5-7-3-8-7 4 0 7 2.5 8 7z"/>`,
   aneis:`<circle cx="18.5" cy="28" r="10.5"/><circle cx="29.5" cy="28" r="10.5"/><path d="M15 14.5l3.5-4.5 3.5 4.5-3.5 2z"/>`,
-  arvore:`<path d="M24 43V25"/><path d="M24 31l-6-5M24 28l6-6"/><path d="M24 5a10 10 0 0 1 10 10 8 8 0 0 1-3 15.5H17A8 8 0 0 1 14 15 10 10 0 0 1 24 5z"/><path d="M17 43h14"/>`,
-  bussola:`<circle cx="24" cy="24" r="17"/><path d="M24 11l4 13-4 13-4-13z"/><circle cx="24" cy="24" r="1.6"/><path d="M24 4v3M24 41v3M4 24h3M41 24h3"/>`,
+  arvore:`<path d="M8 44h32"/><path d="M21.6 44c1-4 1.4-8.5 1.1-13.5M26.4 44c-1-4-1.4-8.5-1.1-13.5"/><path d="M22.7 30.5c-2.4-1-4.4-2.8-5.6-5.4M25.3 30.5c2.4-1.2 4.2-3.2 5.3-6M24 30.5v-8"/><path d="M14.5 30.5c-3.6 0-6.5-2.8-6.5-6.3 0-2.4 1.3-4.4 3.3-5.5-.1-.4-.1-.8-.1-1.2 0-3.5 2.9-6.3 6.4-6.3.4 0 .9 0 1.3.1C20 8 22.8 6 26 6c3.9 0 7.1 2.9 7.5 6.6 3.1.6 5.5 3.3 5.5 6.5 0 .8-.1 1.5-.4 2.2 1.5 1.1 2.4 2.8 2.4 4.7 0 3.1-2.6 5.6-5.8 5.6-.9 0-1.7-.2-2.5-.5-1.1.9-2.6 1.4-4.2 1.4-1.1 0-2.2-.3-3.1-.8-.9.5-2 .8-3.2.8-1.4 0-2.7-.4-3.7-1.1-1 .7-2.3 1.1-3.6 1.1z"/><path d="M13.5 22.5c.8-1.6 2.4-2.6 4.2-2.7M29.5 15c1.5.4 2.7 1.4 3.3 2.8M22 13.2c1-1.2 2.6-1.8 4.2-1.6"/>`,
+  bussola:`<circle cx="24" cy="24" r="17"/><g transform="rotate(45 24 24)"><path d="M24 11l4 13-4 13-4-13z"/><path d="M24 11l4 13h-8z" fill="#c6a15b"/></g><circle cx="24" cy="24" r="1.6" fill="#1f2a43"/><path d="M24 4v3M24 41v3M4 24h3M41 24h3"/>`,
   chave:`<circle cx="15" cy="24" r="7.5"/><circle cx="15" cy="24" r="2.2"/><path d="M22.5 24H43M37 24v6M42 24v4"/>`,
   escudo:`<path d="M24 5l15 5.5V22c0 10-6.5 17-15 21-8.5-4-15-11-15-21V10.5z"/><path d="M17 24l5 5 9-10"/>`,
   pipa:`<path d="M24 4 36 18 24 34 12 18z"/><path d="M12 18h24M24 4v30"/><path d="M24 34c-2.5 3 2.5 4 0 7s2.5 3.5 1 6"/><path d="M21.5 39.5l-2.5-1.5v3zM26 43.5l2.5-1.5v3z"/>`,
@@ -131,6 +143,9 @@ const ICONES = {
   palmeira:`<path d="M24 44c0-11 1-19 3-26"/><path d="M27 18c-4-6-12-6.5-16-2 6-1 11 0 16 2zM27 18c3-7 11-9 16-6-6 0-11 2-16 6zM27 18c-8-1-14 3-15 9 4-4 9-7 15-9zM27 18c7 0 12 5 12 11-3-5-7-8-12-11z"/><path d="M18 44h14"/>`
 };
 const icone = (k, cls="ic") => `<svg class="${cls}" viewBox="0 0 48 48" ${G}>${ICONES[k]}</svg>`;
+const BANDEIRAS = /*BANDEIRAS*/{};
+// emblema: ícone dourado, bandeira (cores reais) ou os dois lado a lado
+const emblema = (cls="") => `<div class="emb ${cls}">${D.icone ? icone(D.icone) : ""}${D.bandeira ? `<img class="flag" src="${BANDEIRAS[D.bandeira]}" alt="">` : ""}</div>`;
 const Q = D.quando;
 const total = 2 + D.slides.length;
 const topo = `<div class="topo"><span class="data">${Q.dia} de ${Q.mes}</span></div>`;
@@ -140,7 +155,7 @@ const num2 = String(Q.dia).padStart(2, "0");
 
 let html = `<section class="slide" id="s1">${topo}
   <div class="numeral">${num2}</div>
-  <div class="capa-corpo">${icone(D.icone)}
+  <div class="capa-corpo">${emblema()}
     <h1>${D.capa.titulo}</h1>
     <p class="frase">${D.capa.frase}</p>
   </div>${rodape(1)}</section>`;
@@ -156,7 +171,7 @@ D.slides.forEach((s, i) => {
     corpo = `<div class="numeros">${s.numeros.map(x => `<div class="lin"><span class="v">${x.v}</span><span class="r">${x.r}</span></div>`).join("")}</div>`;
   }
   const fonte = s.fonte ? `<div class="fonte">${s.fonte}</div>` : "";
-  html += `<section class="slide miolo" id="s${n}">${topo}${icone(D.icone, "ic-mini")}
+  html += `<section class="slide miolo" id="s${n}">${topo}${emblema("mini")}
     <div class="cab"><div class="rot">${s.rotulo}</div><h1>${s.titulo}</h1></div>
     ${corpo}${fonte}${rodape(n)}</section>`;
 });
@@ -175,7 +190,7 @@ html += `<section class="slide" id="s${total}">${topo}
 // card para mandar ao cliente no WhatsApp (não entra no carrossel)
 html += `<section class="slide card" id="card">
   <div class="numeral">${num2}</div>
-  ${icone(D.icone)}
+  ${emblema()}
   <div class="mes">${Q.dia} de ${Q.mes}</div>
   <h1>${D.capa.titulo}</h1>
   <p class="frase">${D.fecho.texto}</p>

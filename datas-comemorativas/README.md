@@ -7,7 +7,8 @@ As profissões (Dia do Médico, do Servidor etc.) ficam no calendário das profi
 ## Estrutura
 
 ```
-calendario.json              as 14 datas: regra da data, ícone, textos das telas, legenda, mensagem ao cliente, regra da lista
+calendario.json              as 34 datas: regra da data, ícone, textos das telas, legenda, mensagem ao cliente, regra da lista
+bandeiras/                   bandeiras em SVG (flag-icons, MIT) das datas de país
 template/data-carrossel.html template único; desenha capa, miolo (educativo, texto ou números), fechamento e o card do WhatsApp
 render.py                    valida (tamanhos, travessão, palavras de risco, limite do Instagram) e gera saida/AAAA-MM-DD/DATA-slug/
 listas.py                    lê o export da Base XP/CRM (CSV ou XLSX) e gera listas/AAAA-MM-DD-slug.csv com a mensagem personalizada
@@ -39,7 +40,7 @@ Rodar: `python3 render.py --de 2026-11-12 --ate 2027-11-11 --chrome /caminho/do/
 | 6/2/2027 | 07:40 | Ano Novo Lunar | 2 | sem CTA | pendente |
 | 8/2/2027 | 07:40 | Carnaval | 3 | sem CTA | pendente |
 | 8/3/2027 | 07:40 | Dia Internacional da Mulher | 2 | sem CTA | aprovada |
-| 15/3/2027 | 07:40 | Dia do Consumidor | 3 | WhatsApp (21) 98500-4567 | aprovada |
+| 15/3/2027 | 07:40 | Dia do Consumidor | 4 | WhatsApp (21) 98500-4567 | pendente (conteúdo novo) |
 | 17/3/2027 | 07:40 | St. Patrick's Day (Irlanda) | 2 | sem CTA | pendente |
 | 26/3/2027 | 07:40 | Sexta-feira Santa | 2 | sóbrio | aprovada |
 | 21/4/2027 | 07:40 | Tiradentes | 2 | sem CTA | aprovada |
@@ -64,6 +65,10 @@ Rodar: `python3 render.py --de 2026-11-12 --ate 2027-11-11 --chrome /caminho/do/
 | 2/11/2027 | 07:40 | Finados | 2 | sóbrio | aprovada |
 
 Não entram: Corpus Christi (ponto facultativo), Páscoa (coberta pela Sexta-feira Santa) e Black Friday. Nenhuma peça cita número de países (decisão de 15/11/2026: a lista de países muda sempre).
+
+## Ícones e bandeiras
+
+Ícones em traço dourado no `template/data-carrossel.html` (`ICONES`). Desenhos próprios e, desde 15/11/2026, alguns do Tabler Icons (sacola, idoso com bengala, aperto de mão com coração; MIT) e do Phosphor Icons, peso thin (tulipa, mão com coração; MIT). Datas de país usam a bandeira em cores reais (campo `bandeira` no `calendario.json`, arquivos em `bandeiras/`, do pacote flag-icons, MIT): Irlanda, Itália, Canadá, EUA e Independência do Brasil; Portugal leva caravela e bandeira. Nas telas do meio o emblema fica pequeno no canto superior esquerdo, longe do título.
 
 ## Regras de conteúdo (da skill maison)
 
