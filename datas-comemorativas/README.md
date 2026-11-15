@@ -73,7 +73,7 @@ Não entram: Corpus Christi (ponto facultativo), Páscoa (coberta pela Sexta-fei
 - CTA por data, ligado ao tema: simulador de renda, simulador do Tesouro, mapa dos investimentos, câmbio, agenda ou WhatsApp. Datas de relação (Natal, Mulher, Pais, Cliente, Amigo) e datas sóbrias (Consciência Negra, Sexta-feira Santa, Finados) saem sem CTA; as sóbrias também sem o lema.
 - Natal fala em clientes "ao redor do mundo", sem o número de países.
 - Sem travessão, sem "garantido", "grátis", "consultoria", "gestão" (o `render.py` recusa).
-- Todo post leva o lockup Maison Invest | XP e, na última tela, a linha "assessora de investimentos credenciada à XP Investimentos". A legenda não leva identificação nem ouvidoria (decisão de 15/11/2026).
+- Todo post leva o lockup Maison Invest | XP nas telas. Nem a legenda nem as telas levam a frase "assessora de investimentos credenciada à XP Investimentos" ou a ouvidoria (decisão do Gustavo de 15/11/2026).
 
 ## Listas de clientes
 
@@ -91,7 +91,7 @@ Em outubro, rodar `render.py` para os 12 meses seguintes e mandar a galeria para
 
 ## Pendências
 
-- `bloco_xp.txt` fica vazio: desde 15/11/2026 a legenda não leva identificação da XP nem ouvidoria (decisão do Gustavo, ciente de que a Res. CVM 178, art. 24 pede as duas). A identificação continua só na imagem: lockup Maison Invest | XP e a linha "assessora de investimentos credenciada à XP Investimentos" na última tela.
+- `bloco_xp.txt` fica vazio: desde 15/11/2026 a legenda não leva identificação da XP nem ouvidoria (decisão do Gustavo, ciente de que a Res. CVM 178, art. 24 pede as duas). A identificação fica só no lockup Maison Invest | XP das telas; a linha "assessora credenciada à XP" também saiu da última tela.
 - Confirmar a história pessoal no Dia dos Pais.
 - Criar no CRM os campos "filhos" e "netos" se quiser as listas de Mães, Pais, Avós e a parte "com filhos" das Crianças.
 - Trocar Montserrat por Gotham se o ambiente de render tiver a fonte.
