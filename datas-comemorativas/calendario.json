@@ -1,0 +1,1168 @@
+{
+  "versao": "2026-11-12",
+  "perfil": "@maison.invest",
+  "horario_publicacao": "07:40",
+  "fora_deste_calendario": {
+    "profissoes": "Dia do Médico, do Servidor Público etc. ficam no calendário das profissões (outra frente do projeto).",
+    "nao_entram": "Carnaval e Corpus Christi (pontos facultativos, não feriados nacionais), Páscoa (coberta pela Sexta-feira Santa) e Black Friday. Nossa Senhora Aparecida (12/10) vira uma linha na legenda do Dia das Crianças."
+  },
+  "datas": [
+    {
+      "slug": "proclamacao",
+      "nome": "Proclamação da República",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 11,
+        "dia": 15
+      },
+      "icone": "coluna",
+      "capa": {
+        "titulo": "Proclamação da República",
+        "frase": "República vem do latim res publica: a coisa pública."
+      },
+      "slides": [
+        {
+          "tipo": "edu",
+          "rotulo": "Você sabia?",
+          "titulo": "Emprestar para a República",
+          "itens": [
+            {
+              "t": "Tesouro Selic",
+              "d": "Acompanha a taxa básica de juros, com liquidez diária."
+            },
+            {
+              "t": "Tesouro Prefixado",
+              "d": "A taxa fica definida no dia da compra."
+            },
+            {
+              "t": "Tesouro IPCA+",
+              "d": "Paga a inflação mais uma taxa, protegendo o poder de compra."
+            }
+          ],
+          "fonte": "Fonte: Tesouro Nacional. Vendidos antes do vencimento, os títulos seguem o preço de mercado e podem ter perda."
+        }
+      ],
+      "fecho": {
+        "titulo": "Viva a República.",
+        "texto": "Comprar um título público é emprestar ao país, com prazo e regras definidos na compra."
+      },
+      "cta": {
+        "rotulo": "Simule",
+        "convite": "Quanto rende um título do Tesouro no prazo que você escolher.",
+        "destino": "hubmaison.com/simuladortesouronacional",
+        "legenda": "Para simular um título do Tesouro Direto no prazo que você escolher, use o simulador em hubmaison.com/simuladortesouronacional."
+      },
+      "sobrio": false,
+      "legenda": "Hoje é dia da Proclamação da República.\n\nRepública vem do latim res publica, a coisa pública. E há um jeito direto de participar dela como investidor: comprar um título público é emprestar dinheiro ao país, com prazo e regras definidos na compra.\n\nO Tesouro Selic acompanha a taxa básica de juros e tem liquidez diária. O Tesouro Prefixado tem a taxa definida no dia da compra. O Tesouro IPCA+ paga a inflação mais uma taxa, o que protege o poder de compra no longo prazo.\n\nVendidos antes do vencimento, os títulos seguem o preço de mercado e podem ter ganho ou perda. Os rendimentos pagam IR pela tabela regressiva.",
+      "hashtags": "#ProclamacaoDaRepublica #TesouroDireto #EducacaoFinanceira #MaisonInvest",
+      "mensagem_cliente": null,
+      "lista": {
+        "regra": "nenhuma",
+        "descricao": "Só post, sem mensagem individual."
+      },
+      "confirmar": [],
+      "fonte_data": "Lei 662/1949"
+    },
+    {
+      "slug": "consciencia-negra",
+      "nome": "Dia Nacional de Zumbi e da Consciência Negra",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 11,
+        "dia": 20
+      },
+      "icone": "chama",
+      "capa": {
+        "titulo": "Consciência Negra",
+        "frase": "Dia Nacional de Zumbi e da Consciência Negra. Memória, respeito e igualdade."
+      },
+      "slides": [],
+      "fecho": {
+        "titulo": "Memória e respeito.",
+        "texto": "Lembrar a história é parte do compromisso com um país de oportunidades iguais."
+      },
+      "cta": null,
+      "sobrio": true,
+      "legenda": "Hoje é o Dia Nacional de Zumbi e da Consciência Negra, feriado nacional desde a Lei 14.759/2023.\n\nUma data para lembrar a história de Zumbi dos Palmares e a contribuição da população negra na formação do Brasil, e para renovar o compromisso com um país de oportunidades iguais.",
+      "hashtags": "#ConscienciaNegra #20deNovembro",
+      "mensagem_cliente": null,
+      "lista": {
+        "regra": "nenhuma",
+        "descricao": "Só post, sem mensagem individual."
+      },
+      "confirmar": [],
+      "fonte_data": "Lei 14.759/2023"
+    },
+    {
+      "slug": "thanksgiving",
+      "nome": "Thanksgiving (Ação de Graças, EUA)",
+      "regra": {
+        "tipo": "nth",
+        "mes": 11,
+        "dia_semana": 3,
+        "n": 4
+      },
+      "icone": "trigo",
+      "capa": {
+        "titulo": "Thanksgiving",
+        "frase": "Aos nossos clientes nos Estados Unidos, e a todos que confiam na Maison: obrigado."
+      },
+      "slides": [],
+      "fecho": {
+        "titulo": "Happy Thanksgiving.",
+        "texto": "Gratidão é a palavra do dia. A nossa vai para cada cliente, aqui e ao redor do mundo."
+      },
+      "cta": null,
+      "sobrio": false,
+      "legenda": "Happy Thanksgiving!\n\nHoje, nos Estados Unidos, é dia de Ação de Graças. Aos nossos clientes que vivem lá, e a todos que confiam na Maison, aqui e ao redor do mundo, o nosso obrigado.",
+      "hashtags": "#Thanksgiving #AcaoDeGracas #MaisonInvest",
+      "mensagem_cliente": "Hi, {nome}! Happy Thanksgiving para você e para toda a sua família. Obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "pais:estados unidos|eua|usa|united states",
+        "descricao": "Clientes com país de residência nos Estados Unidos, se o cadastro tiver o campo."
+      },
+      "confirmar": []
+    },
+    {
+      "slug": "familia",
+      "nome": "Dia Nacional da Família",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 12,
+        "dia": 8
+      },
+      "fonte_data": "Decreto 52.748/1963",
+      "icone": "casa",
+      "capa": {
+        "titulo": "Dia da Família",
+        "frase": "Maison, em francês, quer dizer casa. E toda casa começa por quem mora nela."
+      },
+      "slides": [],
+      "fecho": {
+        "titulo": "Feliz Dia da Família.",
+        "texto": "Obrigado por deixar a Maison fazer parte da sua. Seguimos juntos, em todas as etapas da vida."
+      },
+      "legenda": "Hoje é Dia Nacional da Família.\n\nMaison, em francês, quer dizer casa. O nome foi escolhido porque é assim que entendemos o nosso trabalho: conhecer quem mora em cada casa, os planos de cada geração e o que importa para cada família.\n\nA todos que confiam à Maison uma parte da sua história, o nosso obrigado. Seguimos juntos, em todas as etapas da sua vida.",
+      "hashtags": "#DiaDaFamilia #Familia #MaisonInvest",
+      "mensagem_cliente": "Olá, {nome}! Hoje é Dia Nacional da Família. Maison quer dizer casa, e é uma alegria fazer parte da sua. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "todos",
+        "descricao": "Todos os clientes ativos."
+      },
+      "confirmar": [],
+      "cta": {
+        "rotulo": "Para a sua família",
+        "convite": "Uma conversa reservada sobre os planos de cada geração.",
+        "destino": "Agenda online, link na bio",
+        "legenda": "Para uma conversa reservada sobre os planos da sua família, a agenda online está no link da bio."
+      },
+      "sobrio": false
+    },
+    {
+      "slug": "natal",
+      "nome": "Natal",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 12,
+        "dia": 25
+      },
+      "icone": "estrela",
+      "capa": {
+        "titulo": "Feliz Natal",
+        "frase": "Que a mesa esteja cheia, e a conversa, sem pressa."
+      },
+      "slides": [],
+      "fecho": {
+        "titulo": "Obrigado por mais um ano de confiança.",
+        "texto": "A cada cliente, aqui e ao redor do mundo, o mesmo desejo: um Natal ao lado de quem você ama."
+      },
+      "legenda": "Feliz Natal!\n\nMais um ano termina, e ele foi construído conversa a conversa, com cada cliente que dividiu conosco seus planos, suas dúvidas e suas conquistas.\n\nA cada cliente, aqui e ao redor do mundo, desejamos um Natal com a mesa cheia e a conversa sem pressa. Obrigado pela confiança.",
+      "hashtags": "#FelizNatal #Natal #MaisonInvest",
+      "mensagem_cliente": "Olá, {nome}! Feliz Natal para você e para toda a sua família. Obrigado pela confiança em mais um ano. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "todos",
+        "descricao": "Todos os clientes ativos."
+      },
+      "confirmar": [],
+      "cta": null,
+      "sobrio": false
+    },
+    {
+      "slug": "ano-novo",
+      "nome": "Ano Novo",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 1,
+        "dia": 1
+      },
+      "icone": "ampulheta",
+      "capa": {
+        "titulo": "Feliz {ano}",
+        "frase": "Um ano novo começa melhor com as perguntas certas."
+      },
+      "slides": [
+        {
+          "tipo": "edu",
+          "rotulo": "Para começar o ano",
+          "titulo": "Três perguntas para o seu patrimônio",
+          "itens": [
+            {
+              "t": "Onde está tudo?",
+              "d": "Contas, investimentos e previdência: em quantas instituições?"
+            },
+            {
+              "t": "Para que serve cada parte?",
+              "d": "Reserva, objetivos de médio prazo e de longo prazo."
+            },
+            {
+              "t": "O que mudou na sua vida?",
+              "d": "Casamento, filhos, empresa, mudança de país: o plano acompanha."
+            }
+          ],
+          "fonte": ""
+        }
+      ],
+      "fecho": {
+        "titulo": "Vamos ler o conjunto juntos?",
+        "texto": "Custódias diferentes, em instituições diferentes, cabem numa leitura só."
+      },
+      "legenda": "Feliz {ano}!\n\nAntes das metas do ano, vale uma pausa para três perguntas simples sobre o seu patrimônio:\n\n1. Onde está tudo? Contas, investimentos e previdência costumam ficar espalhados por várias instituições.\n2. Para que serve cada parte? Reserva de emergência, objetivos de médio prazo e de longo prazo pedem prazos e riscos diferentes.\n3. O que mudou na sua vida? Casamento, filhos, uma empresa nova ou uma mudança de país mudam o plano também.\n\nSe quiser fazer esse exercício com a gente, a primeira conversa é para entender o conjunto, não para trocar nada.",
+      "hashtags": "#AnoNovo #Planejamento #MaisonInvest",
+      "mensagem_cliente": "Olá, {nome}! Feliz {ano}! Que seja um ano de boas escolhas e de muita saúde. Se quiser começar revisando o conjunto do seu patrimônio, é só me chamar. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "todos",
+        "descricao": "Todos os clientes ativos."
+      },
+      "confirmar": [],
+      "cta": {
+        "rotulo": "Para começar o ano",
+        "convite": "Uma leitura do seu patrimônio, sem pressa e sem trocar nada.",
+        "destino": "Agenda online, link na bio",
+        "legenda": "Se quiser começar o ano com essa leitura, a agenda online está no link da bio."
+      },
+      "sobrio": false
+    },
+    {
+      "slug": "aposentado",
+      "nome": "Dia do Aposentado",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 1,
+        "dia": 24
+      },
+      "icone": "horizonte",
+      "capa": {
+        "titulo": "Dia do Aposentado",
+        "frase": "Para quem já chegou lá, e para quem está construindo o caminho."
+      },
+      "slides": [
+        {
+          "tipo": "edu",
+          "rotulo": "Você sabia?",
+          "titulo": "Previdência privada em três ideias",
+          "itens": [
+            {
+              "t": "PGBL ou VGBL",
+              "d": "O PGBL pode reduzir o IR na declaração completa; no VGBL, o IR incide só sobre o rendimento."
+            },
+            {
+              "t": "Tabela regressiva",
+              "d": "A alíquota cai com o tempo e chega a 10% depois de 10 anos."
+            },
+            {
+              "t": "Escolha no resgate",
+              "d": "Desde 2024, o regime de IR pode ser escolhido até o primeiro resgate ou benefício."
+            }
+          ],
+          "fonte": "Fontes: Lei 11.053/2004 e Lei 14.803/2024. Conteúdo educativo, não é recomendação de investimento."
+        }
+      ],
+      "fecho": {
+        "titulo": "Feliz Dia do Aposentado.",
+        "texto": "A quem trabalhou a vida inteira, e a quem está planejando a sua: a gente gosta de conversar sobre o depois."
+      },
+      "legenda": "Hoje é Dia do Aposentado. Uma homenagem a quem já chegou lá e um lembrete para quem está construindo o caminho.\n\nTrês ideias sobre previdência privada:\n\nPGBL ou VGBL: o PGBL permite deduzir as contribuições da base do IR, até 12% da renda bruta tributável, para quem faz a declaração completa e contribui para a previdência oficial; no resgate, o IR incide sobre o valor total. No VGBL não há dedução, e o IR incide só sobre o rendimento.\nTabela regressiva: a alíquota começa em 35% e cai com o tempo de cada contribuição, até 10% depois de 10 anos.\nDesde a Lei 14.803/2024, a escolha entre tabela progressiva e regressiva pode ser feita até o primeiro resgate ou a obtenção do benefício.\n\nConteúdo educativo. Cada caso depende da sua renda, do seu prazo e da sua declaração.",
+      "hashtags": "#DiaDoAposentado #Previdencia #MaisonInvest",
+      "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Aposentado, e queremos homenagear você por toda uma vida de trabalho. Conte sempre com a gente. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "profissao_aposentado",
+        "descricao": "Clientes com a profissão cadastrada como aposentado(a). Não se infere pela idade."
+      },
+      "confirmar": [],
+      "cta": {
+        "rotulo": "Simule",
+        "convite": "A renda que o seu patrimônio pode gerar ao longo dos anos.",
+        "destino": "hubmaison.com/simuladorlongoprazo",
+        "legenda": "Para projetar a renda que o seu patrimônio pode gerar, use o Simulador de Renda em hubmaison.com/simuladorlongoprazo. Para conversar com um assessor, a agenda está no link da bio."
+      },
+      "sobrio": false
+    },
+    {
+      "slug": "mulher",
+      "nome": "Dia Internacional da Mulher",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 3,
+        "dia": 8
+      },
+      "icone": "ramo",
+      "capa": {
+        "titulo": "Dia Internacional da Mulher",
+        "frase": "Liberdade nas escolhas também é isto: decidir o próprio caminho."
+      },
+      "slides": [],
+      "fecho": {
+        "titulo": "Feliz Dia da Mulher.",
+        "texto": "A todas as clientes, parceiras e profissionais que fazem a Maison todos os dias."
+      },
+      "legenda": "Hoje é Dia Internacional da Mulher.\n\nO nosso lema começa por liberdade nas escolhas. Para nós, isso quer dizer respeitar cada caminho, cada plano e cada decisão de quem confia na Maison.\n\nA todas as clientes, parceiras e profissionais que fazem a Maison todos os dias, a nossa homenagem.",
+      "hashtags": "#DiaDaMulher #DiaInternacionalDaMulher #MaisonInvest",
+      "mensagem_cliente": "Olá, {nome}! Feliz Dia Internacional da Mulher. Obrigado por confiar na Maison. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "sexo_f",
+        "descricao": "Clientes com sexo feminino no cadastro."
+      },
+      "confirmar": [],
+      "cta": null,
+      "sobrio": false
+    },
+    {
+      "slug": "consumidor",
+      "nome": "Dia do Consumidor",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 3,
+        "dia": 15
+      },
+      "icone": "balanca",
+      "capa": {
+        "titulo": "Dia do Consumidor",
+        "frase": "Quem investe também é consumidor. E tem direitos."
+      },
+      "slides": [
+        {
+          "tipo": "edu",
+          "rotulo": "Você sabia?",
+          "titulo": "Três direitos de quem investe",
+          "itens": [
+            {
+              "t": "Saber como o assessor ganha",
+              "d": "O assessor descreve a própria remuneração sempre que você pedir."
+            },
+            {
+              "t": "Ver a remuneração na ordem",
+              "d": "Ao investir, a instituição informa quanto recebe pela distribuição do produto."
+            },
+            {
+              "t": "Ter a quem recorrer",
+              "d": "Toda instituição tem ouvidoria. A da XP está na legenda."
+            }
+          ],
+          "fonte": "Fontes: Resoluções CVM 178/2023 (art. 23) e 179/2023."
+        }
+      ],
+      "fecho": {
+        "titulo": "Transparência é o começo de toda relação.",
+        "texto": "Queremos muito mais te escutar do que falar."
+      },
+      "legenda": "15 de março, Dia do Consumidor. Quem investe também é consumidor, e tem direitos previstos nas normas da CVM:\n\nSaber como o assessor é remunerado: sempre que você pedir, o assessor de investimentos descreve as formas e os valores ou percentuais da sua remuneração (Resolução CVM 178/2023, art. 23).\nVer a remuneração no momento da ordem: a instituição informa quanto recebe pela distribuição do produto (Resolução CVM 179/2023).\nTer a quem recorrer: a ouvidoria da XP está logo abaixo.\n\nNa Maison, essas perguntas são bem-vindas. É assim que uma relação longa começa.",
+      "hashtags": "#DiaDoConsumidor #EducacaoFinanceira #MaisonInvest",
+      "mensagem_cliente": null,
+      "lista": {
+        "regra": "nenhuma",
+        "descricao": "Só post. Data informativa, sem mensagem individual."
+      },
+      "confirmar": [],
+      "cta": {
+        "rotulo": "Pergunte",
+        "convite": "Responder com clareza faz parte do nosso trabalho.",
+        "destino": "WhatsApp (21) 98500-4567",
+        "legenda": "Ficou alguma dúvida? Pergunte pelo WhatsApp (21) 98500-4567."
+      },
+      "sobrio": false
+    },
+    {
+      "slug": "sexta-santa",
+      "nome": "Sexta-feira Santa",
+      "regra": {
+        "tipo": "pascoa",
+        "deslocamento": -2
+      },
+      "icone": "cruz",
+      "capa": {
+        "titulo": "Sexta-feira Santa",
+        "frase": "Um dia de recolhimento, reflexão e fé."
+      },
+      "slides": [],
+      "fecho": {
+        "titulo": "Uma boa Páscoa.",
+        "texto": "Que estes dias sejam de paz, ao lado de quem você ama."
+      },
+      "cta": null,
+      "sobrio": true,
+      "legenda": "Sexta-feira Santa.\n\nUm dia de recolhimento, reflexão e fé. Que estes dias de Páscoa sejam de paz, ao lado de quem você ama.",
+      "hashtags": "#SextaFeiraSanta #Pascoa",
+      "mensagem_cliente": null,
+      "lista": {
+        "regra": "nenhuma",
+        "descricao": "Só post, sem mensagem individual."
+      },
+      "confirmar": [],
+      "fonte_data": "Lei 9.093/1995"
+    },
+    {
+      "slug": "tiradentes",
+      "nome": "Tiradentes",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 4,
+        "dia": 21
+      },
+      "icone": "triangulo",
+      "capa": {
+        "titulo": "Tiradentes",
+        "frase": "Libertas quae sera tamen: liberdade, ainda que tardia."
+      },
+      "slides": [],
+      "fecho": {
+        "titulo": "Liberdade é escolha.",
+        "texto": "A liberdade abre o nosso lema. Nas escolhas, ela começa pela informação."
+      },
+      "cta": null,
+      "sobrio": false,
+      "legenda": "21 de abril, Tiradentes.\n\nLibertas quae sera tamen, liberdade ainda que tardia: o lema da Inconfidência Mineira atravessou mais de dois séculos.\n\nA liberdade também abre o nosso lema. Nas escolhas sobre o patrimônio, ela começa pela informação.",
+      "hashtags": "#Tiradentes #21deAbril #MaisonInvest",
+      "mensagem_cliente": null,
+      "lista": {
+        "regra": "nenhuma",
+        "descricao": "Só post, sem mensagem individual."
+      },
+      "confirmar": [],
+      "fonte_data": "Lei 662/1949"
+    },
+    {
+      "slug": "trabalho",
+      "nome": "Dia do Trabalho",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 5,
+        "dia": 1
+      },
+      "icone": "maleta",
+      "capa": {
+        "titulo": "Dia do Trabalho",
+        "frase": "O trabalho de hoje é o patrimônio de amanhã."
+      },
+      "slides": [
+        {
+          "tipo": "edu",
+          "rotulo": "Três hábitos",
+          "titulo": "Para quem vive do próprio trabalho",
+          "itens": [
+            {
+              "t": "Reserva de emergência",
+              "d": "Alguns meses do custo de vida, em aplicação com liquidez diária."
+            },
+            {
+              "t": "Pague-se primeiro",
+              "d": "Separe o investimento no dia em que a renda entra, não no fim do mês."
+            },
+            {
+              "t": "Proteja a renda",
+              "d": "Previdência e seguro de vida protegem quem depende do seu trabalho."
+            }
+          ],
+          "fonte": "Conteúdo educativo, não é recomendação de investimento."
+        }
+      ],
+      "fecho": {
+        "titulo": "Feliz Dia do Trabalho.",
+        "texto": "A todos que constroem, com o próprio trabalho, o futuro da família."
+      },
+      "cta": {
+        "rotulo": "Simule",
+        "convite": "Até onde o seu aporte mensal pode chegar no longo prazo.",
+        "destino": "hubmaison.com/simuladorlongoprazo",
+        "legenda": "Para ver até onde o seu aporte mensal pode chegar, use o Simulador de Renda em hubmaison.com/simuladorlongoprazo."
+      },
+      "sobrio": false,
+      "legenda": "1º de maio, Dia do Trabalho.\n\nO trabalho de hoje é o patrimônio de amanhã. Três hábitos ajudam nesse caminho:\n\nReserva de emergência: alguns meses do custo de vida, numa aplicação com liquidez diária, separada dos objetivos longos.\n\nPague-se primeiro: separe o valor do investimento no dia em que a renda entra, e não com o que sobra no fim do mês.\n\nProteja a renda: previdência e seguro de vida protegem quem depende do seu trabalho.\n\nA todos que constroem, com o próprio trabalho, o futuro da família, a nossa homenagem.",
+      "hashtags": "#DiaDoTrabalho #1deMaio #EducacaoFinanceira #MaisonInvest",
+      "mensagem_cliente": null,
+      "lista": {
+        "regra": "nenhuma",
+        "descricao": "Só post, sem mensagem individual."
+      },
+      "confirmar": [],
+      "fonte_data": "Lei 662/1949"
+    },
+    {
+      "slug": "maes",
+      "nome": "Dia das Mães",
+      "regra": {
+        "tipo": "domingo",
+        "mes": 5,
+        "n": 2
+      },
+      "icone": "flor",
+      "capa": {
+        "titulo": "Dia das Mães",
+        "frase": "Cuidar é, muitas vezes, pensar no amanhã de alguém."
+      },
+      "slides": [
+        {
+          "tipo": "edu",
+          "rotulo": "Cuidar também é planejar",
+          "titulo": "Três cuidados com o patrimônio da família",
+          "itens": [
+            {
+              "t": "Reserva da família",
+              "d": "Um valor com liquidez para imprevistos, separado dos objetivos longos."
+            },
+            {
+              "t": "Proteção para acumular",
+              "d": "Seguro de vida protege quem depende da sua renda enquanto o patrimônio cresce."
+            },
+            {
+              "t": "Conversa sobre sucessão",
+              "d": "Falar cedo sobre herança evita decisões apressadas depois."
+            }
+          ],
+          "fonte": "Conteúdo educativo, não é recomendação de investimento."
+        }
+      ],
+      "fecho": {
+        "titulo": "Feliz Dia das Mães.",
+        "texto": "A todas as mães que confiam à Maison um pedaço dos seus planos."
+      },
+      "legenda": "Feliz Dia das Mães!\n\nCuidar é, muitas vezes, pensar no amanhã de alguém. No patrimônio da família, esse cuidado costuma passar por três pontos:\n\nUma reserva com liquidez para imprevistos, separada dos objetivos de longo prazo.\nProteção para acumular: o seguro de vida protege quem depende da sua renda enquanto o patrimônio cresce.\nUma conversa sobre sucessão feita com calma, antes de ser necessária.\n\nA todas as mães que confiam à Maison um pedaço dos seus planos, a nossa homenagem.",
+      "hashtags": "#DiaDasMaes #Familia #MaisonInvest",
+      "mensagem_cliente": "Olá, {nome}! Feliz Dia das Mães! Que o seu dia seja leve e cheio de carinho. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "maes",
+        "descricao": "Clientes do sexo feminino com filhos marcados no CRM. Sem o campo de filhos, a lista sai vazia: nunca inferir maternidade pela idade."
+      },
+      "confirmar": [],
+      "cta": {
+        "rotulo": "Para a sua família",
+        "convite": "Uma conversa sobre proteção e sucessão, no seu tempo.",
+        "destino": "Agenda online, link na bio",
+        "legenda": "Para conversar com calma sobre proteção e sucessão, a agenda online está no link da bio."
+      },
+      "sobrio": false
+    },
+    {
+      "slug": "namorados",
+      "nome": "Dia dos Namorados",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 6,
+        "dia": 12
+      },
+      "icone": "aneis",
+      "capa": {
+        "titulo": "Dia dos Namorados",
+        "frase": "Planos a dois começam com uma conversa sincera."
+      },
+      "slides": [
+        {
+          "tipo": "edu",
+          "rotulo": "Dinheiro a dois",
+          "titulo": "Três conversas que todo casal deveria ter",
+          "itens": [
+            {
+              "t": "Regime de bens",
+              "d": "Sem pacto, vale a comunhão parcial, no casamento e na união estável."
+            },
+            {
+              "t": "Objetivos em comum",
+              "d": "Casa, viagem, filhos: o que é de cada um e o que é do casal."
+            },
+            {
+              "t": "Uma leitura só",
+              "d": "Na Maison Wealth, o relatório mensal pode ser feito para o cliente e o cônjuge."
+            }
+          ],
+          "fonte": "Fonte: Código Civil, arts. 1.640 e 1.725. Conteúdo educativo."
+        }
+      ],
+      "fecho": {
+        "titulo": "Feliz Dia dos Namorados.",
+        "texto": "Que os planos de vocês tenham espaço para sonhar e método para chegar lá."
+      },
+      "legenda": "Feliz Dia dos Namorados!\n\nPlanos a dois começam com uma conversa sincera sobre dinheiro. Três pontos para essa conversa:\n\nRegime de bens: sem pacto antenupcial ou contrato escrito, vale a comunhão parcial, tanto no casamento quanto na união estável (Código Civil, arts. 1.640 e 1.725).\nObjetivos em comum: casa, viagem, filhos. Vale combinar o que é de cada um e o que é do casal.\nUma leitura só: na Maison Wealth Management, o relatório mensal pode ser feito para o cliente e para o cônjuge, com o patrimônio das diferentes instituições num lugar só.",
+      "hashtags": "#DiaDosNamorados #DinheiroADois #MaisonInvest",
+      "mensagem_cliente": "Olá, {nome}! Feliz Dia dos Namorados para vocês dois. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "casados",
+        "descricao": "Clientes com estado civil casado(a) ou em união estável, se o cadastro tiver o campo."
+      },
+      "confirmar": [],
+      "cta": {
+        "rotulo": "A dois",
+        "convite": "Uma leitura do patrimônio do casal, com os dois à mesa.",
+        "destino": "Agenda online, link na bio",
+        "legenda": "Para uma conversa a dois sobre o patrimônio do casal, a agenda online está no link da bio."
+      },
+      "sobrio": false
+    },
+    {
+      "slug": "independencia-eua",
+      "nome": "Independence Day (EUA)",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 7,
+        "dia": 4
+      },
+      "icone": "globo",
+      "capa": {
+        "titulo": "Independence Day",
+        "frase": "Aos clientes nos Estados Unidos, um feliz 4 de julho."
+      },
+      "slides": [
+        {
+          "tipo": "edu",
+          "rotulo": "Você sabia?",
+          "titulo": "Três caminhos para investir em dólar",
+          "itens": [
+            {
+              "t": "BDRs",
+              "d": "Recibos de ações estrangeiras, negociados na B3 em reais."
+            },
+            {
+              "t": "Fundos com exposição global",
+              "d": "Ativos no exterior dentro de um fundo brasileiro."
+            },
+            {
+              "t": "Conta no exterior",
+              "d": "Investimento direto lá fora, com câmbio e declaração próprios."
+            }
+          ],
+          "fonte": "Aplicações no exterior seguem a Lei 14.754/2023. Conteúdo educativo, não é recomendação."
+        }
+      ],
+      "fecho": {
+        "titulo": "Happy Fourth of July.",
+        "texto": "Ter parte do patrimônio em outra moeda é uma escolha de longo prazo."
+      },
+      "cta": {
+        "rotulo": "Câmbio",
+        "convite": "Cotação e envio de recursos ao exterior com a mesa da Maison.",
+        "destino": "hubmaison.com/cambio",
+        "legenda": "Para cotar e enviar recursos ao exterior com a mesa de câmbio da Maison, acesse hubmaison.com/cambio ou chame no WhatsApp (21) 98500-4567."
+      },
+      "sobrio": false,
+      "legenda": "Happy Fourth of July!\n\nAos nossos clientes que vivem nos Estados Unidos, um feliz Dia da Independência.\n\nE, para quem está no Brasil e quer ter parte do patrimônio em dólar, há três caminhos principais. Os BDRs são recibos de ações estrangeiras negociados na B3, em reais. Os fundos com exposição global reúnem ativos do exterior dentro de um fundo brasileiro. E a conta no exterior permite investir diretamente lá fora, com câmbio e declaração próprios. Desde a Lei 14.754/2023, os rendimentos de aplicações no exterior têm tributação específica.",
+      "hashtags": "#IndependenceDay #FourthOfJuly #InvestirNoExterior #MaisonInvest",
+      "mensagem_cliente": "Hi, {nome}! Happy Fourth of July! Um ótimo feriado para você e para a sua família. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "pais:estados unidos|eua|usa|united states",
+        "descricao": "Clientes com país de residência nos Estados Unidos, se o cadastro tiver o campo."
+      },
+      "confirmar": []
+    },
+    {
+      "slug": "franca",
+      "nome": "Fête nationale (14 de julho, França)",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 7,
+        "dia": 14
+      },
+      "icone": "arco",
+      "capa": {
+        "titulo": "Fête nationale",
+        "frase": "Liberté, égalité, fraternité. Duas dessas palavras estão no nosso lema."
+      },
+      "slides": [
+        {
+          "tipo": "texto",
+          "rotulo": "Um nome francês",
+          "titulo": "Por que Maison",
+          "marca": "1789",
+          "texto": "Maison quer dizer casa, em francês. E o nosso lema nasceu de valores que a França tornou universais: liberdade nas escolhas, fraternidade na relação. A expertise é a nossa parte."
+        }
+      ],
+      "fecho": {
+        "titulo": "Bonne fête nationale.",
+        "texto": "À França, que nos deu o nome e duas palavras do lema."
+      },
+      "cta": null,
+      "sobrio": false,
+      "legenda": "Bonne fête nationale!\n\nHoje a França celebra o 14 de julho. Liberté, égalité, fraternité: duas dessas palavras estão no nosso lema, e o próprio nome da casa veio do francês. Maison quer dizer casa.\n\nAos nossos clientes que vivem na França, e a todos que fazem parte desta casa, uma ótima data.",
+      "hashtags": "#14Juillet #FeteNationale #MaisonInvest",
+      "mensagem_cliente": "Bonjour, {nome}! Bonne fête nationale! Um ótimo 14 de julho para você. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "pais:franca|france",
+        "descricao": "Clientes com país de residência na França, se o cadastro tiver o campo."
+      },
+      "confirmar": []
+    },
+    {
+      "slug": "amigo",
+      "nome": "Dia do Amigo",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 7,
+        "dia": 20
+      },
+      "icone": "elo",
+      "capa": {
+        "titulo": "Dia do Amigo",
+        "frase": "Fraternidade na relação: está no nosso lema, e em cada cliente que virou amigo."
+      },
+      "slides": [],
+      "fecho": {
+        "titulo": "Feliz Dia do Amigo.",
+        "texto": "Obrigado por transformar uma relação de trabalho em amizade."
+      },
+      "cta": null,
+      "sobrio": false,
+      "legenda": "20 de julho, Dia do Amigo.\n\nFraternidade na relação está no nosso lema por um motivo: muitos dos nossos clientes viraram amigos ao longo dos anos. Obrigado por cada conversa, cada confiança e cada indicação.",
+      "hashtags": "#DiaDoAmigo #MaisonInvest",
+      "mensagem_cliente": "Olá, {nome}! Feliz Dia do Amigo. Obrigado por fazer da nossa relação de trabalho uma amizade. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "todos",
+        "descricao": "Todos os clientes ativos."
+      },
+      "confirmar": []
+    },
+    {
+      "slug": "avos",
+      "nome": "Dia dos Avós",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 7,
+        "dia": 26
+      },
+      "icone": "arvore",
+      "capa": {
+        "titulo": "Dia dos Avós",
+        "frase": "Algumas histórias atravessam gerações. Alguns planos também."
+      },
+      "slides": [
+        {
+          "tipo": "edu",
+          "rotulo": "Você sabia?",
+          "titulo": "Investir pensando nos netos",
+          "itens": [
+            {
+              "t": "Cadastro no nome da criança",
+              "d": "Na XP, quem abre é o responsável legal, pelo próprio app, com o CPF da criança."
+            },
+            {
+              "t": "Combinado com os pais",
+              "d": "Os avós podem contribuir; quem movimenta é o responsável legal."
+            },
+            {
+              "t": "Doação tem regra",
+              "d": "Transferir valores pode pagar ITCMD, imposto estadual. Vale conferir antes."
+            }
+          ],
+          "fonte": "Fonte: XP Investimentos, Conta Menor. Conteúdo educativo, não é recomendação."
+        }
+      ],
+      "fecho": {
+        "titulo": "Feliz Dia dos Avós.",
+        "texto": "A quem cuida do presente pensando em quem ainda vai chegar."
+      },
+      "legenda": "Hoje é Dia dos Avós.\n\nAlgumas histórias atravessam gerações, e alguns planos também. Para quem quer investir pensando nos netos:\n\nNa XP, a criança pode ter cadastro próprio de investimentos. Quem abre é o responsável legal, pelo próprio aplicativo, com o CPF da criança.\nOs avós podem contribuir, combinando com os pais; a movimentação fica com o responsável legal até a maioridade.\nTransferências entre familiares podem ser tratadas como doação e pagar ITCMD, imposto estadual com regras de cada estado. Vale conferir antes.\n\nA todos os avós que cuidam do presente pensando em quem ainda vai chegar, a nossa homenagem.",
+      "hashtags": "#DiaDosAvos #Familia #MaisonInvest",
+      "mensagem_cliente": "Olá, {nome}! Feliz Dia dos Avós! Que o seu dia seja cheio de netos por perto. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "avos",
+        "descricao": "Clientes com netos marcados no CRM. Sem o campo, a lista sai vazia."
+      },
+      "confirmar": [],
+      "cta": {
+        "rotulo": "Pelos netos",
+        "convite": "Como investir pensando em quem ainda vai crescer.",
+        "destino": "WhatsApp (21) 98500-4567",
+        "legenda": "Quer entender como investir pensando nos netos? Fale com a gente pelo WhatsApp (21) 98500-4567."
+      },
+      "sobrio": false
+    },
+    {
+      "slug": "pais",
+      "nome": "Dia dos Pais",
+      "regra": {
+        "tipo": "domingo",
+        "mes": 8,
+        "n": 2
+      },
+      "icone": "bussola",
+      "capa": {
+        "titulo": "Dia dos Pais",
+        "frase": "A Maison nasceu junto com uma filha."
+      },
+      "slides": [
+        {
+          "tipo": "texto",
+          "rotulo": "A nossa origem",
+          "titulo": "Começou com uma escolha",
+          "texto": "Em 2017, Gustavo Bailly trocou o salário fixo por empreender, com a filha recém-nascida nos braços. Ali nascia a Maison Invest: uma casa para cuidar dos planos de outras famílias como se fossem da nossa.",
+          "marca": "2017"
+        }
+      ],
+      "fecho": {
+        "titulo": "Feliz Dia dos Pais.",
+        "texto": "A todos os pais que constroem, todos os dias, o futuro de alguém."
+      },
+      "legenda": "Feliz Dia dos Pais!\n\nA Maison nasceu junto com uma filha. Em 2017, Gustavo Bailly trocou o salário fixo por empreender, com a filha recém-nascida. Daquela escolha nasceu a Maison Invest, com uma ideia simples: cuidar dos planos de outras famílias como se fossem da nossa.\n\nA todos os pais que constroem, todos os dias, o futuro de alguém, a nossa homenagem.",
+      "hashtags": "#DiaDosPais #Familia #MaisonInvest",
+      "mensagem_cliente": "Olá, {nome}! Feliz Dia dos Pais! Que o seu dia seja ao lado de quem você ama. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "pais",
+        "descricao": "Clientes do sexo masculino com filhos marcados no CRM. Sem o campo de filhos, a lista sai vazia."
+      },
+      "confirmar": [
+        "Usar a história pessoal (Gustavo e a filha) como no Dia dos Pais de 2026? Se preferir institucional, troca-se só o slide 2."
+      ],
+      "cta": null,
+      "sobrio": false
+    },
+    {
+      "slug": "independencia",
+      "nome": "Independência do Brasil",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 9,
+        "dia": 7
+      },
+      "icone": "bandeira",
+      "capa": {
+        "titulo": "Independência do Brasil",
+        "frase": "Independência também é um projeto financeiro."
+      },
+      "slides": [
+        {
+          "tipo": "edu",
+          "rotulo": "Independência financeira",
+          "titulo": "Três perguntas para chegar lá",
+          "itens": [
+            {
+              "t": "Quanto custa a sua vida?",
+              "d": "O gasto mensal da família hoje, e o que você quer para o futuro."
+            },
+            {
+              "t": "Quanto precisa render?",
+              "d": "A renda mensal que o patrimônio deve gerar, acima da inflação."
+            },
+            {
+              "t": "Em quanto tempo?",
+              "d": "O prazo define o aporte e o risco que faz sentido assumir."
+            }
+          ],
+          "fonte": "Conteúdo educativo, não é recomendação de investimento."
+        }
+      ],
+      "fecho": {
+        "titulo": "Feliz 7 de setembro.",
+        "texto": "Independência, para nós, é poder escolher. Com o patrimônio, isso começa pela conta certa."
+      },
+      "cta": {
+        "rotulo": "Calcule",
+        "convite": "O patrimônio que a sua independência pede, mês a mês.",
+        "destino": "hubmaison.com/simuladorlongoprazo",
+        "legenda": "Para calcular o patrimônio que a sua independência pede, use o Simulador de Renda em hubmaison.com/simuladorlongoprazo."
+      },
+      "sobrio": false,
+      "legenda": "7 de setembro, Independência do Brasil.\n\nIndependência também é um projeto financeiro, e ele começa com três perguntas:\n\nQuanto custa a sua vida? O gasto mensal da família hoje, e o que você quer para o futuro.\n\nQuanto o patrimônio precisa render? A renda mensal que ele deve gerar, acima da inflação.\n\nEm quanto tempo? O prazo define o aporte e o risco que faz sentido assumir.",
+      "hashtags": "#IndependenciaDoBrasil #7deSetembro #IndependenciaFinanceira #MaisonInvest",
+      "mensagem_cliente": null,
+      "lista": {
+        "regra": "nenhuma",
+        "descricao": "Só post, sem mensagem individual."
+      },
+      "confirmar": [],
+      "fonte_data": "Lei 662/1949"
+    },
+    {
+      "slug": "cliente",
+      "nome": "Dia do Cliente",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 9,
+        "dia": 15
+      },
+      "icone": "chave",
+      "capa": {
+        "titulo": "Dia do Cliente",
+        "frase": "Desde 2017, o cliente em 1º lugar."
+      },
+      "slides": [
+        {
+          "tipo": "numeros",
+          "rotulo": "Obrigado por fazer parte",
+          "titulo": "Uma casa que cresceu com você",
+          "numeros": [
+            {
+              "v": "2.000+",
+              "r": "clientes"
+            },
+            {
+              "v": "17",
+              "r": "países"
+            },
+            {
+              "v": "2017",
+              "r": "fundação"
+            }
+          ]
+        }
+      ],
+      "fecho": {
+        "titulo": "Obrigado.",
+        "texto": "Queremos muito mais te escutar do que falar. Hoje, queremos só agradecer."
+      },
+      "legenda": "15 de setembro, Dia do Cliente.\n\nDesde 2017, a Maison Invest tem uma regra que vem antes de todas: o cliente em 1º lugar. Hoje são mais de 2.000 clientes, em 17 países, e cada um deles faz parte desta casa.\n\nQueremos muito mais te escutar do que falar. Hoje, queremos só agradecer.",
+      "hashtags": "#DiaDoCliente #MaisonInvest",
+      "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Cliente, e o dia é seu. Obrigado por confiar na Maison. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "todos",
+        "descricao": "Todos os clientes ativos."
+      },
+      "confirmar": [],
+      "cta": null,
+      "sobrio": false
+    },
+    {
+      "slug": "idoso",
+      "nome": "Dia Internacional da Pessoa Idosa",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 10,
+        "dia": 1
+      },
+      "icone": "escudo",
+      "capa": {
+        "titulo": "Dia da Pessoa Idosa",
+        "frase": "Experiência merece respeito. E proteção."
+      },
+      "slides": [
+        {
+          "tipo": "edu",
+          "rotulo": "Cuidado com golpes",
+          "titulo": "Três regras que protegem o seu dinheiro",
+          "itens": [
+            {
+              "t": "Senha é só sua",
+              "d": "A Maison nunca pede senha, token ou código de acesso."
+            },
+            {
+              "t": "Pressa é sinal de alerta",
+              "d": "Pedido urgente para transferir ou liberar valores é a marca dos golpes."
+            },
+            {
+              "t": "Confirme por outro canal",
+              "d": "Na dúvida, desligue e ligue você para o número que já conhece."
+            }
+          ],
+          "fonte": "A Resolução CVM 178/2023 proíbe o assessor de usar senhas de clientes."
+        }
+      ],
+      "fecho": {
+        "titulo": "Feliz Dia da Pessoa Idosa.",
+        "texto": "Compartilhe com quem você quer proteger."
+      },
+      "legenda": "1º de outubro, Dia Internacional da Pessoa Idosa.\n\nExperiência merece respeito, e também proteção. Três regras simples contra golpes financeiros:\n\nSenha é só sua. A Maison nunca pede senha, token ou código de acesso; a própria norma da CVM proíbe o assessor de usar senhas de clientes.\nPressa é sinal de alerta. Pedido urgente para transferir, \"liberar\" ou \"desbloquear\" valores é a marca dos golpes.\nConfirme por outro canal. Na dúvida, desligue e ligue você para o número que já conhece.\n\nCompartilhe com quem você quer proteger. E, na dúvida, fale com a gente antes de qualquer transferência.",
+      "hashtags": "#DiaDaPessoaIdosa #Golpes #SegurancaFinanceira #MaisonInvest",
+      "mensagem_cliente": "Olá, {nome}! Hoje é Dia Internacional da Pessoa Idosa, e queremos homenagear você. Um lembrete importante: a Maison nunca pede senha, token ou código. Na dúvida sobre qualquer pedido de transferência, me chame antes. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "idade_60",
+        "descricao": "Clientes com 60 anos ou mais na data (Estatuto da Pessoa Idosa), pela data de nascimento do cadastro."
+      },
+      "confirmar": [],
+      "cta": {
+        "rotulo": "Na dúvida",
+        "convite": "Fale com a gente antes de qualquer transferência.",
+        "destino": "WhatsApp (21) 98500-4567",
+        "legenda": "Na dúvida sobre qualquer pedido de transferência, fale com a gente antes, pelo WhatsApp (21) 98500-4567."
+      },
+      "sobrio": false
+    },
+    {
+      "slug": "criancas",
+      "nome": "Dia das Crianças",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 10,
+        "dia": 12
+      },
+      "icone": "pipa",
+      "capa": {
+        "titulo": "Dia das Crianças",
+        "frase": "O futuro deles começa com as escolhas de hoje."
+      },
+      "slides": [
+        {
+          "tipo": "edu",
+          "rotulo": "Você sabia?",
+          "titulo": "Seu filho pode ter cadastro próprio",
+          "itens": [
+            {
+              "t": "Aberto pelo responsável",
+              "d": "Pelo app da XP do pai, da mãe ou do responsável legal, com o CPF da criança."
+            },
+            {
+              "t": "Sem idade mínima",
+              "d": "Do nascimento aos 17 anos, com saldo e extrato acompanhados pelo responsável."
+            },
+            {
+              "t": "Produtos adequados",
+              "d": "Renda fixa e ações na B3; derivativos e contratos futuros ficam de fora."
+            }
+          ],
+          "fonte": "Fonte: XP Investimentos, Conta Menor (anunciada em 8/10/2026). Conteúdo educativo."
+        }
+      ],
+      "fecho": {
+        "titulo": "Feliz Dia das Crianças.",
+        "texto": "Que o futuro deles seja feito de boas escolhas."
+      },
+      "legenda": "Feliz Dia das Crianças! Hoje também é dia de Nossa Senhora Aparecida, padroeira do Brasil.\n\nO futuro deles começa com as escolhas de hoje, e uma delas pode ser um cadastro de investimentos no nome da criança. Na XP, funciona assim:\n\nQuem abre é o pai, a mãe ou o responsável legal, pelo próprio aplicativo da XP, com o CPF da criança.\nNão há idade mínima: vale para menores de 18 anos, e o responsável acompanha saldo, extrato e movimentações até a maioridade ou a emancipação.\nA criança pode ter renda fixa e ações na B3; derivativos e contratos futuros não são permitidos.\n\nAlém de separar o patrimônio dos filhos do patrimônio dos pais, é uma forma de ensinar, desde cedo, que dinheiro também é escolha.",
+      "hashtags": "#DiaDasCriancas #EducacaoFinanceira #InvestirParaOsFilhos #MaisonInvest",
+      "mensagem_cliente": "Olá, {nome}! Feliz Dia das Crianças para a sua família. Uma ideia para hoje: na XP, seu filho pode ter cadastro de investimentos próprio, aberto pelo seu aplicativo, com o CPF dele. Se quiser, te explico o passo a passo em poucos minutos. {assessor}\nMaison Invest, assessoria de investimentos credenciada à XP",
+      "lista": {
+        "regra": "criancas",
+        "descricao": "Dois grupos: clientes com filhos marcados no CRM (recebem a ideia do cadastro de menor) e cadastros de menores já existentes (recebem só a felicitação, endereçada à família; o telefone costuma ser do responsável)."
+      },
+      "confirmar": [
+        "12/10 também é Nossa Senhora Aparecida (feriado nacional). Ficou como uma linha na legenda do Dia das Crianças, para não sair dois posts no mesmo dia."
+      ],
+      "mensagem_cliente_menor": "Olá! Hoje é Dia das Crianças, e a Maison deseja um dia muito feliz para {nome} e para toda a família. Obrigado por confiar a nós o começo dessa história. Um abraço,\n{assessor}\nMaison Invest",
+      "cta": {
+        "rotulo": "Passo a passo",
+        "convite": "Como abrir o cadastro do seu filho, em poucos minutos.",
+        "destino": "WhatsApp (21) 98500-4567",
+        "legenda": "Quer abrir o cadastro do seu filho? Pelo WhatsApp (21) 98500-4567, a gente explica o passo a passo."
+      },
+      "sobrio": false
+    },
+    {
+      "slug": "poupanca",
+      "nome": "Dia Mundial da Poupança",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 10,
+        "dia": 31
+      },
+      "icone": "broto",
+      "capa": {
+        "titulo": "Dia Mundial da Poupança",
+        "frase": "Poupar é o hábito. Escolher onde investir é o passo seguinte."
+      },
+      "slides": [
+        {
+          "tipo": "edu",
+          "rotulo": "Você sabia?",
+          "titulo": "Como a poupança rende",
+          "itens": [
+            {
+              "t": "Selic acima de 8,5% ao ano",
+              "d": "A poupança rende 0,5% ao mês mais a TR."
+            },
+            {
+              "t": "Selic em 8,5% ou abaixo",
+              "d": "A poupança rende 70% da Selic mais a TR."
+            },
+            {
+              "t": "Isenta de IR",
+              "d": "Para pessoa física, com rendimento creditado no aniversário mensal do depósito."
+            }
+          ],
+          "fonte": "Fontes: Lei 12.703/2012 e Banco Central do Brasil. Vale para depósitos feitos desde 4/5/2012."
+        },
+        {
+          "tipo": "edu",
+          "rotulo": "Para a reserva e o curto prazo",
+          "titulo": "Alternativas conservadoras",
+          "itens": [
+            {
+              "t": "Tesouro Selic",
+              "d": "Título público que acompanha a Selic, com liquidez diária."
+            },
+            {
+              "t": "CDB",
+              "d": "Emitido por bancos, com garantia do FGC até R$ 250 mil por CPF e instituição."
+            },
+            {
+              "t": "LCI e LCA",
+              "d": "Isentas de IR para pessoa física, com FGC e prazo mínimo para resgate."
+            }
+          ],
+          "fonte": "Tesouro Selic e CDB pagam IR pela tabela regressiva. O FGC tem teto global de R$ 1 milhão a cada 4 anos."
+        },
+        {
+          "tipo": "edu",
+          "rotulo": "Para objetivos longos",
+          "titulo": "Quando o prazo é maior",
+          "itens": [
+            {
+              "t": "Tesouro IPCA+",
+              "d": "Paga a inflação mais uma taxa; antes do vencimento, o preço oscila."
+            },
+            {
+              "t": "Fundos imobiliários",
+              "d": "Cotas negociadas na B3, com renda de imóveis e oscilação de preço."
+            },
+            {
+              "t": "Ações",
+              "d": "Participação em empresas: mais oscilação, pensada para horizontes longos."
+            }
+          ],
+          "fonte": "Conteúdo educativo, não é recomendação de investimento. Rentabilidade passada não garante resultado futuro."
+        }
+      ],
+      "fecho": {
+        "titulo": "Poupar é o começo.",
+        "texto": "Cada alternativa tem prazo, risco e tributação próprios. Conhecer o mapa vem antes da escolha."
+      },
+      "legenda": "31 de outubro, Dia Mundial da Poupança.\n\nPoupar é o hábito que vem antes de qualquer investimento. E a caderneta tem uma regra que pouca gente conhece (Lei 12.703/2012): com a Selic acima de 8,5% ao ano, rende 0,5% ao mês mais a TR; com a Selic em 8,5% ou abaixo, rende 70% da Selic mais a TR. Para pessoa física, é isenta de IR.\n\nPara a reserva e o curto prazo, há alternativas conservadoras. O Tesouro Selic é um título público que acompanha a taxa básica, com liquidez diária. O CDB é emitido por bancos e tem garantia do FGC até R$ 250 mil por CPF e por instituição, com teto global de R$ 1 milhão a cada 4 anos. LCI e LCA são isentas de IR para pessoa física, também com FGC, e têm prazo mínimo para resgate (hoje, a partir de 6 meses, conforme o tipo).\n\nPara objetivos longos, entram outras classes: o Tesouro IPCA+, que paga a inflação mais uma taxa e oscila de preço antes do vencimento; os fundos imobiliários, com renda de imóveis e cotas negociadas na B3; e as ações, com mais oscilação e pensadas para horizontes longos.\n\nCada alternativa tem prazo, risco e tributação próprios.",
+      "hashtags": "#DiaMundialDaPoupanca #Poupanca #TesouroDireto #RendaFixa #MaisonInvest",
+      "mensagem_cliente": null,
+      "lista": {
+        "regra": "nenhuma",
+        "descricao": "Só post. Data informativa, sem mensagem individual."
+      },
+      "confirmar": [],
+      "cta": {
+        "rotulo": "Explore",
+        "convite": "O mapa das classes de investimento e o que cada uma oferece.",
+        "destino": "hubmaison.com/mapadosinvestimentos",
+        "legenda": "Para ver as classes de investimento lado a lado, abra o Mapa dos Investimentos em hubmaison.com/mapadosinvestimentos. Para conversar sobre qual faz sentido para você, a agenda está no link da bio."
+      },
+      "sobrio": false
+    },
+    {
+      "slug": "finados",
+      "nome": "Finados",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 11,
+        "dia": 2
+      },
+      "icone": "vela",
+      "capa": {
+        "titulo": "Finados",
+        "frase": "Em memória de quem veio antes e deixou em nós o que tinha de melhor."
+      },
+      "slides": [],
+      "fecho": {
+        "titulo": "Em memória.",
+        "texto": "Uma homenagem a todas as famílias que hoje lembram de quem amam."
+      },
+      "cta": null,
+      "sobrio": true,
+      "legenda": "2 de novembro, Finados.\n\nUm dia para lembrar de quem veio antes e deixou em nós o que tinha de melhor. Uma homenagem a todas as famílias que hoje lembram de quem amam.",
+      "hashtags": "#Finados",
+      "mensagem_cliente": null,
+      "lista": {
+        "regra": "nenhuma",
+        "descricao": "Só post, sem mensagem individual."
+      },
+      "confirmar": [],
+      "fonte_data": "Lei 662/1949"
+    }
+  ]
+}
