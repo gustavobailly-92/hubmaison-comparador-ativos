@@ -12,7 +12,7 @@ diária e a skill `resultado-empresa-maison` seguem o que está aqui.
   primeiro post.
 - Setas com a mesma cor para alta e queda; nada de verde e vermelho.
 - Toda peça leva a fonte das demonstrações e a dos múltiplos com a data da cotação (última tela e legenda) e a linha
-  legal da Invest com a ouvidoria da XP (legenda). A fonte dos múltiplos é o cálculo próprio com dados da B3 e da CVM; não atribuir a
+  legal da Invest (legenda). A fonte dos múltiplos é o cálculo próprio com dados da B3 e da CVM; não atribuir a
   terceiros números que não são deles.
 - Dado ausente fica "n/d" e é avisado. Nunca estimar nem completar de memória.
 
@@ -31,7 +31,7 @@ diária e a skill `resultado-empresa-maison` seguem o que está aqui.
    variação dentro da barra. Com até 3 indicadores (bancos), uma tela só.
 6. P/VP em destaque, P/L e EV/EBITDA de hoje (sem linha de fonte: fica na última tela e na legenda).
 7. Preço, P/VP e EV/EBITDA mês a mês em 36 meses, com o valor escrito nos pontos de 36, 24 e 12 meses antes e no de hoje; embaixo, a variação de cada ponto até hoje, de 36 para 12 meses (sem EV/EBITDA para financeiras).
-8. Fontes, definição do EBITDA e, no rodapé, só "Conteúdo informativo, sem recomendação de compra ou venda." (a identificação da Maison Invest como assessora credenciada à XP e a Ouvidoria XP ficam na legenda).
+8. Fontes, definição do EBITDA e, no rodapé, só "Conteúdo informativo, sem recomendação de compra ou venda." (a identificação da Maison Invest como assessora credenciada à XP fica na legenda; a ouvidoria saiu por decisão do Gustavo em 15/11/2026).
 
 Convenções: "n.m." (não mensurável) quando há valor negativo em um dos períodos, quando a variação passa de 999% ou
 quando o múltiplo passa de 100x ou tem PL, lucro ou EBITDA de 12 meses negativo; cada tela traz a nota. EBITDA =
