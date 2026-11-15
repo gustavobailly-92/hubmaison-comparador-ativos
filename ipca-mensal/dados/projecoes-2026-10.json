@@ -1,0 +1,11 @@
+{
+  "mediana": 0.25,
+  "fonte_mediana": "Reuters",
+  "intervalo_min": 0.18,
+  "intervalo_max": 0.5,
+  "fonte_intervalo": "Bloomberg",
+  "intervalo_confirmado": false,
+  "casas": [],
+  "mediana_12m": 4.73,
+  "fonte_mediana_12m": "Reuters"
+}

@@ -65,8 +65,8 @@ def esperar(container: str) -> None:
 
 def main() -> None:
     pasta = sys.argv[1].strip().strip("/")
-    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}/([A-Z0-9]{4,6}-[1-4]T\d{2}|DATA-[a-z-]+)", pasta):
-        raise SystemExit(f"pasta inválida: {pasta!r} (esperado AAAA-MM-DD/TICKER-3T26 ou AAAA-MM-DD/DATA-slug)")
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}/([A-Z0-9]{4,6}-[1-4]T\d{2}|DATA-[a-z-]+|IPCA-\d{4}-\d{2})", pasta):
+        raise SystemExit(f"pasta inválida: {pasta!r} (esperado AAAA-MM-DD/TICKER-3T26, AAAA-MM-DD/DATA-slug ou AAAA-MM-DD/IPCA-AAAA-MM)")
     local = os.path.join("posts", pasta)
     if os.path.exists(os.path.join(local, "publicado.json")):
         raise SystemExit(f"{pasta} já foi publicado (publicado.json existe); nada a fazer")

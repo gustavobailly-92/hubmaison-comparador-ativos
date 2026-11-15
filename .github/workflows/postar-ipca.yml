@@ -1,0 +1,84 @@
+name: Publicar IPCA do mês
+run-name: "IPCA ${{ inputs.mes || 'do mês' }}"
+
+# Fica em .github/workflows/ do hubmaison-comparador-ativos, com a pasta ipca-mensal/ na main.
+# O IBGE divulga o IPCA às 9h, entre os dias 8 e 14. O workflow roda nesses dias às 9h30 e às 12h (Brasília):
+# hoje.py confere se o SIDRA já tem o mês anterior e se ele ainda não foi publicado na branch posts.
+# Havendo IPCA novo: monta o JSON (SIDRA + Focus; projeções do Focus mensal), renderiza, escreve a legenda,
+# grava em posts/AAAA-MM-DD/IPCA-AAAA-MM e publica pelo instagram/postar.py. Qualquer erro de validação
+# (dados que não fecham, legenda com palavra de risco) para o workflow antes de publicar.
+on:
+  schedule:
+    - cron: "30 12 7-16 * 1-5"   # 09:30 em Brasília
+    - cron: "0 15 7-16 * 1-5"    # 12:00 em Brasília (segunda tentativa)
+  workflow_dispatch:
+    inputs:
+      mes:
+        description: "Mês de referência (AAAA-MM). Vazio = mês anterior, se o IBGE já divulgou."
+        required: false
+      divulgacao:
+        description: "Data da divulgação (AAAA-MM-DD). Vazio = hoje."
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: instagram
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: posts
+          path: posts
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Tem IPCA novo?
+        id: hoje
+        run: python ipca-mensal/hoje.py "${{ inputs.mes }}" >> "$GITHUB_OUTPUT"
+      - name: Preparar o render
+        if: steps.hoje.outputs.ref != ''
+        run: |
+          pip install -q playwright
+          python -m playwright install --with-deps chromium
+      - name: Dados, telas e legenda
+        if: steps.hoje.outputs.ref != ''
+        env:
+          REF: ${{ steps.hoje.outputs.ref }}
+          DIV: ${{ inputs.divulgacao }}
+        run: |
+          cd ipca-mensal
+          DIV="${DIV:-$(TZ=America/Sao_Paulo date +%F)}"
+          PROJ=""
+          if [ -f "dados/projecoes-$REF.json" ]; then PROJ="--projecoes dados/projecoes-$REF.json"; fi
+          python fetch_ipca.py --mes "$REF" --divulgacao "$DIV" $PROJ
+          python render.py "dados/ipca-$REF.json"
+          python legenda.py "dados/ipca-$REF.json" > "saida/$REF/legenda.txt"
+      - name: Gravar na branch posts e publicar
+        if: steps.hoje.outputs.ref != ''
+        env:
+          REF: ${{ steps.hoje.outputs.ref }}
+          PASTA: ${{ steps.hoje.outputs.pasta }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_API_VERSION: ${{ vars.IG_API_VERSION }}
+          REPO: ${{ github.repository }}
+        run: |
+          git -C posts config user.name "github-actions[bot]"
+          git -C posts config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p "posts/$PASTA"
+          for f in ipca-mensal/saida/$REF/[0-9][0-9]-*.jpg; do
+            b=$(basename "$f"); cp "$f" "posts/$PASTA/${b:0:2}.jpg"
+          done
+          cp "ipca-mensal/saida/$REF/legenda.txt" "posts/$PASTA/"
+          git -C posts add "$PASTA" && git -C posts commit -q -m "ipca: $PASTA" && git -C posts push -q origin HEAD:posts
+          sleep 20   # tempo para o raw.githubusercontent.com servir as imagens novas
+          python instagram/postar.py "$PASTA"
+          git -C posts add "$PASTA/publicado.json" && git -C posts commit -q -m "publicado: $PASTA" && git -C posts push -q origin HEAD:posts
