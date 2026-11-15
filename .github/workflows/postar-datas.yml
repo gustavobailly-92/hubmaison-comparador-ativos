@@ -1,21 +1,22 @@
 name: Publicar data comemorativa
 run-name: "Data comemorativa ${{ inputs.data || 'de hoje' }}"
 
-# Vai em .github/workflows/ do repositório gustavobailly-92/hubmaison-comparador-ativos, com a pasta
-# datas-comemorativas/ na raiz da main. Todo dia às 7h40 (Brasília) vê se a data do dia está em
-# datas-comemorativas/aprovados.json; se estiver, renderiza, grava na branch posts em
-# AAAA-MM-DD/DATA-slug e publica pelo mesmo instagram/postar.py dos resultados da B3.
+# Fica em .github/workflows/ do hubmaison-comparador-ativos, com a pasta datas-comemorativas/ na main.
+# Roda às 7h40 e às 11h40 (Brasília) e sempre que aprovados.json muda. Publica toda data aprovada do
+# dia cujo horário já chegou (calendario.json, campo horario; padrão 07:40), uma de cada vez: renderiza,
+# grava em posts/AAAA-MM-DD/DATA-slug e publica pelo instagram/postar.py. Pasta com publicado.json é pulada.
 on:
   schedule:
-    - cron: "40 10 * * *"   # 10:40 UTC = 07:40 em Brasília
+    - cron: "40 10 * * *"   # 07:40 em Brasília
+    - cron: "40 14 * * *"   # 11:40 em Brasília (segundo post do dia, quando houver)
   push:
     branches: [main]
     paths:
-      - "datas-comemorativas/aprovados.json"   # aprovar uma data do dia publica na hora, sem esperar o dia seguinte
+      - "datas-comemorativas/aprovados.json"
   workflow_dispatch:
     inputs:
       data:
-        description: "Data a publicar (AAAA-MM-DD). Vazio = hoje."
+        description: "Data a publicar (AAAA-MM-DD). Vazio = agora."
         required: false
 
 permissions:
@@ -28,7 +29,7 @@ concurrency:
 jobs:
   publicar:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
@@ -38,49 +39,34 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Hoje tem data aprovada?
+      - name: O que sai agora?
         id: hoje
         run: python datas-comemorativas/hoje.py "${{ inputs.data }}" >> "$GITHUB_OUTPUT"
-      - name: Já publicado?
-        id: feito
-        if: steps.hoje.outputs.slug != ''
-        run: |
-          if [ -f "posts/${{ steps.hoje.outputs.pasta }}/publicado.json" ]; then echo "sim=1" >> "$GITHUB_OUTPUT"; echo "já publicado"; fi
-      - name: Renderizar
-        if: steps.hoje.outputs.slug != '' && steps.feito.outputs.sim != '1'
+      - name: Preparar o render
+        if: steps.hoje.outputs.lista != ''
         run: |
           pip install -q playwright
           python -m playwright install --with-deps chromium
-          cd datas-comemorativas
-          python render.py --de "${{ steps.hoje.outputs.data }}" --ate "${{ steps.hoje.outputs.data }}" --so "${{ steps.hoje.outputs.slug }}"
-      - name: Gravar na branch posts
-        if: steps.hoje.outputs.slug != '' && steps.feito.outputs.sim != '1'
+      - name: Renderizar, gravar e publicar
+        if: steps.hoje.outputs.lista != ''
         env:
-          PASTA: ${{ steps.hoje.outputs.pasta }}
-        run: |
-          mkdir -p "posts/$PASTA"
-          cp datas-comemorativas/saida/$PASTA/[0-9][0-9].jpg datas-comemorativas/saida/$PASTA/legenda.txt "posts/$PASTA/"
-          cd posts
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "$PASTA"
-          git commit -m "data comemorativa: $PASTA"
-          git push origin HEAD:posts
-          sleep 20   # dá tempo do raw.githubusercontent.com servir as imagens novas
-      - name: Publicar
-        if: steps.hoje.outputs.slug != '' && steps.feito.outputs.sim != '1'
-        env:
+          LISTA: ${{ steps.hoje.outputs.lista }}
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           IG_API_VERSION: ${{ vars.IG_API_VERSION }}
           REPO: ${{ github.repository }}
-        run: python instagram/postar.py "${{ steps.hoje.outputs.pasta }}"
-      - name: Registrar a publicação
-        if: steps.hoje.outputs.slug != '' && steps.feito.outputs.sim != '1'
-        env:
-          PASTA: ${{ steps.hoje.outputs.pasta }}
         run: |
-          cd posts
-          git add "$PASTA/publicado.json"
-          git commit -m "publicado: $PASTA"
-          git push origin HEAD:posts
+          git -C posts config user.name "github-actions[bot]"
+          git -C posts config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for PASTA in $LISTA; do
+            if [ -f "posts/$PASTA/publicado.json" ]; then echo "$PASTA já publicado"; continue; fi
+            DATA="${PASTA%%/*}"; SLUG="${PASTA#*/DATA-}"
+            (cd datas-comemorativas && python render.py --de "$DATA" --ate "$DATA" --so "$SLUG")
+            mkdir -p "posts/$PASTA"
+            cp datas-comemorativas/saida/$PASTA/[0-9][0-9].jpg datas-comemorativas/saida/$PASTA/legenda.txt "posts/$PASTA/"
+            git -C posts add "$PASTA" && git -C posts commit -q -m "data comemorativa: $PASTA" && git -C posts push -q origin HEAD:posts
+            sleep 20   # tempo para o raw.githubusercontent.com servir as imagens novas
+            python instagram/postar.py "$PASTA"
+            git -C posts add "$PASTA/publicado.json" && git -C posts commit -q -m "publicado: $PASTA" && git -C posts push -q origin HEAD:posts
+            sleep 60   # intervalo entre dois posts do mesmo dia
+          done

@@ -4,7 +4,7 @@
   "horario_publicacao": "07:40",
   "fora_deste_calendario": {
     "profissoes": "Dia do Médico, do Servidor Público etc. ficam no calendário das profissões (outra frente do projeto).",
-    "nao_entram": "Carnaval e Corpus Christi (pontos facultativos, não feriados nacionais), Páscoa (coberta pela Sexta-feira Santa) e Black Friday. Nossa Senhora Aparecida (12/10) vira uma linha na legenda do Dia das Crianças."
+    "nao_entram": "Corpus Christi (ponto facultativo), Páscoa (coberta pela Sexta-feira Santa) e Black Friday."
   },
   "datas": [
     {
@@ -120,6 +120,35 @@
       "lista": {
         "regra": "pais:estados unidos|eua|usa|united states",
         "descricao": "Clientes com país de residência nos Estados Unidos, se o cadastro tiver o campo."
+      },
+      "confirmar": []
+    },
+    {
+      "slug": "emirados",
+      "nome": "UAE National Day (Emirados Árabes)",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 12,
+        "dia": 2
+      },
+      "icone": "palmeira",
+      "capa": {
+        "titulo": "UAE National Day",
+        "frase": "Aos clientes nos Emirados Árabes Unidos, um feliz Dia Nacional."
+      },
+      "slides": [],
+      "fecho": {
+        "titulo": "Happy National Day.",
+        "texto": "Do Brasil aos Emirados, a mesma atenção aos seus planos."
+      },
+      "cta": null,
+      "sobrio": false,
+      "legenda": "Happy UAE National Day!\n\nHoje os Emirados Árabes Unidos celebram o seu Dia Nacional. Aos nossos clientes que vivem lá, uma ótima data. Do Brasil aos Emirados, a mesma atenção aos seus planos.",
+      "hashtags": "#UAENationalDay #Emirados #MaisonInvest",
+      "mensagem_cliente": "Hi, {nome}! Happy National Day! Uma ótima data para você. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "pais:emirados|uae|dubai|abu dhabi",
+        "descricao": "Clientes com país de residência em Emirados Árabes Unidos, se o cadastro tiver o campo."
       },
       "confirmar": []
     },
@@ -298,6 +327,92 @@
       "sobrio": false
     },
     {
+      "slug": "ano-novo-lunar",
+      "nome": "Ano Novo Lunar",
+      "regra": {
+        "tipo": "lista",
+        "datas": {
+          "2027": "02-06",
+          "2028": "01-26",
+          "2029": "02-13",
+          "2030": "02-03"
+        }
+      },
+      "icone": "lanterna",
+      "capa": {
+        "titulo": "Ano Novo Lunar",
+        "frase": "Aos clientes na China e em toda a Ásia, um ano de prosperidade e boas escolhas."
+      },
+      "slides": [],
+      "fecho": {
+        "titulo": "Feliz Ano Novo Lunar.",
+        "texto": "Que o novo ciclo traga saúde, prosperidade e tempo para quem você ama."
+      },
+      "cta": null,
+      "sobrio": false,
+      "legenda": "Feliz Ano Novo Lunar!\n\nHoje começa o Ano da Cabra, a festa mais importante da China e de boa parte da Ásia. Aos nossos clientes que vivem por lá, e a todos que celebram a data, um novo ciclo de saúde, prosperidade e boas escolhas.",
+      "hashtags": "#AnoNovoLunar #AnoNovoChines #MaisonInvest",
+      "mensagem_cliente": "Olá, {nome}! Feliz Ano Novo Lunar! Que o Ano da Cabra traga saúde e prosperidade para você e sua família. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "pais:china|hong kong|macau|taiwan|singapura|coreia|japao|vietna|malasia",
+        "descricao": "Clientes com país de residência em países da Ásia que celebram a data, se o cadastro tiver o campo."
+      },
+      "confirmar": [
+        "O animal do ano está no texto da legenda (2027: Cabra). Ao renovar o calendário, trocar o animal."
+      ]
+    },
+    {
+      "slug": "carnaval",
+      "nome": "Carnaval",
+      "regra": {
+        "tipo": "pascoa",
+        "deslocamento": -48
+      },
+      "icone": "mascara",
+      "capa": {
+        "titulo": "Carnaval",
+        "frase": "Que a festa seja leve, e o descanso, merecido."
+      },
+      "slides": [
+        {
+          "tipo": "edu",
+          "rotulo": "Antes de sair",
+          "titulo": "O mercado no Carnaval",
+          "itens": [
+            {
+              "t": "Segunda e terça",
+              "d": "A B3 não abre, e o Tesouro Direto não negocia."
+            },
+            {
+              "t": "Quarta-feira de Cinzas",
+              "d": "O pregão volta às 13h, com pré-abertura às 12h45."
+            },
+            {
+              "t": "Planeje antes",
+              "d": "Ordens e resgates com data marcada ficam para depois do feriado."
+            }
+          ],
+          "fonte": "Fonte: calendário de negociação da B3."
+        }
+      ],
+      "fecho": {
+        "titulo": "Bom Carnaval.",
+        "texto": "Aproveite com quem você gosta. Na quarta, a gente segue por aqui."
+      },
+      "cta": null,
+      "sobrio": false,
+      "legenda": "Bom Carnaval!\n\nAntes de sair, um lembrete sobre o mercado: na segunda e na terça de Carnaval, a B3 não abre e o Tesouro Direto não negocia. Na Quarta-feira de Cinzas, o pregão volta às 13h, com pré-abertura às 12h45. Ordens e resgates com data marcada ficam para depois do feriado.\n\nQue a festa seja leve, e o descanso, merecido.",
+      "hashtags": "#Carnaval #B3 #MaisonInvest",
+      "mensagem_cliente": null,
+      "lista": {
+        "regra": "nenhuma",
+        "descricao": "Só post, sem mensagem individual."
+      },
+      "confirmar": [
+        "Conferir o calendário de negociação da B3 de 2027 quando sair (os horários seguem o padrão de 2025 e 2026)."
+      ]
+    },
+    {
       "slug": "mulher",
       "nome": "Dia Internacional da Mulher",
       "regra": {
@@ -380,6 +495,35 @@
         "legenda": "Ficou alguma dúvida? Pergunte pelo WhatsApp (21) 98500-4567."
       },
       "sobrio": false
+    },
+    {
+      "slug": "sao-patricio",
+      "nome": "St. Patrick's Day (Irlanda)",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 3,
+        "dia": 17
+      },
+      "icone": "trevo",
+      "capa": {
+        "titulo": "St. Patrick's Day",
+        "frase": "Aos clientes na Irlanda, e a quem celebra o dia de São Patrício pelo mundo."
+      },
+      "slides": [],
+      "fecho": {
+        "titulo": "Happy St. Patrick's Day.",
+        "texto": "Que a sorte acompanhe os seus planos. E o planejamento também."
+      },
+      "cta": null,
+      "sobrio": false,
+      "legenda": "Happy St. Patrick's Day!\n\nHoje a Irlanda celebra o dia de São Patrício, uma festa que ganhou o mundo. Aos nossos clientes que vivem lá, e a todos que comemoram a data, que a sorte acompanhe os seus planos. E o planejamento também.",
+      "hashtags": "#StPatricksDay #Irlanda #MaisonInvest",
+      "mensagem_cliente": "Hi, {nome}! Happy St. Patrick's Day! Um ótimo dia para você. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "pais:irlanda|ireland",
+        "descricao": "Clientes com país de residência em Irlanda, se o cadastro tiver o campo."
+      },
+      "confirmar": []
     },
     {
       "slug": "sexta-santa",
@@ -552,6 +696,64 @@
       "sobrio": false
     },
     {
+      "slug": "italia",
+      "nome": "Festa della Repubblica (Itália)",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 6,
+        "dia": 2
+      },
+      "icone": "ramo",
+      "capa": {
+        "titulo": "Festa della Repubblica",
+        "frase": "Aos clientes na Itália e a todos que levam um pouco dela no sobrenome."
+      },
+      "slides": [],
+      "fecho": {
+        "titulo": "Buona festa.",
+        "texto": "À Itália, de onde vieram tantas famílias que construíram o Brasil."
+      },
+      "cta": null,
+      "sobrio": false,
+      "legenda": "Buona Festa della Repubblica!\n\nHoje a Itália celebra o dia em que se tornou república, em 1946. Aos nossos clientes que vivem lá, e a todos que levam um pouco da Itália no sobrenome, uma ótima data.",
+      "hashtags": "#FestaDellaRepubblica #Italia #MaisonInvest",
+      "mensagem_cliente": "Ciao, {nome}! Buona Festa della Repubblica! Uma ótima data para você. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "pais:italia|italy",
+        "descricao": "Clientes com país de residência em Itália, se o cadastro tiver o campo."
+      },
+      "confirmar": []
+    },
+    {
+      "slug": "portugal",
+      "nome": "Dia de Portugal",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 6,
+        "dia": 10
+      },
+      "icone": "caravela",
+      "capa": {
+        "titulo": "Dia de Portugal",
+        "frase": "Dia de Portugal, de Camões e das Comunidades Portuguesas."
+      },
+      "slides": [],
+      "fecho": {
+        "titulo": "Feliz Dia de Portugal.",
+        "texto": "Aos clientes em Portugal e a toda a comunidade portuguesa no Brasil."
+      },
+      "cta": null,
+      "sobrio": false,
+      "legenda": "Feliz Dia de Portugal!\n\n10 de junho é o Dia de Portugal, de Camões e das Comunidades Portuguesas. Aos nossos clientes que vivem em Portugal, e a toda a comunidade portuguesa no Brasil, uma ótima data.",
+      "hashtags": "#DiaDePortugal #Portugal #MaisonInvest",
+      "mensagem_cliente": "Olá, {nome}! Feliz Dia de Portugal! Uma ótima data para você e para a sua família. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "pais:portugal",
+        "descricao": "Clientes com país de residência em Portugal, se o cadastro tiver o campo."
+      },
+      "confirmar": []
+    },
+    {
       "slug": "namorados",
       "nome": "Dia dos Namorados",
       "regra": {
@@ -607,6 +809,35 @@
       "sobrio": false
     },
     {
+      "slug": "canada",
+      "nome": "Canada Day",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 7,
+        "dia": 1
+      },
+      "icone": "folha",
+      "capa": {
+        "titulo": "Canada Day",
+        "frase": "Aos clientes no Canadá, um feliz Canada Day."
+      },
+      "slides": [],
+      "fecho": {
+        "titulo": "Happy Canada Day.",
+        "texto": "Do Brasil ao Canadá, a mesma atenção aos seus planos."
+      },
+      "cta": null,
+      "sobrio": false,
+      "legenda": "Happy Canada Day!\n\nHoje o Canadá celebra o seu dia nacional. Aos nossos clientes que vivem lá, uma ótima data. Do Brasil ao Canadá, a mesma atenção aos seus planos.",
+      "hashtags": "#CanadaDay #Canada #MaisonInvest",
+      "mensagem_cliente": "Hi, {nome}! Happy Canada Day! Um ótimo feriado para você e sua família. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "pais:canada",
+        "descricao": "Clientes com país de residência em Canadá, se o cadastro tiver o campo."
+      },
+      "confirmar": []
+    },
+    {
       "slug": "independencia-eua",
       "nome": "Independence Day (EUA)",
       "regra": {
@@ -658,6 +889,40 @@
       "lista": {
         "regra": "pais:estados unidos|eua|usa|united states",
         "descricao": "Clientes com país de residência nos Estados Unidos, se o cadastro tiver o campo."
+      },
+      "confirmar": []
+    },
+    {
+      "slug": "tanabata",
+      "nome": "Tanabata (Japão)",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 7,
+        "dia": 7
+      },
+      "icone": "tanzaku",
+      "capa": {
+        "titulo": "Tanabata",
+        "frase": "No Festival das Estrelas, escrevem-se desejos. Nós gostamos de transformá-los em planos."
+      },
+      "slides": [],
+      "fecho": {
+        "titulo": "Feliz Tanabata.",
+        "texto": "Aos clientes no Japão e à comunidade japonesa no Brasil."
+      },
+      "cta": {
+        "rotulo": "Simule",
+        "convite": "Quanto falta para o seu desejo virar realidade.",
+        "destino": "hubmaison.com/simuladorlongoprazo",
+        "legenda": "Para transformar um desejo em plano, use o Simulador de Renda em hubmaison.com/simuladorlongoprazo."
+      },
+      "sobrio": false,
+      "legenda": "Feliz Tanabata!\n\nNo Festival das Estrelas, celebrado no Japão e por toda a comunidade japonesa no Brasil, os desejos são escritos em tiras de papel e pendurados no bambu. Nós gostamos de ajudar a transformá-los em planos.\n\nAos nossos clientes no Japão e a todos que celebram a data, que os desejos deste ano se realizem.",
+      "hashtags": "#Tanabata #FestivalDasEstrelas #MaisonInvest",
+      "mensagem_cliente": "Olá, {nome}! Feliz Tanabata! Que os seus desejos deste ano se realizem. Um abraço,\n{assessor}\nMaison Invest",
+      "lista": {
+        "regra": "pais:japao|japan",
+        "descricao": "Clientes com país de residência em Japão, se o cadastro tiver o campo."
       },
       "confirmar": []
     },
@@ -901,8 +1166,8 @@
               "r": "clientes"
             },
             {
-              "v": "17",
-              "r": "países"
+              "v": "30+",
+              "r": "profissionais"
             },
             {
               "v": "2017",
@@ -915,7 +1180,7 @@
         "titulo": "Obrigado.",
         "texto": "Queremos muito mais te escutar do que falar. Hoje, queremos só agradecer."
       },
-      "legenda": "15 de setembro, Dia do Cliente.\n\nDesde 2017, a Maison Invest tem uma regra que vem antes de todas: o cliente em 1º lugar. Hoje são mais de 2.000 clientes, em 17 países, e cada um deles faz parte desta casa.\n\nQueremos muito mais te escutar do que falar. Hoje, queremos só agradecer.",
+      "legenda": "15 de setembro, Dia do Cliente.\n\nDesde 2017, a Maison Invest tem uma regra que vem antes de todas: o cliente em 1º lugar. Hoje são mais de 2.000 clientes, aqui e ao redor do mundo, e cada um deles faz parte desta casa.\n\nQueremos muito mais te escutar do que falar. Hoje, queremos só agradecer.",
       "hashtags": "#DiaDoCliente #MaisonInvest",
       "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Cliente, e o dia é seu. Obrigado por confiar na Maison. Um abraço,\n{assessor}\nMaison Invest",
       "lista": {
@@ -982,6 +1247,36 @@
       "sobrio": false
     },
     {
+      "slug": "aparecida",
+      "nome": "Nossa Senhora Aparecida",
+      "regra": {
+        "tipo": "fixa",
+        "mes": 10,
+        "dia": 12
+      },
+      "icone": "coroa",
+      "capa": {
+        "titulo": "Nossa Senhora Aparecida",
+        "frase": "Padroeira do Brasil. Um dia de fé, devoção e gratidão."
+      },
+      "slides": [],
+      "fecho": {
+        "titulo": "Dia da Padroeira.",
+        "texto": "A todos que celebram hoje, um dia de fé e de paz."
+      },
+      "cta": null,
+      "sobrio": true,
+      "legenda": "12 de outubro, dia de Nossa Senhora Aparecida, padroeira do Brasil.\n\nA todos que celebram a data, um dia de fé, de paz e de gratidão.",
+      "hashtags": "#NossaSenhoraAparecida #12deOutubro",
+      "mensagem_cliente": null,
+      "lista": {
+        "regra": "nenhuma",
+        "descricao": "Só post, sem mensagem individual."
+      },
+      "confirmar": [],
+      "horario": "07:40"
+    },
+    {
       "slug": "criancas",
       "nome": "Dia das Crianças",
       "regra": {
@@ -1020,16 +1315,14 @@
         "titulo": "Feliz Dia das Crianças.",
         "texto": "Que o futuro deles seja feito de boas escolhas."
       },
-      "legenda": "Feliz Dia das Crianças! Hoje também é dia de Nossa Senhora Aparecida, padroeira do Brasil.\n\nO futuro deles começa com as escolhas de hoje, e uma delas pode ser um cadastro de investimentos no nome da criança. Na XP, funciona assim:\n\nQuem abre é o pai, a mãe ou o responsável legal, pelo próprio aplicativo da XP, com o CPF da criança.\nNão há idade mínima: vale para menores de 18 anos, e o responsável acompanha saldo, extrato e movimentações até a maioridade ou a emancipação.\nA criança pode ter renda fixa e ações na B3; derivativos e contratos futuros não são permitidos.\n\nAlém de separar o patrimônio dos filhos do patrimônio dos pais, é uma forma de ensinar, desde cedo, que dinheiro também é escolha.",
+      "legenda": "Feliz Dia das Crianças!\n\nO futuro deles começa com as escolhas de hoje, e uma delas pode ser um cadastro de investimentos no nome da criança. Na XP, funciona assim:\n\nQuem abre é o pai, a mãe ou o responsável legal, pelo próprio aplicativo da XP, com o CPF da criança.\nNão há idade mínima: vale para menores de 18 anos, e o responsável acompanha saldo, extrato e movimentações até a maioridade ou a emancipação.\nA criança pode ter renda fixa e ações na B3; derivativos e contratos futuros não são permitidos.\n\nAlém de separar o patrimônio dos filhos do patrimônio dos pais, é uma forma de ensinar, desde cedo, que dinheiro também é escolha.",
       "hashtags": "#DiaDasCriancas #EducacaoFinanceira #InvestirParaOsFilhos #MaisonInvest",
       "mensagem_cliente": "Olá, {nome}! Feliz Dia das Crianças para a sua família. Uma ideia para hoje: na XP, seu filho pode ter cadastro de investimentos próprio, aberto pelo seu aplicativo, com o CPF dele. Se quiser, te explico o passo a passo em poucos minutos. {assessor}\nMaison Invest, assessoria de investimentos credenciada à XP",
       "lista": {
         "regra": "criancas",
         "descricao": "Dois grupos: clientes com filhos marcados no CRM (recebem a ideia do cadastro de menor) e cadastros de menores já existentes (recebem só a felicitação, endereçada à família; o telefone costuma ser do responsável)."
       },
-      "confirmar": [
-        "12/10 também é Nossa Senhora Aparecida (feriado nacional). Ficou como uma linha na legenda do Dia das Crianças, para não sair dois posts no mesmo dia."
-      ],
+      "confirmar": [],
       "mensagem_cliente_menor": "Olá! Hoje é Dia das Crianças, e a Maison deseja um dia muito feliz para {nome} e para toda a família. Obrigado por confiar a nós o começo dessa história. Um abraço,\n{assessor}\nMaison Invest",
       "cta": {
         "rotulo": "Passo a passo",
@@ -1037,7 +1330,8 @@
         "destino": "WhatsApp (21) 98500-4567",
         "legenda": "Quer abrir o cadastro do seu filho? Pelo WhatsApp (21) 98500-4567, a gente explica o passo a passo."
       },
-      "sobrio": false
+      "sobrio": false,
+      "horario": "11:40"
     },
     {
       "slug": "poupanca",

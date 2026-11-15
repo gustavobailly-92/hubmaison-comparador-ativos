@@ -55,11 +55,14 @@ def ocorrencia(regra, ano):
         return dias[regra["n"] - 1]
     if t == "pascoa":
         return pascoa(ano) + dt.timedelta(days=regra.get("deslocamento", 0))
+    if t == "lista":  # datas que não seguem regra fixa (Ano Novo Lunar): {"datas": {"2027": "02-06"}}
+        md = regra["datas"].get(str(ano))
+        return dt.date.fromisoformat(f"{ano}-{md}") if md else None
     raise ValueError(regra)
 
 
 def datas_no_periodo(regra, de, ate):
-    return [d for d in (ocorrencia(regra, a) for a in range(de.year, ate.year + 1)) if de <= d <= ate]
+    return [d for d in (ocorrencia(regra, a) for a in range(de.year, ate.year + 1)) if d and de <= d <= ate]
 
 
 def troca_ano(obj, ano):
@@ -172,7 +175,7 @@ def main():
             meta_path = os.path.join(pasta, "meta.json")
             anterior = json.load(open(meta_path)) if os.path.exists(meta_path) else {}
             meta = {"slug": e["slug"], "nome": e["nome"], "data": d.isoformat(),
-                    "publicar_em": f"{d.isoformat()}T{cal['horario_publicacao']}:00-03:00",
+                    "publicar_em": f"{d.isoformat()}T{e.get('horario', cal['horario_publicacao'])}:00-03:00",
                     "pasta_posts": f"{d.isoformat()}/DATA-{e['slug']}",
                     "telas": 2 + len(e["slides"]),
                     "status": anterior.get("status", "pendente"),
