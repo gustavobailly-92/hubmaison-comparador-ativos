@@ -123,7 +123,9 @@ def monta_legenda(e, bloco_xp):
         partes.append("Liberdade nas escolhas. Fraternidade na relação. Expertise na solução.")
     if any(s["tipo"] == "edu" for s in e["slides"]):
         partes.append("Conteúdo educativo; não constitui recomendação de investimento.")
-    partes += [bloco_xp.strip(), e["hashtags"].strip()]
+    if bloco_xp.strip():
+        partes.append(bloco_xp.strip())
+    partes.append(e["hashtags"].strip())
     return "\n\n".join(partes)
 
 
