@@ -13,7 +13,7 @@ render.py                    valida (tamanhos, travessão, palavras de risco, li
 listas.py                    lê o export da Base XP/CRM (CSV ou XLSX) e gera listas/AAAA-MM-DD-slug.csv com a mensagem personalizada
 hoje.py                      diz ao workflow se a data do dia está aprovada
 aprovados.json               o que o Gustavo aprovou (AAAA-MM-DD/slug); só isso sai sozinho
-bloco_xp.txt                 identificação XP da legenda (mesmo bloco do Focus e do IPCA)
+bloco_xp.txt                 vazio desde 15/11/2026 (sem identificação da XP nem ouvidoria)
 publicacao/postar-datas.yml  workflow diário (7h40) para .github/workflows/ do repositório hubmaison-comparador-ativos
 publicacao/postar.py.patch   uma linha no postar.py para aceitar pastas AAAA-MM-DD/DATA-slug
 logo-invest-xp-negativo.svg  da skill maison: assets/logos/invest-xp/cor-negativo.svg
