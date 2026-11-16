@@ -1,0 +1,1 @@
+nome não revisado: "Mitre Realty" é o nome curto da B3; pôr o nome usual em post/nomes.csv (MTRE) e refazer
