@@ -11,6 +11,10 @@ on:
   schedule:
     - cron: "30 12 7-16 * 1-5"   # 09:30 em Brasília
     - cron: "0 15 7-16 * 1-5"    # 12:00 em Brasília (segunda tentativa)
+  push:
+    branches: [main]
+    paths:
+      - "ipca-mensal/publicar.txt"   # "AAAA-MM AAAA-MM-DD": publica aquele mês (útil para um mês atrasado)
   workflow_dispatch:
     inputs:
       mes:
@@ -42,7 +46,11 @@ jobs:
           python-version: "3.12"
       - name: Tem IPCA novo?
         id: hoje
-        run: python ipca-mensal/hoje.py "${{ inputs.mes }}" >> "$GITHUB_OUTPUT"
+        run: |
+          MES="${{ inputs.mes }}"; DIV="${{ inputs.divulgacao }}"
+          if [ "${{ github.event_name }}" = "push" ]; then read -r MES DIV < ipca-mensal/publicar.txt; fi
+          echo "div=$DIV" >> "$GITHUB_OUTPUT"
+          python ipca-mensal/hoje.py "$MES" >> "$GITHUB_OUTPUT"
       - name: Preparar o render
         if: steps.hoje.outputs.ref != ''
         run: |
@@ -52,7 +60,7 @@ jobs:
         if: steps.hoje.outputs.ref != ''
         env:
           REF: ${{ steps.hoje.outputs.ref }}
-          DIV: ${{ inputs.divulgacao }}
+          DIV: ${{ steps.hoje.outputs.div }}
         run: |
           cd ipca-mensal
           DIV="${DIV:-$(TZ=America/Sao_Paulo date +%F)}"

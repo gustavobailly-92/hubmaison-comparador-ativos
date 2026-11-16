@@ -70,6 +70,7 @@ Instalado no repositório `hubmaison-comparador-ativos`, junto com os resultados
 - Projeções: no automático, a régua usa o Focus mensal (mediana, mínimo e máximo da última coleta antes da divulgação). Se existir `dados/projecoes-AAAA-MM.json` na main (Reuters, Bloomberg), ele tem prioridade.
 - Qualquer erro de validação (12 meses que não fecham, legenda com travessão ou palavra de risco, limite do Instagram) para o workflow antes de publicar.
 - Para publicar à mão um mês específico: Actions, "Publicar IPCA do mês", `mes` = AAAA-MM e `divulgacao` = data do IBGE.
+- Ou editar `ipca-mensal/publicar.txt` na main com `AAAA-MM AAAA-MM-DD` (mês e data da divulgação): o push dispara a publicação daquele mês. Mês já publicado é ignorado.
 
 ## Antes de publicar (checagem automática mínima)
 
