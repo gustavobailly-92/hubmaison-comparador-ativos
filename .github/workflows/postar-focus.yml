@@ -1,0 +1,79 @@
+name: Publicar Focus da semana
+run-name: "Focus ${{ inputs.sexta || 'da semana' }}"
+
+# Fica em .github/workflows/ do hubmaison-comparador-ativos, com a pasta focus/ na main.
+# O Banco Central publica o Relatório Focus às segundas, por volta das 8h25 (em feriado, no dia útil seguinte).
+# O workflow roda de segunda a quarta às 8h40, 9h40 e 11h10 (Brasília): hoje.py confere se a API Olinda já tem a
+# sexta mais recente e se aquele boletim ainda não foi publicado na branch posts. Havendo boletim novo: monta o JSON,
+# renderiza os 5 slides, mede com checar.py (letra, contraste, margem, colisão, travessão), grava em
+# posts/AAAA-MM-DD/FOCUS-<sexta> e publica pelo instagram/postar.py. Qualquer erro de validação para antes de publicar.
+on:
+  schedule:
+    - cron: "40 11 * * 1-3"   # 08:40 em Brasília
+    - cron: "40 12 * * 1-3"   # 09:40 (segunda tentativa)
+    - cron: "10 14 * * 1-3"   # 11:10 (terceira tentativa)
+  workflow_dispatch:
+    inputs:
+      sexta:
+        description: "Sexta da coleta (AAAA-MM-DD). Vazio = boletim desta semana, se já saiu."
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: instagram
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: posts
+          path: posts
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Tem boletim novo?
+        id: hoje
+        run: python focus/hoje.py "${{ inputs.sexta }}" >> "$GITHUB_OUTPUT"
+      - name: Preparar o render
+        if: steps.hoje.outputs.pasta != ''
+        run: |
+          pip install -q playwright pillow
+          python -m playwright install --with-deps chromium
+      - name: Dados, telas, legenda e conferência
+        if: steps.hoje.outputs.pasta != ''
+        env:
+          SEXTA: ${{ steps.hoje.outputs.sexta }}
+          DIV: ${{ steps.hoje.outputs.div }}
+        run: |
+          cd focus
+          python fetch_focus.py --data "$SEXTA" --divulgacao "$DIV"
+          python render.py "dados/focus-$DIV.json"
+          python checar.py "saida/$DIV"
+      - name: Gravar na branch posts e publicar
+        if: steps.hoje.outputs.pasta != ''
+        env:
+          DIV: ${{ steps.hoje.outputs.div }}
+          PASTA: ${{ steps.hoje.outputs.pasta }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_API_VERSION: ${{ vars.IG_API_VERSION }}
+          REPO: ${{ github.repository }}
+        run: |
+          git -C posts config user.name "github-actions[bot]"
+          git -C posts config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p "posts/$PASTA"
+          for f in focus/saida/$DIV/[0-9][0-9]-*.jpg; do
+            b=$(basename "$f"); cp "$f" "posts/$PASTA/${b:0:2}.jpg"
+          done
+          cp "focus/saida/$DIV/legenda.txt" "focus/saida/$DIV/alt.json" "posts/$PASTA/"
+          git -C posts add "$PASTA" && git -C posts commit -q -m "focus: $PASTA" && git -C posts push -q origin HEAD:posts
+          sleep 20   # tempo para o raw.githubusercontent.com servir as imagens novas
+          python instagram/postar.py "$PASTA"
+          git -C posts add "$PASTA/publicado.json" && git -C posts commit -q -m "publicado: $PASTA" && git -C posts push -q origin HEAD:posts
