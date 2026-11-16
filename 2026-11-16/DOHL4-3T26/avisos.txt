@@ -1,0 +1,2 @@
+nome não revisado: "Dohler" é o nome curto da B3; pôr o nome usual em post/nomes.csv (DOHL) e refazer
+aviso: capa sem variação mensurável contra o ano anterior (n.m. ou dado ausente)
