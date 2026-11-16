@@ -1,0 +1,2 @@
+nome não revisado: "Revee" é o nome curto da B3; pôr o nome usual em post/nomes.csv (RVEE) e refazer
+lucro maior que a receita em 3T26

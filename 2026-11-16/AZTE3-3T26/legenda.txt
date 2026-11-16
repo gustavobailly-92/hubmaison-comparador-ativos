@@ -1,0 +1,30 @@
+AZTE3 | Resultado do 3T26
+
+Receita líquida: R$ 749 mil (−16,4% vs 3T25)
+EBITDA: −R$ 1,28 mi (n.m. vs 3T25)
+Lucro líquido: −R$ 4,73 mi (n.m. vs 3T25)
+Maior variação contra o 3T25: dívida bruta, +315,7% (R$ 7,61 mi no fim do 3T26, contra R$ 1,83 mi no fim do 3T25).
+
+Variação em 12, 24 e 36 meses (receita, EBITDA e lucro somados em 12 meses):
+Receita líquida: +14,6% | n/d | n/d
+EBITDA: n.m. | n/d | n/d
+Lucro líquido: n.m. | n/d | n/d
+Patrimônio líquido: +11,3% | +85,2% | n/d
+Dívida bruta: +315,7% | +97,3% | n/d
+Ativo total: +16,1% | +63,6% | n/d
+
+Preço e múltiplos, hoje | 12 | 24 | 36 meses antes:
+Preço AZTE3 (sem proventos): R$ 0,69 | R$ 4,10 | n/d | n/d
+P/VP: 0,10x | 0,65x | n/d | n/d
+EV/EBITDA: n.m. | 16,50x | n/d | n/d
+
+P/VP de 0,10x, P/L de n.m. na cotação de 13/11/2026.
+
+n.m.: não mensurável, há valor negativo em um dos períodos ou a variação passa de 999%.
+n.m.: não mensurável, PL, lucro ou EBITDA de 12 meses negativo, ou múltiplo acima de 100x.
+
+Fontes: ITR do 3T26 entregue à CVM em 16/11/2026; múltiplos: Cálculo com a cotação de fechamento na B3 em 13/11/2026 e as demonstrações entregues à CVM. EBITDA: resultado antes do resultado financeiro e dos tributos, mais depreciação e amortização (DVA), sem os ajustes que a empresa divulga.
+
+Conteúdo informativo, sem recomendação de compra ou venda.
+
+#AZTE3 #resultados #3T26 #b3
