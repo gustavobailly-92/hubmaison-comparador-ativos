@@ -168,9 +168,13 @@ function graficoCapa(serie){
   for (let i = 1; i < vals.length; i++) d += ` H${x(i)} V${y(vals[i])}`;  // a mediana muda uma vez por semana
   const u = vals.length - 1, ex = x(u), ey = y(vals[u]);
   // meses: um rótulo na primeira semana de cada mês
-  let meses = "", ultimo = -1;
-  serie.forEach((p, i) => { const m = data(p.semana).m; if (m !== ultimo) { ultimo = m;
-    meses += `<text x="${x(i)}" y="${H - 4}" fill="#93acc6" font-size="24" font-family="Montserrat" text-anchor="${i === 0 ? "start" : x(i) > W - 40 ? "end" : "middle"}">${MES3[m]}</text>`; } });
+  // um rótulo por mês; quando dois ficam a menos de 80 px (mês que começa no fim da série), fica só o mais novo
+  const marcas = [];
+  serie.forEach((p, i) => { const m = data(p.semana).m;
+    if (!marcas.length || marcas[marcas.length - 1].m !== m) {
+      if (marcas.length && x(i) - marcas[marcas.length - 1].x < 80) marcas.pop();
+      marcas.push({m, x: x(i), i}); } });
+  const meses = marcas.map(k => `<text x="${k.x}" y="${H - 4}" fill="#93acc6" font-size="24" font-family="Montserrat" text-anchor="${k.i === 0 ? "start" : k.x > W - 40 ? "end" : "middle"}">${MES3[k.m]}</text>`).join("");
   const ch = D.destaque.chave;
   return `<svg class="grafico" viewBox="0 0 ${W} ${H}" aria-hidden="true">
     <defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#93acc6" stop-opacity=".18"/><stop offset="1" stop-color="#93acc6" stop-opacity="0"/></linearGradient></defs>
@@ -178,7 +182,7 @@ function graficoCapa(serie){
     <line x1="0" x2="${W}" y1="${BASE}" y2="${BASE}" stroke="#93acc6" stroke-opacity=".3"/>
     <path d="${d}" fill="none" stroke="#b2cbe6" stroke-opacity=".85" stroke-width="2.4" stroke-linejoin="round"/>
     <circle cx="${x(0)}" cy="${y(vals[0])}" r="5" fill="#26314d" stroke="#b2cbe6" stroke-width="2"/>
-    <text x="${x(0)}" y="${y(vals[0]) - 18}" fill="#b2cbe6" font-size="22" font-family="Montserrat">${valorTxt(ch, vals[0])}</text>
+    <text x="${x(0)}" y="${y(vals[0]) + (Math.max(...vals.slice(1, 6)) >= vals[0] ? 40 : -18)}" fill="#b2cbe6" font-size="22" font-family="Montserrat">${valorTxt(ch, vals[0])}</text>
     <circle cx="${ex}" cy="${ey}" r="20" fill="#c9a96e" fill-opacity=".16"/>
     <circle cx="${ex}" cy="${ey}" r="8" fill="#c9a96e"/>
     ${meses}
