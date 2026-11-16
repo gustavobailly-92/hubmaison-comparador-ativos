@@ -1,6 +1,6 @@
 {
   "referencia": "2026-11-12",
-  "gerado": "2026-11-16T00:48:43Z",
+  "gerado": "2026-11-16T03:18:26Z",
   "fundos_publicados": 10189,
   "fundos_na_matriz": 16471,
   "fundos_xp": 1007,
@@ -166,7 +166,8 @@
   ],
   "avisos": [
     "CDI sem valor em 23 dias do calendário (tratados como 0)",
-    "ações: 24 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
+    "ações: 24 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)",
+    "RAD (CVM): busca de 2026-11-16 falhou: RAD: Erro ao selecionar os documentos: The HTTP service located at http://127.0.0.1:8182/ConsultaExterna/ConsultaExternaCVM.svc is unavailable.  This could be because the service is too busy or because no endpoint was found listening at the specified address. Please ensure that the address is correct and try accessing the service again later."
   ],
-  "duracao_s": 598
+  "duracao_s": 708
 }
