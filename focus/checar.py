@@ -8,7 +8,7 @@ import argparse, os, sys
 from statistics import median
 
 MIN_CONTEUDO, MIN_NOTA, MIN_CONTRASTE, MARGEM = 22, 18, 4.5, 60
-CLASSES_NOTA = ("rodape", "ident", "graf-rot", "topo")
+CLASSES_NOTA = ("rodape", "ident", "graf-rot", "topo", "data-div")
 
 JS = r"""
 () => [...document.querySelectorAll('section.slide')].map((sl, n) => {

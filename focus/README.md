@@ -26,15 +26,15 @@ Rodar: `python3 fetch_focus.py` e depois `python3 render.py dados/focus-AAAA-MM-
 
 ## Os slides (1080 x 1350, 4:5)
 
-Mesmo visual da Selic revisada em 12/11: topo com marcador dourado, "Focus", "Boletim do Banco Central" e a data, com fio inteiro embaixo; título de 52 px e subtítulo de 26 px nos slides de gráfico, para o gráfico mandar; rodapé só com a fonte. Sem @maison.invest, sem contador de slides, sem traços curtos, sem travessão. "Deslize" e lockup na capa; lockup no fechamento. Dourado #c9a96e só em marcador, linhas, pontos e no % da capa; mesma cor para alta e queda.
+Fundo de todos os slides igual ao do carrossel do IPCA (azul profundo escurecido), sem a moldura (16/11/2026). Slides internos no visual da Selic revisada em 12/11: topo com marcador dourado, "Focus", "Boletim do Banco Central" e a data, com fio inteiro embaixo; título de 52 px e subtítulo de 26 px nos slides de gráfico, para o gráfico mandar; rodapé só com a fonte. Sem @maison.invest, sem contador de slides, sem traços curtos, sem travessão. "Deslize" e lockup na capa; lockup no fechamento. Dourado #c9a96e só em marcador, linhas, pontos e no % da capa; mesma cor para alta e queda.
 
 | # | Slide | Título | Conteúdo automático |
 |---|---|---|---|
-| 1 | Capa | rótulo do destaque ("Selic esperada para o fim de 2026") | número grande com % fino dourado e "ao ano"/"no ano" (dólar com R$ fino à esquerda); uma frase com o contexto e a variação ("Segunda alta seguida, 0,25 p.p. acima da semana anterior."); gráfico em degraus das últimas 26 semanas, dentro da margem, com meses, valor inicial e ponto final dourado |
+| 1 | Capa, no formato da capa do IPCA (16/11/2026) | "IPCA em 2026" (indicador em destaque) | logo no alto; kicker com a perna do logotipo, "Focus · expectativas de mercado"; número grande; linha "Semana anterior 5,22%" com a nota ("queda de 0,11%", "segunda alta seguida, de 0,25%"); gráfico em degraus das 26 semanas com meses e valor inicial; no pé, data de divulgação e "Deslize" |
 | 2 | Ano corrente | As projeções para AAAA | por indicador: seis meses em degraus com linha de referência no valor inicial (área entre as duas), "em maio, 4,92%"; mediana de hoje e variação na semana em % (como na Selic, nunca "p.p."). Subtítulo: o segundo movimento da semana |
 | 3 | Horizonte | Previsão do mercado | mediana do ano corrente a quatro à frente (hoje 2026 a 2030) dos quatro indicadores; ano corrente em ponto cheio, demais vazados; linha da meta de 3% no IPCA; subtítulo curto ("Selic cai para 10,00% até 2030; IPCA acima da meta em todos os anos."). Rodapé diz quantas instituições projetam os anos distantes |
 | 4 | Consenso | Onde há consenso | subtítulo só descritivo ("Da menor à maior projeção de cada indicador para AAAA."); por linha, o nome e a faixa da menor à maior projeção, todas na mesma escala relativa, com a mediana dourada no centro e o valor dela em cima do ponto |
-| 5 | Fechamento | O mercado, semana a semana | quantas instituições o Focus reúne e "Salve para comparar na próxima segunda"; três números (IPCA e Selic do ano, data do próximo boletim); "Quer conversar sobre o seu patrimônio? Link na bio."; lema; lockup; aviso de conteúdo informativo |
+| 5 | Fechamento | O mercado, semana a semana | sem texto de explicação; três cartões com ícone (carrinho, percentual, calendário): IPCA do ano, Selic no fim do ano, data do próximo boletim; CTA em cápsula; lema; lockup; aviso de conteúdo informativo |
 
 ## Regras dos textos automáticos (`fetch_focus.py`)
 

@@ -13,10 +13,12 @@
 body{background:#111;font-family:"Gotham","Montserrat",sans-serif;color:var(--branco);
   -webkit-font-smoothing:antialiased;font-feature-settings:"tnum" 1,"lnum" 1}
 .slide{width:1080px;height:1350px;position:relative;overflow:hidden;margin:0 0 40px;
-  background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.34)),var(--azul);
+  /* fundo do carrossel do IPCA (azul profundo escurecido), sem a moldura */
+  background:
+    radial-gradient(1100px 700px at 85% -10%, rgba(63,84,119,.55), transparent 60%),
+    radial-gradient(900px 600px at -10% 110%, rgba(41,54,84,.9), transparent 65%),
+    linear-gradient(170deg,#1c2742,#141c31);
   padding:var(--pad);display:flex;flex-direction:column}
-.slide::before{content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(900px 700px at 85% -10%,rgba(147,172,198,.14),transparent 60%)}
 .slide > *{position:relative}
 
 /* topo da família (Selic, IGP-M): marcador, nome, contexto e data, com fio inteiro embaixo */
@@ -32,21 +34,26 @@ h2{font-weight:800;font-size:52px;line-height:1.08;letter-spacing:-.012em;margin
 .ic svg{width:100%;height:100%;display:block}
 .logo{width:300px;display:block}
 
-/* 1 · capa: rótulo, número, uma frase e o gráfico em território próprio */
-.capa .rotulo{font-size:42px;font-weight:400;color:var(--suave);margin-top:84px}
-.capa .num{display:flex;align-items:flex-start;margin-top:26px}
-.capa .num .n{font-weight:900;font-size:260px;line-height:.82;letter-spacing:-.05em;margin-left:-10px;white-space:nowrap}
-.capa .num .u{margin-left:22px;display:flex;flex-direction:column;gap:14px;padding-top:4px}
-.capa .num .u .p{font-weight:200;font-size:144px;line-height:.8;color:var(--ouro);letter-spacing:-.02em}
-.capa .num .u span{font-size:26px;color:var(--suave)}
-.capa .num .rs{font-weight:200;font-size:116px;line-height:.9;color:var(--ouro);margin-right:22px;padding-top:6px}
-.capa .frase{font-size:30px;line-height:1.4;color:var(--suave);margin-top:48px;max-width:896px;text-wrap:balance}
-.capa .frase b{color:var(--branco);font-weight:700}
-.capa .graf{margin-top:auto;position:relative}
-.capa .graf-rot{display:block;font-size:22px;color:var(--claro);margin-bottom:10px}
-.capa .grafico{display:block;width:896px;height:400px;overflow:visible}
-.capa .pe{margin-top:56px;display:flex;justify-content:space-between;align-items:flex-end}
-.deslize{display:flex;align-items:center;gap:14px;font-size:28px;color:var(--suave);font-weight:500}
+/* 1 · capa no formato da capa do IPCA (logo no alto, kicker com a perna do logotipo, título, número,
+   linha da semana anterior, data e "Deslize" no pé), com o gráfico das 26 semanas */
+.capa{padding:76px 76px 64px}
+.capa .logo{width:300px}
+.capa-main{flex:1;display:flex;flex-direction:column;justify-content:center}
+.capa-kicker{font-size:24px;letter-spacing:.24em;text-transform:uppercase;color:#a9bdd4;font-weight:700;display:flex;align-items:center;gap:16px}
+.perna{width:14px;height:34px;flex:none}
+.capa-titulo{font-size:92px;font-weight:900;line-height:1;margin-top:28px;letter-spacing:-.015em}
+.capa-numero{font-size:250px;font-weight:900;line-height:.95;letter-spacing:-.04em;margin-top:26px;margin-left:-8px;white-space:nowrap}
+.capa-numero small{font-size:.5em;letter-spacing:0;margin-right:14px}
+.capa-sem{display:flex;align-items:baseline;gap:18px;margin-top:52px;flex-wrap:wrap}
+.capa-sem .rot{font-size:22px;letter-spacing:.18em;text-transform:uppercase;color:#a9bdd4;font-weight:700}
+.capa-sem .val{font-size:56px;font-weight:900;letter-spacing:-.02em}
+.capa-sem .nota{font-size:22px;color:#a9bdd4}
+.capa .graf{margin-top:48px}
+.capa .graf-rot{display:block;font-size:20px;color:#8299b6;margin-bottom:6px}
+.capa .grafico{display:block;width:928px;height:300px;overflow:visible}
+.capa-base{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(147,172,198,.18);padding-top:28px}
+.capa-base .data-div{font-size:19px;color:#8299b6;letter-spacing:.02em}
+.deslize{font-size:22px;color:#a9bdd4;display:flex;gap:12px;align-items:center;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
 
 /* 2 · a semana: mediana do ano e seis meses */
 .tab{margin-top:64px;display:grid;grid-template-columns:230px minmax(0,1fr) 210px;column-gap:40px;align-items:center}
@@ -90,17 +97,18 @@ h2{font-weight:800;font-size:52px;line-height:1.08;letter-spacing:-.012em;margin
 .legenda-g{display:flex;gap:40px;margin-top:72px;font-size:22px;color:var(--claro);align-items:center}
 .legenda-g span{display:flex;align-items:center;gap:12px}
 
-/* 5 · fechamento, como o da Selic */
+/* 5 · fechamento: três cartões ilustrados (ícone, número, rótulo), sem texto de explicação */
 .fim h2{font-size:56px}
-.fim .sub{max-width:840px;font-size:28px;color:var(--suave)}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:auto}
-.stats div{border-top:1px solid var(--fio);padding-top:28px}
-.stats b{display:block;font-size:46px;font-weight:700;letter-spacing:-.01em}
-.stats span{display:block;font-size:22px;color:var(--claro);margin-top:10px}
-.cta{font-size:32px;font-weight:600;margin-top:64px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:96px}
+.stats > div{background:rgba(63,84,119,.26);border:1px solid rgba(147,172,198,.18);border-radius:22px;padding:30px 28px 28px;display:flex;flex-direction:column}
+.stats .ico{width:76px;height:76px;border-radius:50%;border:1.5px solid rgba(201,169,110,.55);display:flex;align-items:center;justify-content:center;color:var(--ouro)}
+.stats .ico svg{width:38px;height:38px}
+.stats b{display:block;font-size:50px;font-weight:800;letter-spacing:-.015em;margin-top:34px}
+.stats span{display:block;font-size:22px;color:var(--claro);margin-top:10px;line-height:1.35}
+.cta{margin-top:64px;display:inline-flex;align-items:center;gap:18px;font-size:28px;font-weight:700;padding:24px 34px;border:1.5px solid var(--ouro);border-radius:999px;align-self:flex-start}
 .lema{font-size:24px;line-height:1.5;color:var(--claro);margin-top:auto}
 .fim .logo{margin-top:40px}
-.ident{font-size:19px;color:var(--claro);line-height:1.5;margin-top:28px;max-width:860px}
+.ident{font-size:19px;color:var(--claro);line-height:1.5;margin-top:24px;max-width:860px}
 </style>
 </head>
 <body>
@@ -159,7 +167,7 @@ function escala(vals, faixaMin, extra=[]){
 // Território próprio para o gráfico, entre a frase e o pé: degraus da mediana em 26 semanas,
 // linha de base com os meses, valor inicial anotado e ponto final em dourado
 function graficoCapa(serie){
-  const W = 896, H = 400, Y0 = 40, Y1 = 330, BASE = 358;
+  const W = 928, H = 300, Y0 = 30, Y1 = 236, BASE = 262;
   const vals = serie.map(s => s.mediana);
   const [mn, mx] = escala(vals, {ipca:.8, selic:1.5, pib:.8, cambio:.5}[D.destaque.chave]);
   const x = i => 6 + i * (W - 22) / (vals.length - 1);
@@ -182,22 +190,26 @@ function graficoCapa(serie){
     <line x1="0" x2="${W}" y1="${BASE}" y2="${BASE}" stroke="#93acc6" stroke-opacity=".3"/>
     <path d="${d}" fill="none" stroke="#b2cbe6" stroke-opacity=".85" stroke-width="2.4" stroke-linejoin="round"/>
     <circle cx="${x(0)}" cy="${y(vals[0])}" r="5" fill="#26314d" stroke="#b2cbe6" stroke-width="2"/>
-    <text x="${x(0)}" y="${y(vals[0]) + (Math.max(...vals.slice(1, 6)) >= vals[0] ? 40 : -18)}" fill="#b2cbe6" font-size="22" font-family="Montserrat">${valorTxt(ch, vals[0])}</text>
+    <text x="${x(0)}" y="${(Math.max(...vals.slice(1, 6)) >= vals[0] && y(vals[0]) + 40 < BASE - 30) ? y(vals[0]) + 40 : y(vals[0]) - 18}" fill="#b2cbe6" font-size="22" font-family="Montserrat">${valorTxt(ch, vals[0])}</text>
     <circle cx="${ex}" cy="${ey}" r="20" fill="#c9a96e" fill-opacity=".16"/>
     <circle cx="${ex}" cy="${ey}" r="8" fill="#c9a96e"/>
     ${meses}
   </svg>`;
 }
 const chD = D.destaque.chave, aD = por[chD].anos[ano0];
-const numCapa = chD === "cambio"
-  ? `<span class="rs">R$</span><span class="n">${fmt(aD.mediana)}</span>`
-  : `<span class="n">${fmt(aD.mediana)}</span><span class="u"><span class="p">%</span><span>${UNID[chD]}</span></span>`;
-const s1 = `<section class="slide capa">${topo}
-  <p class="rotulo">${D.textos.capa_rotulo}</p>
-  <div class="num">${numCapa}</div>
-  <p class="frase">${D.textos.capa_frase}</p>
-  <div class="graf"><span class="graf-rot">Mediana para ${ano0}, últimas ${aD.serie.length} semanas</span>${graficoCapa(aD.serie)}</div>
-  <div class="pe"><span class="deslize">Deslize <svg width="14" height="22" viewBox="0 0 14 22"><path d="M3 3l8 8-8 8" stroke="#c9a96e" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><img class="logo" src="${LOGO}" alt="Maison Invest | XP"></div>
+const PERNA = `<svg class="perna" viewBox="0 0 14 34"><line x1="10" y1="3" x2="4" y2="31" stroke="#c9a96e" stroke-width="5" stroke-linecap="round"/></svg>`;
+const numCapa = chD === "cambio" ? `<small>R$</small>${fmt(aD.mediana)}` : `${fmt(aD.mediana)}%`;
+const s1 = `<section class="slide capa">
+  <div><img class="logo" src="${LOGO}" alt="Maison Invest | XP"></div>
+  <div class="capa-main">
+    <div class="capa-kicker">${PERNA}<span>Focus · expectativas de mercado</span></div>
+    <div class="capa-titulo">${D.textos.capa_titulo}</div>
+    <div class="capa-numero">${numCapa}</div>
+    <div class="capa-sem"><span class="rot">Semana anterior</span><span class="val">${valorTxt(chD, aD.semana_anterior)}</span><span class="nota">${D.textos.capa_nota}</span></div>
+    <div class="graf"><span class="graf-rot">Mediana para ${ano0}, últimas ${aD.serie.length} semanas</span>${graficoCapa(aD.serie)}</div>
+  </div>
+  <div class="capa-base"><div class="data-div">Divulgado pelo Banco Central em ${dataCurta(D.boletim.data_divulgacao)}</div>
+    <div class="deslize">Deslize <svg width="34" height="16" viewBox="0 0 34 16"><path d="M0 8h30M24 2l7 6-7 6" stroke="#c9a96e" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
 </section>`;
 
 // ---------- 2 · As projeções do ano ----------
@@ -301,13 +313,13 @@ const s4 = `<section class="slide">${topo}
 </section>`;
 
 // ---------- 5 · Fechamento ----------
+const CALENDARIO = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/><circle cx="12" cy="15" r="1.6" fill="currentColor" stroke="none"/></svg>`;
 const s5 = `<section class="slide fim">${topo}
   <h2>${D.textos.fechamento_titulo}</h2>
-  <p class="sub">O Focus reúne o que cerca de ${Math.floor(nRespMax / 10) * 10} instituições esperam para inflação, juros, crescimento e dólar. Salve para comparar na próxima segunda.</p>
   <div class="stats">
-    <div><b>${valorTxt("ipca", por.ipca.anos[ano0].mediana)}</b><span>IPCA em ${ano0}</span></div>
-    <div><b>${valorTxt("selic", por.selic.anos[ano0].mediana)}</b><span>Selic no fim de ${ano0}</span></div>
-    <div><b>${diaMes(D.boletim.proxima)}</b><span>próximo boletim</span></div>
+    <div><i class="ico">${ICONE.ipca}</i><b>${valorTxt("ipca", por.ipca.anos[ano0].mediana)}</b><span>IPCA em ${ano0}</span></div>
+    <div><i class="ico">${ICONE.selic}</i><b>${valorTxt("selic", por.selic.anos[ano0].mediana)}</b><span>Selic no fim de ${ano0}</span></div>
+    <div><i class="ico">${CALENDARIO}</i><b>${diaMes(D.boletim.proxima)}</b><span>próximo boletim</span></div>
   </div>
   <p class="cta">Quer conversar sobre o seu patrimônio? Link na bio.</p>
   <p class="lema">Liberdade nas escolhas. Fraternidade na relação.<br>Expertise na solução.</p>

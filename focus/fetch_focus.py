@@ -211,6 +211,18 @@ def frase_capa_v4(item, ano):
     return f"{ctx}, <b>{var}</b> {lado} da semana anterior."
 
 
+def nota_capa(item, ano):
+    """Nota curta ao lado do valor da semana anterior, no formato da capa do IPCA."""
+    a = item["anos"][str(ano)]
+    ctx = contexto_capa(item, ano)
+    if a["sentido"] == "estavel":
+        return ctx[0].lower() + ctx[1:]
+    var = variacao(item["chave"], a["variacao_semana"])
+    if ctx.endswith("na semana"):
+        return f"{a['sentido']} de {var}"
+    return f"{ctx[0].lower() + ctx[1:]}, de {var}"
+
+
 def contexto_capa(item, ano):
     """Frase curta ao lado do seletor Queda · Estável · Alta, lida da série semanal."""
     vals = [p["mediana"] for p in item["anos"][str(ano)]["serie"]]
@@ -306,6 +318,8 @@ def textos(d):
     return {
         "capa_rotulo": ROTULO_CAPA[dest["chave"]].format(a=ano),
         "capa_frase": frase_capa_v4(item_dest, ano),
+        "capa_titulo": f"{ {'ipca': 'IPCA', 'selic': 'Selic', 'pib': 'PIB', 'cambio': 'Dólar'}[dest['chave']] } em {ano}",
+        "capa_nota": nota_capa(item_dest, ano),
         "capa_contexto": contexto_capa(item_dest, ano),
         "capa_apoio": apoio,
         "painel_titulo": f"As projeções para {ano}",
