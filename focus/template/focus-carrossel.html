@@ -41,14 +41,19 @@ h2{font-weight:800;font-size:52px;line-height:1.08;letter-spacing:-.012em;margin
 .capa-main{flex:1;display:flex;flex-direction:column;justify-content:center}
 .capa-kicker{font-size:24px;letter-spacing:.24em;text-transform:uppercase;color:#a9bdd4;font-weight:700;display:flex;align-items:center;gap:16px}
 .perna{width:14px;height:34px;flex:none}
-.capa-titulo{font-size:78px;font-weight:900;line-height:1.04;margin-top:28px;letter-spacing:-.015em;color:var(--suave);text-wrap:balance}
+.capa-titulo{font-size:44px;font-weight:400;line-height:1.2;margin-top:30px;color:var(--suave)}
 .capa-numero{font-size:250px;font-weight:900;line-height:.95;letter-spacing:-.04em;margin-top:26px;margin-left:-8px;white-space:nowrap}
 .capa-numero small{font-size:.5em;letter-spacing:0;margin-right:14px}
 .capa-sem{display:flex;align-items:baseline;gap:18px;margin-top:52px;flex-wrap:wrap}
 .capa-sem .rot{font-size:22px;letter-spacing:.18em;text-transform:uppercase;color:#a9bdd4;font-weight:700}
 .capa-sem .val{font-size:56px;font-weight:900;letter-spacing:-.02em}
 .capa-sem .nota{font-size:22px;color:#a9bdd4}
-.capa .graf{margin-top:48px}
+.capa-seq{display:flex;align-items:center;gap:22px;margin-top:30px}
+.capa-seq .ico{width:64px;height:64px;border-radius:50%;border:1.5px solid rgba(201,169,110,.55);display:flex;align-items:center;justify-content:center;color:var(--ouro);flex:none}
+.capa-seq .ico svg{width:32px;height:32px}
+.capa-seq b{font-size:46px;font-weight:800;letter-spacing:-.01em}
+.capa-seq span{font-size:26px;color:var(--suave)}
+.capa .graf{margin-top:44px}
 .capa .graf-rot{display:block;font-size:20px;color:#8299b6;margin-bottom:6px}
 .capa .grafico{display:block;width:928px;height:300px;overflow:visible}
 .capa-base{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(147,172,198,.18);padding-top:28px}
@@ -197,6 +202,18 @@ function graficoCapa(serie){
   </svg>`;
 }
 const chD = D.destaque.chave, aD = por[chD].anos[ano0];
+// Sequência da semana: ícone de tendência e quantas semanas seguidas de alta, queda ou estabilidade
+const TENDENCIA = {
+  alta:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>`,
+  queda:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l6 6 4-4 8 8"/><path d="M15 17h6v-6"/></svg>`,
+  estavel:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h17"/><path d="M16 8l4 4-4 4"/></svg>`,
+};
+function sequencia(a){
+  const n = Math.max(1, a.semanas_seguidas), um = n === 1;
+  const txt = a.sentido === "estavel" ? (um ? "semana sem mudança" : "semanas seguidas sem mudança")
+    : `${um ? "semana" : "semanas seguidas"} de ${a.sentido}`;
+  return `<div class="capa-seq"><i class="ico">${TENDENCIA[a.sentido]}</i><b>${n}</b><span>${txt}</span></div>`;
+}
 const PERNA = `<svg class="perna" viewBox="0 0 14 34"><line x1="10" y1="3" x2="4" y2="31" stroke="#c9a96e" stroke-width="5" stroke-linecap="round"/></svg>`;
 const numCapa = chD === "cambio" ? `<small>R$</small>${fmt(aD.mediana)}` : `${fmt(aD.mediana)}%`;
 const s1 = `<section class="slide capa">
@@ -205,7 +222,8 @@ const s1 = `<section class="slide capa">
     <div class="capa-kicker">${PERNA}<span>Focus · expectativas de mercado</span></div>
     <div class="capa-titulo">${D.textos.capa_titulo}</div>
     <div class="capa-numero" style="font-size:${fmt(aD.mediana).length > 4 ? 218 : 250}px">${numCapa}</div>
-    <div class="capa-sem"><span class="rot">Semana anterior</span><span class="val">${valorTxt(chD, aD.semana_anterior)}</span><span class="nota">${D.textos.capa_nota}</span></div>
+    <div class="capa-sem"><span class="rot">Semana anterior</span><span class="val">${valorTxt(chD, aD.semana_anterior)}</span>${aD.sentido === "estavel" ? "" : `<span class="nota">${D.textos.capa_nota}</span>`}</div>
+    ${sequencia(aD)}
     <div class="graf"><span class="graf-rot">Mediana para ${ano0}, últimas ${aD.serie.length} semanas</span>${graficoCapa(aD.serie)}</div>
   </div>
   <div class="capa-base"><div class="data-div">Divulgado pelo Banco Central em ${dataCurta(D.boletim.data_divulgacao)}</div>
