@@ -14,8 +14,8 @@ API = "https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/Exp
 
 INDICADORES = [
     # chave, nome na API, rótulo, unidade, casas, escala de relevância de uma mudança semanal
+    ("selic",  "Selic",     "Selic",  "% a.a.", 2, 0.25),   # Selic sempre em primeiro (pedido de 16/11/2026)
     ("ipca",   "IPCA",      "IPCA",   "%",    2, 0.10),
-    ("selic",  "Selic",     "Selic",  "% a.a.", 2, 0.25),
     ("pib",    "PIB Total", "PIB",    "%",    2, 0.10),
     ("cambio", "Câmbio",    "Dólar",  "R$",   2, 0.05),
 ]
@@ -160,7 +160,9 @@ def escolher_destaque(d):
             nota += 1
         if nota > nota_melhor:
             melhor, nota_melhor = chave, nota
-    return {"chave": melhor, "ano": int(ano), "sem_mudanca": nota_melhor == 0}
+    # Desde 16/11/2026 a capa é sempre a Selic esperada para o fim do ano (pedido do Gustavo);
+    # a nota acima ainda decide qual movimento entra como frase de apoio na legenda.
+    return {"chave": "selic", "ano": int(ano), "sem_mudanca": nota_melhor == 0, "maior_movimento": melhor}
 
 
 NOME_ANO = {
@@ -318,7 +320,7 @@ def textos(d):
     return {
         "capa_rotulo": ROTULO_CAPA[dest["chave"]].format(a=ano),
         "capa_frase": frase_capa_v4(item_dest, ano),
-        "capa_titulo": f"{ {'ipca': 'IPCA', 'selic': 'Selic', 'pib': 'PIB', 'cambio': 'Dólar'}[dest['chave']] } em {ano}",
+        "capa_titulo": ROTULO_CAPA[dest["chave"]].format(a=ano),
         "capa_nota": nota_capa(item_dest, ano),
         "capa_contexto": contexto_capa(item_dest, ano),
         "capa_apoio": apoio,

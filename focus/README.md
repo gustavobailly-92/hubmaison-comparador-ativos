@@ -30,7 +30,7 @@ Fundo de todos os slides igual ao do carrossel do IPCA (azul profundo escurecido
 
 | # | Slide | Título | Conteúdo automático |
 |---|---|---|---|
-| 1 | Capa, no formato da capa do IPCA (16/11/2026) | "IPCA em 2026" (indicador em destaque) | logo no alto; kicker com a perna do logotipo, "Focus · expectativas de mercado"; número grande; linha "Semana anterior 5,22%" com a nota ("queda de 0,11%", "segunda alta seguida, de 0,25%"); gráfico em degraus das 26 semanas com meses e valor inicial; no pé, data de divulgação e "Deslize" |
+| 1 | Capa, no formato da capa do IPCA (16/11/2026) | sempre "Selic esperada para o fim de AAAA", em azul suave (o número fica em branco) | logo no alto; kicker com a perna do logotipo, "Focus · expectativas de mercado"; número grande; linha "Semana anterior 5,22%" com a nota ("queda de 0,11%", "segunda alta seguida, de 0,25%"); gráfico em degraus das 26 semanas com meses e valor inicial; no pé, data de divulgação e "Deslize" |
 | 2 | Ano corrente | As projeções para AAAA | por indicador: seis meses em degraus com linha de referência no valor inicial (área entre as duas), "em maio, 4,92%"; mediana de hoje e variação na semana em % (como na Selic, nunca "p.p."). Subtítulo: o segundo movimento da semana |
 | 3 | Horizonte | Previsão do mercado | mediana do ano corrente a quatro à frente (hoje 2026 a 2030) dos quatro indicadores; ano corrente em ponto cheio, demais vazados; linha da meta de 3% no IPCA; subtítulo curto ("Selic cai para 10,00% até 2030; IPCA acima da meta em todos os anos."). Rodapé diz quantas instituições projetam os anos distantes |
 | 4 | Consenso | Onde há consenso | subtítulo só descritivo ("Da menor à maior projeção de cada indicador para AAAA."); por linha, o nome e a faixa da menor à maior projeção, todas na mesma escala relativa, com a mediana dourada no centro e o valor dela em cima do ponto |
@@ -39,7 +39,8 @@ Fundo de todos os slides igual ao do carrossel do IPCA (azul profundo escurecido
 ## Regras dos textos automáticos (`fetch_focus.py`)
 
 - Semana do boletim = mediana da sexta anterior à divulgação (`ExpectativasMercadoAnuais`, `baseCalculo = 0`, janela de 30 dias), que é o número do relatório publicado.
-- Destaque da capa: nota = peso x (variação na semana / escala + 0,15 x semanas seguidas), com escala Selic 0,25, IPCA e PIB 0,10, dólar R$ 0,05 e peso 1,3 para IPCA e Selic. Selic que mexe ganha +1. Semana sem mudança: IPCA na capa com "Sem mudança na semana."
+- Capa: desde 16/11/2026 é sempre a Selic esperada para o fim do ano, e a Selic vem primeiro em todos os slides (pedido do Gustavo). Número com cinco caracteres ou mais cai de 250 para 218 px.
+- Maior movimento da semana (vai para a legenda e o subtítulo do slide 2): nota = peso x (variação na semana / escala + 0,15 x semanas seguidas), com escala Selic 0,25, IPCA e PIB 0,10, dólar R$ 0,05 e peso 1,3 para IPCA e Selic. Selic que mexe ganha +1. Semana sem mudança: IPCA na capa com "Sem mudança na semana."
 - Frase de apoio: outro indicador do ano corrente com a sequência mais longa; sem nenhum, "As demais projeções para AAAA ficaram onde estavam."
 - Contexto da capa: lido da série semanal ("Segunda alta seguida", "Primeira alta em 5 semanas", "Virada depois de 3 quedas", "Parada há 4 semanas").
 - Horizonte: "Selic cai/sobe para Y até AAAA"; "IPCA na meta de 3% em AAAA" no primeiro ano com mediana até 3%, senão "IPCA acima da meta em todos os anos".
