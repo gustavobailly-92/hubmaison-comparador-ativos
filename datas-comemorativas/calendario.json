@@ -341,7 +341,7 @@
    "icone": "lanterna",
    "capa": {
     "titulo": "Ano Novo Lunar",
-    "frase": "Aos clientes na China e em toda a Ásia, um ano de prosperidade e boas escolhas."
+    "frase": "Começa o {ano_lunar}. Prosperidade e boas escolhas aos clientes na Ásia."
    },
    "slides": [],
    "fecho": {
@@ -350,16 +350,24 @@
    },
    "cta": null,
    "sobrio": false,
-   "legenda": "Feliz Ano Novo Lunar!\n\nHoje começa o Ano da Cabra, a festa mais importante da China e de boa parte da Ásia. Aos nossos clientes que vivem por lá, e a todos que celebram a data, um novo ciclo de saúde, prosperidade e boas escolhas.",
+   "legenda": "Feliz Ano Novo Lunar!\n\nHoje começa o {ano_lunar}, a festa mais importante da China e de boa parte da Ásia. Aos nossos clientes que vivem por lá, e a todos que celebram a data, um novo ciclo de saúde, prosperidade e boas escolhas.",
    "hashtags": "#AnoNovoLunar #AnoNovoChines #MaisonInvest",
-   "mensagem_cliente": "Olá, {nome}! Feliz Ano Novo Lunar! Que o Ano da Cabra traga saúde e prosperidade para você e sua família. Um abraço,\n{assessor}\nMaison Invest",
+   "mensagem_cliente": "Olá, {nome}! Feliz Ano Novo Lunar! Que o {ano_lunar} traga saúde e prosperidade para você e sua família. Um abraço,\n{assessor}\nMaison Invest",
    "lista": {
     "regra": "pais:china|hong kong|macau|taiwan|singapura|coreia|japao|vietna|malasia",
     "descricao": "Clientes com país de residência em países da Ásia que celebram a data, se o cadastro tiver o campo."
    },
-   "confirmar": [
-    "O animal do ano está no texto da legenda (2027: Cabra). Ao renovar o calendário, trocar o animal."
-   ]
+   "confirmar": [],
+   "bandeira": "cn",
+   "animal_por_ano": {
+    "2027": "Ano da Cabra",
+    "2028": "Ano do Macaco",
+    "2029": "Ano do Galo",
+    "2030": "Ano do Cão"
+   },
+   "icone_por_ano": {
+    "2027": "cabra"
+   }
   },
   {
    "slug": "carnaval",

@@ -32,26 +32,26 @@ Rodar: `python3 render.py --de 2026-11-12 --ate 2027-11-11 --chrome /caminho/do/
 | 15/11/2026 | 07:40 | Proclamação da República | 3 | hubmaison.com/simuladortesouronacional | aprovada |
 | 20/11/2026 | 07:40 | Dia Nacional de Zumbi e da Consciência Negra | 2 | sóbrio | aprovada |
 | 26/11/2026 | 07:40 | Thanksgiving (Ação de Graças, EUA) | 2 | sem CTA | aprovada |
-| 2/12/2026 | 07:40 | UAE National Day (Emirados Árabes) | 2 | sem CTA | pendente |
+| 2/12/2026 | 07:40 | UAE National Day (Emirados Árabes) | 2 | sem CTA | aprovada |
 | 8/12/2026 | 07:40 | Dia Nacional da Família | 2 | Agenda online, link na bio | aprovada |
 | 25/12/2026 | 07:40 | Natal | 2 | sem CTA | aprovada |
 | 1/1/2027 | 07:40 | Ano Novo | 3 | Agenda online, link na bio | aprovada |
 | 24/1/2027 | 07:40 | Dia do Aposentado | 3 | hubmaison.com/simuladorlongoprazo | aprovada |
-| 6/2/2027 | 07:40 | Ano Novo Lunar | 2 | sem CTA | pendente |
-| 8/2/2027 | 07:40 | Carnaval | 3 | sem CTA | pendente |
+| 6/2/2027 | 07:40 | Ano Novo Lunar | 2 | sem CTA | aprovada |
+| 8/2/2027 | 07:40 | Carnaval | 3 | sem CTA | aprovada |
 | 8/3/2027 | 07:40 | Dia Internacional da Mulher | 2 | sem CTA | aprovada |
-| 15/3/2027 | 07:40 | Dia do Consumidor | 4 | WhatsApp (21) 98500-4567 | pendente (conteúdo novo) |
-| 17/3/2027 | 07:40 | St. Patrick's Day (Irlanda) | 2 | sem CTA | pendente |
+| 15/3/2027 | 07:40 | Dia do Consumidor | 4 | WhatsApp (21) 98500-4567 | aprovada |
+| 17/3/2027 | 07:40 | St. Patrick's Day (Irlanda) | 2 | sem CTA | aprovada |
 | 26/3/2027 | 07:40 | Sexta-feira Santa | 2 | sóbrio | aprovada |
 | 21/4/2027 | 07:40 | Tiradentes | 2 | sem CTA | aprovada |
 | 1/5/2027 | 07:40 | Dia do Trabalho | 3 | hubmaison.com/simuladorlongoprazo | aprovada |
 | 9/5/2027 | 07:40 | Dia das Mães | 3 | Agenda online, link na bio | aprovada |
-| 2/6/2027 | 07:40 | Festa della Repubblica (Itália) | 2 | sem CTA | pendente |
-| 10/6/2027 | 07:40 | Dia de Portugal | 2 | sem CTA | pendente |
+| 2/6/2027 | 07:40 | Festa della Repubblica (Itália) | 2 | sem CTA | aprovada |
+| 10/6/2027 | 07:40 | Dia de Portugal | 2 | sem CTA | aprovada |
 | 12/6/2027 | 07:40 | Dia dos Namorados | 3 | Agenda online, link na bio | aprovada |
-| 1/7/2027 | 07:40 | Canada Day | 2 | sem CTA | pendente |
+| 1/7/2027 | 07:40 | Canada Day | 2 | sem CTA | aprovada |
 | 4/7/2027 | 07:40 | Independence Day (EUA) | 3 | hubmaison.com/cambio | aprovada |
-| 7/7/2027 | 07:40 | Tanabata (Japão) | 2 | hubmaison.com/simuladorlongoprazo | pendente |
+| 7/7/2027 | 07:40 | Tanabata (Japão) | 2 | hubmaison.com/simuladorlongoprazo | aprovada |
 | 14/7/2027 | 07:40 | Fête nationale (14 de julho, França) | 3 | sem CTA | aprovada |
 | 20/7/2027 | 07:40 | Dia do Amigo | 2 | sem CTA | aprovada |
 | 26/7/2027 | 07:40 | Dia dos Avós | 3 | WhatsApp (21) 98500-4567 | aprovada |
@@ -59,16 +59,20 @@ Rodar: `python3 render.py --de 2026-11-12 --ate 2027-11-11 --chrome /caminho/do/
 | 7/9/2027 | 07:40 | Independência do Brasil | 3 | hubmaison.com/simuladorlongoprazo | aprovada |
 | 15/9/2027 | 07:40 | Dia do Cliente | 3 | sem CTA | aprovada |
 | 1/10/2027 | 07:40 | Dia Internacional da Pessoa Idosa | 3 | WhatsApp (21) 98500-4567 | aprovada |
-| 12/10/2027 | 07:40 | Nossa Senhora Aparecida | 2 | sóbrio | pendente |
+| 12/10/2027 | 07:40 | Nossa Senhora Aparecida | 2 | sóbrio | aprovada |
 | 12/10/2027 | 11:40 | Dia das Crianças | 3 | WhatsApp (21) 98500-4567 | aprovada |
 | 31/10/2027 | 07:40 | Dia Mundial da Poupança | 5 | hubmaison.com/mapadosinvestimentos | aprovada |
 | 2/11/2027 | 07:40 | Finados | 2 | sóbrio | aprovada |
 
 Não entram: Corpus Christi (ponto facultativo), Páscoa (coberta pela Sexta-feira Santa) e Black Friday. Nenhuma peça cita número de países (decisão de 15/11/2026: a lista de países muda sempre).
 
+## Ano Novo Lunar
+
+O animal muda todo ano. `calendario.json` tem `animal_por_ano` (2027 Cabra, 2028 Macaco, 2029 Galo, 2030 Cão), que entra nos textos pelo marcador `{ano_lunar}`, e `icone_por_ano`, com o ícone de cada animal em `ICONES` do template. Hoje só a cabra (2027) está desenhada: o `render.py` recusa o ano que não tiver animal e ícone, então em outubro de 2027, ao renovar o calendário, é preciso desenhar o macaco. Leva a bandeira da China ao lado.
+
 ## Ícones e bandeiras
 
-Ícones em traço dourado no `template/data-carrossel.html` (`ICONES`). Desenhos próprios e, desde 15/11/2026, alguns do Tabler Icons (sacola, idoso com bengala, aperto de mão com coração; MIT) e do Phosphor Icons, peso thin (tulipa, mão com coração; MIT). Datas de país usam a bandeira em cores reais (campo `bandeira` no `calendario.json`, arquivos em `bandeiras/`, do pacote flag-icons, MIT): Irlanda, Itália, Canadá, EUA e Independência do Brasil; Portugal leva caravela e bandeira. Nas telas do meio o emblema fica pequeno no canto superior esquerdo, longe do título.
+Ícones em traço dourado no `template/data-carrossel.html` (`ICONES`). Desenhos próprios e, desde 15/11/2026, alguns do Tabler Icons (sacola, idoso com bengala, aperto de mão com coração; MIT) e do Phosphor Icons, peso thin (tulipa, mão com coração; MIT). Datas de país usam a bandeira em cores reais (campo `bandeira` no `calendario.json`, arquivos em `bandeiras/`, do pacote flag-icons, MIT): Irlanda, Itália, Canadá, EUA, China (Ano Novo Lunar) e Independência do Brasil; Portugal leva caravela e bandeira. Nas telas do meio o emblema fica pequeno no canto superior esquerdo, longe do título.
 
 ## Regras de conteúdo (da skill maison)
 

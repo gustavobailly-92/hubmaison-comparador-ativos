@@ -161,14 +161,27 @@ def main():
                  for f in sorted(os.listdir(os.path.join(AQUI, "bandeiras"))) if f.endswith(".svg")}
     tpl = tpl.replace("/*BANDEIRAS*/{}", json.dumps(bandeiras))
 
+    icones_tpl = set(re.findall(r"\n  ([a-z]+):`", tpl))
     trabalhos, falhas = [], []
     for e0 in cal["datas"]:
         if so and e0["slug"] not in so:
             continue
         for d in datas_no_periodo(e0["regra"], de, ate):
             e = troca_ano(e0, d.year)
+            erros_ano = []
+            if e0.get("animal_por_ano"):  # Ano Novo Lunar: animal e ícone mudam a cada ano
+                ano_lunar = e0["animal_por_ano"].get(str(d.year))
+                icone_ano = e0.get("icone_por_ano", {}).get(str(d.year))
+                if not ano_lunar:
+                    erros_ano.append(f"sem animal do ano {d.year} em animal_por_ano")
+                if not icone_ano:
+                    erros_ano.append(f"sem ícone do animal de {d.year}: desenhar em ICONES e pôr em icone_por_ano")
+                e = json.loads(json.dumps(e, ensure_ascii=False).replace("{ano_lunar}", ano_lunar or ""))
+                e["icone"] = icone_ano
             legenda = monta_legenda(e, bloco_xp)
-            erros = validar(e, legenda)
+            erros = erros_ano + validar(e, legenda)
+            if e.get("icone") and e["icone"] not in icones_tpl:
+                erros.append(f"ícone {e['icone']} não existe em ICONES do template")
             if e.get("bandeira") and e["bandeira"] not in bandeiras:
                 erros.append(f"bandeira {e['bandeira']} sem arquivo em bandeiras/")
             if not e.get("icone") and not e.get("bandeira"):
