@@ -1,6 +1,6 @@
 {
   "referencia": "2026-11-13",
-  "gerado": "2026-11-17T21:15:56Z",
+  "gerado": "2026-11-17T21:53:48Z",
   "fundos_publicados": 10175,
   "fundos_na_matriz": 16469,
   "fundos_xp": 1007,
@@ -168,5 +168,5 @@
     "CDI sem valor em 22 dias do calendário (tratados como 0)",
     "ações: 24 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 675
+  "duracao_s": 795
 }
