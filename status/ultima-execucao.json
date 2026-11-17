@@ -1,6 +1,6 @@
 {
   "referencia": "2026-11-12",
-  "gerado": "2026-11-17T00:14:35Z",
+  "gerado": "2026-11-17T01:18:30Z",
   "fundos_publicados": 10187,
   "fundos_na_matriz": 16471,
   "fundos_xp": 1007,
@@ -166,7 +166,8 @@
   ],
   "avisos": [
     "CDI sem valor em 22 dias do calendário (tratados como 0)",
-    "ações: 24 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
+    "ações: 24 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)",
+    "RAD (CVM): INEPAR S.A. INDUSTRIA E CONSTRUCOES EM R ITR 2026-09-30: o RAD devolveu a página de consulta em vez do arquivo, 8 vezes"
   ],
-  "duracao_s": 592
+  "duracao_s": 834
 }
