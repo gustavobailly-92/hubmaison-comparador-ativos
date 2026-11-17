@@ -91,8 +91,14 @@ O animal muda todo ano. `calendario.json` tem `animal_por_ano` (2027 Cabra, 2028
 ## Publicação
 
 1. Gustavo revisa a galeria e aprova; cada aprovação vira uma linha `AAAA-MM-DD/slug` em `aprovados.json`.
-2. `postar-datas.yml` roda às 7h40 e às 11h40, e também quando `aprovados.json` muda na main. `hoje.py` lista as datas aprovadas do dia cujo horário já chegou; para cada uma sem `publicado.json`, renderiza, grava em `posts/AAAA-MM-DD/DATA-slug/` e publica pelo `instagram/postar.py`.
+2. Uma tarefa agendada do Claude dispara `postar-datas.yml` às 7h42 de cada data (ver "Horário" abaixo); o cron das 7h40 e 11h40 fica como reserva, e o workflow também roda quando `aprovados.json` muda na main. `hoje.py` lista as datas aprovadas do dia cujo horário já chegou; para cada uma sem `publicado.json`, renderiza, grava em `posts/AAAA-MM-DD/DATA-slug/` e publica pelo `instagram/postar.py`.
 3. Instalado em 15/11/2026 na main do `hubmaison-comparador-ativos` (pasta `datas-comemorativas/` e `.github/workflows/postar-datas.yml`; `postar.py` aceita `DATA-slug`). Mesmo token (`IG_ACCESS_TOKEN`) e mesma fila (`concurrency: instagram`) da B3. Primeira publicação: Proclamação da República, 15/11/2026, https://www.instagram.com/p/DfxEbV-Emep/. O repositório é a fonte de verdade; este projeto guarda uma cópia.
+
+## Horário: tarefas do Claude em cada data (17/11/2026)
+
+O agendamento do próprio GitHub (cron do `postar-datas.yml`) está atrasando de 7 a 12 horas neste repositório: o disparo das 7h40 rodou entre 16h e 20h nos dias 16 e 17/11/2026, e o da B3 também. O atraso está no despacho do agendador do GitHub (a execução é criada já atrasada; não é fila de runner), problema relatado por outros usuários desde ago/2026 e sem correção do lado do repositório. Por isso cada data aprovada tem uma tarefa agendada do Claude, uma por data (33 de 20/11/2026 a 02/11/2027), às 7h42 (11h42 no Dia das Crianças), que dispara o `postar-datas.yml` por `workflow_dispatch` (sem atraso; testado em 17/11/2026: começou 1 minuto depois), espera, confere o `publicado.json` e manda uma notificação com o link. O cron do workflow fica como reserva: se a tarefa falhar, ele publica mais tarde no mesmo dia. Nada é publicado duas vezes (pasta com `publicado.json` é pulada).
+
+Ao renovar o calendário (outubro), criar as tarefas do novo ciclo. A tarefa de Finados (02/11/2027) avisa isso.
 
 ## Todo ano
 
