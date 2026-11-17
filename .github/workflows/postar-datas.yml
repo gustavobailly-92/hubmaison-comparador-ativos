@@ -2,13 +2,14 @@ name: Publicar data comemorativa
 run-name: "Data comemorativa ${{ inputs.data || 'de hoje' }}"
 
 # Fica em .github/workflows/ do hubmaison-comparador-ativos, com a pasta datas-comemorativas/ na main.
-# Roda às 7h40 e às 11h40 (Brasília) e sempre que aprovados.json muda. Publica toda data aprovada do
+# Roda às 7h40, 11h40 e 16h40 (Brasília) e sempre que aprovados.json muda. Publica toda data aprovada do
 # dia cujo horário já chegou (calendario.json, campo horario; padrão 07:40), uma de cada vez: renderiza,
 # grava em posts/AAAA-MM-DD/DATA-slug e publica pelo instagram/postar.py. Pasta com publicado.json é pulada.
 on:
   schedule:
     - cron: "40 10 * * *"   # 07:40 em Brasília
     - cron: "40 14 * * *"   # 11:40 em Brasília (segundo post do dia, quando houver)
+    - cron: "40 19 * * *"   # 16:40 em Brasília (terceiro post do dia: Corretor de Seguros, em 12/10)
   push:
     branches: [main]
     paths:

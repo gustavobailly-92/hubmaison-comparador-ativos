@@ -23,6 +23,9 @@ As colunas são reconhecidas pelo nome (sem acento, maiúsculas ou minúsculas).
   status        status | situacao     (linhas "inativo" ou "encerrado" ficam de fora)
   pais_residencia  pais de residencia | pais | country   (para Thanksgiving, 4 de julho e 14 de julho)
 
+Profissões e especialidades médicas usam a regra profissao:<regex> sobre a profissão cadastrada
+(sem acento, minúsculas); a Mulher Empresária usa profissao_f:<regex>, que exige também sexo feminino.
+
 Regra que não muda: nada é inferido. Sem o campo, a lista daquela regra sai vazia e o script diz o que falta.
 Maternidade, paternidade e netos nunca saem da idade ou do sexo.
 """
@@ -106,6 +109,13 @@ def regra_aplica(regra, r, m, em):
     if regra == "sexo_f":
         if "sexo" not in m: return False, "sexo"
         return norm(g("sexo")).startswith("f"), None
+    if regra.startswith(("profissao:", "profissao_f:")):  # profissões e especialidades: regex sobre a profissão cadastrada
+        if "profissao" not in m: return False, "profissao"
+        ok = bool(re.search(regra.split(":", 1)[1], norm(g("profissao"))))
+        if regra.startswith("profissao_f:"):  # Dia da Mulher Empresária: profissão e sexo feminino
+            if "sexo" not in m: return False, "sexo"
+            ok = ok and norm(g("sexo")).startswith("f")
+        return ok, None
     if regra == "profissao_aposentado":
         if "profissao" not in m: return False, "profissao"
         return "aposentad" in norm(g("profissao")), None

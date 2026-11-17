@@ -2,7 +2,7 @@
 
 Kit para o Claude Code publicar, a cada data comemorativa e feriado nacional, um carrossel no Instagram da Maison Invest, e para o time mandar uma mensagem individual aos clientes daquela data. Irmão dos kits `ipca-mensal/`, `igpm-mensal/` e `focus-semanal/`: mesmo visual, mesmo formato de pasta da branch `posts` e o mesmo `instagram/postar.py` dos resultados da B3. Montado em 12/11/2026.
 
-As profissões (Dia do Médico, do Servidor etc.) ficam no calendário das profissões, não aqui.
+Desde 17/11/2026 o mesmo calendário traz também as datas das profissões (20) e das especialidades médicas (14), com o mesmo template, a mesma aprovação e o mesmo workflow. Ficam fora o Notário e Registrador (decisão do Gustavo) e o Aposentado, que já é data comemorativa.
 
 ## Estrutura
 
@@ -63,6 +63,51 @@ Rodar: `python3 render.py --de 2026-11-12 --ate 2027-11-11 --chrome /caminho/do/
 | 12/10/2027 | 11:40 | Dia das Crianças | 3 | WhatsApp (21) 98500-4567 | aprovada |
 | 31/10/2027 | 07:40 | Dia Mundial da Poupança | 5 | hubmaison.com/mapadosinvestimentos | aprovada |
 | 2/11/2027 | 07:40 | Finados | 2 | sóbrio | aprovada |
+
+## Profissões e especialidades médicas (desde 17/11/2026)
+
+2 telas cada (capa e fechamento com o lema), sem CTA, legenda curta de homenagem e mensagem individual ao cliente daquela profissão. A lista usa a regra `profissao:<regex>` sobre a profissão cadastrada no CRM (a Mulher Empresária usa `profissao_f:`, que exige também sexo feminino); nada é inferido.
+
+| Data | Hora | Dia | Grupo | Status |
+|---|---|---|---|---|
+| 3/12/2026 | 07:40 | Dia do Delegado de Polícia | profissão | pendente |
+| 5/12/2026 | 07:40 | Dia do Médico de Família | especialidade médica | pendente |
+| 11/12/2026 | 07:40 | Dia do Engenheiro | profissão | pendente |
+| 13/12/2026 | 07:40 | Dia do Marinheiro | profissão | pendente |
+| 14/12/2026 | 07:40 | Dia do Ministério Público | profissão | pendente |
+| 15/12/2026 | 07:40 | Dia do Arquiteto | profissão | pendente |
+| 5/2/2027 | 07:40 | Dia do Dermatologista | especialidade médica | pendente |
+| 7/4/2027 | 07:40 | Dia do Médico Legista | especialidade médica | pendente |
+| 11/4/2027 | 07:40 | Dia do Infectologista | especialidade médica | pendente |
+| 12/4/2027 | 07:40 | Dia do Obstetra | especialidade médica | pendente |
+| 14/4/2027 | 07:40 | Dia do Neurocirurgião | especialidade médica | pendente |
+| 7/5/2027 | 07:40 | Dia do Oftalmologista | especialidade médica | pendente |
+| 19/5/2027 | 07:40 | Dia do Defensor Público | profissão | pendente |
+| 27/5/2027 | 07:40 | Dia do Profissional Liberal | profissão | pendente |
+| 27/7/2027 | 07:40 | Dia do Pediatra | especialidade médica | pendente |
+| 11/8/2027 | 07:40 | Dia do Advogado e do Magistrado | profissão | pendente |
+| 13/8/2027 | 07:40 | Dia do Economista | profissão | pendente |
+| 14/8/2027 | 07:40 | Dia do Cardiologista | especialidade médica | pendente |
+| 17/8/2027 | 07:40 | Dia da Mulher Empresária | profissão | pendente |
+| 25/8/2027 | 07:40 | Dia do Soldado | profissão | pendente |
+| 9/9/2027 | 07:40 | Dia do Administrador | profissão | pendente |
+| 19/9/2027 | 07:40 | Dia do Ortopedista | especialidade médica | pendente |
+| 21/9/2027 | 07:40 | Dia do Auditor Fiscal | profissão | pendente |
+| 22/9/2027 | 07:40 | Dia do Contador | profissão | pendente |
+| 4/10/2027 | 07:40 | Dia do Médico do Trabalho | especialidade médica | pendente |
+| 5/10/2027 | 07:40 | Dia do Empreendedor | profissão | pendente |
+| 12/10/2027 | 16:40 | Dia do Corretor de Seguros | profissão | pendente |
+| 16/10/2027 | 07:40 | Dia do Anestesiologista | especialidade médica | pendente |
+| 18/10/2027 | 07:40 | Dia do Médico | profissão | pendente |
+| 23/10/2027 | 07:40 | Dia do Aviador | profissão | pendente |
+| 25/10/2027 | 07:40 | Dia do Dentista | profissão | pendente |
+| 28/10/2027 | 07:40 | Dia do Servidor Público | profissão | pendente |
+| 30/10/2027 | 07:40 | Dia do Ginecologista e Obstetra | especialidade médica | pendente |
+| 8/11/2027 | 07:40 | Dia do Radiologista | especialidade médica | pendente |
+
+Em 12/10 saem três posts: Aparecida (7h40), Crianças (11h40) e Corretor de Seguros (16h40); por isso o workflow ganhou o horário das 16h40. Dezembro concentra seis datas entre os dias 3 e 15. Ícones novos: Lucide (ISC) e Tabler (MIT; dente e carrinho de bebê), no mesmo traço dourado.
+
+Outras especialidades com data própria (agenda do CRM-PR 2026), ainda fora: otorrino, clínico, mastologista, geriatra, gastroenterologista, pneumologista, oncologista clínico, cirurgião geral, psiquiatra, urologista, endocrinologista, neurologista, cirurgião plástico, nefrologista, hematologista, intensivista, entre outras.
 
 Não entram: Corpus Christi (ponto facultativo), Páscoa (coberta pela Sexta-feira Santa) e Black Friday. Nenhuma peça cita número de países (decisão de 15/11/2026: a lista de países muda sempre).
 

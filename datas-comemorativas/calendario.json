@@ -1,9 +1,9 @@
 {
- "versao": "2026-11-12",
+ "versao": "2026-11-17",
  "perfil": "@maison.invest",
  "horario_publicacao": "07:40",
  "fora_deste_calendario": {
-  "profissoes": "Dia do Médico, do Servidor Público etc. ficam no calendário das profissões (outra frente do projeto).",
+  "profissoes": "Desde 17/11/2026 as profissões (grupo profissao) e as especialidades médicas (grupo especialidade) estão neste calendário. Ficam fora: Notário e Registrador (decisão do Gustavo, 17/11/2026) e Aposentado, que já é data comemorativa (24/1).",
   "nao_entram": "Corpus Christi (ponto facultativo), Páscoa (coberta pela Sexta-feira Santa) e Black Friday."
  },
  "datas": [
@@ -1491,6 +1491,1034 @@
    },
    "confirmar": [],
    "fonte_data": "Lei 662/1949"
+  },
+  {
+   "slug": "defensor-publico",
+   "grupo": "profissao",
+   "nome": "Dia do Defensor Público",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 5,
+    "dia": 19
+   },
+   "icone": "escudo",
+   "capa": {
+    "titulo": "Dia do Defensor Público",
+    "frase": "A quem garante que o direito chegue a quem mais precisa dele."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Defensor Público.",
+    "texto": "Aos defensores e defensoras públicas, e em especial aos que caminham com a Maison, o nosso respeito."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "19 de maio, Dia do Defensor Público.\n\nA quem garante, todos os dias, que o direito chegue a quem mais precisa dele, o nosso respeito. Em especial aos defensores e defensoras que confiam à Maison uma parte dos seus planos.",
+   "hashtags": "#DiaDoDefensorPublico #DefensoriaPublica #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Defensor Público. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:defensor",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": [],
+   "fonte_data": "Lei 10.448/2002"
+  },
+  {
+   "slug": "profissional-liberal",
+   "grupo": "profissao",
+   "nome": "Dia do Profissional Liberal",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 5,
+    "dia": 27
+   },
+   "icone": "caneta",
+   "capa": {
+    "titulo": "Dia do Profissional Liberal",
+    "frase": "A quem constrói a carreira com o próprio nome."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Profissional Liberal.",
+    "texto": "A médicos, dentistas, advogados, engenheiros, arquitetos e a todos que vivem do próprio ofício."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "27 de maio, Dia do Profissional Liberal.\n\nA quem constrói a carreira com o próprio nome, sem salário fixo e com a responsabilidade de cada decisão: médicos, dentistas, advogados, engenheiros, arquitetos, contadores e tantos outros. A todos os profissionais liberais que confiam na Maison, a nossa homenagem.",
+   "hashtags": "#DiaDoProfissionalLiberal #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Profissional Liberal. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:profissional liberal|autonom",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "advogado",
+   "grupo": "profissao",
+   "nome": "Dia do Advogado e do Magistrado",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 8,
+    "dia": 11
+   },
+   "icone": "balanca",
+   "capa": {
+    "titulo": "Dia do Advogado e do Magistrado",
+    "frase": "A quem defende direitos e a quem decide sobre eles."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz 11 de agosto.",
+    "texto": "Aos advogados, juízes e desembargadores, e a todos que fazem a Justiça acontecer, o nosso respeito."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "11 de agosto, Dia do Advogado e do Magistrado, data da lei que criou os cursos jurídicos no Brasil, em 1827.\n\nA quem defende direitos e a quem decide sobre eles, o nosso respeito. Em especial aos clientes da Maison que vivem o Direito todos os dias.",
+   "hashtags": "#DiaDoAdvogado #DiaDoMagistrado #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Advogado e do Magistrado. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:advogad|juiz|magistrad|desembargador",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": [],
+   "fonte_data": "Lei de 11/8/1827"
+  },
+  {
+   "slug": "economista",
+   "grupo": "profissao",
+   "nome": "Dia do Economista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 8,
+    "dia": 13
+   },
+   "icone": "grafico",
+   "capa": {
+    "titulo": "Dia do Economista",
+    "frase": "A quem lê os números para entender as pessoas."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Economista.",
+    "texto": "A quem ajuda o país a fazer escolhas melhores, um dado de cada vez."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "13 de agosto, Dia do Economista, data da lei que regulamentou a profissão, em 1951.\n\nA quem lê os números para entender as pessoas e ajuda o país a fazer escolhas melhores, a nossa homenagem. Em especial aos economistas que acompanham o mercado ao nosso lado.",
+   "hashtags": "#DiaDoEconomista #Economia #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Economista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:economista",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": [],
+   "fonte_data": "Lei 1.411/1951"
+  },
+  {
+   "slug": "mulher-empresaria",
+   "grupo": "profissao",
+   "nome": "Dia da Mulher Empresária",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 8,
+    "dia": 17
+   },
+   "icone": "maleta",
+   "capa": {
+    "titulo": "Dia da Mulher Empresária",
+    "frase": "A quem decidiu construir o próprio negócio, e o próprio caminho."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia da Mulher Empresária.",
+    "texto": "A todas as empresárias que confiam à Maison os planos da empresa e da família."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "17 de agosto, Dia Nacional da Mulher Empresária.\n\nA quem decidiu construir o próprio negócio, e o próprio caminho, a nossa homenagem. Em especial às empresárias que dividem com a Maison os planos da empresa e da família.",
+   "hashtags": "#DiaDaMulherEmpresaria #Empreendedorismo #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia da Mulher Empresária. Parabéns pela sua trajetória e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao_f:empresari|empreendedor|socia|proprietari",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": [],
+   "fonte_data": "Lei 14.545/2023"
+  },
+  {
+   "slug": "soldado",
+   "grupo": "profissao",
+   "nome": "Dia do Soldado",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 8,
+    "dia": 25
+   },
+   "icone": "brasao",
+   "capa": {
+    "titulo": "Dia do Soldado",
+    "frase": "Dia do Exército Brasileiro, no aniversário de Duque de Caxias."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Soldado.",
+    "texto": "Aos militares do Exército, da ativa e da reserva, a nossa continência."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "25 de agosto, Dia do Soldado, aniversário de Duque de Caxias, patrono do Exército Brasileiro.\n\nAos militares do Exército, da ativa e da reserva, e às suas famílias, a nossa continência. Em especial aos que confiam à Maison os seus planos.",
+   "hashtags": "#DiaDoSoldado #ExercitoBrasileiro #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Soldado. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:exercito|soldado",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "administrador",
+   "grupo": "profissao",
+   "nome": "Dia do Administrador",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 9,
+    "dia": 9
+   },
+   "icone": "organograma",
+   "capa": {
+    "titulo": "Dia do Administrador",
+    "frase": "A quem transforma pessoas, processos e números em resultado."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Administrador.",
+    "texto": "Aos administradores que fazem empresas e instituições funcionarem todos os dias."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "9 de setembro, Dia do Administrador, data da lei que regulamentou a profissão, em 1965.\n\nA quem transforma pessoas, processos e números em resultado, a nossa homenagem. Em especial aos administradores que confiam à Maison os seus planos.",
+   "hashtags": "#DiaDoAdministrador #Administracao #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Administrador. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:administrador",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": [],
+   "fonte_data": "Lei 4.769/1965"
+  },
+  {
+   "slug": "auditor-fiscal",
+   "grupo": "profissao",
+   "nome": "Dia do Auditor Fiscal",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 9,
+    "dia": 21
+   },
+   "icone": "lupa",
+   "capa": {
+    "titulo": "Dia do Auditor Fiscal",
+    "frase": "Na União, nos estados e nos municípios, um trabalho que sustenta o país."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Auditor Fiscal.",
+    "texto": "Aos auditores fiscais de todas as esferas, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "21 de setembro, Dia do Auditor Fiscal.\n\nNa Receita Federal, nas secretarias estaduais e nos municípios, os auditores fiscais fazem um trabalho que sustenta o país e quase nunca aparece. A todos eles, e em especial aos que confiam na Maison, o nosso reconhecimento.",
+   "hashtags": "#DiaDoAuditorFiscal #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Auditor Fiscal. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:auditor",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "contador",
+   "grupo": "profissao",
+   "nome": "Dia do Contador",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 9,
+    "dia": 22
+   },
+   "icone": "calculadora",
+   "capa": {
+    "titulo": "Dia do Contador",
+    "frase": "Por trás de cada empresa organizada, há um contador."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Contador.",
+    "texto": "Aos contadores, parceiros de tantas famílias e empresas que atendemos, o nosso obrigado."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "22 de setembro, Dia do Contador.\n\nPor trás de cada empresa organizada e de cada declaração bem feita, há um contador. A todos os profissionais da contabilidade, parceiros de tantas famílias e empresas que atendemos, o nosso obrigado.",
+   "hashtags": "#DiaDoContador #Contabilidade #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Contador. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:contador|contabil",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "empreendedor",
+   "grupo": "profissao",
+   "nome": "Dia do Empreendedor",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 10,
+    "dia": 5
+   },
+   "icone": "lampada",
+   "capa": {
+    "titulo": "Dia do Empreendedor",
+    "frase": "Dia da Micro e Pequena Empresa. Todo grande negócio começou pequeno."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Empreendedor.",
+    "texto": "A quem arrisca, cria e gera trabalho para tanta gente, a nossa homenagem."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "5 de outubro, Dia Nacional da Micro e Pequena Empresa.\n\nTodo grande negócio começou pequeno, com alguém disposto a arriscar, criar e gerar trabalho para outras pessoas. A Maison também começou assim, em 2017. A todos os empreendedores, e em especial aos clientes que tocam o próprio negócio, a nossa homenagem.",
+   "hashtags": "#DiaDoEmpreendedor #MicroEPequenaEmpresa #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Empreendedor. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:empresari|empreendedor|socio|proprietari",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "corretor-seguros",
+   "grupo": "profissao",
+   "nome": "Dia do Corretor de Seguros",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 10,
+    "dia": 12
+   },
+   "icone": "guardachuva",
+   "capa": {
+    "titulo": "Dia do Corretor de Seguros",
+    "frase": "A quem cuida do que ainda não aconteceu."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Corretor de Seguros.",
+    "texto": "Aos corretores de seguros parceiros e ao time da Maison Seguros, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "12 de outubro, Dia do Corretor de Seguros.\n\nA quem cuida do que ainda não aconteceu, e está presente quando acontece, o nosso reconhecimento. Aos corretores de seguros parceiros e ao time da Maison Seguros, feliz dia.",
+   "hashtags": "#DiaDoCorretorDeSeguros #Seguros #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Corretor de Seguros. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:corretor de seguros|corretora de seguros",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": [],
+   "horario": "16:40"
+  },
+  {
+   "slug": "medico",
+   "grupo": "profissao",
+   "nome": "Dia do Médico",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 10,
+    "dia": 18
+   },
+   "icone": "estetoscopio",
+   "capa": {
+    "titulo": "Dia do Médico",
+    "frase": "A quem dedica a vida a cuidar da vida dos outros."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Médico.",
+    "texto": "A todos os médicos, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "18 de outubro, Dia do Médico, dia de São Lucas, padroeiro da medicina.\n\nA quem dedica a vida a cuidar da vida dos outros, nos plantões, nos consultórios e nas salas de cirurgia, o nosso reconhecimento. Em especial aos médicos que confiam à Maison uma parte dos seus planos.",
+   "hashtags": "#DiaDoMedico #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Médico. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:medic(?!.*veterin)",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "aviador",
+   "grupo": "profissao",
+   "nome": "Dia do Aviador",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 10,
+    "dia": 23
+   },
+   "icone": "aviao",
+   "capa": {
+    "titulo": "Dia do Aviador",
+    "frase": "Dia do Aviador e da Força Aérea Brasileira, no aniversário do voo do 14-Bis."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Aviador.",
+    "texto": "Aos pilotos civis e militares e a toda a Força Aérea Brasileira, bons voos."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "23 de outubro, Dia do Aviador e da Força Aérea Brasileira. Foi neste dia, em 1906, que Santos Dumont voou com o 14-Bis em Paris.\n\nAos pilotos civis e militares, e a toda a Força Aérea Brasileira, a nossa homenagem. Bons voos.",
+   "hashtags": "#DiaDoAviador #ForcaAereaBrasileira #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Aviador. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:piloto|aviador|aeronauta|aeronautica|forca aerea",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "dentista",
+   "grupo": "profissao",
+   "nome": "Dia do Dentista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 10,
+    "dia": 25
+   },
+   "icone": "dente",
+   "capa": {
+    "titulo": "Dia do Dentista",
+    "frase": "A quem cuida de um dos nossos maiores cartões de visita: o sorriso."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Dentista.",
+    "texto": "Aos cirurgiões-dentistas, e em especial aos clientes da Maison, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "25 de outubro, Dia do Cirurgião-Dentista.\n\nA quem cuida de um dos nossos maiores cartões de visita, o sorriso, com precisão e paciência, o nosso reconhecimento. Em especial aos dentistas que confiam à Maison os planos do consultório e da família.",
+   "hashtags": "#DiaDoDentista #Odontologia #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Dentista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:dentista|odontolog",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "servidor-publico",
+   "grupo": "profissao",
+   "nome": "Dia do Servidor Público",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 10,
+    "dia": 28
+   },
+   "icone": "coluna",
+   "capa": {
+    "titulo": "Dia do Servidor Público",
+    "frase": "A quem faz o país funcionar todos os dias."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Servidor Público.",
+    "texto": "Nas três esferas e em todas as carreiras, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "28 de outubro, Dia do Servidor Público.\n\nNa União, nos estados e nos municípios, em todas as carreiras, os servidores públicos fazem o país funcionar todos os dias. A todos eles, e em especial aos servidores que caminham com a Maison, o nosso reconhecimento.",
+   "hashtags": "#DiaDoServidorPublico #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Servidor Público. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:servidor|funcionario public",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "delegado",
+   "grupo": "profissao",
+   "nome": "Dia do Delegado de Polícia",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 12,
+    "dia": 3
+   },
+   "icone": "distintivo",
+   "capa": {
+    "titulo": "Dia do Delegado de Polícia",
+    "frase": "A quem conduz a investigação para que a lei se cumpra."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Delegado.",
+    "texto": "Aos delegados e delegadas de Polícia Civil e Federal, o nosso respeito."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "3 de dezembro, Dia do Delegado de Polícia.\n\nA quem conduz a investigação para que a lei se cumpra, na Polícia Civil e na Polícia Federal, o nosso respeito. Em especial aos delegados e delegadas que confiam à Maison os seus planos.",
+   "hashtags": "#DiaDoDelegado #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Delegado de Polícia. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:delegad",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "engenheiro",
+   "grupo": "profissao",
+   "nome": "Dia do Engenheiro",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 12,
+    "dia": 11
+   },
+   "icone": "capacete",
+   "capa": {
+    "titulo": "Dia do Engenheiro",
+    "frase": "A quem transforma cálculo em obra, e obra em futuro."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Engenheiro.",
+    "texto": "Aos engenheiros de todas as áreas, e em especial aos clientes da Maison, a nossa homenagem."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "11 de dezembro, Dia do Engenheiro, data do decreto que regulamentou a profissão, em 1933.\n\nA quem transforma cálculo em obra, e obra em futuro, a nossa homenagem. Aos engenheiros civis, mecânicos, eletricistas, de produção, de petróleo e de todas as áreas, em especial aos que confiam na Maison.",
+   "hashtags": "#DiaDoEngenheiro #Engenharia #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Engenheiro. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:engenheir",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": [],
+   "fonte_data": "Decreto 23.569/1933"
+  },
+  {
+   "slug": "marinheiro",
+   "grupo": "profissao",
+   "nome": "Dia do Marinheiro",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 12,
+    "dia": 13
+   },
+   "icone": "ancora",
+   "capa": {
+    "titulo": "Dia do Marinheiro",
+    "frase": "No aniversário do Almirante Tamandaré, patrono da Marinha do Brasil."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Marinheiro.",
+    "texto": "Aos militares da Marinha, da ativa e da reserva, a nossa continência."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "13 de dezembro, Dia do Marinheiro, aniversário do Almirante Tamandaré, patrono da Marinha do Brasil.\n\nAos militares da Marinha, da ativa e da reserva, e às suas famílias, a nossa continência. Em especial aos que confiam à Maison os seus planos.",
+   "hashtags": "#DiaDoMarinheiro #MarinhaDoBrasil #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Marinheiro. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:marinha|naval|marinheiro|fuzileiro",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "ministerio-publico",
+   "grupo": "profissao",
+   "nome": "Dia do Ministério Público",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 12,
+    "dia": 14
+   },
+   "icone": "livro",
+   "capa": {
+    "titulo": "Dia do Ministério Público",
+    "frase": "A quem defende a ordem jurídica e os interesses de toda a sociedade."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Ministério Público.",
+    "texto": "Aos promotores e procuradores, o nosso respeito."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "14 de dezembro, Dia Nacional do Ministério Público.\n\nA quem defende a ordem jurídica, o regime democrático e os interesses de toda a sociedade, o nosso respeito. Aos promotores e procuradores, em especial aos que confiam à Maison os seus planos.",
+   "hashtags": "#DiaDoMinisterioPublico #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Ministério Público. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:promotor|procurador",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": [],
+   "fonte_data": "Lei 8.625/1993"
+  },
+  {
+   "slug": "arquiteto",
+   "grupo": "profissao",
+   "nome": "Dia do Arquiteto",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 12,
+    "dia": 15
+   },
+   "icone": "compasso",
+   "capa": {
+    "titulo": "Dia do Arquiteto",
+    "frase": "No aniversário de Oscar Niemeyer, a quem desenha os lugares onde a vida acontece."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Arquiteto.",
+    "texto": "Aos arquitetos e urbanistas, e em especial aos clientes da Maison, a nossa homenagem."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "15 de dezembro, Dia do Arquiteto e Urbanista, aniversário de Oscar Niemeyer.\n\nA quem desenha os lugares onde a vida acontece, a casa, a cidade e o trabalho, a nossa homenagem. Em especial aos arquitetos e urbanistas que confiam à Maison os seus planos.",
+   "hashtags": "#DiaDoArquiteto #Arquitetura #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Arquiteto. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:arquitet|urbanista",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "dermatologista",
+   "grupo": "especialidade",
+   "nome": "Dia do Dermatologista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 2,
+    "dia": 5
+   },
+   "icone": "mao",
+   "capa": {
+    "titulo": "Dia do Dermatologista",
+    "frase": "A quem cuida da pele, o maior órgão do corpo."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Dermatologista.",
+    "texto": "Aos dermatologistas, o nosso reconhecimento pelo cuidado de todos os dias."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "5 de fevereiro, Dia do Dermatologista.\n\nA quem cuida da pele, o maior órgão do corpo. A todos os dermatologistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoDermatologista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Dermatologista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:dermatolog",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "medico-legista",
+   "grupo": "especialidade",
+   "nome": "Dia do Médico Legista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 4,
+    "dia": 7
+   },
+   "icone": "digital",
+   "capa": {
+    "titulo": "Dia do Médico Legista",
+    "frase": "A quem dá voz aos fatos para que a Justiça possa decidir."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Médico Legista.",
+    "texto": "Aos médicos legistas, o nosso respeito por um trabalho essencial e pouco visto."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "7 de abril, Dia do Médico Legista.\n\nA quem dá voz aos fatos para que a Justiça possa decidir. A todos os médicos legistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoMedicoLegista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Médico Legista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:legista",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "infectologista",
+   "grupo": "especialidade",
+   "nome": "Dia do Infectologista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 4,
+    "dia": 11
+   },
+   "icone": "microscopio",
+   "capa": {
+    "titulo": "Dia do Infectologista",
+    "frase": "A quem estuda o invisível para proteger a todos."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Infectologista.",
+    "texto": "Aos infectologistas, o nosso reconhecimento pelo cuidado com a saúde de todos."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "11 de abril, Dia do Infectologista.\n\nA quem estuda o invisível para proteger a todos. A todos os infectologistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoInfectologista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Infectologista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:infectolog",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "obstetra",
+   "grupo": "especialidade",
+   "nome": "Dia do Obstetra",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 4,
+    "dia": 12
+   },
+   "icone": "bebe",
+   "capa": {
+    "titulo": "Dia do Obstetra",
+    "frase": "A quem acompanha cada gestação até o primeiro choro."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Obstetra.",
+    "texto": "Aos obstetras, presentes no começo de tantas histórias."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "12 de abril, Dia do Obstetra.\n\nA quem acompanha cada gestação até o primeiro choro. A todos os obstetras, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoObstetra #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Obstetra. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:obstet",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "neurocirurgiao",
+   "grupo": "especialidade",
+   "nome": "Dia do Neurocirurgião",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 4,
+    "dia": 14
+   },
+   "icone": "cerebro",
+   "capa": {
+    "titulo": "Dia do Neurocirurgião",
+    "frase": "Precisão, preparo e coragem em cada decisão."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Neurocirurgião.",
+    "texto": "Aos neurocirurgiões, o nosso respeito por uma das especialidades mais exigentes da medicina."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "14 de abril, Dia do Neurocirurgião.\n\nPrecisão, preparo e coragem em cada decisão. A todos os neurocirurgiões, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoNeurocirurgiao #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Neurocirurgião. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:neurocirurg",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "oftalmologista",
+   "grupo": "especialidade",
+   "nome": "Dia do Oftalmologista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 5,
+    "dia": 7
+   },
+   "icone": "olho",
+   "capa": {
+    "titulo": "Dia do Oftalmologista",
+    "frase": "A quem cuida da forma como vemos o mundo."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Oftalmologista.",
+    "texto": "Aos oftalmologistas, o nosso reconhecimento pelo cuidado com a visão de todos nós."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "7 de maio, Dia do Oftalmologista.\n\nA quem cuida da forma como vemos o mundo. A todos os oftalmologistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoOftalmologista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Oftalmologista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:oftalmolog",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "pediatra",
+   "grupo": "especialidade",
+   "nome": "Dia do Pediatra",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 7,
+    "dia": 27
+   },
+   "icone": "carrinho",
+   "capa": {
+    "titulo": "Dia do Pediatra",
+    "frase": "A quem cuida de quem ainda está começando."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Pediatra.",
+    "texto": "Aos pediatras, que acompanham as famílias do primeiro dia em diante."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "27 de julho, Dia do Pediatra. Foi neste dia, em 1910, que nasceu a Sociedade Brasileira de Pediatria.\n\nA quem cuida de quem ainda está começando. A todos os pediatras, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoPediatra #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Pediatra. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:pediatr",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "cardiologista",
+   "grupo": "especialidade",
+   "nome": "Dia do Cardiologista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 8,
+    "dia": 14
+   },
+   "icone": "coracao",
+   "capa": {
+    "titulo": "Dia do Cardiologista",
+    "frase": "A quem cuida do ritmo que move a vida."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Cardiologista.",
+    "texto": "Aos cardiologistas, o nosso reconhecimento, de todo o coração."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "14 de agosto, Dia do Cardiologista.\n\nA quem cuida do ritmo que move a vida. A todos os cardiologistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoCardiologista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Cardiologista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:cardiolog",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "ortopedista",
+   "grupo": "especialidade",
+   "nome": "Dia do Ortopedista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 9,
+    "dia": 19
+   },
+   "icone": "osso",
+   "capa": {
+    "titulo": "Dia do Ortopedista",
+    "frase": "A quem devolve o movimento, passo a passo."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Ortopedista.",
+    "texto": "Aos ortopedistas e traumatologistas, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "19 de setembro, Dia do Ortopedista.\n\nA quem devolve o movimento, passo a passo. A todos os ortopedistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoOrtopedista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Ortopedista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:ortoped|traumatolog",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "medico-trabalho",
+   "grupo": "especialidade",
+   "nome": "Dia do Médico do Trabalho",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 10,
+    "dia": 4
+   },
+   "icone": "maletamedica",
+   "capa": {
+    "titulo": "Dia do Médico do Trabalho",
+    "frase": "A quem cuida da saúde de quem faz o país trabalhar."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Médico do Trabalho.",
+    "texto": "Aos médicos do trabalho, o nosso reconhecimento pelo cuidado com cada profissional."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "4 de outubro, Dia do Médico do Trabalho.\n\nA quem cuida da saúde de quem faz o país trabalhar. A todos os médicos do trabalho, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoMedicoDoTrabalho #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Médico do Trabalho. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:medico do trabalho|medicina do trabalho",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "anestesiologista",
+   "grupo": "especialidade",
+   "nome": "Dia do Anestesiologista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 10,
+    "dia": 16
+   },
+   "icone": "seringa",
+   "capa": {
+    "titulo": "Dia do Anestesiologista",
+    "frase": "A quem vela pelo paciente em cada minuto da cirurgia."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Anestesiologista.",
+    "texto": "Aos anestesiologistas, o nosso reconhecimento pelo cuidado silencioso e constante."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "16 de outubro, Dia do Anestesiologista.\n\nA quem vela pelo paciente em cada minuto da cirurgia. A todos os anestesiologistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoAnestesiologista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Anestesiologista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:anestesi",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "ginecologista",
+   "grupo": "especialidade",
+   "nome": "Dia do Ginecologista e Obstetra",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 10,
+    "dia": 30
+   },
+   "icone": "flor",
+   "capa": {
+    "titulo": "Dia do Ginecologista e Obstetra",
+    "frase": "Ao lado da mulher em todas as fases da vida."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Ginecologista e Obstetra.",
+    "texto": "Aos ginecologistas e obstetras, o nosso reconhecimento pelo cuidado com a saúde da mulher."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "30 de outubro, Dia do Ginecologista e Obstetra.\n\nAo lado da mulher em todas as fases da vida. A todos os ginecologistas e obstetras, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoGinecologista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Ginecologista e Obstetra. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:ginecolog",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "radiologista",
+   "grupo": "especialidade",
+   "nome": "Dia do Radiologista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 11,
+    "dia": 8
+   },
+   "icone": "exame",
+   "capa": {
+    "titulo": "Dia do Radiologista",
+    "frase": "No aniversário da descoberta dos raios X, em 1895."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Radiologista.",
+    "texto": "Aos radiologistas, que enxergam o que os olhos não veem."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "8 de novembro, Dia do Radiologista.\n\nNo aniversário da descoberta dos raios X, em 1895. A todos os radiologistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoRadiologista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Radiologista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:radiolog",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "medico-familia",
+   "grupo": "especialidade",
+   "nome": "Dia do Médico de Família",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 12,
+    "dia": 5
+   },
+   "icone": "lar",
+   "capa": {
+    "titulo": "Dia do Médico de Família",
+    "frase": "A quem conhece o paciente pelo nome e a família pela história."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Médico de Família.",
+    "texto": "Aos médicos de família e comunidade, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "5 de dezembro, Dia do Médico de Família.\n\nA quem conhece o paciente pelo nome e a família pela história. A todos os médicos de família e comunidade, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoMedicoDeFamilia #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Médico de Família. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:medico de familia|medicina de familia",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
   }
  ]
 }
