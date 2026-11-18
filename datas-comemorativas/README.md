@@ -66,48 +66,85 @@ Rodar: `python3 render.py --de 2026-11-12 --ate 2027-11-11 --chrome /caminho/do/
 
 ## Profissões e especialidades médicas (desde 17/11/2026)
 
-2 telas cada (capa e fechamento com o lema), sem CTA, legenda curta de homenagem e mensagem individual ao cliente daquela profissão. A lista usa a regra `profissao:<regex>` sobre a profissão cadastrada no CRM (a Mulher Empresária usa `profissao_f:`, que exige também sexo feminino); nada é inferido.
+69 datas: 24 profissões e 45 especialidades médicas (todas as da agenda do CRM-PR 2026, menos o Dia da Mulher Médica, que não é especialidade). Ficam fora o Notário e Registrador (decisão do Gustavo) e o Aposentado, que já é data comemorativa. As 34 da galeria de 17/11 foram aprovadas em 18/11/2026; as 35 incluídas em 18/11 aguardam a revisão do Gustavo e só saem depois de entrarem em `aprovados.json`.
+
+2 telas cada (capa e fechamento com o lema), sem CTA, legenda curta de homenagem e mensagem individual ao cliente daquela profissão. A lista usa a regra `profissao:<regex>` sobre a profissão cadastrada no CRM (a Mulher Empresária usa `profissao_f:`, que exige também sexo feminino); nada é inferido. Quando uma palavra do título não cabe na linha (Otorrinolaringologista), o template reduz o corpo só daquele título.
+
+Dias com mais de um post: o segundo sai às 11h40, o terceiro às 16h40 e o quarto às 19h40 (campo `horario`). O caso extremo é 12/10: Aparecida 7h40, Crianças 11h40, Corretor de Seguros 16h40 e Cirurgião Pediátrico 19h40.
 
 | Data | Hora | Dia | Grupo | Status |
 |---|---|---|---|---|
-| 3/12/2026 | 07:40 | Dia do Delegado de Polícia | profissão | pendente |
-| 5/12/2026 | 07:40 | Dia do Médico de Família | especialidade médica | pendente |
-| 11/12/2026 | 07:40 | Dia do Engenheiro | profissão | pendente |
-| 13/12/2026 | 07:40 | Dia do Marinheiro | profissão | pendente |
-| 14/12/2026 | 07:40 | Dia do Ministério Público | profissão | pendente |
-| 15/12/2026 | 07:40 | Dia do Arquiteto | profissão | pendente |
-| 5/2/2027 | 07:40 | Dia do Dermatologista | especialidade médica | pendente |
-| 7/4/2027 | 07:40 | Dia do Médico Legista | especialidade médica | pendente |
-| 11/4/2027 | 07:40 | Dia do Infectologista | especialidade médica | pendente |
-| 12/4/2027 | 07:40 | Dia do Obstetra | especialidade médica | pendente |
-| 14/4/2027 | 07:40 | Dia do Neurocirurgião | especialidade médica | pendente |
-| 7/5/2027 | 07:40 | Dia do Oftalmologista | especialidade médica | pendente |
-| 19/5/2027 | 07:40 | Dia do Defensor Público | profissão | pendente |
-| 27/5/2027 | 07:40 | Dia do Profissional Liberal | profissão | pendente |
-| 27/7/2027 | 07:40 | Dia do Pediatra | especialidade médica | pendente |
-| 11/8/2027 | 07:40 | Dia do Advogado e do Magistrado | profissão | pendente |
-| 13/8/2027 | 07:40 | Dia do Economista | profissão | pendente |
-| 14/8/2027 | 07:40 | Dia do Cardiologista | especialidade médica | pendente |
-| 17/8/2027 | 07:40 | Dia da Mulher Empresária | profissão | pendente |
-| 25/8/2027 | 07:40 | Dia do Soldado | profissão | pendente |
-| 9/9/2027 | 07:40 | Dia do Administrador | profissão | pendente |
-| 19/9/2027 | 07:40 | Dia do Ortopedista | especialidade médica | pendente |
-| 21/9/2027 | 07:40 | Dia do Auditor Fiscal | profissão | pendente |
-| 22/9/2027 | 07:40 | Dia do Contador | profissão | pendente |
-| 4/10/2027 | 07:40 | Dia do Médico do Trabalho | especialidade médica | pendente |
-| 5/10/2027 | 07:40 | Dia do Empreendedor | profissão | pendente |
-| 12/10/2027 | 16:40 | Dia do Corretor de Seguros | profissão | pendente |
-| 16/10/2027 | 07:40 | Dia do Anestesiologista | especialidade médica | pendente |
-| 18/10/2027 | 07:40 | Dia do Médico | profissão | pendente |
-| 23/10/2027 | 07:40 | Dia do Aviador | profissão | pendente |
-| 25/10/2027 | 07:40 | Dia do Dentista | profissão | pendente |
-| 28/10/2027 | 07:40 | Dia do Servidor Público | profissão | pendente |
-| 30/10/2027 | 07:40 | Dia do Ginecologista e Obstetra | especialidade médica | pendente |
-| 8/11/2027 | 07:40 | Dia do Radiologista | especialidade médica | pendente |
+| 3/12/2026 | 07:40 | Dia do Delegado de Polícia | profissão | aprovada |
+| 4/12/2026 | 07:40 | Dia do Médico Perito | especialidade médica | pendente |
+| 5/12/2026 | 07:40 | Dia do Médico de Família | especialidade médica | aprovada |
+| 7/12/2026 | 07:40 | Dia do Cirurgião Plástico | especialidade médica | pendente |
+| 11/12/2026 | 07:40 | Dia do Engenheiro | profissão | aprovada |
+| 13/12/2026 | 07:40 | Dia do Marinheiro | profissão | aprovada |
+| 14/12/2026 | 07:40 | Dia do Ministério Público | profissão | aprovada |
+| 15/12/2026 | 07:40 | Dia do Arquiteto | profissão | aprovada |
+| 5/2/2027 | 07:40 | Dia do Dermatologista | especialidade médica | aprovada |
+| 5/2/2027 | 11:40 | Dia do Mastologista | especialidade médica | pendente |
+| 10/2/2027 | 07:40 | Dia do Atleta Profissional | profissão | pendente |
+| 3/3/2027 | 07:40 | Dia do Otorrinolaringologista | especialidade médica | pendente |
+| 16/3/2027 | 07:40 | Dia do Clínico | especialidade médica | pendente |
+| 7/4/2027 | 07:40 | Dia do Médico Legista | especialidade médica | aprovada |
+| 11/4/2027 | 07:40 | Dia do Infectologista | especialidade médica | aprovada |
+| 12/4/2027 | 07:40 | Dia do Obstetra | especialidade médica | aprovada |
+| 14/4/2027 | 07:40 | Dia do Neurocirurgião | especialidade médica | aprovada |
+| 7/5/2027 | 07:40 | Dia do Oftalmologista | especialidade médica | aprovada |
+| 16/5/2027 | 07:40 | Dia do Geriatra | especialidade médica | pendente |
+| 19/5/2027 | 07:40 | Dia do Defensor Público | profissão | aprovada |
+| 27/5/2027 | 07:40 | Dia do Profissional Liberal | profissão | aprovada |
+| 27/5/2027 | 11:40 | Dia do Cirurgião Torácico | especialidade médica | pendente |
+| 29/5/2027 | 07:40 | Dia do Gastroenterologista | especialidade médica | pendente |
+| 2/6/2027 | 11:40 | Dia do Pneumologista | especialidade médica | pendente |
+| 17/6/2027 | 07:40 | Dia do Cirurgião de Mão | especialidade médica | pendente |
+| 9/7/2027 | 07:40 | Dia do Oncologista Clínico | especialidade médica | pendente |
+| 15/7/2027 | 07:40 | Dia do Pecuarista | profissão | pendente |
+| 15/7/2027 | 11:40 | Dia do Médico Geneticista | especialidade médica | pendente |
+| 16/7/2027 | 07:40 | Dia do Comerciante | profissão | pendente |
+| 25/7/2027 | 07:40 | Dia do Médico Endoscopista | especialidade médica | pendente |
+| 27/7/2027 | 07:40 | Dia do Pediatra | especialidade médica | aprovada |
+| 28/7/2027 | 07:40 | Dia do Agricultor | profissão | pendente |
+| 30/7/2027 | 07:40 | Dia do Cirurgião Geral | especialidade médica | pendente |
+| 2/8/2027 | 07:40 | Dia do Nefrologista | especialidade médica | pendente |
+| 5/8/2027 | 07:40 | Dia do Médico Patologista | especialidade médica | pendente |
+| 11/8/2027 | 07:40 | Dia do Advogado e do Magistrado | profissão | aprovada |
+| 11/8/2027 | 11:40 | Dia do Médico Acupunturista | especialidade médica | pendente |
+| 13/8/2027 | 07:40 | Dia do Economista | profissão | aprovada |
+| 13/8/2027 | 11:40 | Dia do Psiquiatra | especialidade médica | pendente |
+| 14/8/2027 | 07:40 | Dia do Cardiologista | especialidade médica | aprovada |
+| 15/8/2027 | 07:40 | Dia do Cirurgião Vascular | especialidade médica | pendente |
+| 17/8/2027 | 07:40 | Dia da Mulher Empresária | profissão | aprovada |
+| 19/8/2027 | 07:40 | Dia do Médico do Tráfego | especialidade médica | pendente |
+| 25/8/2027 | 07:40 | Dia do Soldado | profissão | aprovada |
+| 1/9/2027 | 07:40 | Dia do Endocrinologista | especialidade médica | pendente |
+| 9/9/2027 | 07:40 | Dia do Administrador | profissão | aprovada |
+| 9/9/2027 | 11:40 | Dia do Médico Fisiatra | especialidade médica | pendente |
+| 14/9/2027 | 07:40 | Dia do Médico Nuclear | especialidade médica | pendente |
+| 15/9/2027 | 11:40 | Dia do Reumatologista | especialidade médica | pendente |
+| 15/9/2027 | 16:40 | Dia do Médico Nutrólogo | especialidade médica | pendente |
+| 16/9/2027 | 07:40 | Dia do Médico Emergencista | especialidade médica | pendente |
+| 19/9/2027 | 07:40 | Dia do Ortopedista | especialidade médica | aprovada |
+| 21/9/2027 | 07:40 | Dia do Auditor Fiscal | profissão | aprovada |
+| 22/9/2027 | 07:40 | Dia do Contador | profissão | aprovada |
+| 4/10/2027 | 07:40 | Dia do Médico do Trabalho | especialidade médica | aprovada |
+| 5/10/2027 | 07:40 | Dia do Empreendedor | profissão | aprovada |
+| 12/10/2027 | 16:40 | Dia do Corretor de Seguros | profissão | aprovada |
+| 12/10/2027 | 19:40 | Dia do Cirurgião Pediátrico | especialidade médica | pendente |
+| 15/10/2027 | 07:40 | Dia do Neurologista | especialidade médica | pendente |
+| 16/10/2027 | 07:40 | Dia do Anestesiologista | especialidade médica | aprovada |
+| 18/10/2027 | 07:40 | Dia do Médico | profissão | aprovada |
+| 23/10/2027 | 07:40 | Dia do Aviador | profissão | aprovada |
+| 25/10/2027 | 07:40 | Dia do Dentista | profissão | aprovada |
+| 28/10/2027 | 07:40 | Dia do Servidor Público | profissão | aprovada |
+| 29/10/2027 | 07:40 | Dia do Hematologista e Hemoterapeuta | especialidade médica | pendente |
+| 30/10/2027 | 07:40 | Dia do Ginecologista e Obstetra | especialidade médica | aprovada |
+| 8/11/2027 | 07:40 | Dia do Radiologista | especialidade médica | aprovada |
+| 10/11/2027 | 07:40 | Dia do Médico Intensivista | especialidade médica | pendente |
+| 17/11/2027 | 07:40 | Dia do Alergista e Imunologista | especialidade médica | pendente |
 
-Em 12/10 saem três posts: Aparecida (7h40), Crianças (11h40) e Corretor de Seguros (16h40); por isso o workflow ganhou o horário das 16h40. Dezembro concentra seis datas entre os dias 3 e 15. Ícones novos: Lucide (ISC) e Tabler (MIT; dente e carrinho de bebê), no mesmo traço dourado.
-
-Outras especialidades com data própria (agenda do CRM-PR 2026), ainda fora: otorrino, clínico, mastologista, geriatra, gastroenterologista, pneumologista, oncologista clínico, cirurgião geral, psiquiatra, urologista, endocrinologista, neurologista, cirurgião plástico, nefrologista, hematologista, intensivista, entre outras.
+Ícones novos: Lucide (ISC) e Tabler (MIT), no mesmo traço dourado.
 
 Não entram: Corpus Christi (ponto facultativo), Páscoa (coberta pela Sexta-feira Santa) e Black Friday. Nenhuma peça cita número de países (decisão de 15/11/2026: a lista de países muda sempre).
 
@@ -141,7 +178,7 @@ O animal muda todo ano. `calendario.json` tem `animal_por_ano` (2027 Cabra, 2028
 
 ## Horário: tarefas do Claude em cada data (17/11/2026)
 
-O agendamento do próprio GitHub (cron do `postar-datas.yml`) está atrasando de 7 a 12 horas neste repositório: o disparo das 7h40 rodou entre 16h e 20h nos dias 16 e 17/11/2026, e o da B3 também. O atraso está no despacho do agendador do GitHub (a execução é criada já atrasada; não é fila de runner), problema relatado por outros usuários desde ago/2026 e sem correção do lado do repositório. Por isso cada data aprovada tem uma tarefa agendada do Claude, uma por data (33 de 20/11/2026 a 02/11/2027), às 7h42 (11h42 no Dia das Crianças), que dispara o `postar-datas.yml` por `workflow_dispatch` (sem atraso; testado em 17/11/2026: começou 1 minuto depois), espera, confere o `publicado.json` e manda uma notificação com o link. O cron do workflow fica como reserva: se a tarefa falhar, ele publica mais tarde no mesmo dia. Nada é publicado duas vezes (pasta com `publicado.json` é pulada).
+O agendamento do próprio GitHub (cron do `postar-datas.yml`) está atrasando de 7 a 12 horas neste repositório: o disparo das 7h40 rodou entre 16h e 20h nos dias 16 e 17/11/2026, e o da B3 também. O atraso está no despacho do agendador do GitHub (a execução é criada já atrasada; não é fila de runner), problema relatado por outros usuários desde ago/2026 e sem correção do lado do repositório. Por isso cada data aprovada tem uma tarefa agendada do Claude, uma por post (33 datas comemorativas de 20/11/2026 a 02/11/2027 e, desde 18/11/2026, as profissões e especialidades aprovadas), dois minutos depois do horário do post (7h42, 11h42, 16h42 ou 19h42), que dispara o `postar-datas.yml` por `workflow_dispatch` (sem atraso; testado em 17/11/2026: começou 1 minuto depois), espera, confere o `publicado.json` e manda uma notificação com o link. O cron do workflow fica como reserva: se a tarefa falhar, ele publica mais tarde no mesmo dia. Nada é publicado duas vezes (pasta com `publicado.json` é pulada).
 
 Ao renovar o calendário (outubro), criar as tarefas do novo ciclo. A tarefa de Finados (02/11/2027) avisa isso.
 

@@ -1,9 +1,9 @@
 {
- "versao": "2026-11-17",
+ "versao": "2026-11-18",
  "perfil": "@maison.invest",
  "horario_publicacao": "07:40",
  "fora_deste_calendario": {
-  "profissoes": "Desde 17/11/2026 as profissões (grupo profissao) e as especialidades médicas (grupo especialidade) estão neste calendário. Ficam fora: Notário e Registrador (decisão do Gustavo, 17/11/2026) e Aposentado, que já é data comemorativa (24/1).",
+  "profissoes": "Desde 17/11/2026 as profissões (grupo profissao) e, desde 18/11/2026, todas as especialidades médicas da agenda do CRM-PR (grupo especialidade) estão neste calendário. Ficam fora: Notário e Registrador (decisão do Gustavo, 17/11/2026), Aposentado, que já é data comemorativa (24/1), e o Dia da Mulher Médica (3/2), que não é especialidade.",
   "nao_entram": "Corpus Christi (ponto facultativo), Páscoa (coberta pela Sexta-feira Santa) e Black Friday."
  },
  "datas": [
@@ -2516,6 +2516,1066 @@
    "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Médico de Família. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
    "lista": {
     "regra": "profissao:medico de familia|medicina de familia",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "atleta-profissional",
+   "grupo": "profissao",
+   "nome": "Dia do Atleta Profissional",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 2,
+    "dia": 10
+   },
+   "icone": "trofeu",
+   "capa": {
+    "titulo": "Dia do Atleta Profissional",
+    "frase": "A quem transformou talento e disciplina em profissão."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Atleta Profissional.",
+    "texto": "Aos atletas profissionais, que sabem que carreira curta pede planos longos."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "10 de fevereiro, Dia do Atleta Profissional.\n\nA quem transformou talento e disciplina em profissão, a nossa homenagem. Uma carreira de alto rendimento costuma ser intensa e curta, e por isso pede planos longos. Aos atletas que confiam esses planos à Maison, o nosso obrigado.",
+   "hashtags": "#DiaDoAtletaProfissional #Esporte #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Atleta Profissional. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:atleta|jogador|esportista",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "pecuarista",
+   "grupo": "profissao",
+   "nome": "Dia do Pecuarista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 7,
+    "dia": 15
+   },
+   "icone": "cerca",
+   "capa": {
+    "titulo": "Dia do Pecuarista",
+    "frase": "A quem cuida do rebanho e do campo, do nascer ao pôr do sol."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Pecuarista.",
+    "texto": "Aos pecuaristas, que ajudam a alimentar o Brasil e o mundo, a nossa homenagem."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "15 de julho, Dia do Pecuarista.\n\nA quem cuida do rebanho e do campo todos os dias, do nascer ao pôr do sol, a nossa homenagem. Em especial aos produtores que confiam à Maison os planos da fazenda e da família.",
+   "hashtags": "#DiaDoPecuarista #Agro #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Pecuarista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:pecuari|produtor rural|fazendeir",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "comerciante",
+   "grupo": "profissao",
+   "nome": "Dia do Comerciante",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 7,
+    "dia": 16
+   },
+   "icone": "loja",
+   "capa": {
+    "titulo": "Dia do Comerciante",
+    "frase": "A quem abre as portas todos os dias e conhece cada cliente pelo nome."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Comerciante.",
+    "texto": "Aos comerciantes, que movem a economia de cada bairro e de cada cidade."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "16 de julho, Dia do Comerciante.\n\nA quem abre as portas todos os dias e conhece cada cliente pelo nome, a nossa homenagem. Do comércio de bairro às grandes redes, é o comércio que move a economia de cada cidade. Em especial aos comerciantes que confiam à Maison os seus planos.",
+   "hashtags": "#DiaDoComerciante #Comercio #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Comerciante. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:comerciant|lojista",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "agricultor",
+   "grupo": "profissao",
+   "nome": "Dia do Agricultor",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 7,
+    "dia": 28
+   },
+   "icone": "trator",
+   "capa": {
+    "titulo": "Dia do Agricultor",
+    "frase": "A quem planta hoje o que o país vai colher amanhã."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Agricultor.",
+    "texto": "Aos agricultores e produtores rurais, a nossa homenagem."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "28 de julho, Dia do Agricultor.\n\nA quem planta hoje o que o país vai colher amanhã, a nossa homenagem. Cada safra começa com alguém que acredita no próprio trabalho. Em especial aos produtores rurais que confiam à Maison os seus planos.",
+   "hashtags": "#DiaDoAgricultor #Agro #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Agricultor. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:agricult|produtor rural|agronom",
+    "descricao": "Clientes com a profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "mastologista",
+   "grupo": "especialidade",
+   "nome": "Dia do Mastologista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 2,
+    "dia": 5
+   },
+   "icone": "laco",
+   "capa": {
+    "titulo": "Dia do Mastologista",
+    "frase": "A quem cuida da saúde da mama, da prevenção ao tratamento."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Mastologista.",
+    "texto": "Aos mastologistas, o nosso reconhecimento pelo cuidado com tantas mulheres."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "5 de fevereiro, Dia do Mastologista.\n\nA quem cuida da saúde da mama, da prevenção ao tratamento. A todos os mastologistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoMastologista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Mastologista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:mastolog",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": [],
+   "horario": "11:40"
+  },
+  {
+   "slug": "otorrino",
+   "grupo": "especialidade",
+   "nome": "Dia do Otorrinolaringologista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 3,
+    "dia": 3
+   },
+   "icone": "orelha",
+   "capa": {
+    "titulo": "Dia do Otorrinolaringologista",
+    "frase": "A quem cuida de como ouvimos, respiramos e falamos."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Otorrinolaringologista.",
+    "texto": "Aos otorrinolaringologistas, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "3 de março, Dia do Otorrinolaringologista.\n\nA quem cuida de como ouvimos, respiramos e falamos. A todos os otorrinolaringologistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoOtorrino #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Otorrinolaringologista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:otorrino",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "clinico",
+   "grupo": "especialidade",
+   "nome": "Dia do Clínico",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 3,
+    "dia": 16
+   },
+   "icone": "prontuario",
+   "capa": {
+    "titulo": "Dia do Clínico",
+    "frase": "A quem olha o paciente por inteiro."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Clínico.",
+    "texto": "Aos médicos clínicos, a base de todo cuidado, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "16 de março, Dia do Clínico.\n\nA quem olha o paciente por inteiro. A todos os médicos clínicos, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoClinico #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Clínico. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:clinico|clinica medica",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "geriatra",
+   "grupo": "especialidade",
+   "nome": "Dia do Geriatra",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 5,
+    "dia": 16
+   },
+   "icone": "idoso",
+   "capa": {
+    "titulo": "Dia do Geriatra",
+    "frase": "A quem cuida para que viver mais seja também viver bem."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Geriatra.",
+    "texto": "Aos geriatras, o nosso reconhecimento pelo cuidado com quem tem mais história."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "16 de maio, Dia do Geriatra.\n\nA quem cuida para que viver mais seja também viver bem. A todos os geriatras, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoGeriatra #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Geriatra. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:geriatr",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "cirurgiao-toracico",
+   "grupo": "especialidade",
+   "nome": "Dia do Cirurgião Torácico",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 5,
+    "dia": 27
+   },
+   "icone": "pulso",
+   "capa": {
+    "titulo": "Dia do Cirurgião Torácico",
+    "frase": "Precisão em cada respiração."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Cirurgião Torácico.",
+    "texto": "Aos cirurgiões torácicos, o nosso respeito por uma especialidade de alta exigência."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "27 de maio, Dia do Cirurgião Torácico.\n\nPrecisão em cada respiração. A todos os cirurgiões torácicos, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoCirurgiaoToracico #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Cirurgião Torácico. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:toracic",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": [],
+   "horario": "11:40"
+  },
+  {
+   "slug": "gastroenterologista",
+   "grupo": "especialidade",
+   "nome": "Dia do Gastroenterologista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 5,
+    "dia": 29
+   },
+   "icone": "capsula",
+   "capa": {
+    "titulo": "Dia do Gastroenterologista",
+    "frase": "A quem cuida de um dos sistemas mais complexos do corpo."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Gastroenterologista.",
+    "texto": "Aos gastroenterologistas, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "29 de maio, Dia do Gastroenterologista.\n\nA quem cuida de um dos sistemas mais complexos do corpo. A todos os gastroenterologistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoGastroenterologista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Gastroenterologista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:gastroenterolog",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "pneumologista",
+   "grupo": "especialidade",
+   "nome": "Dia do Pneumologista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 6,
+    "dia": 2
+   },
+   "icone": "pulmao",
+   "capa": {
+    "titulo": "Dia do Pneumologista",
+    "frase": "A quem cuida de cada respiração."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Pneumologista.",
+    "texto": "Aos pneumologistas, o nosso reconhecimento pelo cuidado com o fôlego de todos nós."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "2 de junho, Dia do Pneumologista.\n\nA quem cuida de cada respiração. A todos os pneumologistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoPneumologista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Pneumologista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:pneumolog",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": [],
+   "horario": "11:40"
+  },
+  {
+   "slug": "cirurgiao-mao",
+   "grupo": "especialidade",
+   "nome": "Dia do Cirurgião de Mão",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 6,
+    "dia": 17
+   },
+   "icone": "maocuidado",
+   "capa": {
+    "titulo": "Dia do Cirurgião de Mão",
+    "frase": "A quem devolve o gesto, o toque e o trabalho."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Cirurgião de Mão.",
+    "texto": "Aos cirurgiões de mão, o nosso reconhecimento pela precisão de cada detalhe."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "17 de junho, Dia do Cirurgião de Mão.\n\nA quem devolve o gesto, o toque e o trabalho. A todos os cirurgiões de mão, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoCirurgiaoDeMao #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Cirurgião de Mão. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:cirurgia da mao|cirurgiao de mao",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "oncologista",
+   "grupo": "especialidade",
+   "nome": "Dia do Oncologista Clínico",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 7,
+    "dia": 9
+   },
+   "icone": "escudosaude",
+   "capa": {
+    "titulo": "Dia do Oncologista Clínico",
+    "frase": "A quem caminha ao lado do paciente nos momentos mais difíceis."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Oncologista Clínico.",
+    "texto": "Aos oncologistas, o nosso respeito e a nossa admiração."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "9 de julho, Dia do Oncologista Clínico.\n\nA quem caminha ao lado do paciente nos momentos mais difíceis. A todos os oncologistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoOncologista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Oncologista Clínico. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:oncolog",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "geneticista",
+   "grupo": "especialidade",
+   "nome": "Dia do Médico Geneticista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 7,
+    "dia": 15
+   },
+   "icone": "dna",
+   "capa": {
+    "titulo": "Dia do Médico Geneticista",
+    "frase": "A quem lê a história que cada um carrega no próprio DNA."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Médico Geneticista.",
+    "texto": "Aos médicos geneticistas, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "15 de julho, Dia do Médico Geneticista.\n\nA quem lê a história que cada um carrega no próprio DNA. A todos os médicos geneticistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoGeneticista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Médico Geneticista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:genetic",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": [],
+   "horario": "11:40"
+  },
+  {
+   "slug": "endoscopista",
+   "grupo": "especialidade",
+   "nome": "Dia do Médico Endoscopista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 7,
+    "dia": 25
+   },
+   "icone": "lente",
+   "capa": {
+    "titulo": "Dia do Médico Endoscopista",
+    "frase": "A quem enxerga por dentro para cuidar por inteiro."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Médico Endoscopista.",
+    "texto": "Aos médicos endoscopistas, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "25 de julho, Dia do Médico Endoscopista.\n\nA quem enxerga por dentro para cuidar por inteiro. A todos os médicos endoscopistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoEndoscopista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Médico Endoscopista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:endoscop",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "cirurgiao-geral",
+   "grupo": "especialidade",
+   "nome": "Dia do Cirurgião Geral",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 7,
+    "dia": 30
+   },
+   "icone": "curativo",
+   "capa": {
+    "titulo": "Dia do Cirurgião Geral",
+    "frase": "Decisão, técnica e serenidade nas horas que mais importam."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Cirurgião Geral.",
+    "texto": "Aos cirurgiões gerais, o nosso respeito pelo trabalho de cada plantão."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "30 de julho, Dia do Cirurgião Geral.\n\nDecisão, técnica e serenidade nas horas que mais importam. A todos os cirurgiões gerais, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoCirurgiaoGeral #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Cirurgião Geral. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:cirurgiao geral|cirurgia geral",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "nefrologista",
+   "grupo": "especialidade",
+   "nome": "Dia do Nefrologista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 8,
+    "dia": 2
+   },
+   "icone": "gotas",
+   "capa": {
+    "titulo": "Dia do Nefrologista",
+    "frase": "A quem cuida dos rins, e de quem depende deles todos os dias."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Nefrologista.",
+    "texto": "Aos nefrologistas, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "2 de agosto, Dia do Nefrologista.\n\nA quem cuida dos rins, e de quem depende deles todos os dias. A todos os nefrologistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoNefrologista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Nefrologista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:nefrolog",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "patologista",
+   "grupo": "especialidade",
+   "nome": "Dia do Médico Patologista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 8,
+    "dia": 5
+   },
+   "icone": "frasco",
+   "capa": {
+    "titulo": "Dia do Médico Patologista",
+    "frase": "A quem dá o diagnóstico que orienta todo o tratamento."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Médico Patologista.",
+    "texto": "Aos médicos patologistas, o nosso reconhecimento por um trabalho essencial e pouco visto."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "5 de agosto, Dia do Médico Patologista.\n\nA quem dá o diagnóstico que orienta todo o tratamento. A todos os médicos patologistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoPatologista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Médico Patologista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:patolog",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "acupunturista",
+   "grupo": "especialidade",
+   "nome": "Dia do Médico Acupunturista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 8,
+    "dia": 11
+   },
+   "icone": "agulha",
+   "capa": {
+    "titulo": "Dia do Médico Acupunturista",
+    "frase": "Uma tradição milenar, praticada com ciência."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Médico Acupunturista.",
+    "texto": "Aos médicos acupunturistas, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "11 de agosto, Dia do Médico Acupunturista.\n\nUma tradição milenar, praticada com ciência. A todos os médicos acupunturistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoAcupunturista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Médico Acupunturista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:acupunt",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": [],
+   "horario": "11:40"
+  },
+  {
+   "slug": "psiquiatra",
+   "grupo": "especialidade",
+   "nome": "Dia do Psiquiatra",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 8,
+    "dia": 13
+   },
+   "icone": "conversa",
+   "capa": {
+    "titulo": "Dia do Psiquiatra",
+    "frase": "A quem cuida do que não aparece nos exames."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Psiquiatra.",
+    "texto": "Aos psiquiatras, o nosso reconhecimento pelo cuidado com a saúde mental."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "13 de agosto, Dia do Psiquiatra.\n\nA quem cuida do que não aparece nos exames. A todos os psiquiatras, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoPsiquiatra #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Psiquiatra. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:psiquiatr",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": [],
+   "horario": "11:40"
+  },
+  {
+   "slug": "cirurgiao-vascular",
+   "grupo": "especialidade",
+   "nome": "Dia do Cirurgião Vascular",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 8,
+    "dia": 15
+   },
+   "icone": "vasos",
+   "capa": {
+    "titulo": "Dia do Cirurgião Vascular",
+    "frase": "A quem cuida da circulação, das veias às artérias."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Cirurgião Vascular.",
+    "texto": "Aos angiologistas e cirurgiões vasculares, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "15 de agosto, Dia do Angiologista e Cirurgião Vascular.\n\nA quem cuida da circulação, das veias às artérias. A todos os angiologistas e cirurgiões vasculares, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoCirurgiaoVascular #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Cirurgião Vascular. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:vascular|angiolog",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "medico-trafego",
+   "grupo": "especialidade",
+   "nome": "Dia do Médico do Tráfego",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 8,
+    "dia": 19
+   },
+   "icone": "carro",
+   "capa": {
+    "titulo": "Dia do Médico do Tráfego",
+    "frase": "A quem cuida da segurança de quem está ao volante."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Médico do Tráfego.",
+    "texto": "Aos médicos do tráfego, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "19 de agosto, Dia do Médico do Tráfego.\n\nA quem cuida da segurança de quem está ao volante. A todos os médicos do tráfego, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoMedicoDoTrafego #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Médico do Tráfego. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:medicina do trafego|medico do trafego",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "endocrinologista",
+   "grupo": "especialidade",
+   "nome": "Dia do Endocrinologista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 9,
+    "dia": 1
+   },
+   "icone": "tubo",
+   "capa": {
+    "titulo": "Dia do Endocrinologista",
+    "frase": "A quem equilibra o que o corpo regula em silêncio."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Endocrinologista.",
+    "texto": "Aos endocrinologistas, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "1 de setembro, Dia do Endocrinologista.\n\nA quem equilibra o que o corpo regula em silêncio. A todos os endocrinologistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoEndocrinologista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Endocrinologista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:endocrin",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "fisiatra",
+   "grupo": "especialidade",
+   "nome": "Dia do Médico Fisiatra",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 9,
+    "dia": 9
+   },
+   "icone": "reabilitacao",
+   "capa": {
+    "titulo": "Dia do Médico Fisiatra",
+    "frase": "A quem ajuda cada paciente a recuperar a autonomia."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Médico Fisiatra.",
+    "texto": "Aos médicos fisiatras, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "9 de setembro, Dia do Médico Fisiatra.\n\nA quem ajuda cada paciente a recuperar a autonomia. A todos os médicos fisiatras, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoFisiatra #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Médico Fisiatra. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:fisiatr",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": [],
+   "horario": "11:40"
+  },
+  {
+   "slug": "medico-nuclear",
+   "grupo": "especialidade",
+   "nome": "Dia do Médico Nuclear",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 9,
+    "dia": 14
+   },
+   "icone": "atomo",
+   "capa": {
+    "titulo": "Dia do Médico Nuclear",
+    "frase": "Tecnologia de ponta a serviço do diagnóstico e do tratamento."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Médico Nuclear.",
+    "texto": "Aos médicos nucleares, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "14 de setembro, Dia do Médico Nuclear.\n\nTecnologia de ponta a serviço do diagnóstico e do tratamento. A todos os médicos nucleares, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoMedicoNuclear #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Médico Nuclear. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:medicina nuclear|medico nuclear",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "reumatologista",
+   "grupo": "especialidade",
+   "nome": "Dia do Reumatologista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 9,
+    "dia": 15
+   },
+   "icone": "postura",
+   "capa": {
+    "titulo": "Dia do Reumatologista",
+    "frase": "A quem cuida das articulações e da qualidade de cada movimento."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Reumatologista.",
+    "texto": "Aos reumatologistas, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "15 de setembro, Dia do Reumatologista.\n\nA quem cuida das articulações e da qualidade de cada movimento. A todos os reumatologistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoReumatologista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Reumatologista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:reumatolog",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": [],
+   "horario": "11:40"
+  },
+  {
+   "slug": "nutrologo",
+   "grupo": "especialidade",
+   "nome": "Dia do Médico Nutrólogo",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 9,
+    "dia": 15
+   },
+   "icone": "maca",
+   "capa": {
+    "titulo": "Dia do Médico Nutrólogo",
+    "frase": "A quem sabe que a saúde também se constrói à mesa."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Médico Nutrólogo.",
+    "texto": "Aos médicos nutrólogos, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "15 de setembro, Dia do Médico Nutrólogo.\n\nA quem sabe que a saúde também se constrói à mesa. A todos os médicos nutrólogos, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoNutrologo #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Médico Nutrólogo. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:nutrolog",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": [],
+   "horario": "16:40"
+  },
+  {
+   "slug": "emergencista",
+   "grupo": "especialidade",
+   "nome": "Dia do Médico Emergencista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 9,
+    "dia": 16
+   },
+   "icone": "ambulancia",
+   "capa": {
+    "titulo": "Dia do Médico Emergencista",
+    "frase": "A quem está pronto quando cada minuto conta."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Médico Emergencista.",
+    "texto": "Aos médicos emergencistas, o nosso respeito por cada plantão."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "16 de setembro, Dia do Médico Emergencista.\n\nA quem está pronto quando cada minuto conta. A todos os médicos emergencistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoEmergencista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Médico Emergencista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:emergencist|medicina de emergencia",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "cirurgiao-pediatrico",
+   "grupo": "especialidade",
+   "nome": "Dia do Cirurgião Pediátrico",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 10,
+    "dia": 12
+   },
+   "icone": "carrinho",
+   "capa": {
+    "titulo": "Dia do Cirurgião Pediátrico",
+    "frase": "Técnica e delicadeza a serviço dos menores pacientes."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Cirurgião Pediátrico.",
+    "texto": "Aos cirurgiões pediátricos, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "12 de outubro, Dia do Cirurgião Pediátrico.\n\nTécnica e delicadeza a serviço dos menores pacientes. A todos os cirurgiões pediátricos, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoCirurgiaoPediatrico #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Cirurgião Pediátrico. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:cirurgia pediatrica|cirurgiao pediatr",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": [],
+   "horario": "19:40"
+  },
+  {
+   "slug": "neurologista",
+   "grupo": "especialidade",
+   "nome": "Dia do Neurologista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 10,
+    "dia": 15
+   },
+   "icone": "mente",
+   "capa": {
+    "titulo": "Dia do Neurologista",
+    "frase": "A quem cuida do sistema que comanda todos os outros."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Neurologista.",
+    "texto": "Aos neurologistas, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "15 de outubro, Dia do Neurologista.\n\nA quem cuida do sistema que comanda todos os outros. A todos os neurologistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoNeurologista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Neurologista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:neurolog",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "hematologista",
+   "grupo": "especialidade",
+   "nome": "Dia do Hematologista e Hemoterapeuta",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 10,
+    "dia": 29
+   },
+   "icone": "gota",
+   "capa": {
+    "titulo": "Dia do Hematologista e Hemoterapeuta",
+    "frase": "A quem cuida do sangue que mantém a vida em movimento."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Hematologista e Hemoterapeuta.",
+    "texto": "Aos hematologistas e hemoterapeutas, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "29 de outubro, Dia do Hematologista e Hemoterapeuta.\n\nA quem cuida do sangue que mantém a vida em movimento. A todos os hematologistas e hemoterapeutas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoHematologista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Hematologista e Hemoterapeuta. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:hematolog|hemoterap",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "intensivista",
+   "grupo": "especialidade",
+   "nome": "Dia do Médico Intensivista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 11,
+    "dia": 10
+   },
+   "icone": "monitor",
+   "capa": {
+    "titulo": "Dia do Médico Intensivista",
+    "frase": "A quem não sai do lado do paciente nas horas mais críticas."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Médico Intensivista.",
+    "texto": "Aos médicos intensivistas, o nosso respeito por cada plantão na UTI."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "10 de novembro, Dia do Médico Intensivista.\n\nA quem não sai do lado do paciente nas horas mais críticas. A todos os médicos intensivistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoIntensivista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Médico Intensivista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:intensiv",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "alergista",
+   "grupo": "especialidade",
+   "nome": "Dia do Alergista e Imunologista",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 11,
+    "dia": 17
+   },
+   "icone": "polen",
+   "capa": {
+    "titulo": "Dia do Alergista e Imunologista",
+    "frase": "A quem cuida das defesas do nosso corpo."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Alergista e Imunologista.",
+    "texto": "Aos alergistas e imunologistas, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "17 de novembro, Dia do Alergista e Imunologista.\n\nA quem cuida das defesas do nosso corpo. A todos os alergistas e imunologistas, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoAlergista #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Alergista e Imunologista. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:alergi|imunolog",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "medico-perito",
+   "grupo": "especialidade",
+   "nome": "Dia do Médico Perito",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 12,
+    "dia": 4
+   },
+   "icone": "laudo",
+   "capa": {
+    "titulo": "Dia do Médico Perito",
+    "frase": "A quem transforma o exame técnico em fundamento para decisões justas."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Médico Perito.",
+    "texto": "Aos médicos peritos, o nosso respeito."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "4 de dezembro, Dia do Médico Perito.\n\nA quem transforma o exame técnico em fundamento para decisões justas. A todos os médicos peritos, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoMedicoPerito #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Médico Perito. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:perito medic|medico perito|pericia medica",
+    "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
+   },
+   "confirmar": []
+  },
+  {
+   "slug": "cirurgiao-plastico",
+   "grupo": "especialidade",
+   "nome": "Dia do Cirurgião Plástico",
+   "regra": {
+    "tipo": "fixa",
+    "mes": 12,
+    "dia": 7
+   },
+   "icone": "brilho",
+   "capa": {
+    "titulo": "Dia do Cirurgião Plástico",
+    "frase": "Técnica, sensibilidade e cuidado em cada detalhe."
+   },
+   "slides": [],
+   "fecho": {
+    "titulo": "Feliz Dia do Cirurgião Plástico.",
+    "texto": "Aos cirurgiões plásticos, o nosso reconhecimento."
+   },
+   "cta": null,
+   "sobrio": false,
+   "legenda": "7 de dezembro, Dia do Cirurgião Plástico.\n\nTécnica, sensibilidade e cuidado em cada detalhe. A todos os cirurgiões plásticos, e em especial aos que confiam à Maison os seus planos, o nosso reconhecimento.",
+   "hashtags": "#DiaDoCirurgiaoPlastico #Medicina #MaisonInvest",
+   "mensagem_cliente": "Olá, {nome}! Hoje é Dia do Cirurgião Plástico. Parabéns pelo seu trabalho e obrigado pela confiança. Um abraço,\n{assessor}\nMaison Invest",
+   "lista": {
+    "regra": "profissao:cirurgia plastica|cirurgiao plastic",
     "descricao": "Clientes com a especialidade na profissão cadastrada no CRM. Não se infere por outro campo."
    },
    "confirmar": []
