@@ -1,6 +1,6 @@
 {
   "referencia": "2026-11-13",
-  "gerado": "2026-11-18T01:11:00Z",
+  "gerado": "2026-11-18T02:17:05Z",
   "fundos_publicados": 10175,
   "fundos_na_matriz": 16469,
   "fundos_xp": 1007,
@@ -32,9 +32,9 @@
     "^BVSP",
     "URTH"
   ],
-  "acoes": 0,
-  "bdrs": 0,
-  "fiis": 0,
+  "acoes": 1054,
+  "bdrs": 463,
+  "fiis": 277,
   "descartados_parados": 483,
   "descartados_poucos_cotistas": 5794,
   "descartados_historico_curto": 17,
@@ -166,7 +166,7 @@
   ],
   "avisos": [
     "CDI sem valor em 22 dias do calendário (tratados como 0)",
-    "ações e BDRs falharam: https://bvmf.bmfbovespa.com.br/InstDados/SerHist/COTAHIST_A2026.ZIP: HTTP Error 404: Not Found"
+    "ações: 24 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 385
+  "duracao_s": 728
 }
