@@ -1,208 +1,208 @@
-[21:22:37] 1/5 cadastro de fundos
-[21:22:37] cadastro: 46805 linhas; colunas cnpj=CNPJ_FUNDO nome=DENOM_SOCIAL sit=SIT classe=CLASSE
-[21:22:39] registro de fundos: 90,034 fundos com gestor/administrador
-[21:22:40] registro de classes: 35338 CNPJs complementados
-[21:22:40] cadastro consolidado: 76440 CNPJs
-[21:22:40]   catálogo de gestoras: 214 casas
-[21:22:40]   ícones das gestoras: 156 processados (fundo transparente, escuras clareadas)
-[21:22:40]   perfis do Guia de Fundos: 126 gestoras, 1137 fundos
-[21:22:40]   ícones das gestoras: 57 processados (fundo transparente, escuras clareadas)
-[21:22:40]   emissores de renda fixa: 99 no catálogo
-[21:22:40]   lista XP: 1,189 CNPJs
-[21:22:40] universo cadastral elegível: 23,640 de 76,440
-[21:22:40] 2/5 informes diários
-[21:22:41]   inf_diario_fi_201609.zip: 65,294 linhas, 3,130 fundos (0.4s)
-[21:22:42]   inf_diario_fi_201610.zip: 62,826 linhas, 3,153 fundos (0.4s)
-[21:22:43]   inf_diario_fi_201611.zip: 63,367 linhas, 3,183 fundos (0.4s)
-[21:22:44]   inf_diario_fi_201612.zip: 70,324 linhas, 3,221 fundos (0.4s)
-[21:22:46]   inf_diario_fi_201701.zip: 71,169 linhas, 3,255 fundos (0.4s)
-[21:22:47]   inf_diario_fi_201702.zip: 58,841 linhas, 3,285 fundos (0.4s)
-[21:22:48]   inf_diario_fi_201703.zip: 75,961 linhas, 3,328 fundos (0.4s)
-[21:22:49]   inf_diario_fi_201704.zip: 60,294 linhas, 3,370 fundos (0.4s)
-[21:22:50]   inf_diario_fi_201705.zip: 74,589 linhas, 3,414 fundos (0.4s)
-[21:22:51]   inf_diario_fi_201706.zip: 72,404 linhas, 3,471 fundos (0.4s)
-[21:22:52]   inf_diario_fi_201707.zip: 73,346 linhas, 3,514 fundos (0.4s)
-[21:22:54]   inf_diario_fi_201708.zip: 81,348 linhas, 3,557 fundos (0.5s)
-[21:22:55]   inf_diario_fi_201709.zip: 71,768 linhas, 3,620 fundos (0.4s)
-[21:22:56]   inf_diario_fi_201710.zip: 76,603 linhas, 3,669 fundos (0.4s)
-[21:22:57]   inf_diario_fi_201711.zip: 73,938 linhas, 3,710 fundos (0.4s)
-[21:22:58]   inf_diario_fi_201712.zip: 74,753 linhas, 3,777 fundos (0.4s)
-[21:22:59]   inf_diario_fi_201801.zip: 83,411 linhas, 3,816 fundos (0.5s)
-[21:23:00]   inf_diario_fi_201802.zip: 68,970 linhas, 3,857 fundos (0.4s)
-[21:23:02]   inf_diario_fi_201803.zip: 81,408 linhas, 3,916 fundos (0.5s)
-[21:23:03]   inf_diario_fi_201804.zip: 82,749 linhas, 3,960 fundos (0.5s)
-[21:23:04]   inf_diario_fi_201805.zip: 83,716 linhas, 4,011 fundos (0.5s)
-[21:23:05]   inf_diario_fi_201806.zip: 84,619 linhas, 4,059 fundos (0.5s)
-[21:23:07]   inf_diario_fi_201807.zip: 89,741 linhas, 4,105 fundos (0.5s)
-[21:23:08]   inf_diario_fi_201808.zip: 94,885 linhas, 4,158 fundos (0.5s)
-[21:23:09]   inf_diario_fi_201809.zip: 79,237 linhas, 4,217 fundos (0.4s)
-[21:23:11]   inf_diario_fi_201810.zip: 92,883 linhas, 4,252 fundos (0.5s)
-[21:23:12]   inf_diario_fi_201811.zip: 85,551 linhas, 4,309 fundos (0.4s)
-[21:23:13]   inf_diario_fi_201812.zip: 86,848 linhas, 4,408 fundos (0.4s)
-[21:23:14]   inf_diario_fi_201901.zip: 97,392 linhas, 4,445 fundos (0.5s)
-[21:23:16]   inf_diario_fi_201902.zip: 89,381 linhas, 4,500 fundos (0.5s)
-[21:23:17]   inf_diario_fi_201903.zip: 86,216 linhas, 4,579 fundos (0.4s)
-[21:23:18]   inf_diario_fi_201904.zip: 96,747 linhas, 4,653 fundos (0.5s)
-[21:23:19]   inf_diario_fi_201905.zip: 103,280 linhas, 4,738 fundos (0.5s)
-[21:23:21]   inf_diario_fi_201906.zip: 90,461 linhas, 4,812 fundos (0.4s)
-[21:23:22]   inf_diario_fi_201907.zip: 111,365 linhas, 4,895 fundos (0.5s)
-[21:23:24]   inf_diario_fi_201908.zip: 108,602 linhas, 4,989 fundos (0.5s)
-[21:23:25]   inf_diario_fi_201909.zip: 105,555 linhas, 5,081 fundos (0.5s)
-[21:23:27]   inf_diario_fi_201910.zip: 117,731 linhas, 5,197 fundos (0.6s)
-[21:23:28]   inf_diario_fi_201911.zip: 105,158 linhas, 5,314 fundos (0.5s)
-[21:23:29]   inf_diario_fi_201912.zip: 112,894 linhas, 5,485 fundos (0.5s)
-[21:23:31]   inf_diario_fi_202001.zip: 121,249 linhas, 5,552 fundos (0.6s)
-[21:23:32]   inf_diario_fi_202002.zip: 100,851 linhas, 5,665 fundos (0.5s)
-[21:23:34]   inf_diario_fi_202003.zip: 125,731 linhas, 5,781 fundos (0.6s)
-[21:23:35]   inf_diario_fi_202004.zip: 116,390 linhas, 5,863 fundos (0.5s)
-[21:23:37]   inf_diario_fi_202005.zip: 117,868 linhas, 5,943 fundos (0.6s)
-[21:23:38]   inf_diario_fi_202006.zip: 126,192 linhas, 6,127 fundos (0.6s)
-[21:23:40]   inf_diario_fi_202007.zip: 141,939 linhas, 6,243 fundos (0.7s)
-[21:23:42]   inf_diario_fi_202008.zip: 132,095 linhas, 6,361 fundos (0.6s)
-[21:23:43]   inf_diario_fi_202009.zip: 134,421 linhas, 6,447 fundos (0.6s)
-[21:23:45]   inf_diario_fi_202010.zip: 136,780 linhas, 6,577 fundos (0.6s)
-[21:23:47]   inf_diario_fi_202011.zip: 132,542 linhas, 6,712 fundos (0.6s)
-[21:23:48]   inf_diario_fi_202012.zip: 149,655 linhas, 6,912 fundos (0.7s)
-[21:23:49]   inf_diario_fi_202101.zip: 139,027 linhas, 7,011 fundos (0.6s)
-[21:23:50]   inf_diario_fi_202102.zip: 127,086 linhas, 7,125 fundos (0.6s)
-[21:23:50]   inf_diario_fi_202103.zip: 165,133 linhas, 7,263 fundos (0.7s)
-[21:23:51]   inf_diario_fi_202104.zip: 146,487 linhas, 7,409 fundos (0.6s)
-[21:23:52]   inf_diario_fi_202105.zip: 156,946 linhas, 7,554 fundos (0.7s)
-[21:23:52]   inf_diario_fi_202106.zip: 160,078 linhas, 7,711 fundos (0.7s)
-[21:23:53]   inf_diario_fi_202107.zip: 170,716 linhas, 7,832 fundos (0.8s)
-[21:23:54]   inf_diario_fi_202108.zip: 173,763 linhas, 7,966 fundos (0.8s)
-[21:23:55]   inf_diario_fi_202109.zip: 168,682 linhas, 8,118 fundos (0.7s)
-[21:23:55]   inf_diario_fi_202110.zip: 163,731 linhas, 8,280 fundos (0.7s)
-[21:23:56]   inf_diario_fi_202111.zip: 166,897 linhas, 8,431 fundos (0.7s)
-[21:23:57]   inf_diario_fi_202112.zip: 195,712 linhas, 8,614 fundos (0.8s)
-[21:23:58]   inf_diario_fi_202201.zip: 181,804 linhas, 8,710 fundos (0.8s)
-[21:23:58]   inf_diario_fi_202202.zip: 166,245 linhas, 8,804 fundos (0.7s)
-[21:23:59]   inf_diario_fi_202203.zip: 194,606 linhas, 8,920 fundos (0.8s)
-[21:24:00]   inf_diario_fi_202204.zip: 170,451 linhas, 9,042 fundos (0.7s)
-[21:24:01]   inf_diario_fi_202205.zip: 200,299 linhas, 9,188 fundos (0.8s)
-[21:24:01]   inf_diario_fi_202206.zip: 194,625 linhas, 9,359 fundos (0.8s)
-[21:24:02]   inf_diario_fi_202207.zip: 198,113 linhas, 9,529 fundos (0.8s)
-[21:24:03]   inf_diario_fi_202208.zip: 220,451 linhas, 9,668 fundos (0.9s)
-[21:24:04]   inf_diario_fi_202209.zip: 204,331 linhas, 9,800 fundos (0.8s)
-[21:24:05]   inf_diario_fi_202210.zip: 197,339 linhas, 9,956 fundos (0.8s)
-[21:24:06]   inf_diario_fi_202211.zip: 200,077 linhas, 10,080 fundos (0.8s)
-[21:24:07]   inf_diario_fi_202212.zip: 223,103 linhas, 10,244 fundos (0.9s)
-[21:24:07]   inf_diario_fi_202301.zip: 226,126 linhas, 10,337 fundos (0.9s)
-[21:24:08]   inf_diario_fi_202302.zip: 186,548 linhas, 10,407 fundos (0.7s)
-[21:24:09]   inf_diario_fi_202303.zip: 240,743 linhas, 10,611 fundos (0.9s)
-[21:24:10]   inf_diario_fi_202304.zip: 191,649 linhas, 10,721 fundos (0.8s)
-[21:24:11]   inf_diario_fi_202305.zip: 237,104 linhas, 10,853 fundos (0.9s)
-[21:24:12]   inf_diario_fi_202306.zip: 228,820 linhas, 10,986 fundos (0.9s)
-[21:24:13]   inf_diario_fi_202307.zip: 231,602 linhas, 11,098 fundos (0.9s)
-[21:24:14]   inf_diario_fi_202308.zip: 256,393 linhas, 11,220 fundos (1.0s)
-[21:24:14]   inf_diario_fi_202309.zip: 226,220 linhas, 11,578 fundos (0.9s)
-[21:24:15]   inf_diario_fi_202310.zip: 243,114 linhas, 11,611 fundos (0.9s)
-[21:24:16]   inf_diario_fi_202311.zip: 232,695 linhas, 11,703 fundos (0.9s)
-[21:24:17]   inf_diario_fi_202312.zip: 235,192 linhas, 11,864 fundos (0.9s)
-[21:24:18]   inf_diario_fi_202401.zip: 261,391 linhas, 11,939 fundos (1.0s)
-[21:24:19]   inf_diario_fi_202402.zip: 227,337 linhas, 12,044 fundos (0.9s)
-[21:24:20]   inf_diario_fi_202403.zip: 241,206 linhas, 12,148 fundos (0.9s)
-[21:24:21]   inf_diario_fi_202404.zip: 268,096 linhas, 12,287 fundos (1.0s)
-[21:24:22]   inf_diario_fi_202405.zip: 259,091 linhas, 12,440 fundos (1.0s)
-[21:24:23]   inf_diario_fi_202406.zip: 249,289 linhas, 12,563 fundos (0.9s)
-[21:24:24]   inf_diario_fi_202407.zip: 289,843 linhas, 12,690 fundos (1.1s)
-[21:24:25]   inf_diario_fi_202408.zip: 280,171 linhas, 12,850 fundos (1.0s)
-[21:24:26]   inf_diario_fi_202409.zip: 270,613 linhas, 12,982 fundos (1.0s)
-[21:24:27]   inf_diario_fi_202410.zip: 299,577 linhas, 13,144 fundos (1.1s)
-[21:24:28]   inf_diario_fi_202411.zip: 249,856 linhas, 13,244 fundos (0.9s)
-[21:24:29]   inf_diario_fi_202412.zip: 278,378 linhas, 13,362 fundos (1.0s)
-[21:24:30]   inf_diario_fi_202501.zip: 293,776 linhas, 13,451 fundos (1.1s)
-[21:24:31]   inf_diario_fi_202502.zip: 269,211 linhas, 13,563 fundos (1.0s)
-[21:24:32]   inf_diario_fi_202503.zip: 257,966 linhas, 13,682 fundos (0.9s)
-[21:24:33]   inf_diario_fi_202504.zip: 273,563 linhas, 13,769 fundos (1.0s)
-[21:24:34]   inf_diario_fi_202505.zip: 289,469 linhas, 13,901 fundos (1.1s)
-[21:24:35]   inf_diario_fi_202506.zip: 278,007 linhas, 14,034 fundos (1.0s)
-[21:24:37]   inf_diario_fi_202507.zip: 322,822 linhas, 14,155 fundos (1.2s)
-[21:24:38]   inf_diario_fi_202508.zip: 297,194 linhas, 14,266 fundos (1.1s)
-[21:24:39]   inf_diario_fi_202509.zip: 313,923 linhas, 14,380 fundos (1.1s)
-[21:24:40]   inf_diario_fi_202510.zip: 330,775 linhas, 14,527 fundos (1.2s)
-[21:24:41]   inf_diario_fi_202511.zip: 276,095 linhas, 14,659 fundos (1.0s)
-[21:24:42]   inf_diario_fi_202512.zip: 323,281 linhas, 14,845 fundos (1.2s)
-[21:24:44]   inf_diario_fi_202601.zip: 311,294 linhas, 14,955 fundos (1.1s)
-[21:24:45]   inf_diario_fi_202602.zip: 268,490 linhas, 15,070 fundos (0.9s)
-[21:24:46]   inf_diario_fi_202603.zip: 331,666 linhas, 15,203 fundos (1.1s)
-[21:24:47]   inf_diario_fi_202604.zip: 304,463 linhas, 15,333 fundos (1.1s)
-[21:24:48]   inf_diario_fi_202605.zip: 306,686 linhas, 15,470 fundos (1.1s)
-[21:24:49]   inf_diario_fi_202606.zip: 324,859 linhas, 15,588 fundos (1.1s)
-[21:24:51]   inf_diario_fi_202607.zip: 357,999 linhas, 15,713 fundos (1.2s)
-[21:24:52]   inf_diario_fi_202608.zip: 329,737 linhas, 15,853 fundos (1.1s)
-[21:24:53]   inf_diario_fi_202609.zip: 332,536 linhas, 15,989 fundos (1.1s)
-[21:24:54]   inf_diario_fi_202610.zip: 333,878 linhas, 16,053 fundos (1.1s)
-[21:24:55]   inf_diario_fi_202611.zip: 173,439 linhas, 15,992 fundos (0.6s)
-[21:24:57] matriz: 16,447 fundos x 2,583 dias (2016-09-01 a 2026-11-18)
-[21:24:57] 3/5 CDI
-[21:25:13] CDI: 8127 dias (1994-07-04 a 2026-11-18)
-[21:25:13] calendário longo: 8,148 dias úteis desde 1994-07-04 (benchmarks); fundos desde 2016-09-01
-[21:25:13] data de referência: 2026-11-17 (15,290 informes; pico recente 15,962)
-[21:25:13] 4/5 métricas por fundo
-[21:25:26]   2,000 fundos gravados
-[21:25:36]   4,000 fundos gravados
-[21:25:44]   6,000 fundos gravados
-[21:25:49]   8,000 fundos gravados
-[21:25:53]   10,000 fundos gravados
-[21:25:53] 4b/5 benchmarks
-[21:25:58]   ^BVSP: 6170 pontos via B3 (2002-01-02 a 2026-11-18)
-[21:25:59]   ^GSPC: 2513 pontos via Nasdaq (ETF SPY) (2016-11-18 a 2026-11-18)
-[21:26:00]   ^NDX: 6415 pontos via Nasdaq (2001-11-26 a 2026-11-18)
-[21:26:03]   URTH: 2513 pontos via Nasdaq (2016-11-18 a 2026-11-18)
-[21:26:07]   GLD: 2513 pontos via Nasdaq (2016-11-18 a 2026-11-18)
-[21:26:09]   AIQ: 2141 pontos via Nasdaq (2018-05-15 a 2026-11-18)
-[21:26:15]   IFIX: 3941 pontos via B3 (2010-12-30 a 2026-11-18)
-[21:26:21]   BTC-USD: 3976 pontos via Coinbase (2016-01-01 a 2026-11-19)
-[21:26:23]   PTAX: 8155 dias
-[21:26:24]   IPCA: 392 meses (último 2026-10)
-[21:26:25]   Poupança: 175 meses
-[21:26:25]   ANBIMA IMA: 9 índices em 2026-11-18 (0 novos; 315 registros acumulados)
-[21:26:25]   IMA-B: proxy pelo fundo Caixa Brasil IMA-B Títulos Públicos com emenda oficial
-[21:26:25]   IRF-M: proxy pelo fundo Caixa Brasil IRF-M Títulos Públicos com emenda oficial
-[21:26:26]   17 benchmarks, 6 históricos
-[21:26:26] 4c/5 Tesouro Direto
-[21:26:43]   Tesouro: CSV baixado do Tesouro Transparente (14,704,842 bytes)
-[21:26:44]   Tesouro: 92,706 linhas no período, 58 títulos ativos
-[21:26:44]   Tesouro: 58 títulos publicados
-[21:26:44] 4d/5 ações e BDRs
-[21:28:22]   COTAHIST: 1942 papéis no arquivo, 1060 com liquidez (último pregão 2026-11-18)
-[21:28:23]   COTAHIST 2016: 306 papéis do universo
-[21:28:24]   COTAHIST 2017: 341 papéis do universo
-[21:28:24]   COTAHIST 2018: 354 papéis do universo
-[21:28:25]   COTAHIST 2019: 441 papéis do universo
-[21:28:27]   COTAHIST 2020: 649 papéis do universo
-[21:28:29]   COTAHIST 2021: 770 papéis do universo
-[21:28:31]   COTAHIST 2022: 865 papéis do universo
-[21:28:33]   COTAHIST 2023: 913 papéis do universo
-[21:28:36]   COTAHIST 2024: 972 papéis do universo
-[21:28:40]   COTAHIST 2025: 1027 papéis do universo
-[21:28:41]   FII: valor patrimonial da cota pela coluna Valor_Patrimonial_Cotas
-[21:28:41]   FII: 1619 ISINs e 1686 fundos com dividend yield mensal na CVM
-[21:28:58]   100 de 1060 papéis (17s)
-[21:29:14]   200 de 1060 papéis (33s)
-[21:29:29]   300 de 1060 papéis (47s)
-[21:29:40]   400 de 1060 papéis (59s)
-[21:29:52]   500 de 1060 papéis (71s)
-[21:30:01]   600 de 1060 papéis (79s)
-[21:30:10]   700 de 1060 papéis (89s)
-[21:30:17]   800 de 1060 papéis (96s)
-[21:30:22]   900 de 1060 papéis (100s)
-[21:30:28]   1000 de 1060 papéis (106s)
-[21:30:32]   séries montadas: 1060 papéis, 261 emissores e 279 FIIs consultados na B3 (111s); 24 sem proventos
-[21:30:32]   setores: 315 de 315 ações com classificação da B3; FIIs por fonte: {'carteira': 156, 'cvm': 81, 'nome': 19}
-[21:30:37]   RAD (CVM): 629 ITR/DFP nos últimos 21 dias (listas em 5s, 20 dias do cache); 13 fora do extrato semanal, 0 baixados em 0s, 13 acrescentados
-[21:30:37]   fundamentos CVM: 12 arquivos (ITR/DFP 2021-2026), 261 de 261 companhias com dados, 257 com lucro de 12 meses, 261 com data de entrega (5s)
-[21:30:38]   fundamentos: 315 papéis com indicadores (261 companhias)
+[22:35:01] 1/5 cadastro de fundos
+[22:35:02] cadastro: 46805 linhas; colunas cnpj=CNPJ_FUNDO nome=DENOM_SOCIAL sit=SIT classe=CLASSE
+[22:35:04] registro de fundos: 90,034 fundos com gestor/administrador
+[22:35:05] registro de classes: 35338 CNPJs complementados
+[22:35:05] cadastro consolidado: 76440 CNPJs
+[22:35:05]   catálogo de gestoras: 214 casas
+[22:35:05]   ícones das gestoras: 156 processados (fundo transparente, escuras clareadas)
+[22:35:05]   perfis do Guia de Fundos: 126 gestoras, 1137 fundos
+[22:35:05]   ícones das gestoras: 57 processados (fundo transparente, escuras clareadas)
+[22:35:05]   emissores de renda fixa: 99 no catálogo
+[22:35:05]   lista XP: 1,189 CNPJs
+[22:35:05] universo cadastral elegível: 23,640 de 76,440
+[22:35:05] 2/5 informes diários
+[22:35:06]   inf_diario_fi_201609.zip: 65,294 linhas, 3,130 fundos (0.4s)
+[22:35:08]   inf_diario_fi_201610.zip: 62,826 linhas, 3,153 fundos (0.4s)
+[22:35:09]   inf_diario_fi_201611.zip: 63,367 linhas, 3,183 fundos (0.4s)
+[22:35:10]   inf_diario_fi_201612.zip: 70,324 linhas, 3,221 fundos (0.4s)
+[22:35:11]   inf_diario_fi_201701.zip: 71,169 linhas, 3,255 fundos (0.4s)
+[22:35:12]   inf_diario_fi_201702.zip: 58,841 linhas, 3,285 fundos (0.4s)
+[22:35:13]   inf_diario_fi_201703.zip: 75,961 linhas, 3,328 fundos (0.5s)
+[22:35:14]   inf_diario_fi_201704.zip: 60,294 linhas, 3,370 fundos (0.4s)
+[22:35:16]   inf_diario_fi_201705.zip: 74,589 linhas, 3,414 fundos (0.4s)
+[22:35:17]   inf_diario_fi_201706.zip: 72,404 linhas, 3,471 fundos (0.4s)
+[22:35:18]   inf_diario_fi_201707.zip: 73,346 linhas, 3,514 fundos (0.4s)
+[22:35:19]   inf_diario_fi_201708.zip: 81,348 linhas, 3,557 fundos (0.5s)
+[22:35:21]   inf_diario_fi_201709.zip: 71,768 linhas, 3,620 fundos (0.4s)
+[22:35:22]   inf_diario_fi_201710.zip: 76,603 linhas, 3,669 fundos (0.5s)
+[22:35:23]   inf_diario_fi_201711.zip: 73,938 linhas, 3,710 fundos (0.4s)
+[22:35:24]   inf_diario_fi_201712.zip: 74,753 linhas, 3,777 fundos (0.4s)
+[22:35:26]   inf_diario_fi_201801.zip: 83,411 linhas, 3,816 fundos (0.5s)
+[22:35:27]   inf_diario_fi_201802.zip: 68,970 linhas, 3,857 fundos (0.4s)
+[22:35:28]   inf_diario_fi_201803.zip: 81,408 linhas, 3,916 fundos (0.5s)
+[22:35:29]   inf_diario_fi_201804.zip: 82,749 linhas, 3,960 fundos (0.5s)
+[22:35:31]   inf_diario_fi_201805.zip: 83,716 linhas, 4,011 fundos (0.5s)
+[22:35:32]   inf_diario_fi_201806.zip: 84,619 linhas, 4,059 fundos (0.5s)
+[22:35:33]   inf_diario_fi_201807.zip: 89,741 linhas, 4,105 fundos (0.5s)
+[22:35:35]   inf_diario_fi_201808.zip: 94,885 linhas, 4,158 fundos (0.5s)
+[22:35:36]   inf_diario_fi_201809.zip: 79,237 linhas, 4,217 fundos (0.4s)
+[22:35:37]   inf_diario_fi_201810.zip: 92,883 linhas, 4,252 fundos (0.5s)
+[22:35:39]   inf_diario_fi_201811.zip: 85,551 linhas, 4,309 fundos (0.5s)
+[22:35:40]   inf_diario_fi_201812.zip: 86,848 linhas, 4,408 fundos (0.5s)
+[22:35:41]   inf_diario_fi_201901.zip: 97,392 linhas, 4,445 fundos (0.6s)
+[22:35:43]   inf_diario_fi_201902.zip: 89,381 linhas, 4,500 fundos (0.5s)
+[22:35:44]   inf_diario_fi_201903.zip: 86,216 linhas, 4,579 fundos (0.5s)
+[22:35:46]   inf_diario_fi_201904.zip: 96,747 linhas, 4,653 fundos (0.6s)
+[22:35:47]   inf_diario_fi_201905.zip: 103,280 linhas, 4,738 fundos (0.6s)
+[22:35:48]   inf_diario_fi_201906.zip: 90,461 linhas, 4,812 fundos (0.5s)
+[22:35:50]   inf_diario_fi_201907.zip: 111,365 linhas, 4,895 fundos (0.7s)
+[22:35:52]   inf_diario_fi_201908.zip: 108,602 linhas, 4,989 fundos (0.6s)
+[22:35:53]   inf_diario_fi_201909.zip: 105,555 linhas, 5,081 fundos (0.6s)
+[22:35:55]   inf_diario_fi_201910.zip: 117,731 linhas, 5,197 fundos (0.7s)
+[22:35:57]   inf_diario_fi_201911.zip: 105,158 linhas, 5,314 fundos (0.6s)
+[22:35:58]   inf_diario_fi_201912.zip: 112,894 linhas, 5,485 fundos (0.7s)
+[22:36:00]   inf_diario_fi_202001.zip: 121,249 linhas, 5,552 fundos (0.7s)
+[22:36:01]   inf_diario_fi_202002.zip: 100,851 linhas, 5,665 fundos (0.6s)
+[22:36:03]   inf_diario_fi_202003.zip: 125,731 linhas, 5,781 fundos (0.7s)
+[22:36:05]   inf_diario_fi_202004.zip: 116,390 linhas, 5,863 fundos (0.7s)
+[22:36:07]   inf_diario_fi_202005.zip: 117,868 linhas, 5,943 fundos (0.7s)
+[22:36:08]   inf_diario_fi_202006.zip: 126,192 linhas, 6,127 fundos (0.7s)
+[22:36:10]   inf_diario_fi_202007.zip: 141,939 linhas, 6,243 fundos (0.8s)
+[22:36:12]   inf_diario_fi_202008.zip: 132,095 linhas, 6,361 fundos (0.7s)
+[22:36:14]   inf_diario_fi_202009.zip: 134,421 linhas, 6,447 fundos (0.8s)
+[22:36:16]   inf_diario_fi_202010.zip: 136,780 linhas, 6,577 fundos (0.8s)
+[22:36:18]   inf_diario_fi_202011.zip: 132,542 linhas, 6,712 fundos (0.8s)
+[22:36:20]   inf_diario_fi_202012.zip: 149,655 linhas, 6,912 fundos (0.8s)
+[22:36:21]   inf_diario_fi_202101.zip: 139,027 linhas, 7,011 fundos (0.8s)
+[22:36:21]   inf_diario_fi_202102.zip: 127,086 linhas, 7,125 fundos (0.8s)
+[22:36:22]   inf_diario_fi_202103.zip: 165,133 linhas, 7,263 fundos (0.9s)
+[22:36:23]   inf_diario_fi_202104.zip: 146,487 linhas, 7,409 fundos (0.9s)
+[22:36:24]   inf_diario_fi_202105.zip: 156,946 linhas, 7,554 fundos (0.9s)
+[22:36:25]   inf_diario_fi_202106.zip: 160,078 linhas, 7,711 fundos (0.9s)
+[22:36:26]   inf_diario_fi_202107.zip: 170,716 linhas, 7,832 fundos (0.9s)
+[22:36:27]   inf_diario_fi_202108.zip: 173,763 linhas, 7,966 fundos (0.9s)
+[22:36:28]   inf_diario_fi_202109.zip: 168,682 linhas, 8,118 fundos (0.9s)
+[22:36:29]   inf_diario_fi_202110.zip: 163,731 linhas, 8,280 fundos (0.9s)
+[22:36:30]   inf_diario_fi_202111.zip: 166,897 linhas, 8,431 fundos (0.9s)
+[22:36:31]   inf_diario_fi_202112.zip: 195,712 linhas, 8,614 fundos (1.1s)
+[22:36:32]   inf_diario_fi_202201.zip: 181,804 linhas, 8,710 fundos (1.0s)
+[22:36:33]   inf_diario_fi_202202.zip: 166,245 linhas, 8,804 fundos (0.9s)
+[22:36:34]   inf_diario_fi_202203.zip: 194,606 linhas, 8,920 fundos (1.1s)
+[22:36:35]   inf_diario_fi_202204.zip: 170,451 linhas, 9,042 fundos (1.0s)
+[22:36:36]   inf_diario_fi_202205.zip: 200,299 linhas, 9,188 fundos (1.1s)
+[22:36:37]   inf_diario_fi_202206.zip: 194,625 linhas, 9,359 fundos (1.0s)
+[22:36:38]   inf_diario_fi_202207.zip: 198,113 linhas, 9,529 fundos (1.0s)
+[22:36:39]   inf_diario_fi_202208.zip: 220,451 linhas, 9,668 fundos (1.2s)
+[22:36:40]   inf_diario_fi_202209.zip: 204,331 linhas, 9,800 fundos (1.1s)
+[22:36:41]   inf_diario_fi_202210.zip: 197,339 linhas, 9,956 fundos (1.0s)
+[22:36:42]   inf_diario_fi_202211.zip: 200,077 linhas, 10,080 fundos (1.0s)
+[22:36:43]   inf_diario_fi_202212.zip: 223,103 linhas, 10,244 fundos (1.1s)
+[22:36:45]   inf_diario_fi_202301.zip: 226,126 linhas, 10,337 fundos (1.1s)
+[22:36:46]   inf_diario_fi_202302.zip: 186,548 linhas, 10,407 fundos (1.0s)
+[22:36:47]   inf_diario_fi_202303.zip: 240,743 linhas, 10,611 fundos (1.2s)
+[22:36:48]   inf_diario_fi_202304.zip: 191,649 linhas, 10,721 fundos (1.0s)
+[22:36:49]   inf_diario_fi_202305.zip: 237,104 linhas, 10,853 fundos (1.2s)
+[22:36:50]   inf_diario_fi_202306.zip: 228,820 linhas, 10,986 fundos (1.2s)
+[22:36:51]   inf_diario_fi_202307.zip: 231,602 linhas, 11,098 fundos (1.2s)
+[22:36:53]   inf_diario_fi_202308.zip: 256,393 linhas, 11,220 fundos (1.2s)
+[22:36:54]   inf_diario_fi_202309.zip: 226,220 linhas, 11,578 fundos (1.1s)
+[22:36:55]   inf_diario_fi_202310.zip: 243,114 linhas, 11,611 fundos (1.2s)
+[22:36:56]   inf_diario_fi_202311.zip: 232,695 linhas, 11,703 fundos (1.1s)
+[22:36:57]   inf_diario_fi_202312.zip: 235,192 linhas, 11,864 fundos (1.2s)
+[22:36:59]   inf_diario_fi_202401.zip: 261,391 linhas, 11,939 fundos (1.3s)
+[22:37:00]   inf_diario_fi_202402.zip: 227,337 linhas, 12,044 fundos (1.2s)
+[22:37:01]   inf_diario_fi_202403.zip: 241,206 linhas, 12,148 fundos (1.2s)
+[22:37:02]   inf_diario_fi_202404.zip: 268,096 linhas, 12,287 fundos (1.4s)
+[22:37:04]   inf_diario_fi_202405.zip: 259,091 linhas, 12,440 fundos (1.3s)
+[22:37:05]   inf_diario_fi_202406.zip: 249,289 linhas, 12,563 fundos (1.2s)
+[22:37:06]   inf_diario_fi_202407.zip: 289,843 linhas, 12,690 fundos (1.4s)
+[22:37:08]   inf_diario_fi_202408.zip: 280,171 linhas, 12,850 fundos (1.4s)
+[22:37:09]   inf_diario_fi_202409.zip: 270,613 linhas, 12,982 fundos (1.3s)
+[22:37:11]   inf_diario_fi_202410.zip: 299,577 linhas, 13,144 fundos (1.5s)
+[22:37:12]   inf_diario_fi_202411.zip: 249,856 linhas, 13,244 fundos (1.2s)
+[22:37:13]   inf_diario_fi_202412.zip: 278,378 linhas, 13,362 fundos (1.4s)
+[22:37:15]   inf_diario_fi_202501.zip: 293,776 linhas, 13,451 fundos (1.4s)
+[22:37:16]   inf_diario_fi_202502.zip: 269,211 linhas, 13,563 fundos (1.3s)
+[22:37:17]   inf_diario_fi_202503.zip: 257,966 linhas, 13,682 fundos (1.3s)
+[22:37:19]   inf_diario_fi_202504.zip: 273,563 linhas, 13,769 fundos (1.4s)
+[22:37:20]   inf_diario_fi_202505.zip: 289,469 linhas, 13,901 fundos (1.4s)
+[22:37:22]   inf_diario_fi_202506.zip: 278,007 linhas, 14,034 fundos (1.4s)
+[22:37:23]   inf_diario_fi_202507.zip: 322,822 linhas, 14,155 fundos (1.5s)
+[22:37:24]   inf_diario_fi_202508.zip: 297,194 linhas, 14,266 fundos (1.4s)
+[22:37:26]   inf_diario_fi_202509.zip: 313,923 linhas, 14,380 fundos (1.5s)
+[22:37:28]   inf_diario_fi_202510.zip: 330,775 linhas, 14,527 fundos (1.5s)
+[22:37:29]   inf_diario_fi_202511.zip: 276,095 linhas, 14,659 fundos (1.3s)
+[22:37:30]   inf_diario_fi_202512.zip: 323,281 linhas, 14,845 fundos (1.5s)
+[22:37:32]   inf_diario_fi_202601.zip: 311,294 linhas, 14,955 fundos (1.5s)
+[22:37:33]   inf_diario_fi_202602.zip: 268,490 linhas, 15,070 fundos (1.3s)
+[22:37:35]   inf_diario_fi_202603.zip: 331,666 linhas, 15,203 fundos (1.5s)
+[22:37:37]   inf_diario_fi_202604.zip: 304,463 linhas, 15,333 fundos (1.4s)
+[22:37:39]   inf_diario_fi_202605.zip: 306,686 linhas, 15,470 fundos (1.4s)
+[22:37:40]   inf_diario_fi_202606.zip: 324,859 linhas, 15,588 fundos (1.5s)
+[22:37:42]   inf_diario_fi_202607.zip: 357,999 linhas, 15,713 fundos (1.6s)
+[22:37:44]   inf_diario_fi_202608.zip: 329,737 linhas, 15,853 fundos (1.5s)
+[22:37:45]   inf_diario_fi_202609.zip: 332,536 linhas, 15,989 fundos (1.5s)
+[22:37:47]   inf_diario_fi_202610.zip: 333,878 linhas, 16,053 fundos (1.5s)
+[22:37:48]   inf_diario_fi_202611.zip: 173,439 linhas, 15,992 fundos (0.8s)
+[22:37:50] matriz: 16,447 fundos x 2,583 dias (2016-09-01 a 2026-11-18)
+[22:37:50] 3/5 CDI
+[22:38:08] CDI: 8127 dias (1994-07-04 a 2026-11-18)
+[22:38:08] calendário longo: 8,148 dias úteis desde 1994-07-04 (benchmarks); fundos desde 2016-09-01
+[22:38:08] data de referência: 2026-11-17 (15,290 informes; pico recente 15,962)
+[22:38:08] 4/5 métricas por fundo
+[22:38:24]   2,000 fundos gravados
+[22:38:37]   4,000 fundos gravados
+[22:38:47]   6,000 fundos gravados
+[22:38:54]   8,000 fundos gravados
+[22:38:58]   10,000 fundos gravados
+[22:38:58] 4b/5 benchmarks
+[22:39:09]   ^BVSP: 6171 pontos via B3 (2002-01-02 a 2026-11-19)
+[22:39:13]   ^GSPC: 2513 pontos via Nasdaq (ETF SPY) (2016-11-18 a 2026-11-18)
+[22:39:16]   ^NDX: 6415 pontos via Nasdaq (2001-11-26 a 2026-11-18)
+[22:39:19]   URTH: 2513 pontos via Nasdaq (2016-11-18 a 2026-11-18)
+[22:39:22]   GLD: 2513 pontos via Nasdaq (2016-11-18 a 2026-11-18)
+[22:39:23]   AIQ: 2141 pontos via Nasdaq (2018-05-15 a 2026-11-18)
+[22:39:34]   IFIX: 3942 pontos via B3 (2010-12-30 a 2026-11-19)
+[22:39:42]   BTC-USD: 3976 pontos via Coinbase (2016-01-01 a 2026-11-19)
+[22:40:00]   PTAX: 8155 dias
+[22:40:04]   IPCA: 392 meses (último 2026-10)
+[22:40:26]   Poupança: 175 meses
+[22:40:27]   ANBIMA IMA: 9 índices em 2026-11-19 (9 novos; 324 registros acumulados)
+[22:40:27]   IMA-B: proxy pelo fundo Caixa Brasil IMA-B Títulos Públicos com emenda oficial
+[22:40:27]   IRF-M: proxy pelo fundo Caixa Brasil IRF-M Títulos Públicos com emenda oficial
+[22:40:27]   17 benchmarks, 6 históricos
+[22:40:28] 4c/5 Tesouro Direto
+[22:40:52]   Tesouro: CSV baixado do Tesouro Transparente (14,704,842 bytes)
+[22:40:53]   Tesouro: 92,706 linhas no período, 58 títulos ativos
+[22:40:53]   Tesouro: 58 títulos publicados
+[22:40:54] 4d/5 ações e BDRs
+[22:43:37]   COTAHIST: 1942 papéis no arquivo, 1060 com liquidez (último pregão 2026-11-18)
+[22:43:38]   COTAHIST 2016: 306 papéis do universo
+[22:43:39]   COTAHIST 2017: 341 papéis do universo
+[22:43:39]   COTAHIST 2018: 354 papéis do universo
+[22:43:40]   COTAHIST 2019: 441 papéis do universo
+[22:43:42]   COTAHIST 2020: 649 papéis do universo
+[22:43:44]   COTAHIST 2021: 770 papéis do universo
+[22:43:46]   COTAHIST 2022: 865 papéis do universo
+[22:43:49]   COTAHIST 2023: 913 papéis do universo
+[22:43:52]   COTAHIST 2024: 972 papéis do universo
+[22:43:56]   COTAHIST 2025: 1027 papéis do universo
+[22:43:58]   FII: valor patrimonial da cota pela coluna Valor_Patrimonial_Cotas
+[22:43:58]   FII: 1619 ISINs e 1686 fundos com dividend yield mensal na CVM
+[22:44:15]   100 de 1060 papéis (17s)
+[22:44:31]   200 de 1060 papéis (33s)
+[22:44:46]   300 de 1060 papéis (48s)
+[22:44:57]   400 de 1060 papéis (59s)
+[22:45:09]   500 de 1060 papéis (71s)
+[22:45:18]   600 de 1060 papéis (80s)
+[22:45:27]   700 de 1060 papéis (89s)
+[22:45:34]   800 de 1060 papéis (96s)
+[22:45:39]   900 de 1060 papéis (101s)
+[22:45:45]   1000 de 1060 papéis (107s)
+[22:45:49]   séries montadas: 1060 papéis, 261 emissores e 279 FIIs consultados na B3 (111s); 24 sem proventos
+[22:45:49]   setores: 315 de 315 ações com classificação da B3; FIIs por fonte: {'carteira': 156, 'cvm': 81, 'nome': 19}
+[22:45:57]   RAD (CVM): 629 ITR/DFP nos últimos 21 dias (listas em 7s, 20 dias do cache); 13 fora do extrato semanal, 0 baixados em 0s, 13 acrescentados
+[22:45:58]   fundamentos CVM: 12 arquivos (ITR/DFP 2021-2026), 261 de 261 companhias com dados, 257 com lucro de 12 meses, 261 com data de entrega (8s)
+[22:45:58]   fundamentos: 315 papéis com indicadores (261 companhias)
 /home/runner/work/hubmaison-comparador-ativos/hubmaison-comparador-ativos/pipeline/build_data.py:1198: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
   json.dump({"gerado": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"), "referencia": hoje.isoformat(), "companhias": res_indice},
-[21:30:44]   resultados: 315 papéis com o JSON do post (315 com data de entrega à CVM)
-[21:30:44]   1058 papéis publicados (315 ações, 465 BDRs, 278 FIIs); 544 com fundamentos, 570 com setor
-[21:30:44] 5/5 índice e metadados
+[22:46:06]   resultados: 315 papéis com o JSON do post (315 com data de entrega à CVM)
+[22:46:06]   1058 papéis publicados (315 ações, 465 BDRs, 278 FIIs); 544 com fundamentos, 570 com setor
+[22:46:06] 5/5 índice e metadados
 /home/runner/work/hubmaison-comparador-ativos/hubmaison-comparador-ativos/pipeline/build_data.py:1217: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
   "gerado": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
-[21:30:45]   Focus de 2026-11-13: Selic {'2026': 13.75, '2027': 12.75, '2028': 11.0, '2029': 10.5, '2030': 10.0} · IPCA {'2026': 5.11, '2027': 5.0, '2028': 4.0, '2029': 4.0, '2030': 3.94} · câmbio {'2026': 5.4, '2027': 5.45, '2028': 5.48, '2029': 5.5, '2030': 5.55}
-[21:30:48]   15 anos (mín/mediana/máx): cdi 1.9/10.65/14.9 desde 2011-11 · ipca12 1.88/5.19/12.13 desde 2011-12 · real10 2.49/5.61/8.13 desde 2011-11
-[21:30:48]   perfis publicados: 126 gestoras, 1137 fundos
-[21:30:48]   COEs: 7 estruturas do catálogo
-[21:30:48] concluído: 10,187 fundos publicados em 492s (parados 486, poucos cotistas 5,759, histórico curto 15)
+[22:46:08]   Focus de 2026-11-13: Selic {'2026': 13.75, '2027': 12.75, '2028': 11.0, '2029': 10.5, '2030': 10.0} · IPCA {'2026': 5.11, '2027': 5.0, '2028': 4.0, '2029': 4.0, '2030': 3.94} · câmbio {'2026': 5.4, '2027': 5.45, '2028': 5.48, '2029': 5.5, '2030': 5.55}
+[22:46:18]   15 anos (mín/mediana/máx): cdi 1.9/10.65/14.9 desde 2011-11 · ipca12 1.88/5.19/12.13 desde 2011-12 · real10 2.49/5.61/8.13 desde 2011-11
+[22:46:18]   perfis publicados: 126 gestoras, 1137 fundos
+[22:46:18]   COEs: 7 estruturas do catálogo
+[22:46:18] concluído: 10,187 fundos publicados em 677s (parados 486, poucos cotistas 5,759, histórico curto 15)
