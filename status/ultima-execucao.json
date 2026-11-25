@@ -1,6 +1,6 @@
 {
   "referencia": "2026-11-19",
-  "gerado": "2026-11-24T23:14:43Z",
+  "gerado": "2026-11-25T00:16:12Z",
   "fundos_publicados": 10190,
   "fundos_na_matriz": 16434,
   "fundos_xp": 1006,
@@ -32,9 +32,9 @@
     "^BVSP",
     "URTH"
   ],
-  "acoes": 1061,
+  "acoes": 1060,
   "bdrs": 466,
-  "fiis": 279,
+  "fiis": 278,
   "descartados_parados": 522,
   "descartados_poucos_cotistas": 5705,
   "descartados_historico_curto": 17,
@@ -166,8 +166,7 @@
   ],
   "avisos": [
     "CDI sem valor em 21 dias do calendário (tratados como 0)",
-    "Tesouro Direto: download recusado pelo Tesouro Transparente (HTTP Error 429: Too Many Requests); títulos publicados pela cópia em cache, com preços e taxas até 19/11/2026",
     "ações: 24 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 963
+  "duracao_s": 684
 }
