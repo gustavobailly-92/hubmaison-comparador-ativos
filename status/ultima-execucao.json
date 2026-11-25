@@ -1,8 +1,8 @@
 {
-  "referencia": "2026-11-19",
-  "gerado": "2026-11-25T02:20:12Z",
+  "referencia": "2026-11-23",
+  "gerado": "2026-11-25T11:57:42Z",
   "fundos_publicados": 10190,
-  "fundos_na_matriz": 16434,
+  "fundos_na_matriz": 16429,
   "fundos_xp": 1006,
   "benchmarks": [
     "ipca",
@@ -32,13 +32,13 @@
     "^BVSP",
     "URTH"
   ],
-  "acoes": 1060,
+  "acoes": 1061,
   "bdrs": 466,
-  "fiis": 278,
-  "descartados_parados": 522,
-  "descartados_poucos_cotistas": 5705,
-  "descartados_historico_curto": 17,
-  "dias_calendario": 2585,
+  "fiis": 279,
+  "descartados_parados": 495,
+  "descartados_poucos_cotistas": 5730,
+  "descartados_historico_curto": 14,
+  "dias_calendario": 2586,
   "meses_processados": [
     "201609",
     "201610",
@@ -165,8 +165,9 @@
     "202611"
   ],
   "avisos": [
-    "CDI sem valor em 21 dias do calendário (tratados como 0)",
+    "CDI sem valor em 22 dias do calendário (tratados como 0)",
+    "Tesouro Direto: download recusado pelo Tesouro Transparente (HTTP Error 429: Too Many Requests); títulos publicados pela cópia em cache, com preços e taxas até 19/11/2026",
     "ações: 24 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 951
+  "duracao_s": 955
 }
