@@ -1,6 +1,6 @@
 {
   "referencia": "2026-11-23",
-  "gerado": "2026-11-25T23:45:08Z",
+  "gerado": "2026-11-26T00:43:21Z",
   "fundos_publicados": 10190,
   "fundos_na_matriz": 16429,
   "fundos_xp": 1006,
@@ -32,9 +32,9 @@
     "^BVSP",
     "URTH"
   ],
-  "acoes": 1061,
+  "acoes": 1060,
   "bdrs": 466,
-  "fiis": 279,
+  "fiis": 278,
   "descartados_parados": 495,
   "descartados_poucos_cotistas": 5730,
   "descartados_historico_curto": 14,
@@ -168,5 +168,5 @@
     "CDI sem valor em 21 dias do calendário (tratados como 0)",
     "ações: 24 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 663
+  "duracao_s": 537
 }
