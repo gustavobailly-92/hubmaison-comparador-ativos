@@ -1,6 +1,6 @@
 {
   "referencia": "2026-11-24",
-  "gerado": "2026-11-26T11:59:05Z",
+  "gerado": "2026-11-26T21:20:00Z",
   "fundos_publicados": 10190,
   "fundos_na_matriz": 16427,
   "fundos_xp": 1006,
@@ -165,9 +165,8 @@
     "202611"
   ],
   "avisos": [
-    "CDI sem valor em 22 dias do calendário (tratados como 0)",
-    "Tesouro Direto: download recusado pelo Tesouro Transparente (HTTP Error 429: Too Many Requests); títulos publicados pela cópia em cache, com preços e taxas até 19/11/2026",
+    "CDI sem valor em 21 dias do calendário (tratados como 0)",
     "ações: 24 papéis sem proventos na série (BDRs, ou sem resposta da B3/CVM)"
   ],
-  "duracao_s": 1052
+  "duracao_s": 924
 }
